@@ -5,7 +5,7 @@ fisher(7) -- An Introduction to Fisherman
 
 Fisherman is a shell manager for `fish`(1) that lets you share and reuse code, prompts and configurations easily.
 
-Some features include: minimalistic design, flat tree structure, unified plugin system, external self-managed database, cache mechanism, dependency manifest file and compatibility with Oh My Fish! and other frameworks.
+Some features include: minimalistic design, flat tree structure, unified plugin architecture, external self-managed database, cache system, dependency manifest file and compatibility with Oh My Fish! and other frameworks.
 
 This document describes Fisherman main features and their implementation details. For usage and command help see `fisher`(1).
 
