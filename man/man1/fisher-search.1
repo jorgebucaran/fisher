@@ -1,0 +1,249 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "FISHER\-SEARCH" "1" "January 2016" "" "fisherman"
+.
+.SH "NAME"
+\fBfisher\-search\fR \- Search Fisherman Index
+.
+.SH "SYNOPSIS"
+fisher \fBsearch\fR [\fIname\fR or \fIurl\fR]
+.
+.br
+fisher \fBsearch\fR [\fB\-\-select\fR=\fIall\fR|\fIcache\fR|\fIremote\fR]
+.
+.br
+fisher \fBsearch\fR [\fB\-\-field\fR=\fIname\fR|\fIurl\fR|\fIinfo\fR|\fItag\fR|\fIauthor\fR]
+.
+.br
+fisher \fBsearch\fR [\fB\-\-\fR\fIfield\fR=\fImatch\fR]
+.
+.br
+fisher \fBsearch\fR [\fB\-\-\fR\fIfield\fR~\fB/\fR\fIregex\fR\fB/\fR]
+.
+.br
+fisher \fBsearch\fR [\fB\-\-query\fR=\fIfield\fR[\fB&&\fR,\fB||\fR]\fIfield\fR\.\.\.]
+.
+.br
+fisher \fBsearch\fR [\fB\-\-and\fR] [\fB\-\-or\fR] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
+.
+.br
+.
+.SH "USAGE"
+fisher \fBsearch\fR \fIplugin\fR
+.
+.br
+fisher \fBsearch\fR \fIowner/repo\fR
+.
+.br
+fisher \fBsearch\fR \-\-field=\fIname\fR \-\-select=all | column
+.
+.br
+fisher \fBsearch\fR \-\-tag=tag1 \-\-and \-\-tag=tag2
+.
+.SH "DESCRIPTION"
+Search the Fisherman index database\. You can use a custom index file by setting \fB$fisher_index\fR to your preferred url or file\. See \fBfisher help config\fR and \fBfisher\fR(7)#{\fBIndex\fR}\.
+.
+.P
+A copy of the index is downloaded each time a search query happens, keeping the index up to date all the time\.
+.
+.P
+The index file consists of records separated by blank lines \fB\'\en\en\'\fR and each record consists of fields separated by a single line \fB\'\en\'\fR\.
+.
+.IP "" 4
+.
+.nf
+
+name
+url
+info | description
+tag1 tag2 \.\.\.
+author
+.
+.fi
+.
+.IP "" 0
+.
+.P
+See #{\fBOutput\fR} for more information\.
+.
+.SH "OPTIONS"
+.
+.TP
+\fB\-s\fR \fB\-\-select\fR[=\fIall\fR|\fIcache\fR|\fIremote\fR]
+Select record set\. \-\-select=\fIcache\fR queries only local plugins, i\.e\., those inside \fB$fisher_cache\fR\. \-\-select=\fIremote\fR queries all plugins not in the cache\. \-\-select=\fIall\fR queries everything\.
+.
+.TP
+\fB\-f\fR \fB\-\-field\fR=\fIname\fR|\fIurl\fR|\fIinfo\fR|\fItag\fR|\fIauthor\fR
+Display only given fields from the result record set\. Use \fB\-\-select\fR to filter the record set\. Use \-\-\fIfield\fR instead as a shortcut, i\.e\., \fB\-\-name\fR is equivalent to \fB\-\-field\fR=name\.
+.
+.TP
+\-\-\fIfield\fR[=\fImatch\fR]
+Filter the result set by \fIfield\fR=\fImatch\fR, where \fIfield\fR can be any of \fBname\fR, \fBurl\fR, \fBinfo\fR, \fBtag\fR or \fBauthor\fR\. If \fImatch\fR is not given, this is equivalent to \fB\-\-select\fR=\fIfield\fR\. Use \fB!=\fR to negate the query\.
+.
+.TP
+\-\-\fIfield\fR[~\fB/\fR\fIregex\fR\fB/\fR]
+Essentially the same as \-\-\fIfield\fR=\fImatch\fR, but with Regular Expression support\. \-\-\fIfield\fR~\fB/\fR\fIregex\fR\fB/\fR filters the result set using the given \fB/\fR\fIregex\fR\fB/\fR\. For example, \-\-name=\fB/\fR^\fImatch\fR$\fB/\fR is essentially the same as \-\-\fIfield\fR=\fImatch\fR and \-\-url~\fB/\fRoh\-my\-fish\fB/\fR selects only Oh My Fish! plugins\. Use \fB!~\fR to negate the query\.
+.
+.TP
+\fB\-a\fR \fB\-\-and\fR
+Join query with a logical AND operator\.
+.
+.TP
+\fB\-o\fR \fB\-\-or\fR
+Join query with a logical OR operator\. This the default operator for each query operation\.
+.
+.TP
+\fB\-Q\fR \fB\-\-query\fR=\fIfield\fR[\fB&&\fR,\fB||\fR]\fIfield\fR\.\.\.
+Use a custom search expression\. For example, \-\-query=\'name~\fB/\fR[0\-9]\fB/\fR||name~\fB/\fR^[xyz]\fB/\fR\' selects all plugins that contain numbers in their name \fIor\fR begin with the characters \fIx\fR, \fIy\fR or \fIz\fR\.
+.
+.TP
+\fB\-q\fR \fB\-\-quiet\fR
+Enable quiet mode\.
+.
+.TP
+\fB\-h\fR \fB\-\-search\fR
+Show usage search\.
+.
+.SH "OUTPUT"
+The default behavior is to print the result set to standard output in its original format\.
+.
+.IP "" 4
+.
+.nf
+
+fisher search bobthefish shark
+.
+.fi
+.
+.IP "" 0
+.
+.P
+\fB\.\.\.\fR
+.
+.IP "" 4
+.
+.nf
+
+bobthefish
+https://github\.com/oh\-my\-fish/theme\-bobthefish
+A Powerline\-style, Git\-aware fish theme optimized for awesome
+theme powerline awesome
+bobthecow
+
+shark
+https://github\.com/bucaran/shark
+Sparklines for your Fish
+chart tool
+bucaran
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Search is optimized for parsing when using filters: \fB\-\-name\fR, \fB\-\-url\fR, \fB\-\-info\fR, \fB\-\-tags\fR, \fB\-\-author\fR or \fB\-\-field\fR=\fIname\fR|\fIurl\fR|\fIinfo\fR|\fItag\fR|\fIauthor\fR\.
+.
+.IP "" 4
+.
+.nf
+
+fisher search bobthefish shark \-\-name \-\-url
+.
+.fi
+.
+.IP "" 0
+.
+.P
+\fB\.\.\.\fR
+.
+.IP "" 4
+.
+.nf
+
+bobthefish;https://github\.com/oh\-my\-fish/theme\-bobthefish
+shark;https://github\.com/bucaran/shark
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The result set above consists of single line \fB\'\en\'\fR separated records where each record consists of one or more of the given fields separated by a semicolon \fB\';\'\fR\.
+.
+.SH "EXAMPLES"
+Display all plugins by name and format into multiple columns\.
+.
+.IP "" 4
+.
+.nf
+
+fisher search \-\-name | column
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Display all plugins by url, sans \fIhttps://github\.com/\fR and format into multiple columns\.
+.
+.IP "" 4
+.
+.nf
+
+fisher search \-\-field=url \-\-select=all | sed \'s|https://github\.com/||\' | column
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Display all remote plugins by name tagged as \fIa\fR or \fIb\fR\.
+.
+.IP "" 4
+.
+.nf
+
+fisher search \-\-select=remote \-\-name \-\-tag=github \-\-or \-\-tag=tool
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Search plugins from a list of one or more urls and / or names and display their authors\.
+.
+.IP "" 4
+.
+.nf
+
+fisher search $urls $names \-\-url
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Search all plugins in the cache whose name does not start with the letter \fBs\fR\.
+.
+.IP "" 4
+.
+.nf
+
+fisher search \-\-select=cache \-\-name~/^[^s]/
+.
+.fi
+.
+.IP "" 0
+.
+.SH "SEE ALSO"
+\fBfisher\fR(1)
+.
+.br
+\fBfisher\fR(7){\fBIndex\fR}
+.
+.br
+\fBfisher help plugins\fR
+.
+.br
+

@@ -1,0 +1,215 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "FISHER\-PLUGINS" "7" "January 2016" "" "fisherman"
+.
+.SH "NAME"
+\fBfisher\-plugins\fR \- Creating Fisherman Plugins
+.
+.SH "DESCRIPTION"
+This document describes how to create Fisherman plugins\. This includes stand\-alone utilities, prompts, extension commands and configuration plugins\.
+.
+.P
+There is no technical distinction between any of the terms aforementioned, but there is a \fIconceptual\fR difference\.
+.
+.SH "DEFINITIONS"
+.
+.IP "\(bu" 4
+\fBStandalone Utilities\fR: Plugins that define one or more functions, meant to be used at the command line\.
+.
+.IP "\(bu" 4
+\fBPrompts / Themes\fR: Plugins that modify the appearance of the fish prompt by defining a \fBfish_prompt\fR and / or \fBfish_right_prompt\fR functions\.
+.
+.IP "\(bu" 4
+\fBExtension Commands\fR: Plugins that extend Fisherman default commands\. An extension plugin must define one or more functions like \fBfisher_<my_command>\fR\. For specific information about commands, see \fBfisher help commands\fR and then return to this guide\.
+.
+.IP "\(bu" 4
+\fBConfiguration Plugins\fR: Plugins that include one or more \fBmy_plugin\fR\.config\.fish files\. Files that follow this convention are evaluated at the start of the session\.
+.
+.IP "" 0
+.
+.P
+The following tree is that of a plugin that displays the characteristics of all the plugins described above\.
+.
+.IP "" 4
+.
+.nf
+
+my_plugin
+|\-\- fisher_my_plugin\.fish
+|\-\- my_plugin\.fish
+|\-\- fish_prompt\.fish
+|\-\- fish_right_prompt\.fish
+|\-\- my_plugin\.config\.fish
+|\-\- functions/
+|   |\-\- my_plugin_helper\.fish
+|\-\- completions/
+|   |\-\- my_plugin\.fish
+|\-\- man/
+    |\-\- man1/
+        |\-\- my_plugin\.1
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Plugins may list any number of dependencies to other plugins using a \fIfishfile\fR, see \fBfisher help fishfile\fR\.
+.
+.P
+Plugins may also define completions using \fBcomplete\fR(1) and provide documentation in the form of \fBman\fR(1) pages\.
+.
+.SH "EXAMPLE"
+This section walks you through creating \fIwtc\fR, a stand\-alone plugin based in \fIgithub\.com/ngerakines/commitment\fR random commit message generator\.
+.
+.IP "\(bu" 4
+Navigate to your preferred workspace and create the plugin\'s directory and Git repository:
+.
+.IP
+\fBmkdir\fR \-p my/workspace/wtc; and \fBcd\fR my/workspace/wtc
+.
+.br
+\fBgit\fR init
+.
+.br
+\fBgit\fR remote add origin https://github\.com/\fIowner\fR/wtc
+.
+.br
+
+.
+.IP "\(bu" 4
+Add the implementation\.
+.
+.IP
+\fBcat\fR > wtc\.fish
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
+function wtc \-d "Generate a random commit message"
+    switch "$argv"
+        case \-h \-\-help
+            printf "usage: wtc [\-\-help]\en\en"
+            printf "  \-h \-\-help  Show usage help\en"
+            return
+    end
+    curl \-s whatthecommit\.com/index\.txt
+end
+^C
+.
+.fi
+.
+.IP "" 0
+.
+.IP "\(bu" 4
+Add completions\. \fIwtc\fR is simple enough that you could get away without \fB__fish_parse_usage\fR, but more complex utilities, or utilities whose CLI evolves over time, can benefit using automatic completion generation\. Note that in order to use \fB__fish_parse_usage\fR, your command must provide a \fB\-\-help\fR option that prints usage information to standard output\.
+.
+.IP
+\fBmkdir\fR completions
+.
+.br
+\fBcat\fR > completions/wtc\.fish
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
+set \-l IFS ";"
+wtc \-\-help | __fish_parse_usage | while read \-l info long short
+    complete \-c wtc \-s "$short" \-l "$long" \-d "$info"
+end
+^C
+.
+.fi
+.
+.IP "" 0
+.
+.IP "\(bu" 4
+Add basic documentation\. Fisherman uses standard manual pages for displaying help information\. There are utilities that can help you generate man pages from other text formats, such as Markdown\. One example is \fBronn\fR(1)\. For this example, type will do:
+.
+.IP
+\fBmkdir\fR \-p man/man1
+.
+.br
+\fBcat\fR > man/man1/wtc\.1
+.
+.IP "" 4
+.
+.nf
+
+  \.TH man 1 "Today" "1\.0" "wtc man page"
+  \.SH NAME
+  wtc \e\- Generate a random commit message
+  \.SH SYNOPSIS
+  wtc [\-\-help]
+  \.SH OPTIONS
+  \-h, \-\-help: Display help information\.
+  \.SH SEE ALSO
+  https://github\.com/ngerakines/commitment
+  ^C
+.
+.fi
+.
+.IP "" 0
+
+.
+.IP "\(bu" 4
+Commit changes and push to remote repository\.
+.
+.IP
+\fBgit\fR add \-\-all
+.
+.br
+\fBgit\fR commit \-m "What the commit? 1\.0"
+.
+.br
+\fBgit\fR push origin master
+.
+.br
+
+.
+.IP "\(bu" 4
+Install with Fisherman\. If you would like to submit your package for registration install the \fBsubmit\fR plugin or send a pull request to the main index repository in \fIhttps://github\.com/fisherman/index\fR\. See \fBfisher\fR(7)#{\fBIndex\fR} for details\.
+.
+.IP
+fisher install github/\fIowner\fR/wtc
+.
+.br
+wtc
+.
+.br
+(\e /)
+.
+.br
+(O\.o)
+.
+.br
+(> <) Bunny approves these changes\.
+.
+.br
+
+.
+.IP "" 0
+.
+.SH "SEE ALSO"
+\fBman\fR(1)
+.
+.br
+\fBcomplete\fR(1)
+.
+.br
+\fBfisher help commands\fR
+.
+.br
+\fBfisher help fishfile\fR
+.
+.br
+\fBfisher\fR(7)#{\fBIndex\fR}
+.
+.br
+
