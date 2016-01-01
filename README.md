@@ -10,7 +10,11 @@
 
 ## About
 
-Fisherman is a shell manager for [fish][fish] that lets you share and reuse code, prompts and configurations easily. See [FAQ][faq].
+Fisherman is a shell manager for [fish][fish] that lets you share and reuse code, prompts and configurations easily.
+
+Features include a flat tree structure, unified plugin architecture, external self-managed database, cache system, plugin dependencies and compatibility with Oh My Fish!
+
+See [FAQ][faq].
 
 ## Install
 
