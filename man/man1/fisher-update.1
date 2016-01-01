@@ -1,0 +1,66 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "FISHER\-UPDATE" "1" "January 2016" "" "fisherman"
+.
+.SH "NAME"
+\fBfisher\-update\fR \- Fisherman Update Manager
+.
+.SH "SYNOPSIS"
+fisher \fBupdate\fR [\fIname\fR or \fIurl\fR \.\.\.]
+.
+.br
+fisher \fBupdate\fR [\fB\-\-self\fR] [\fB\-\-cache\fR] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
+.
+.br
+fisher \fBupdate\fR [\fB\-\-path\fR=\fIpath\fR]
+.
+.br
+.
+.SH "USAGE"
+fisher \fBupdate\fR \fIplugin\fR \.\.\.
+.
+.br
+fisher \fBupdate\fR \fIowner/repo\fR \.\.\.
+.
+.br
+.
+.SH "DESCRIPTION"
+Update one or \fImore\fR plugins by \fIname\fR, searching \fB$fisher_index\fR or by \fIurl\fR\. If no arguments are given, read the standard input\. If you try to update a plugin that is currently disabled, but available in the cache, it will be updated and then enabled\.
+.
+.P
+If a plugin is missing dependencies, they will be installed\. If any dependencies are already installed they will not be updated in order to prevent mismatching version issues\. See \fBfisher help fishfile\fR#{\fBPlugins\fR}\.
+.
+.SH "OPTIONS"
+.
+.TP
+\fB\-s\fR \fB\-\-self\fR
+Update Fisherman\.
+.
+.TP
+\fB\-c\fR \fB\-\-cache\fR
+Update all plugins in the cache\. Updates plugins that are currently disabled and enables them\.
+.
+.TP
+\fB\-\-path\fR=\fIpath\fR
+Update repository at given path\. The update mechanism is based in Git, via \fBgit pull \-\-rebase\fR\.
+.
+.TP
+\fB\-q\fR \fB\-\-quiet\fR
+Enable quiet mode\.
+.
+.TP
+\fB\-h\fR \fB\-\-help\fR
+Show usage help\.
+.
+.SH "SEE ALSO"
+\fBfisher\fR(1)
+.
+.br
+\fBfisher help fishfile\fR#{\fBPlugins\fR}
+.
+.br
+\fBfisher help plugins\fR
+.
+.br
+

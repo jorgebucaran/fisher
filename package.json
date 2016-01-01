@@ -1,0 +1,42 @@
+{
+  "name": "fisherman",
+  "version": "0.1.0",
+  "description": "fish shell manager",
+  "main": "index.js",
+  "directories": {
+    "man": "man",
+    "test": "test"
+  },
+  "scripts": {
+    "install": "make",
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fisherman/fisherman.git"
+  },
+  "keywords": [
+    "fish-shell",
+    "shell",
+    "fisherman",
+    "theme",
+    "prompt",
+    "shell",
+    "manager",
+    "package",
+    "package manager",
+    "git",
+    "framework",
+    "fast",
+    "light",
+    "pretty",
+    "minimal"
+  ],
+  "author": "Jorge Bucaran",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fisherman/fisherman/issues"
+  },
+  "homepage": "https://github.com/fisherman/fisherman#readme",
+  "dependencies": {}
+}

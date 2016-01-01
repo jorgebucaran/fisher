@@ -1,0 +1,82 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "FISHER\-COMMANDS" "7" "January 2016" "" "fisherman"
+.
+.SH "NAME"
+\fBfisher\-commands\fR \- Creating Fisherman Commands
+.
+.SH "SYNOPSIS"
+This document describes how to add new commands to Fisherman\. A Fisherman command is a function that you can invoke like \fBfisher command\fR [\fIoptions\fR]\.
+.
+.SH "DESCRIPTION"
+To add a command, create a function \fBfisher_<my_command>\fR:
+.
+.IP "" 4
+.
+.nf
+
+function fisher_hello \-d "Friendly command"
+    echo hello
+end
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Make sure it works: \fBfisher hello\fR\.
+.
+.P
+To make this function available to the current and future fish sessions, add it to \fB$XDG_CONFIG_HOME\fR/fish/functions:
+.
+.IP "" 4
+.
+.nf
+
+funcsave fisher_hello
+.
+.fi
+.
+.IP "" 0
+.
+.P
+You may also choose to save this function to \fB$fisher_config\fR/functions\.
+.
+.SH "EXAMPLES"
+The following example implements a command to retrieve plugin information and format the output into columns\.
+.
+.IP "" 4
+.
+.nf
+
+function fisher_info \-d "Display information about plugins"
+    switch "$argv"
+        case \-h \-\-help
+            printf "usage: fisher info name | url [\.\.\.]\en\en"
+            printf "  \-h \-\-help  Show usage help\en"
+            return
+    end
+    for item in $argv
+        fisher search $item \-\-name \-\-info
+    end | sed \-E \'s/;/: /\' | column
+end
+.
+.fi
+.
+.IP "" 0
+.
+.SH "SEE ALSO"
+\fBfisher\fR(1)
+.
+.br
+\fBfisher\fR(7)
+.
+.br
+\fBfuncsave\fR(1)
+.
+.br
+\fBfisher help plugins\fR
+.
+.br
+

@@ -1,0 +1,145 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "GETOPTS" "1" "January 2016" "" "fisherman"
+.
+.SH "NAME"
+\fBgetopts\fR \- Parse CLI options
+.
+.SH "SYNOPSIS"
+\fBgetopts\fR [\fIoptions\fR \.\.\.]
+.
+.br
+\fBgetopts\fR [\fIoptions\fR \.\.\.] \fB|\fR \fBwhile\fR read \-l key value; \.\.\.; \fBend\fR
+.
+.br
+.
+.SH "DESCRIPTION"
+getopts is a tool to help parsing command\-line arguments\. It is designed to process command line arguments that follow the POSIX Utility Syntax Guidelines\. If no arguments are given it returns \fB1\fR\.
+.
+.SH "USAGE"
+In the following example:
+.
+.IP "" 4
+.
+.nf
+
+getopts \-ab1 \-\-foo=bar baz
+.
+.fi
+.
+.IP "" 0
+.
+.P
+And its output:
+.
+.IP "" 4
+.
+.nf
+
+a
+b    1
+foo  bar
+_    baz
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The items on the left represent the option flags or \fIkeys\fR associated with the CLI\. The items on the right are the option \fIvalues\fR\. The underscore \fB_\fR character is the default \fIkey\fR for arguments without a key\.
+.
+.P
+Use \fBread\fR(1) to process the generated stream and \fBswitch\fR(1) to match patterns:
+.
+.IP "" 4
+.
+.nf
+
+getopts \-ab1 \-\-foo=bar baz | while read \-l key option
+    switch $key
+        case _
+        case a
+        case b
+        case foo
+    end
+end
+.
+.fi
+.
+.IP "" 0
+.
+.SH "OPTIONS"
+None\.
+.
+.SH "EXAMPLES"
+The following is a mock of \fBfish\fR(1) CLI missing the implementation:
+.
+.IP "" 4
+.
+.nf
+
+function fish
+    set \-l mode
+    set \-l flags
+    set \-l commands
+    set \-l debug_level
+
+    getopts $argv | while read \-l key value
+        switch $key
+            case c command
+                set commands $commands $value
+
+            case d debug\-level
+                set debug_level $value
+
+            case i interactive
+                set mode $value
+
+            case l login
+                set mode $value
+
+            case n no\-execute
+                set mode $value
+
+            case p profile
+                set flags $flags $value
+
+            case h help
+                printf "usage: $_ [OPTIONS] [\-c command] [FILE [ARGUMENTS\.\.\.]]\en"
+                return
+
+            case \e*
+                printf "$_: \'%s\' is not a valid option\.\en" $key
+                return 1
+        end
+    end
+
+    # Implementation
+end
+.
+.fi
+.
+.IP "" 0
+.
+.SH "BUGS"
+.
+.IP "\(bu" 4
+getopts does \fInot\fR read the standard input\. Use getopts to collect options and the standard input to process a stream of data relevant to your program\.
+.
+.IP "\(bu" 4
+A double dash, \fB\-\-\fR, marks the end of options\. Arguments after this sequence are placed in the default underscore key, \fB_\fR\.
+.
+.IP "\(bu" 4
+The getopts described in this document is \fInot\fR equivalent to the getopts \fIbuiltin\fR found in other shells\. This tool is only available for \fBfish\fR(1)\.
+.
+.IP "" 0
+.
+.SH "AUTHORS"
+Jorge Bucaran \fIj@bucaran\.me\fR\.
+.
+.SH "SEE ALSO"
+POSIX Utility Syntax Guidelines [goo\.gl/yrgQn9]
+.
+.br
+
