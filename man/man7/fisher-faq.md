@@ -87,7 +87,7 @@ Already done that. See Oh My Fish! history for August 27, 2015. The project was 
 
 Fisherman was built from the ground up using a completely different design, implementation and set of principles.
 
-Some features include: UNIX familiarity, minimalistic design, flat tree structure, unified plugin system, external self-managed database, cache mechanism, dependency manifest file and compatibility with Oh My Fish!, etc. See `fisher`(7).
+Some features include: UNIX familiarity, minimalistic design, flat tree structure, unified plugin architecture, external self-managed database, cache system, dependency manifest file and compatibility with Oh My Fish!, etc. See `fisher`(7).
 
 
 ### How can I upgrade from an existing Oh My Fish! or Wahoo installation?
