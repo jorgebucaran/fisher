@@ -1,0 +1,137 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "WAIT" "1" "January 2016" "" "fisherman"
+.
+.SH "NAME"
+\fBwait\fR \- Run commands and wait with a spin
+.
+.SH "SYNOPSIS"
+\fBwait\fR \fIcommands\fR [\fB\-\-spin\fR=\fIarc\fR|\fIstar\fR|\fIpipe\fR|\fIball\fR|\fIflip\fR|\fImixer\fR|\fIcaret\fR|\fIbar1~3\fR]
+.
+.br
+\fBwait\fR \fIcommands\fR [\fB\-\-time\fR=interval] [\fB\-\-log\fR=file] [\fB\-\-format\fR=format] [\fB\-\-help\fR]
+.
+.SH "DESCRIPTION"
+Run \fIcommands\fR as a background process and wait until the job has finished\. Any output to standard error indicates \fBwait\fR to return \fB1\fR once is done\. While it waits, a customizable spinner is displayed in the command line\.
+.
+.SH "OPTIONS"
+.
+.TP
+\fB\-s\fR, \fB\-\-spin\fR=\fIstyle\fR|\fIstring\fR
+Set spinner style\. See #{Styles} for a list of styles and instructions on how to use your own character sequences, progress bar usage, etc\.
+.
+.TP
+\fB\-t\fR \fB\-\-time\fR=\fIinterval\fR
+Set spinner transition time delay in \fIseconds\fR\. A large value will refresh the spinner more slowly\. You may use decimal numbers to represent smaller numbers\.
+.
+.TP
+\fB\-l\fR \fB\-\-log\fR=\fIfile\fR
+Output standard error to given \fIfile\fR\.
+.
+.TP
+\fB\-f\fR \fB\-\-format\fR=\fIformat\fR
+Use given \fIformat\fR to display the spinner\. The default format is \fB"\er@"\fR where \fB@\fR represents the spinner token and \fB\er\fR a carriage return, used to refresh / erase the line\.
+.
+.TP
+\fB\-h\fR \fB\-\-help\fR
+Show usage help\.
+.
+.SH "STYLES"
+The following styles are supported via \fB\-\-spin=\fR\fIstyle\fR:
+.
+.IP "\(bu" 4
+arc, star, pipe, ball, flip, mixer, caret
+.
+.IP "\(bu" 4
+bar1~3
+.
+.IP "" 0
+.
+.SS "CUSTOMIZATION"
+In addition to the default styles, you can specify a string of character tokens to be used each per spinner refresh cycle\.
+.
+.P
+For example \fB\-\-spin=12345\fR will display the numbers from 1 to 5, and \fB\-\-spin=\. \-\-format=@\fR an increasing sequence of dots\.
+.
+.SS "PROGRESS BARS"
+Display a progress bar with a percent indicator using \fB\-\-spin\fR=\fIbar1~3\fR:
+.
+.IP "\(bu" 4
+bar1: [=====] \fInum\fR%
+.
+.IP "\(bu" 4
+bar2: [#####] \fInum\fR%
+.
+.IP "\(bu" 4
+bar3: \.\.\.\.\.\.\. \fInum\fR%
+.
+.IP "" 0
+.
+.P
+You can customize the appearance as follows:
+.
+.IP "" 4
+.
+.nf
+
+\-\-spin=bar:<opening token><fill token><empty slot token><closing token>[%]
+.
+.fi
+.
+.IP "" 0
+.
+.P
+For example:
+.
+.IP "" 4
+.
+.nf
+
+\-\-spin="bar:[+\-]%"
+\-\-spin="bar:(@o)"
+\-\-spin="bar:||_|"
+.
+.fi
+.
+.IP "" 0
+.
+.SH "EXAMPLES"
+Run a lengthy operation as a background job and display a spinning pipe character until it is finished\.
+.
+.IP "" 4
+.
+.nf
+
+wait \-\-spin=pipe "curl \-sS $url"
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Output any errors to \fIdebug\.txt\fR\.
+.
+.IP "" 4
+.
+.nf
+
+if not wait \-\-spin=pipe \-\-log=debug\.txt "curl \-sS $url"
+    return 1
+end
+.
+.fi
+.
+.IP "" 0
+.
+.SH "AUTHORS"
+Jorge Bucaran \fIj@bucaran\.me\fR\.
+.
+.SH "SEE ALSO"
+\fBsleep\fR(1)
+.
+.br
+\fBhelp introduction\fR#{\fBBackground Jobs\fR}
+.
+.br
+

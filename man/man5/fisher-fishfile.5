@@ -1,0 +1,61 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "FISHER\-FISHFILE" "5" "January 2016" "" "fisherman"
+.
+.SH "NAME"
+\fBfisher\-fishfile\fR \- Fishfile Format
+.
+.SH "SYNOPSIS"
+A fishfile lets you share plugin configurations across multiple installations, allows plugins to declare dependencies, and prevent information loss in case of system failure\.
+.
+.P
+Fisherman also keeps a user \fIfishfile\fR in \fB$fisher_config\fR/fishfile which is automatically updated as you install or uninstall plugins\.
+.
+.SH "USAGE"
+Fishfiles are plain text, manifest files that list one or more plugins by their name, url or short url \fBowner/repo\fR\.
+.
+.P
+Here is an example:
+.
+.IP "" 4
+.
+.nf
+
+# my plugins
+gitio
+fishtape
+
+# other links
+oh\-my\-fish/bobthefish
+.
+.fi
+.
+.IP "" 0
+.
+.P
+To read fishfiles use \fBfisher \-\-file\fR=\fIfishfile\fR\. This utility reads fishfiles sequentially, writing them to standard output\. Oh My Fish! bundle files are supported too\.
+.
+.P
+If \fIfishfile\fR is null or an empty string, the global \fIfishfile\fR in \fB$fisher_config\fR/fishfile is used instead\. Use a dash \fB\-\fR to force read from standard input\.
+.
+.SH "PLUGINS"
+Plugins may declare any number of dependencies to other plugins in a fishfile at the root of their project\.
+.
+.P
+By default, when Fisherman installs a plugin, it will also fetch and install its dependencies\. If a dependency is already installed, it will not be updated as this could potentially break other plugins using an older version\. For the same reason, uninstalling a plugin does not remove its dependencies\.
+.
+.P
+To understand this behavior, it helps to recall the shell\'s single scope for functions\. The lack of private functions means that, it is \fInot\fR possible to single\-lock a specific dependency version\. See also \fBfisher\fR(7)#{\fBFlat Tree\fR}\.
+.
+.SH "SEE ALSO"
+\fBfisher\fR(1)
+.
+.br
+\fBfisher help config\fR
+.
+.br
+\fBfisher\fR(7) #{\fBFlat Tree\fR}
+.
+.br
+

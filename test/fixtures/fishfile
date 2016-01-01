@@ -1,0 +1,8 @@
+# fishfile example
+###################
+foo
+ bar
+ package baz # omf
+    # comment
+    # comment
+  github/foo/bar

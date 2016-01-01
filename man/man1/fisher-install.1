@@ -1,0 +1,136 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "FISHER\-INSTALL" "1" "January 2016" "" "fisherman"
+.
+.SH "NAME"
+\fBfisher\-install\fR \- Enable / Install plugins
+.
+.SH "SYNOPSIS"
+fisher \fBinstall\fR [\fIname\fR or \fIurl\fR \.\.\.] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
+.
+.SH "USAGE"
+fisher \fBinstall\fR \fIplugin\fR \.\.\.
+.
+.br
+fisher \fBinstall\fR \fIowner/repo\fR \.\.\.
+.
+.br
+.
+.SH "DESCRIPTION"
+Install one or \fImore\fR plugins by \fIname\fR, searching \fB$fisher_index\fR or by \fIurl\fR\. If no arguments are given, read the standard input\.
+.
+.P
+If a copy of the plugin already exists in \fB$fisher_cache\fR, the relevant files are copied to \fB$fisher_config\fR/functions, otherwise the plugin repository is first downloaded\. If you wish to update a plugin, use \fBfisher update\fR instead\.
+.
+.P
+If the plugin declares any dependencies, they will be installed as well\. If any dependencies are already installed they will not be updated in order to prevent mismatching version issues\. See \fBfisher help fishfile\fR#{\fBPlugins\fR}\.
+.
+.P
+If a plugin includes either a fish_prompt\.\fBfish\fR or fish_right_prompt\.\fBfish\fR, both files are first removed from \fB$fisher_config\fR/functions and then the new one\fIs\fR are copied\.
+.
+.SH "OPTIONS"
+.
+.TP
+\fB\-q\fR \fB\-\-quiet\fR
+Enable quiet mode\.
+.
+.TP
+\fB\-h\fR \fB\-\-help\fR
+Show usage help\.
+.
+.SH "PROCESS"
+Here is a typical install process breakdown for \fIplugin\fR:
+.
+.IP "1." 4
+Check if \fIplugin\fR exists in \fB$fisher_index\fR\. Fail otherwise\.
+.
+.IP "2." 4
+Download \fIplugin\fR to \fB$fisher_cache\fR if it is not there already\.
+.
+.IP "3." 4
+Copy all \fB*\.fish\fR and functions/\fB*\.fish\fR files to \fB$fisher_config\fR/functions\.
+.
+.IP "4." 4
+Copy all completions/\fB*\.fish\fR to \fB$fisher_config\fR/completions\.
+.
+.IP "5." 4
+Copy all man/man[\fB1\-7\fR] to \fB$fisher_config\fR/man/man\fB%\fR
+.
+.IP "" 0
+.
+.P
+Here is the \fIplugin\fR tree inside the cache:
+.
+.P
+\fB$fisher_cache\fR/\fIplugin\fR
+.
+.br
+|\-\- README\.md
+.
+.br
+|\-\- \fIplugin\fR\.fish
+.
+.br
+|\-\- functions
+.
+.br
+| |\-\- plugin_helper\.fish
+.
+.br
+|\-\- completions
+.
+.br
+| |\-\- \fIplugin\fR\.fish
+.
+.br
+|\-\- test
+.
+.br
+| |\-\- \fIplugin\fR\.fish
+.
+.br
+|\-\- man
+.
+.br
+|\-\- man1
+.
+.br
+|\-\- \fIplugin\fR\.1
+.
+.br
+.
+.P
+And here is how files are copied from \fB$fisher_cache\fR/plugin to \fB$fisher_config\fR:
+.
+.IP "1." 4
+\fIplugin\fR\.fish \fB\->\fR $fisher_config/functions
+.
+.IP "2." 4
+functions/plugin_helper\.fish \fB\->\fR $fisher_config/functions
+.
+.IP "3." 4
+completions/\fIplugin\fR\.fish \fB\->\fR $fisher_config/completions
+.
+.IP "4." 4
+man/man1/\fIplugin\fR\.1 \fB\->\fR $fisher_config/man/man1
+.
+.IP "" 0
+.
+.SH "SEE ALSO"
+\fBfisher\fR(1)
+.
+.br
+\fBfisher help config\fR
+.
+.br
+\fBfisher help update\fR
+.
+.br
+\fBfisher help uninstall\fR
+.
+.br
+\fBfisher help fishfile\fR#{\fBPlugins\fR}
+.
+.br
+

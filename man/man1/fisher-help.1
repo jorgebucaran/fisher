@@ -1,0 +1,91 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "FISHER\-HELP" "1" "January 2016" "" "fisherman"
+.
+.SH "NAME"
+\fBfisher\-help\fR \- Display Help Information
+.
+.SH "SYNOPSIS"
+fisher \fBhelp\fR [\fIkeyword\fR] [\fB\-\-all\fR] [\fB\-\-guides\fR] [\fB\-\-usage\fR[=\fIcommand\fR]] [\fB\-\-help\fR]
+.
+.br
+.
+.SH "USAGE"
+fisher \fBhelp\fR \fIcommand\fR
+.
+.br
+fisher \fBhelp\fR \fIconcept\fR
+.
+.br
+fisher \fBhelp\fR \fB\-\-usage\fR=[\fIcommand\fR]
+.
+.SH "DESCRIPTION"
+Help displays \fIcommand\fR documentation, usage, guides and tutorials\.
+.
+.P
+Help is based in \fBman\fR(1) pages\. To supply help with your own plugin or command, create one or more man\.\fB1~7\fR pages and add them to your project under the corresponding \fBman/man%\fR directory\.
+.
+.IP "" 4
+.
+.nf
+
+my_plugin
+|\-\- my_plugin\.fish
+|\-\- man
+    |\-\- man1
+        |\-\- my_plugin\.1
+.
+.fi
+.
+.IP "" 0
+.
+.P
+This will allow you to invoke \fBman\fR my_plugin\. To add documentation to a command, prepend the keyword \fBfisher\-\fR to the man file, e\.g\., \fBfisher\-\fRmy\-command\.1\. This will allow you to access the man page via \fBfisher help my\-command\fR\.
+.
+.P
+There are utilities that can help you generate man pages from other text formats, such as Markdown\. One example is \fBronn\fR(1)\. For a standalone example see \fBfisher help plugins\fR#{\fBExample\fR}\.
+.
+.SH "OPTIONS"
+.
+.TP
+\fB\-\-commands\fR[=\fIbare\fR]
+List commands\. This is the default behavior of \fBfisher help\fR\. Use \fIbare\fR for easy to parse output\.
+.
+.TP
+\fB\-a\fR \fB\-\-all\fR
+List commands and guides\. Display all the available documentation\.
+.
+.TP
+\fB\-g\fR \fB\-\-guides\fR[=\fIbare\fR]
+List guides / tutorials\. Use \fIbare\fR for easy to parse output\.
+.
+.TP
+\fB\-u\fR \fB\-\-usage\fR[=\fIcommand\fR]
+Display usage help for \fIcommand\fR\. To supply usage help with a command, \fIcommand\fR must accept a \fB\-\-help\fR option\.
+.
+.TP
+\fB\-h\fR \fB\-\-help\fR
+Show usage help\.
+.
+.SH "EXAMPLES"
+Display usage help for all Fisherman commands\.
+.
+.IP "" 4
+.
+.nf
+
+fisher help \-\-commands=bare | fisher help \-\-usage
+.
+.fi
+.
+.IP "" 0
+.
+.SH "SEE ALSO"
+\fBfisher\fR(1)
+.
+.br
+\fBfisher help plugins\fR#{\fBExample\fR}
+.
+.br
+

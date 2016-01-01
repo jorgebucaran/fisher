@@ -1,0 +1,72 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "FISHER\-UNINSTALL" "1" "January 2016" "" "fisherman"
+.
+.SH "NAME"
+\fBfisher\-uninstall\fR \- Disable / Uninstall Plugins
+.
+.SH "SYNOPSIS"
+fisher \fBuninstall\fR [\fIname\fR or \fIurl\fR \.\.\.]
+.
+.br
+fisher \fBuninstall\fR [\fB\-\-all\fR] [\fB\-\-force\fR] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
+.
+.br
+.
+.SH "USAGE"
+fisher \fBuninstall\fR \fIplugin\fR \.\.\.
+.
+.br
+fisher \fBuninstall\fR \fIowner/repo\fR \.\.\.
+.
+.br
+.
+.SH "DESCRIPTION"
+Uninstall one or \fImore\fR plugins by \fIname\fR, searching \fB$fisher_index\fR or by \fIurl\fR\. If no arguments are given, read the standard input\. This process is the inverse of Install\. See \fBfisher help install\fR\.
+.
+.P
+Uninstall does not remove any copies of the given plugin in \fB$fisher_cache\fR\. To erase the copy from the cache, use the \fB\-\-force\fR option\.
+.
+.P
+Uninstall does not remove dependencies installed along with other plugins\. This behavior prevents breaking plugins that share the same dependency\. See \fBfisher\fR(7){\fBFlat Tree\fR}\.
+.
+.SH "OPTIONS"
+.
+.TP
+\fB\-a\fR \fB\-\-all\fR
+Uninstall all plugins\.
+.
+.TP
+\fB\-f\fR \fB\-\-force\fR
+Delete copy from cache\.
+.
+.TP
+\fB\-q\fR \fB\-\-quiet\fR
+Enable quiet mode\.
+.
+.TP
+\fB\-h\fR \fB\-\-help\fR
+Show usage help\.
+.
+.SH "EXAMPLES"
+Uninstall all installed plugins and flushing the cache as well\.
+.
+.IP "" 4
+.
+.nf
+
+fisher uninstall \-\-all \-\-force
+.
+.fi
+.
+.IP "" 0
+.
+.SH "SEE ALSO"
+\fBfisher\fR(1)
+.
+.br
+\fBfisher help plugins\fR
+.
+.br
+

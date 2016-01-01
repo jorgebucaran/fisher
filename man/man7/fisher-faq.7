@@ -1,0 +1,189 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "FISHER\-FAQ" "7" "January 2016" "" "fisherman"
+.
+.SH "NAME"
+\fBfisher\-faq\fR \- Fisherman Frequently Asked Questions
+.
+.SH "SYNOPSIS"
+This document attempts to answer some of Fisherman most frequently asked questions\. Feel free to create a new issue in the Fisherman issue tracker if your question is not answered here\.
+.
+.SS "What is Fisherman?"
+Fisherman is a shell manager for fish that lets you share and reuse code, prompts and configurations easily\.
+.
+.SS "What do I need to know to use Fisherman?"
+Nothing\. You can continue using your shell as usual\. When you are ready to learn more just type \fBman fisher\fR or \fBman 7 fisher\fR\.
+.
+.SS "How do I access other Fisherman documentation?"
+Fisherman documentation is based in UNIX \fBman\fR(1) pages\. See \fBman fisher\fR and \fBman 7 fisher\fR to get started\. You can also access any documentation using the \fBfisher help\fR command\.
+.
+.SS "What are Fisherman plugins?"
+Plugins are written in fish and extend the shell core functionality, run initialization code, add completions or documentations to other commands, etc\. See \fBfisher help plugins\fR\.
+.
+.P
+Plugins may list any number of dependencies to other plugins using a \fIfishfile\fR\.
+.
+.SS "What is a Fishfile?"
+A plain text file that lists what plugins you have installed or a plugin\'s dependencies to other plugins\.
+.
+.P
+Fishfiles let you share plugin configurations across multiple installations, allow plugins to declare dependencies, and prevent information loss in case of system failure\. See also \fBfisher help fishfile\fR\.
+.
+.SS "What kind of Fisherman plugins are there?"
+There is no technical distinction between plugins, themes, commands, etc\., but there is a \fIconceptual\fR difference\.
+.
+.IP "\(bu" 4
+\fBStandalone Utilities\fR: Plugins that define one or more functions, meant to be used at the command line\.
+.
+.IP "\(bu" 4
+\fBPrompts / Themes\fR: Plugins that modify the appearance of the fish prompt by defining a \fBfish_prompt\fR and / or \fBfish_right_prompt\fR functions\.
+.
+.IP "\(bu" 4
+\fBExtension Commands\fR: Plugins that extend Fisherman default commands\. An extension plugin must define one or more functions like \fBfisher_<my_command>\fR\. For specific information about commands, see \fBfisher help commands\fR and then return to this guide\.
+.
+.IP "\(bu" 4
+\fBConfiguration Plugins\fR: Plugins that include one or more \fBmy_plugin\fR\.config\.fish files\. Files that follow this convention are evaluated at the start of the session\.
+.
+.IP "" 0
+.
+.P
+See \fBfisher help plugins\fR and \fBfisher help commands\fR\.
+.
+.SS "Does Fisherman support Oh My Fish plugins and themes?"
+Yes\. To install either a plugin or theme use their URL:
+.
+.IP "" 4
+.
+.nf
+
+fisher install oh\-my\-fish/{rbenv,hub,bobthefish}
+.
+.fi
+.
+.IP "" 0
+.
+.P
+You can use the same mechanism to install a Wahoo package or a plugin in a any given URL\. See also \fBfisher\fR(7)#{\fBCompatibility\fR}\.
+.
+.SS "What does Fisherman do exactly every time I create a new shell session?"
+Essentially, add Fisherman functions and completions to the \fB$fish_{function,complete}_path\fR and evaluate files that follow the convention \fB*\.config\.fish\fR\.
+.
+.IP "" 4
+.
+.nf
+
+set fish_function_path {$fisher_config,$fisher_home}/functions $fish_function_path
+set fish_complete_path {$fisher_config,$fisher_home}/completions $fish_complete_path
+
+for file in $fisher_config/functions/*\.config\.fish
+    source $file
+end
+.
+.fi
+.
+.IP "" 0
+.
+.P
+See \fB$fisher_home/config\.fish\fR for the full code\.
+.
+.SS "How is Fisherman faster than Oh My Fish!, Wahoo, etc?"
+Fisherman ameliorates the slow shell start problem using a flat dependency tree instead of loading a directory hierarchy per plugin\. This also means that Fisherman performance does not decline depending on the number of plugins installed\. See also \fBfisher\fR(7)#{\fBFlat Tree\fR}\.
+.
+.SS "Why don\'t you contribute your improvements back to Oh My Fish! instead of creating a new project?"
+Already done that\. See Oh My Fish! history for August 27, 2015\. The project was then called Wahoo and it was entirely merged with Oh My Fish!\.
+.
+.P
+Fisherman was built from the ground up using a completely different design, implementation and set of principles\.
+.
+.P
+Some features include: UNIX familiarity, minimalistic design, flat tree structure, unified plugin system, external self\-managed database, cache mechanism, dependency manifest file and compatibility with Oh My Fish!, etc\. See \fBfisher\fR(7)\.
+.
+.SS "How can I upgrade from an existing Oh My Fish! or Wahoo installation?"
+Install Fisherman\.
+.
+.IP "" 4
+.
+.nf
+
+git clone https://github\.com/fisherman/fisherman
+cd fisherman
+make
+.
+.fi
+.
+.IP "" 0
+.
+.P
+You can now safely remove Oh My Fish! \fB$OMF_PATH\fR and \fB$OMF_CONFIG\fR\.
+.
+.P
+Backup dotfiles and other sensitive data first\.
+.
+.IP "" 4
+.
+.nf
+
+rm \-rf {$OMF_PATH,$OMF_CONFIG}
+.
+.fi
+.
+.IP "" 0
+.
+.SS "I changed my prompt with <code>fish_config</code> and now I can\'t use any Fisherman theme, what do I do?"
+\fBfish_config\fR persists the prompt to \fBXDG_CONFIG_HOME/fish/functions\fR/fish_prompt\.fish\. That file takes precedence over Fisherman prompts that install to \fB$fisher_config\fR/functions/\. To use Fisherman prompts remove the \fBfish_promt\.fish\fR inside \fBXDG_CONFIG_HOME/fish/functions/\fR\.
+.
+.P
+Assuming \fBXDG_CONFIG_HOME\fR is \fB~/\.config\fR in your system:
+.
+.IP "" 4
+.
+.nf
+
+rm ~/\.config/fish/functions/fish_prompt\.fish
+.
+.fi
+.
+.IP "" 0
+.
+.SS "How do I use fish as my default shell?"
+Add Fish to \fB/etc/shells\fR:
+.
+.IP "" 4
+.
+.nf
+
+echo "/usr/local/bin/fish" | sudo tee \-a /etc/shells
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Make Fish your default shell:
+.
+.IP "" 4
+.
+.nf
+
+chsh \-s /usr/local/bin/fish
+.
+.fi
+.
+.IP "" 0
+.
+.P
+To switch back to another shell\.
+.
+.IP "" 4
+.
+.nf
+
+chsh \-s /bin/another/shell
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Why is this FAQ similar to the Oh My Fish! FAQ?"
+Because it was written by the same author of Fisherman and Wahoo and some of the questions and answers simply overlap\.

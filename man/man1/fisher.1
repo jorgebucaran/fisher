@@ -1,0 +1,135 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "FISHER" "1" "January 2016" "" "fisherman"
+.
+.SH "NAME"
+\fBfisher\fR \- fish shell manager
+.
+.SH "SYNOPSIS"
+\fBfisher\fR \fIcommand\fR [\fIoptions\fR] [\fB\-\-version\fR] [\fB\-\-help\fR]
+.
+.br
+\fBfisher\fR \fB\-\-file\fR=\fIfishfile\fR
+.
+.br
+\fBfisher\fR \fB\-\-validate\fR=\fIname\fR or \fIurl\fR
+.
+.br
+.
+.SH "DESCRIPTION"
+Fisherman is a shell manager for \fBfish\fR(1) that lets you share and reuse code, prompts and configurations easily\.
+.
+.P
+The following commands: \fIinstall\fR, \fIuninstall\fR, \fIupdate\fR, \fIsearch\fR and \fIhelp\fR are available by default\. See \fBfisher\fR help \fIcommand\fR for information about each command\.
+.
+.SH "OPTIONS"
+.
+.TP
+\fB\-f\fR \fB\-\-file\fR=\fIfishfile\fR
+Read \fIfishfile\fR and write contents to standard output\. If \fIfishfile\fR is null or an empty string, your user \fIfishfile\fR in \fB$fisher_config\fR/fishfile will be used instead\. Use a dash \fB\-\fR to force reading from the standard input\. Oh My Fish! bundle files are supported too\.
+.
+.TP
+\fB\-V\fR, \fB\-\-validate\fR=\fIkeyword\fR
+Validate a \fIname\fR or \fIurl\fR\. If \fIkeyword\fR resembles a url, the algorithm will attempt to normalize the url by adding / removing missing components\. Otherwise, it will assume \fIkeyword\fR is a potential plugin name and use the following regex \fB^[a\-z]+[\._\-]?[a\-z0\-9]+\fR to validate the string\. This method is used internally to validate user input and support url variations such as \fIowner/repo\fR, \fIgh:owner/repo\fR, \fIbb:owner/repo\fR, etc\. See \fBfisher\fR(7)#{\fBPlugins\fR}\.
+.
+.IP
+If \fIkeyword\fR is null or an empty string, \fB\-\-validate\fR reads keyword\fIs\fR from the standard input\.
+.
+.TP
+\fB\-v\fR \fB\-\-version\fR
+Show version information\. Fisherman\'s current version can be found in the VERSION file at the root of the project\. The version scheme is based in \fBSemantic Versioning\fR and uses Git annotated tags to track releases\.
+.
+.TP
+\fB\-h\fR \fB\-\-help\fR
+Show usage help\.
+.
+.SH "CUSTOM COMMANDS"
+A Fisherman command is a function that you can invoke using \fBfisher\fR \fIcommand\fR [\fIoptions\fR]\. By convention, any function of the form \fBfisher_<my_command>\fR is registered as Fisherman command\. You can create plugins that add new commands as well as regular utilities\. See \fBfisher help commands\fR and \fBfisher help plugins\fR for more information\.
+.
+.SH "EXAMPLES"
+.
+.IP "\(bu" 4
+Install a plugin\.
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
+fisher install fishtape
+fishtape \-\-help
+.
+.fi
+.
+.IP "" 0
+.
+.TP
+Install plugins from fishfile or bundle:
+
+.
+.IP "" 4
+.
+.nf
+
+fisher \-\-file=path/to/shared/fishfile | fisher install
+.
+.fi
+.
+.IP "" 0
+.
+.IP "\(bu" 4
+Validate an url\.
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
+echo a/b | fisher \-V
+> https://github\.com/a/b
+.
+.fi
+.
+.IP "" 0
+.
+.SH "AUTHORS"
+Fisherman was created and it is currently maintained by Jorge Bucaran \fIj@bucaran\.me\fR\.
+.
+.P
+See AUTHORS file for a more complete list of contributors\.
+.
+.SH "SEE ALSO"
+\fBfisher\fR(7)
+.
+.br
+\fBfisher\fR help \fIhelp\fR
+.
+.br
+\fBfisher\fR help \fIupdate\fR
+.
+.br
+\fBfisher\fR help \fIsearch\fR
+.
+.br
+\fBfisher\fR help \fIconfig\fR
+.
+.br
+\fBfisher\fR help \fIinstall\fR
+.
+.br
+\fBfisher\fR help \fIplugins\fR
+.
+.br
+\fBfisher\fR help \fIcommands\fR
+.
+.br
+\fBfisher\fR help \fIfishfile\fR
+.
+.br
+\fBfisher\fR help \fIuninstall\fR
+.
+.br
+
