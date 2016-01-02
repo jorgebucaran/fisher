@@ -111,7 +111,7 @@ function fisher_uninstall -d "Disable / Uninstall Plugins"
             continue
         end
 
-        set -l tmp (mktemp)
+        set -l tmp (mktemp -t fisher.XXXXXXXX)
 
         if not sed -E '/^ *'(printf "%s|%s" $name $url | sed 's|/|\\\/|g'
         )'([ #].*)*$/d' < $file > $tmp
