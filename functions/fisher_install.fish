@@ -11,7 +11,7 @@ function fisher_install -d "Enable / Install Plugins"
                 set error /dev/null
 
             case h help
-                printf "usage: fisher install [<name | url> ...] [--quiet] [--help]\n\n"
+                printf "usage: fisher install [<name or url> ...] [--quiet] [--help]\n\n"
 
                 printf "    -q --quiet  Enable quiet mode\n"
                 printf "     -h --help  Show usage help\n"
@@ -25,8 +25,8 @@ function fisher_install -d "Enable / Install Plugins"
     end
 
     set -l count 0
-    set -l duration (date +%s)
     set -l total (count $items)
+    set -l elapsed (date +%s)
 
     if set -q items[1]
         printf "%s\n" $items
@@ -38,14 +38,14 @@ function fisher_install -d "Enable / Install Plugins"
         switch "$item"
             case \*/\*
                 printf "%s %s\n" $item (
-                    if not fisher_search --url=$item --field=name
+                    if not fisher_search --url=$item --name
                         printf "%s" $item | sed -E '
                             s/.*\/(.*)/\1/
-                            s/^(plugin|theme|pkg|fish)-//'
+                            s/^(plugin|theme|pkg|omf|fish|fisher)-//'
                     end)
 
             case \*
-                if set -l url (fisher_search --name=$item --field=url)
+                if set -l url (fisher_search --name=$item --url)
                     printf "%s %s\n" $url $item
 
                 else if test -d $fisher_cache/$item
@@ -68,7 +68,7 @@ function fisher_install -d "Enable / Install Plugins"
                 printf "(%s of %s) >> %s\n" (math 1 + $count) $total $name > $error
         end
 
-        mkdir -p $fisher_config/{cache,functions,completions,man}
+        mkdir -p $fisher_config/{cache,functions,completions,conf.d,man}
 
         set -l path $fisher_cache/$name
 
@@ -91,7 +91,8 @@ function fisher_install -d "Enable / Install Plugins"
             printf "Resolving dependencies in %s\n" $name/(basename $bundle) > $error
 
             set -l deps (fisher --file=$bundle \
-              | fisher_install ^&1 | sed -En 's/([0-9]+) plugin\/s.*/\1/p')
+              | fisher_install ^&1 \
+              | sed -En 's/([0-9]+) plugin\/s.*/\1/p')
 
             set count (math $count + 0$deps)
         end
@@ -108,18 +109,28 @@ function fisher_install -d "Enable / Install Plugins"
 
         if test -e $path/fish_prompt.fish -o -e $path/fish_right_prompt.fish
             rm -f $fisher_config/functions/{fish_prompt,fish_right_prompt}.fish
+            functions -e fish_{,right_}prompt
         end
 
         for file in $path/{*,functions{/*,/**/*}}.fish
             set -l base (basename $file)
-            switch $base
-                case {init,uninstall}.fish
-                    set base $name.config.$base
-            end
-            cp -f $file $fisher_config/functions/$base
-        end
 
-        source $fisher_config/functions/$name.fish > /dev/null ^& 1
+            switch $base
+                case {$name,fish_{,right_}prompt}.fish
+                    source $file
+
+                case {init,uninstall}.fish
+                    set base $name.(basename $base .fish).config.fish
+            end
+
+            switch $base
+                case \*\?.config.fish
+                    cp -f $file $fisher_config/conf.d/$base
+
+                case \*
+                    cp -f $file $fisher_config/functions/$base
+            end
+        end
 
         cp -f $path/completions/*.fish $fisher_config/completions/ ^ /dev/null
 
@@ -135,7 +146,7 @@ function fisher_install -d "Enable / Install Plugins"
         set -l file $fisher_config/fishfile
 
         if test -s $file
-            if fisher --file=$file  | grep -Eq "^$name\$|^$url\$"
+            if fisher --file=$file | grep -Eq "^$name\$|^$url\$"
                 continue
             end
         end
@@ -147,11 +158,10 @@ function fisher_install -d "Enable / Install Plugins"
         end
 
         printf "%s\n" "$name" >> $file
-
     end
 
     printf "%d plugin/s installed (%0.fs)\n" (math $count) (
-        math (date +%s) - $duration) > $error
+        math (date +%s) - $elapsed) > $error
 
     if not test $count -gt 0
         return 1

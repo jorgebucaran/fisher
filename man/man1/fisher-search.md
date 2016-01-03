@@ -39,16 +39,16 @@ See #{`Output`} for more information.
 ## OPTIONS
 
 * `-s` `--select`[=*all*|*cache*|*remote*]:
-    Select record set. --select=*cache* queries only local plugins, i.e., those inside `$fisher_cache`. --select=*remote* queries all plugins not in the cache. --select=*all* queries everything.
+    Select the record source. --select=*cache* queries only local plugins, i.e., those inside `$fisher_cache`. --select=*remote* queries all plugins not in the cache, i.e, those available to install. --select=*all* queries everything.
 
 * `-f` `--field`=*name*|*url*|*info*|*tag*|*author*:
-    Display only given fields from the result record set. Use `--select` to filter the record set. Use --*field* instead as a shortcut, i.e., `--name` is equivalent to `--field`=name.
+    Display only the given fields from the selected records. Use --*field* instead as a shortcut for `--field`=name.
 
 * --*field*[=*match*]:
-    Filter the result set by *field*=*match*, where *field* can be any of `name`, `url`, `info`, `tag` or `author`. If *match* is not given, this is equivalent to `--select`=*field*. Use `!=` to negate the query.
+    Filter the result set by *field*=*match*, where *field* can be one or more of `name`, `url`, `info`, `tag` or `author`. If *match* is not given, this is equivalent to `--select`=*field*. Use `!=` to negate the query.
 
 * --*field*[~`/`*regex*`/`]:
-    Essentially the same as --*field*=*match*, but with Regular Expression support. --*field*~`/`*regex*`/` filters the result set using the given `/`*regex*`/`. For example, --name=`/`^*match*$`/` is essentially the same as --*field*=*match* and --url~`/`oh-my-fish`/` selects only Oh My Fish! plugins.  Use `!~` to negate the query.
+    Essentially the same as --*field*=*match*, but with Regular Expression support. --*field*~`/`*regex*`/` filters the result set using the given `/`*regex*`/`. For example, --name=`/`^*match*$`/` is the same as --*field*=*match* and --url~`/`oh-my-fish`/` selects only Oh My Fish! plugins.  Use `!~` to negate the query.
 
 * `-a` `--and`:
     Join query with a logical AND operator.
@@ -70,18 +70,12 @@ See #{`Output`} for more information.
 The default behavior is to print the result set to standard output in its original format.
 
 ```
-fisher search bobthefish shark
+fisher search shark
 ```
 
 `...`
 
 ```
-bobthefish
-https://github.com/oh-my-fish/theme-bobthefish
-A Powerline-style, Git-aware fish theme optimized for awesome
-theme powerline awesome
-bobthecow
-
 shark
 https://github.com/bucaran/shark
 Sparklines for your Fish
@@ -92,13 +86,12 @@ bucaran
 Search is optimized for parsing when using filters: `--name`, `--url`, `--info`, `--tags`, `--author` or `--field`=*name*|*url*|*info*|*tag*|*author*.
 
 ```
-fisher search bobthefish shark --name --url
+fisher search shark --name --url
 ```
 
 `...`
 
 ```
-bobthefish;https://github.com/oh-my-fish/theme-bobthefish
 shark;https://github.com/bucaran/shark
 ```
 
@@ -106,31 +99,31 @@ The result set above consists of single line `'\n'` separated records where each
 
 ## EXAMPLES
 
-Display all plugins by name and format into multiple columns.
+* Display all plugins by name and format into multiple columns.
 
 ```
 fisher search --name | column
 ```
 
-Display all plugins by url, sans *https://github.com/* and format into multiple columns.
+* Display all plugins by url, sans *https://github.com/* and format into multiple columns.
 
 ```
 fisher search --field=url --select=all | sed 's|https://github.com/||' | column
 ```
 
-Display all remote plugins by name tagged as *a* or *b*.
+* Display all remote plugins by name tagged as *a* or *b*.
 
 ```
 fisher search --select=remote --name --tag=github --or --tag=tool
 ```
 
-Search plugins from a list of one or more urls and / or names and display their authors.
+* Search plugins from a list of one or more urls and / or names and display their authors.
 
 ```
 fisher search $urls $names --url
 ```
 
-Search all plugins in the cache whose name does not start with the letter `s`.
+* Search all plugins in the cache whose name does not start with the letter `s`.
 
 ```
 fisher search --select=cache --name~/^[^s]/

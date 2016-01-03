@@ -1,120 +1,48 @@
-source $DIRNAME/helpers/create_mock_source.fish
+source $DIRNAME/helpers/fisher_mock_repos.fish
+source $DIRNAME/helpers/fisher_mock_index.fish
+source $DIRNAME/helpers/fisher_mock_config.fish
 
 set -l path $DIRNAME/$TESTNAME.test(random)
-set -l source $path/source
-set -l index $path/index
-set -l names foo bar
+set -l source $DIRNAME/fixtures/source
+set -l index $path/INDEX
+set -l names foo bar baz
 
 function -S setup
-    if not mkdir -p $path
-        return 1
-    end
+    mkdir -p $path
 
-    set -g fisher_config $path/config
-    set -g fisher_cache  $fisher_config/cache
-    set -g fisher_index "file://$index"
+    fisher_mock_repos $source/*
+    fisher_mock_index $source $names > $index
+    fisher_mock_config $path $index
 
-    create_mock_source $source $names > $index
-
-    fisher install $names --quiet
+    fisher install $names -q
+    fisher uninstall $names -q
 end
 
 function -S teardown
     rm -rf $path
+    rm -rf $source/{$names}.git
 end
 
 for name in $names
-    test "uninstall <$name> does not clear cache"
-        (printf "%s\n" $names) = (
-
-        fisher uninstall $name --quiet
-        ls $fisher_cache)
+    test "remove plugin from functions/$name.fish"
+        ! -e $fisher_config/functions/$name.fish
     end
 
-    test "uninstall --force clears package <$name> from cache"
-        (for _name in $names
-            if test $_name != $name
-                printf "%s\n" $_name
-            end
-        end) = (
-
-        fisher uninstall $name --quiet --force
-        ls $fisher_cache)
+    test "remove plugin from completions/$name.fish"
+        ! -e $fisher_config/completions/$name.fish
     end
 
-    test "uninstall <$name> removes functions/$name.fish"
-        (
-            echo 0
-            echo 1
-        ) = (
-
-        builtin test -f $fisher_config/functions/$name.fish
-        echo $status
-
-        fisher uninstall $name --quiet
-
-        builtin test -f $fisher_config/functions/$name.fish
-        echo $status)
+    test "remove plugin from conf.d/$name.config.fish"
+        ! -e $fisher_config/conf.d/$name.config.fish
     end
 
-    test "uninstall <$name> removes completions/$name.fish"
-        (
-            echo 0
-            echo 1
-        ) = (
-
-        builtin test -f $fisher_config/completions/$name.fish
-        echo $status
-
-        fisher uninstall $name --quiet
-
-        builtin test -f $fisher_config/completions/$name.fish
-        echo $status)
-    end
-
-    test "uninstall <$name> removes man/man.../$name..."
-        (
-            for n in (seq 9)
-                echo 0
-            end
-
-            for n in (seq 9)
-                echo 1
-            end
-        ) = (
-
-        for n in (seq 9)
-            builtin test -f $fisher_config/man/man$n/$name.$n
-            echo $status
-        end
-
-        fisher uninstall $name --quiet
-
-        for n in (seq 9)
-            builtin test -f $fisher_config/man/man$n/$name.$n
-            echo $status
-        end)
+    test "remove plugin from conf.d/$name.init.config.fish"
+        ! -e $fisher_config/conf.d/$name.init.config.fish
     end
 end
 
-test "remove all installed/enabled plugins"
-    -z (
-
-    fisher uninstall --all --quiet
-    ls $fisher_config/functions
-    ls $fisher_config/completions)
-end
-
-test "remove all installed plugins flushing cache"
-    -z (
-
-    fisher uninstall --all --force --quiet
-    ls $fisher_cache)
-end
-
-test "uninstall updates fishfile"
-    "$names[2..-1]" = (
-
-    fisher uninstall $names[1] --quiet
-    cat $fisher_config/fishfile | xargs)
+test "remove plugin manual from man/man%"
+    (for file in $fisher_config/man/**
+        basename $file
+    end | xargs) = (echo {man}(seq 9) | xargs)
 end

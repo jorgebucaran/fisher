@@ -23,7 +23,7 @@ Here is an example:
 .nf
 
 # my plugins
-gitio
+shark
 fishtape
 
 # other links
@@ -34,10 +34,10 @@ oh\-my\-fish/bobthefish
 .IP "" 0
 .
 .P
-To read fishfiles use \fBfisher \-\-file\fR=\fIfishfile\fR\. This utility reads fishfiles sequentially, writing them to standard output\. Oh My Fish! bundle files are supported too\.
+To read fishfiles use \fBfisher \-\-file\fR=\fIfishfile\fR\. This will read \fIfishfile\fR sequentially, writing its contents to the standard output\. Oh My Fish! bundle files are supported as well\.
 .
 .P
-If \fIfishfile\fR is null or an empty string, the global \fIfishfile\fR in \fB$fisher_config\fR/fishfile is used instead\. Use a dash \fB\-\fR to force read from standard input\.
+If \fIfishfile\fR is null or an empty string, the global \fIfishfile\fR in \fB$fisher_config\fR/fishfile will be used\. Use a dash \fB\-\fR to force read from standard input\.
 .
 .SH "PLUGINS"
 Plugins may declare any number of dependencies to other plugins in a fishfile at the root of their project\.

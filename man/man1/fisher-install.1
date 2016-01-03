@@ -21,13 +21,56 @@ fisher \fBinstall\fR \fIowner/repo\fR \.\.\.
 Install one or \fImore\fR plugins by \fIname\fR, searching \fB$fisher_index\fR or by \fIurl\fR\. If no arguments are given, read the standard input\.
 .
 .P
-If a copy of the plugin already exists in \fB$fisher_cache\fR, the relevant files are copied to \fB$fisher_config\fR/functions, otherwise the plugin repository is first downloaded\. If you wish to update a plugin, use \fBfisher update\fR instead\.
+If the domain or host is not provided, Fisherman will use any value in \fB$fisher_default_host\fR\. The default is \fBhttps://github\.com\fR\.
 .
 .P
-If the plugin declares any dependencies, they will be installed as well\. If any dependencies are already installed they will not be updated in order to prevent mismatching version issues\. See \fBfisher help fishfile\fR#{\fBPlugins\fR}\.
+In addition, all of the following variations are accepted:
+.
+.IP "\(bu" 4
+\fBgithub\fR/owner/repo \fB\->\fR https://github\.com/owner/repo
+.
+.br
+
+.
+.IP "\(bu" 4
+\fBgh:\fRowner/repo \fB\->\fR https://github\.com/owner/repo
+.
+.br
+
+.
+.IP "" 0
 .
 .P
-If a plugin includes either a fish_prompt\.\fBfish\fR or fish_right_prompt\.\fBfish\fR, both files are first removed from \fB$fisher_config\fR/functions and then the new one\fIs\fR are copied\.
+Shortcuts for other common Git repository hosting services are also available:
+.
+.IP "\(bu" 4
+\fBbb:\fR/owner/repo \fB\->\fR https://bitbucket\.org/owner/repo
+.
+.br
+
+.
+.IP "\(bu" 4
+\fBgl:\fR/owner/repo \fB\->\fR https://gitlab\.com/owner/repo
+.
+.br
+
+.
+.IP "\(bu" 4
+\fBomf:\fR/owner/repo \fB\->\fR https://github\.com/oh\-my\-fish/repo
+.
+.br
+
+.
+.IP "" 0
+.
+.P
+If a copy of the plugin already exists in \fB$fisher_cache\fR, the relevant files will be copied to \fB$fisher_config\fR/functions, otherwise the plugin repository is first downloaded\. If you wish to update a plugin, use \fBfisher update\fR \fIplugin\fR instead\.
+.
+.P
+If the plugin declares dependencies, these will be installed as well\. If any dependencies are already installed they will not be updated in order to prevent version issues\. See \fBfisher help fishfile\fR#{\fBPlugins\fR}\.
+.
+.P
+If a plugin includes either a fish_prompt\.fish or fish_right_prompt\.fish, both files are first removed from \fB$fisher_config\fR/functions and then the new ones are copied\.
 .
 .SH "OPTIONS"
 .
@@ -101,7 +144,7 @@ Here is the \fIplugin\fR tree inside the cache:
 .br
 .
 .P
-And here is how files are copied from \fB$fisher_cache\fR/plugin to \fB$fisher_config\fR:
+And thisi is how the files are copied from \fB$fisher_cache\fR/plugin to \fB$fisher_config\fR:
 .
 .IP "1." 4
 \fIplugin\fR\.fish \fB\->\fR $fisher_config/functions

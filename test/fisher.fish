@@ -21,6 +21,13 @@ test "read a fishfile using --file"
     (fisher --file=$fishfile) = foo bar baz github/foo/bar
 end
 
+test "fisher --cache=base retrieves plugin names in the cache"
+    (fisher --cache=base) = (
+        for file in $fisher_cache/*
+            basename $file
+        end)
+end
+
 test "evaluate commands"
     (fisher $cmd) = usage:...
 end
