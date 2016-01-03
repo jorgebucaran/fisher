@@ -8,7 +8,7 @@ This document attempts to answer some of Fisherman most frequently asked questio
 
 ### What is Fisherman?
 
-Fisherman is a shell manager for fish that lets you share and reuse code, prompts and configurations easily.
+Fisherman is a plugin manager for fish that lets you share and reuse code, prompts and configurations easily.
 
 
 ### What do I need to know to use Fisherman?
@@ -50,15 +50,15 @@ There is no technical distinction between plugins, themes, commands, etc., but t
 See `fisher help plugins` and `fisher help commands`.
 
 
-### Does Fisherman support Oh My Fish plugins and themes?
+### Does Fisherman support Oh My Fish! plugins and themes?
 
 Yes. To install either a plugin or theme use their URL:
 
 ```
-fisher install oh-my-fish/{rbenv,hub,bobthefish}
+fisher install omf/{rbenv,hub,theme-scorphish}
 ```
 
-You can use the same mechanism to install a Wahoo package or a plugin in a any given URL. See also `fisher`(7)#{`Compatibility`}.
+You can use the same mechanism to a valid plugin from any given URL. See also `fisher`(7)#{`Compatibility`}.
 
 
 ### What does Fisherman do exactly every time I create a new shell session?
@@ -69,7 +69,7 @@ Essentially, add Fisherman functions and completions to the `$fish_{function,com
 set fish_function_path {$fisher_config,$fisher_home}/functions $fish_function_path
 set fish_complete_path {$fisher_config,$fisher_home}/completions $fish_complete_path
 
-for file in $fisher_config/functions/*.config.fish
+for file in $fisher_config/conf.d/*.config.fish
     source $file
 end
 ```
@@ -77,15 +77,15 @@ end
 See `$fisher_home/config.fish` for the full code.
 
 
-### How is Fisherman faster than Oh My Fish!, Wahoo, etc?
+### How is Fisherman faster than Oh My Fish!/Wahoo, etc?
 
 Fisherman ameliorates the slow shell start problem using a flat dependency tree instead of loading a directory hierarchy per plugin. This also means that Fisherman performance does not decline depending on the number of plugins installed. See also `fisher`(7)#{`Flat Tree`}.
 
 ### Why don't you contribute your improvements back to Oh My Fish! instead of creating a new project?
 
-Already done that. See Oh My Fish! history for August 27, 2015. The project was then called Wahoo and it was entirely merged with Oh My Fish!.
+I have contributed back to Oh My Fish! extensively. See also Oh My Fish! history for August 27, 2015 when another project, Wahoo, was entirely merged with Oh My Fish!.
 
-Fisherman was built from the ground up using a completely different design, implementation and set of principles.
+In addition, Fisherman was built from the ground up using a completely different design, implementation and set of principles.
 
 Some features include: UNIX familiarity, minimalistic design, flat tree structure, unified plugin architecture, external self-managed database, cache system, dependency manifest file and compatibility with Oh My Fish!, etc. See `fisher`(7).
 
@@ -111,7 +111,7 @@ rm -rf {$OMF_PATH,$OMF_CONFIG}
 
 ### I changed my prompt with `fish_config` and now I can't use any Fisherman theme, what do I do?
 
-`fish_config` persists the prompt to `XDG_CONFIG_HOME/fish/functions`/fish_prompt.fish. That file takes precedence over Fisherman prompts that install to `$fisher_config`/functions/. To use Fisherman prompts remove the `fish_promt.fish` inside `XDG_CONFIG_HOME/fish/functions/`.
+`fish_config` persists the prompt to `XDG_CONFIG_HOME/fish/functions`/fish_prompt.fish. That file takes precedence over Fisherman prompts that installs to `$fisher_config`/functions/. To use Fisherman prompts remove the `fish_promt.fish` inside `XDG_CONFIG_HOME/fish/functions/`.
 
 Assuming `XDG_CONFIG_HOME` is `~/.config` in your system:
 

@@ -1,11 +1,10 @@
 function fisher_search -d "Search Fisherman Index"
-    set -l index $fisher_cache/.index
-
     set -l select all
     set -l fields
     set -l join "||"
     set -l query
     set -l quiet 0
+    set -l index
 
     getopts $argv | while read -l 1 2 3
         switch "$1"
@@ -69,11 +68,14 @@ function fisher_search -d "Search Fisherman Index"
             case Q query
                 set query $query $2
 
+            case index
+                set index $2
+
             case q quiet
                 set quiet 1
 
             case h help
-                printf "usage: fisher search [<name | url>] [--select=<source>] [--field=<field>]\n"
+                printf "usage: fisher search [<name or url>] [--select=<source>] [--field=<field>]\n"
                 printf "                     [--or|--and] [--quiet] [--help]\n\n"
 
                 printf "    -s --select=<source>  Select all, cache or remote plugins       \n"
@@ -91,7 +93,7 @@ function fisher_search -d "Search Fisherman Index"
         end
     end
 
-    if not set -q fields[1]
+    if test -z "$fields[1]"
         set fields '$0'
     end
 
@@ -100,33 +102,88 @@ function fisher_search -d "Search Fisherman Index"
 
     switch "$select"
         case all
-            if not fisher_update --quiet --index
+            if test -z "$index"
+                set index $fisher_cache/.index
+
                 if test -s $fisher_index
                     set index $fisher_index
+                else
+                    fisher_update --quiet --index
                 end
             end
 
-            if not cat $index ^ /dev/null
+            if not test -s $index
                 printf "fisher: '%s' invalid path or url\n" $index >& 2
                 return 1
             end
 
+            set -l cache (fisher --cache=base)
+            awk -v FS='\n' -v RS='' -v cache_items="$cache" '
+
+            BEGIN {
+                split(cache_items, cache, " ")
+            }
+
+            /^ *#/ { next } {
+                for (i in cache) {
+                    if (cache[i] == $1) {
+                        delete cache[i]
+                    }
+                }
+            }
+
+            END {
+                for (i in cache) {
+                    printf("%s\n", cache[i])
+                }
+            }
+
+            ' $index | while read -l orphan
+                git -C $fisher_cache/$orphan ls-remote --get-url \
+                    | read -l url
+
+                printf "%s\n" $url \
+                    | sed -E '
+                        s|^https?://||
+                        s|^github\.com||
+                        s|^bitbucket.org|bb:|
+                        s|^gitlab.com|gl:|
+                        s|^/||' \
+                    | read -l info
+
+                git -C $fisher_cache/$orphan show -s --format='%ae;%an' (
+                    git -C $fisher_cache/$orphan rev-list --max-parents=0 HEAD) \
+                    | awk -v FS=';' '{ printf("%s\n", ($1 ? $1 : $2 ? $2 : "unknown")) }' \
+                    | read -l author
+
+                set -l tags orphan
+
+                for tag in theme plugin oh-my-fish config
+                    if printf "%s" "$url" | grep -q $tag
+                        switch "$tag"
+                            case oh-my-fish
+                                set tag omf
+                        end
+                        set tags $tag $tags
+                    end
+                end
+
+                printf "\n%s\n%s\n%s\n%s\n%s\n\n" "$orphan" "$url" "$info" "$tags" "$author"
+            end
+
+            cat $index
+
         case remote
-            fisher_search -a --name!=(
-                fisher_search --field=name --select=cache)
+            fisher_search --index=$index --and --name!=(fisher --cache=base)
 
         case cache
-            set -l names (for file in $fisher_cache/*
-                if test -d $file
-                    basename $file
-                end
-            end)
+            fisher --cache=base | read -laz cache
 
-            if test -z "$names"
+            if test -z "$cache"
                 return 1
             end
 
-            fisher_search --select=all --name=$names
+            fisher_search --index=$index --select=all --name=$cache
 
     end | awk -F'\n' -v RS='' -v OFS=';' (
         if test "$fields" = '$0'
@@ -164,10 +221,10 @@ function fisher_search -d "Search Fisherman Index"
     $query {
         print $fields
     }
-  " | sed '${/^$/d;}' | awk -v q=$quiet '
-      !/^ *$/ { ret = 1 }
-      !q { print }
-      q && !ret { exit !ret }
-      END { exit !ret }
+  " | sed '${/^$/d;}' | awk -v quiet=$quiet '
+      !/^ *$/ { notEmpty = 1 }
+      !quiet { print }
+      quiet && !notEmpty { exit !notEmpty }
+      END { exit !notEmpty }
   '
 end

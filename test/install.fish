@@ -1,66 +1,75 @@
-source $DIRNAME/helpers/create_mock_source.fish
+source $DIRNAME/helpers/fisher_mock_repos.fish
+source $DIRNAME/helpers/fisher_mock_index.fish
+source $DIRNAME/helpers/fisher_mock_config.fish
 
 set -l path $DIRNAME/$TESTNAME.test(random)
-set -l source $path/source
-set -l index $path/index
-set -l names foo bar
+set -l source $DIRNAME/fixtures/source
+set -l index $path/INDEX
+set -l names foo bar baz
 
 function -S setup
-    if not mkdir -p $path
-        return 1
-    end
+    mkdir -p $path
 
-    set -g fisher_config $path/config
-    set -g fisher_cache $fisher_config/cache
-    set -g fisher_index "file://$index"
+    fisher_mock_repos $source/*
+    fisher_mock_index $source $names > $index
+    fisher_mock_config $path $index
 
-    create_mock_source $source $names > $index
+    fisher install $names[1] file://$source/$names[2..3] -q
 end
 
 function -S teardown
     rm -rf $path
+    rm -rf $source/{$names}.git
+end
+
+test "install creates config directory if there is none"
+    -d $fisher_config
+end
+
+test "install creates cache directory if there is none"
+    -d $fisher_cache
+end
+
+test "adds installed plugins to fishfile"
+    (cat $fisher_config/fishfile | xargs) = "$names"
+end
+
+test "downloads plugin repos to cache"
+    (fisher --cache=base) = $names
+end
+
+test "download INDEX copy to the cache"
+    (cat $fisher_cache/.index) = (fisher_mock_index $source $names)
+end
+
+test "add completions/<plugin>.fish to completions directory"
+    (ls $fisher_config/completions) = {$names}.fish
 end
 
 for name in $names
-    test "install by name:<$name>" (
-        fisher install $name --quiet
-        ls $fisher_cache
-
-        ) = $name
+    test "add <plugin>.fish to functions/$name.fish directory"
+        -e $fisher_config/functions/$name.fish
     end
 
-    test "install by url:<file://$source/$name>" (
-        fisher install file://$source/$name --quiet
-        ls $fisher_cache
+    for file in $fisher_cache/$name/functions/*.fish
+        test "add functions/*.fish to functions/"(basename $file)
+            -e $fisher_config/functions/(basename $file)
+        end
+    end
 
-        ) = $name
+    test "add config files to conf.d"
+        -e $fisher_config/conf.d/$name.config.fish
+    end
+
+    test "add init files to conf.d as <name>.init.config"
+        -e $fisher_config/conf.d/$name.init.config.fish
+    end
+
+    test "add manual pages to config/man/"
+        -d $fisher_config/man
     end
 end
 
-test "install several"
-    (printf "%s\n" $names) = (
-
-    fisher install $names --quiet
-    ls $fisher_cache)
-end
-
-test "install from <stdin>"
-    (printf "%s\n" $names) = (
-
-    printf "%s\n" $names | fisher install --quiet
-    ls $fisher_cache)
-end
-
-test "install updates fishfile"
-    "$names" = (
-
-    fisher install $names --quiet
-    xargs < $fisher_config/fishfile)
-end
-
-test "fail install package by name"
-    "fisher: 'what' not found" = (
-
-    fisher install "what" ^&1
-    echo $status)
+test "install returns 1 if package can't be installed"
+    (fisher install -q -- "what"; echo $status) = 1
 end
