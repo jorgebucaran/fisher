@@ -4,8 +4,7 @@ fisher-update(1) -- Fisherman Update Manager
 ## SYNOPSIS
 
 fisher `update` [*name* or *url* ...] <br>
-fisher `update` [`--self`] [`--cache`] [`--quiet`] [`--help`] <br>
-fisher `update` [`--path`=*path*] <br>
+fisher `update` [`--me`] [`--quiet`] [`--help`] <br>
 
 ## USAGE
 
@@ -20,20 +19,20 @@ If a plugin is missing dependencies, they will be installed. If any dependencies
 
 ## OPTIONS
 
-* `-s` `--self`:
+* `-m` `--me`:
     Update Fisherman.
-
-* `-c` `--cache`:
-    Update all plugins in the cache. Updates plugins that are currently disabled and enables them.
-
-* `--path`=*path*:
-    Update repository at given path. The update mechanism is based in Git, via `git pull --rebase`.
 
 * `-q` `--quiet`:
     Enable quiet mode.
 
 * `-h` `--help`:
     Show usage help.
+
+## EXAMPLES
+
+* Update all plugins in the cache.
+
+fisher --cache=base | fisher update
 
 ## SEE ALSO
 

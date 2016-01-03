@@ -40,13 +40,13 @@ You can also customize the debug log path, cache location, index source url, com
 
 ## EXAMPLES
 
-Create aliases for fisher `install` to *i*, *in* and *inst*; and for fisher `update` to *up*.
+* Create aliases for fisher `install` to *i*, *in* and *inst*; and for fisher `update` to *up*.
 
 ```
 set fisher_alias install=i,in,inst update=up
 ```
 
-Set `$fisher_index` and `$fisher_default_host`.
+* Set `$fisher_index` and `$fisher_default_host`.
 
 ```
 set fisher_index https://raw.../owner/repo/master/index2.txt

@@ -1,4 +1,4 @@
-function fisher -d "Fish Shell Manager"
+function fisher -d "Fish plugin manager"
     if not set -q argv[1]
         fisher --help
         return 1
@@ -19,8 +19,12 @@ function fisher -d "Fish Shell Manager"
                 set option help
                 set value $value $2
 
-            case path-in-cache
-                set option path-in-cache
+            case cache
+                set option cache
+                set value $2
+
+            case translate
+                set option translate
                 set value $2
 
             case f file
@@ -78,22 +82,36 @@ function fisher -d "Fish Shell Manager"
                 set fisher_default_host https://github.com
             end
 
-            set -l id "[A-Za-z0-9_-]"
+            set -l id "[A-Za-z0-9_.-]"
 
             sed -En "
                 s#/\$##
                 s#\.git\$##
                 s#^(https?):*/* *(.*\$)#\1://\2#p
-                s#^(@|(gh:)|(github(.com)?[/:]))/?($id+)/($id+)\$#https://github.com/\5/\6#p
-                s#^(bb:)/?($id+)/($id+)\$#https://bitbucket.org/\2/\3#p
-                s#^(gl:)/?($id+)/($id+)\$#https://gitlab.com/\2/\3#p
+                s#^(@|(gh[:/])|(github(.com)?[/:]))/?($id+)/($id+)\$#https://github.com/\5/\6#p
+                s#^(bb[:/])/*($id+)/($id+)\$#https://bitbucket.org/\2/\3#p
+                s#^(gl[:/])/*($id+)/($id+)\$#https://gitlab.com/\2/\3#p
+                s#^(omf[:/])/*($id+)\$#https://github.com/oh-my-fish/\2#p
                 s#^($id+)/($id+)\$#$fisher_default_host/\1/\2#p
                 /^file:\/\/\/.*/p
                 /^[a-z]+([._-]?[a-z0-9]+)*\$/p
                 " | grep $quiet
 
-        case path-in-cache
-            while read --prompt= -l item
+        case cache
+            for file in $fisher_cache/*
+                if test -d $file
+                    switch "$value"
+                        case base
+                            basename $file
+
+                        case \*
+                            printf "%s\n" $file
+                    end
+                end
+            end
+
+        case translate
+            while read --prompt="" -l item
                 switch "$item"
                     case \*/\*
                         for file in $fisher_cache/*
