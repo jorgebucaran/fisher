@@ -10,7 +10,7 @@
 fisher \fBuninstall\fR [\fIname\fR or \fIurl\fR \.\.\.]
 .
 .br
-fisher \fBuninstall\fR [\fB\-\-all\fR] [\fB\-\-force\fR] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
+fisher \fBuninstall\fR [\fB\-\-force\fR] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
 .
 .br
 .
@@ -29,13 +29,9 @@ Uninstall one or \fImore\fR plugins by \fIname\fR, searching \fB$fisher_index\fR
 Uninstall does not remove any copies of the given plugin in \fB$fisher_cache\fR\. To erase the copy from the cache, use the \fB\-\-force\fR option\.
 .
 .P
-Uninstall does not remove dependencies installed along with other plugins\. This behavior prevents breaking plugins that share the same dependency\. See \fBfisher\fR(7){\fBFlat Tree\fR}\.
+Uninstall does not remove any dependencies installed with other plugins\. This behavior prevents breaking plugins that share the same dependency\. See \fBfisher\fR(7){\fBFlat Tree\fR}\.
 .
 .SH "OPTIONS"
-.
-.TP
-\fB\-a\fR \fB\-\-all\fR
-Uninstall all plugins\.
 .
 .TP
 \fB\-f\fR \fB\-\-force\fR
@@ -50,13 +46,17 @@ Enable quiet mode\.
 Show usage help\.
 .
 .SH "EXAMPLES"
-Uninstall all installed plugins and flushing the cache as well\.
+.
+.IP "\(bu" 4
+Uninstall all plugins and flush the cache\.
+.
+.IP "" 0
 .
 .IP "" 4
 .
 .nf
 
-fisher uninstall \-\-all \-\-force
+fisher \-\-cache=base | fisher uninstall \-\-force
 .
 .fi
 .

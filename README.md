@@ -10,11 +10,13 @@
 
 ## About
 
-Fisherman is a shell manager for [fish][fish] that lets you share and reuse code, prompts and configurations easily.
+Fisherman is a plugin manager for [fish][fish] that lets you share and reuse code, prompts and configurations easily.
 
-Features include a flat tree structure, unified plugin architecture, external self-managed database, cache system, plugin dependencies and compatibility with Oh My Fish!
+Features include a flat tree structure, external self-managed database, cache system, plugin dependencies and compatibility with Oh My Fish! packages.
 
-See [FAQ][faq].
++ See [FAQ][faq].
++ See [Screencasts][screencasts].
+
 
 ## Install
 
@@ -22,6 +24,7 @@ See [FAQ][faq].
 git clone https://github.com/fisherman/fisherman
 cd fisherman
 make
+fisher help
 ```
 
 ## Contributing
@@ -30,7 +33,10 @@ Check out the [contribution](CONTRIBUTING.md) guidelines.
 
 ## Help
 
-See [`fisherman(1)`][fisherman-1] and [`fisherman(7)`][fisherman-7] for usage and documentation. For support and feedback join the [Gitter room][wharf] or browse the [issues][issues].
+See [`fisherman(1)`][fisherman-1] and [`fisherman(7)`][fisherman-7] for usage and documentation. For support and feedback join the Gitter [room][wharf] or browse the [issues][issues].
+
+
+:anchor:
 
 
 <!-- Links -->
@@ -39,6 +45,7 @@ See [`fisherman(1)`][fisherman-1] and [`fisherman(7)`][fisherman-7] for usage an
 [faq]:               https://github.com/fisherman/fisherman/wiki/FAQ
 [issues]:            http://github.com/fisherman/fisherman/issues
 [wharf]:             https://gitter.im/fisherman/wharf
+[screencasts]:       https://github.com/fisherman/fisherman/wiki/Screencasts
 [fisherman-1]:       man/man1/fisher.md
 [fisherman-7]:       man/man7/fisher.md
 [travis-link]:       https://travis-ci.org/fisherman/fisherman

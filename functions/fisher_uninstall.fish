@@ -18,10 +18,8 @@ function fisher_uninstall -d "Disable / Uninstall Plugins"
                 set error /dev/null
 
             case help h
-                printf "usage: fisher uninstall [<name | url> ...] [--all] [--force] [--quiet]\n"
-                printf "                        [--help]\n\n"
+                printf "usage: fisher uninstall [<name or url> ...] [--force] [--quiet] [--help]\n\n"
 
-                printf "      -a --all  Uninstall all plugins  \n"
                 printf "    -f --force  Delete copy from cache \n"
                 printf "    -q --quiet  Enable quiet mode      \n"
                 printf "     -h --help  Show usage help        \n"
@@ -38,21 +36,12 @@ function fisher_uninstall -d "Disable / Uninstall Plugins"
     set -l duration (date +%s)
     set -l total (count $items)
 
-    switch all
-        case $option
-            set -l cache (find $fisher_cache/* -maxdepth 0 -type d)
-            set total (count $cache)
-            printf "%s\n" $cache
+    if set -q items[1]
+        printf "%s\n" $items
+    else
+        fisher --file=-
 
-        case \*
-            if set -q items[1]
-                printf "%s\n" $items
-            else
-                fisher --file=-
-
-            end | fisher --validate | fisher --path-in-cache
-
-    end | while read -l path
+    end | fisher --validate | fisher --translate | while read -l path
 
         if not test -d "$path"
             printf "fisher: '%s' not found\n" $path > $error
@@ -73,17 +62,22 @@ function fisher_uninstall -d "Disable / Uninstall Plugins"
 
         set count (math $count + 1)
 
-        functions -e $name
-
         for file in $path/{*,functions{/*,/**/*}}.fish
             set -l base (basename $file)
 
             switch $base
+                case {$name,fish_{,right_}prompt}.fish
+                    functions -e (basename $base .fish)
+
+                    if test "$base" = fish_prompt.fish
+                        source $__fish_datadir/functions/fish_prompt.fish ^ /dev/null
+                    end
+
                 case {init,before.init,uninstall}.fish
-                    set base $name.$base
+                    set base $name.(basename $base .fish).config.fish
             end
 
-            rm -f $fisher_config/functions/$base
+            rm -f $file $fisher_config/{functions,conf.d}/$base
         end
 
         for file in $path/completions/*.fish
@@ -111,7 +105,7 @@ function fisher_uninstall -d "Disable / Uninstall Plugins"
             continue
         end
 
-        set -l tmp (mktemp)
+        set -l tmp (mktemp -t fisher.XXX)
 
         if not sed -E '/^ *'(printf "%s|%s" $name $url | sed 's|/|\\\/|g'
         )'([ #].*)*$/d' < $file > $tmp

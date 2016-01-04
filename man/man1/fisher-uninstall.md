@@ -4,7 +4,7 @@ fisher-uninstall(1) -- Disable / Uninstall Plugins
 ## SYNOPSIS
 
 fisher `uninstall` [*name* or *url* ...] <br>
-fisher `uninstall` [`--all`] [`--force`] [`--quiet`] [`--help`] <br>
+fisher `uninstall` [`--force`] [`--quiet`] [`--help`] <br>
 
 ## USAGE
 
@@ -17,12 +17,9 @@ Uninstall one or *more* plugins by *name*, searching `$fisher_index` or by *url*
 
 Uninstall does not remove any copies of the given plugin in `$fisher_cache`. To erase the copy from the cache, use the `--force` option.
 
-Uninstall does not remove dependencies installed along with other plugins. This behavior prevents breaking plugins that share the same dependency. See `fisher`(7){`Flat Tree`}.
+Uninstall does not remove any dependencies installed with other plugins. This behavior prevents breaking plugins that share the same dependency. See `fisher`(7){`Flat Tree`}.
 
 ## OPTIONS
-
-* `-a` `--all`:
-    Uninstall all plugins.
 
 * `-f` `--force`:
     Delete copy from cache.
@@ -33,13 +30,12 @@ Uninstall does not remove dependencies installed along with other plugins. This 
 * `-h` `--help`:
     Show usage help.
 
-
 ## EXAMPLES
 
-Uninstall all installed plugins and flushing the cache as well.
+* Uninstall all plugins and flush the cache.
 
 ```
-fisher uninstall --all --force
+fisher --cache=base | fisher uninstall --force
 ```
 
 ## SEE ALSO
