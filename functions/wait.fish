@@ -90,7 +90,7 @@ function wait -d "Run commands and wait with a spin"
             end
     end
 
-    set -l tmp (mktemp)
+    set -l tmp (mktemp -t wait.XXX)
 
     fish -c "$commands" ^ $tmp &
 

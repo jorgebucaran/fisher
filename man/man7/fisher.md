@@ -3,11 +3,11 @@ fisher(7) -- An Introduction to Fisherman
 
 ## DESCRIPTION
 
-Fisherman is a shell manager for `fish`(1) that lets you share and reuse code, prompts and configurations easily.
+Fisherman is a plugin manager for `fish`(1) that lets you share and reuse code, prompts and configurations easily.
 
 Some features include: minimalistic design, flat tree structure, unified plugin architecture, external self-managed database, cache system, dependency manifest file and compatibility with Oh My Fish! and other frameworks.
 
-This document describes Fisherman main features and their implementation details. For usage and command help see `fisher`(1).
+This document describes Fisherman features and some of their implementation details. For usage and command help see also `fisher`(1).
 
 ## FLAT TREE
 
@@ -43,6 +43,8 @@ Here is a snapshot of a typical configuration path with a single plugin and prom
 
     $fisher_config
     |-- cache/
+    |-- conf.d/
+    |-- |-- my_plugin.config.fish
     |-- functions/
     |   |-- my_plugin.fish
     |   |-- fish_prompt.fish
@@ -54,6 +56,8 @@ Here is a snapshot of a typical configuration path with a single plugin and prom
             |-- my_plugin.1
 
 If you are already familiar in the way fish handles your user configuration, you will find the above structure similar to `$XDG_CONFIG_HOME/fish`. See `help fish`#{`Initialization Files`} to learn more about fish configuration.
+
+`conf.d`, short for configuration directory, is used for initialization files, i.e., files that should run at the start of the shell. Files that follow the naming convention *name*.config.fish are added there.
 
 ### PLUGINS
 
@@ -84,8 +88,9 @@ Shortcuts for other common Git repository hosting services are also available:
 
 * `bb:`/owner/repo `->` https://bitbucket.org/owner/repo<br>
 * `gl:`/owner/repo `->` https://gitlab.com/owner/repo<br>
+* `omf:`/owner/repo `->` https://github.com/oh-my-fish/repo<br>
 
-A flat tree model means there is no technical distinction between plugins or prompts. Installing a prompt is equivalent to switching themes in other systems. The interface is always *install*, *update* or *uninstall*.
+Because of Fisherman's flat tree model, there is no technical distinction between plugins or prompts. Installing a prompt is equivalent to switching themes in other systems. The interface is always *install*, *update* or *uninstall*.
 
 Throughout this document and other Fisherman manuals you will find the term prompt when referring to the *concept* of a theme, i.e., a plugin that defines a `fish_prompt` and / or `fish_right_prompt` functions.
 
@@ -155,6 +160,7 @@ github/bucaran/shark
 The fishfile updates as you install / uninstall plugins. See also `fisher help install` or `fisher help uninstall`.
 
 Plugins may list any number of dependencies to other plugins in a fishfile at the root of each project. By default, when Fisherman installs a plugin, it will also fetch and install its dependencies. If a dependency is already installed, it will not be updated as this could potentially break other plugins using an older version. For the same reasons, uninstalling a plugin does not remove its dependencies. See `fisher help update`.
+
 
 ### CONFIGURATION
 

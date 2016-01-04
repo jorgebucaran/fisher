@@ -10,10 +10,7 @@
 fisher \fBupdate\fR [\fIname\fR or \fIurl\fR \.\.\.]
 .
 .br
-fisher \fBupdate\fR [\fB\-\-self\fR] [\fB\-\-cache\fR] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
-.
-.br
-fisher \fBupdate\fR [\fB\-\-path\fR=\fIpath\fR]
+fisher \fBupdate\fR [\fB\-\-me\fR] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
 .
 .br
 .
@@ -34,16 +31,8 @@ If a plugin is missing dependencies, they will be installed\. If any dependencie
 .SH "OPTIONS"
 .
 .TP
-\fB\-s\fR \fB\-\-self\fR
+\fB\-m\fR \fB\-\-me\fR
 Update Fisherman\.
-.
-.TP
-\fB\-c\fR \fB\-\-cache\fR
-Update all plugins in the cache\. Updates plugins that are currently disabled and enables them\.
-.
-.TP
-\fB\-\-path\fR=\fIpath\fR
-Update repository at given path\. The update mechanism is based in Git, via \fBgit pull \-\-rebase\fR\.
 .
 .TP
 \fB\-q\fR \fB\-\-quiet\fR
@@ -52,6 +41,16 @@ Enable quiet mode\.
 .TP
 \fB\-h\fR \fB\-\-help\fR
 Show usage help\.
+.
+.SH "EXAMPLES"
+.
+.IP "\(bu" 4
+Update all plugins in the cache\.
+.
+.IP "" 0
+.
+.P
+fisher \-\-cache=base | fisher update
 .
 .SH "SEE ALSO"
 \fBfisher\fR(1)
