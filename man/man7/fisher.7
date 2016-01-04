@@ -7,13 +7,13 @@
 \fBfisher\fR \- An Introduction to Fisherman
 .
 .SH "DESCRIPTION"
-Fisherman is a shell manager for \fBfish\fR(1) that lets you share and reuse code, prompts and configurations easily\.
+Fisherman is a plugin manager for \fBfish\fR(1) that lets you share and reuse code, prompts and configurations easily\.
 .
 .P
 Some features include: minimalistic design, flat tree structure, unified plugin architecture, external self\-managed database, cache system, dependency manifest file and compatibility with Oh My Fish! and other frameworks\.
 .
 .P
-This document describes Fisherman main features and their implementation details\. For usage and command help see \fBfisher\fR(1)\.
+This document describes Fisherman features and some of their implementation details\. For usage and command help see also \fBfisher\fR(1)\.
 .
 .SH "FLAT TREE"
 The configuration directory structure is optimized to help fish start new sessions as quickly as possible, regardless of the numbers of plugins or prompts enabled at any given time\.
@@ -66,6 +66,8 @@ Here is a snapshot of a typical configuration path with a single plugin and prom
 
 $fisher_config
 |\-\- cache/
+|\-\- conf\.d/
+|\-\- |\-\- my_plugin\.config\.fish
 |\-\- functions/
 |   |\-\- my_plugin\.fish
 |   |\-\- fish_prompt\.fish
@@ -82,6 +84,9 @@ $fisher_config
 .
 .P
 If you are already familiar in the way fish handles your user configuration, you will find the above structure similar to \fB$XDG_CONFIG_HOME/fish\fR\. See \fBhelp fish\fR#{\fBInitialization Files\fR} to learn more about fish configuration\.
+.
+.P
+\fBconf\.d\fR, short for configuration directory, is used for initialization files, i\.e\., files that should run at the start of the shell\. Files that follow the naming convention \fIname\fR\.config\.fish are added there\.
 .
 .SS "PLUGINS"
 Plugins are components that extend and add features to your shell\. To see what plugins are available use \fBfisher search\fR\. You can also type \fBfisher install\fR and hit \fItab\fR once to get full name completions and plugin information\. The same works for \fBfisher update\fR and \fBfisher uninstall\fR\.
@@ -150,10 +155,16 @@ Shortcuts for other common Git repository hosting services are also available:
 .br
 
 .
+.IP "\(bu" 4
+\fBomf:\fR/owner/repo \fB\->\fR https://github\.com/oh\-my\-fish/repo
+.
+.br
+
+.
 .IP "" 0
 .
 .P
-A flat tree model means there is no technical distinction between plugins or prompts\. Installing a prompt is equivalent to switching themes in other systems\. The interface is always \fIinstall\fR, \fIupdate\fR or \fIuninstall\fR\.
+Because of Fisherman\'s flat tree model, there is no technical distinction between plugins or prompts\. Installing a prompt is equivalent to switching themes in other systems\. The interface is always \fIinstall\fR, \fIupdate\fR or \fIuninstall\fR\.
 .
 .P
 Throughout this document and other Fisherman manuals you will find the term prompt when referring to the \fIconcept\fR of a theme, i\.e\., a plugin that defines a \fBfish_prompt\fR and / or \fBfish_right_prompt\fR functions\.

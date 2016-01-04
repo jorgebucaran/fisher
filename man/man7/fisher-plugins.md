@@ -100,7 +100,7 @@ end
     ^C
     ```
 
-* Commit changes and push to remote repository.
+* Commit changes and push to the remote repository.
 
     `git` add --all<br>
     `git` commit -m "What the commit? 1.0"<br>

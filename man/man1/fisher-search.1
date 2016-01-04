@@ -71,19 +71,19 @@ See #{\fBOutput\fR} for more information\.
 .
 .TP
 \fB\-s\fR \fB\-\-select\fR[=\fIall\fR|\fIcache\fR|\fIremote\fR]
-Select record set\. \-\-select=\fIcache\fR queries only local plugins, i\.e\., those inside \fB$fisher_cache\fR\. \-\-select=\fIremote\fR queries all plugins not in the cache\. \-\-select=\fIall\fR queries everything\.
+Select the record source\. \-\-select=\fIcache\fR queries only local plugins, i\.e\., those inside \fB$fisher_cache\fR\. \-\-select=\fIremote\fR queries all plugins not in the cache, i\.e, those available to install\. \-\-select=\fIall\fR queries everything\.
 .
 .TP
 \fB\-f\fR \fB\-\-field\fR=\fIname\fR|\fIurl\fR|\fIinfo\fR|\fItag\fR|\fIauthor\fR
-Display only given fields from the result record set\. Use \fB\-\-select\fR to filter the record set\. Use \-\-\fIfield\fR instead as a shortcut, i\.e\., \fB\-\-name\fR is equivalent to \fB\-\-field\fR=name\.
+Display only the given fields from the selected records\. Use \-\-\fIfield\fR instead as a shortcut for \fB\-\-field\fR=name\.
 .
 .TP
 \-\-\fIfield\fR[=\fImatch\fR]
-Filter the result set by \fIfield\fR=\fImatch\fR, where \fIfield\fR can be any of \fBname\fR, \fBurl\fR, \fBinfo\fR, \fBtag\fR or \fBauthor\fR\. If \fImatch\fR is not given, this is equivalent to \fB\-\-select\fR=\fIfield\fR\. Use \fB!=\fR to negate the query\.
+Filter the result set by \fIfield\fR=\fImatch\fR, where \fIfield\fR can be one or more of \fBname\fR, \fBurl\fR, \fBinfo\fR, \fBtag\fR or \fBauthor\fR\. If \fImatch\fR is not given, this is equivalent to \fB\-\-select\fR=\fIfield\fR\. Use \fB!=\fR to negate the query\.
 .
 .TP
 \-\-\fIfield\fR[~\fB/\fR\fIregex\fR\fB/\fR]
-Essentially the same as \-\-\fIfield\fR=\fImatch\fR, but with Regular Expression support\. \-\-\fIfield\fR~\fB/\fR\fIregex\fR\fB/\fR filters the result set using the given \fB/\fR\fIregex\fR\fB/\fR\. For example, \-\-name=\fB/\fR^\fImatch\fR$\fB/\fR is essentially the same as \-\-\fIfield\fR=\fImatch\fR and \-\-url~\fB/\fRoh\-my\-fish\fB/\fR selects only Oh My Fish! plugins\. Use \fB!~\fR to negate the query\.
+Essentially the same as \-\-\fIfield\fR=\fImatch\fR, but with Regular Expression support\. \-\-\fIfield\fR~\fB/\fR\fIregex\fR\fB/\fR filters the result set using the given \fB/\fR\fIregex\fR\fB/\fR\. For example, \-\-name=\fB/\fR^\fImatch\fR$\fB/\fR is the same as \-\-\fIfield\fR=\fImatch\fR and \-\-url~\fB/\fRoh\-my\-fish\fB/\fR selects only Oh My Fish! plugins\. Use \fB!~\fR to negate the query\.
 .
 .TP
 \fB\-a\fR \fB\-\-and\fR
@@ -112,7 +112,7 @@ The default behavior is to print the result set to standard output in its origin
 .
 .nf
 
-fisher search bobthefish shark
+fisher search shark
 .
 .fi
 .
@@ -124,12 +124,6 @@ fisher search bobthefish shark
 .IP "" 4
 .
 .nf
-
-bobthefish
-https://github\.com/oh\-my\-fish/theme\-bobthefish
-A Powerline\-style, Git\-aware fish theme optimized for awesome
-theme powerline awesome
-bobthecow
 
 shark
 https://github\.com/bucaran/shark
@@ -148,7 +142,7 @@ Search is optimized for parsing when using filters: \fB\-\-name\fR, \fB\-\-url\f
 .
 .nf
 
-fisher search bobthefish shark \-\-name \-\-url
+fisher search shark \-\-name \-\-url
 .
 .fi
 .
@@ -161,7 +155,6 @@ fisher search bobthefish shark \-\-name \-\-url
 .
 .nf
 
-bobthefish;https://github\.com/oh\-my\-fish/theme\-bobthefish
 shark;https://github\.com/bucaran/shark
 .
 .fi
@@ -172,7 +165,11 @@ shark;https://github\.com/bucaran/shark
 The result set above consists of single line \fB\'\en\'\fR separated records where each record consists of one or more of the given fields separated by a semicolon \fB\';\'\fR\.
 .
 .SH "EXAMPLES"
+.
+.IP "\(bu" 4
 Display all plugins by name and format into multiple columns\.
+.
+.IP "" 0
 .
 .IP "" 4
 .
@@ -184,8 +181,10 @@ fisher search \-\-name | column
 .
 .IP "" 0
 .
-.P
+.IP "\(bu" 4
 Display all plugins by url, sans \fIhttps://github\.com/\fR and format into multiple columns\.
+.
+.IP "" 0
 .
 .IP "" 4
 .
@@ -197,8 +196,10 @@ fisher search \-\-field=url \-\-select=all | sed \'s|https://github\.com/||\' | 
 .
 .IP "" 0
 .
-.P
+.IP "\(bu" 4
 Display all remote plugins by name tagged as \fIa\fR or \fIb\fR\.
+.
+.IP "" 0
 .
 .IP "" 4
 .
@@ -210,8 +211,10 @@ fisher search \-\-select=remote \-\-name \-\-tag=github \-\-or \-\-tag=tool
 .
 .IP "" 0
 .
-.P
+.IP "\(bu" 4
 Search plugins from a list of one or more urls and / or names and display their authors\.
+.
+.IP "" 0
 .
 .IP "" 4
 .
@@ -223,8 +226,10 @@ fisher search $urls $names \-\-url
 .
 .IP "" 0
 .
-.P
+.IP "\(bu" 4
 Search all plugins in the cache whose name does not start with the letter \fBs\fR\.
+.
+.IP "" 0
 .
 .IP "" 4
 .

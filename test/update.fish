@@ -1,64 +1,53 @@
-source $DIRNAME/helpers/create_mock_source.fish
+source $DIRNAME/helpers/fisher_mock_repos.fish
+source $DIRNAME/helpers/fisher_mock_index.fish
+source $DIRNAME/helpers/fisher_mock_config.fish
 
 set -l path $DIRNAME/$TESTNAME.test(random)
-set -l source $path/source
-set -l index $path/index
-set -l names foo
-set -l extra norf
+set -l source $DIRNAME/fixtures/source
+set -l source2 $path/source
+set -l index $path/INDEX
+set -l names foo bar baz
+set -l names2 norf
 
 function -S setup
-    if not mkdir -p $path
-        return 1
+    mkdir -p $path
+
+    fisher_mock_repos $source/*
+    fisher_mock_index $source $names > $index
+    fisher_mock_config $path $index
+
+    fisher install $names -q
+
+    mkdir -p $source2
+
+    cp -rf $source $path
+
+    for name in $names
+        set -l file $source2/$name/$name.fish
+        sed "s/echo $name/echo $name v2/" $file > $file.tmp
+        mv $file.tmp $file
+
+        fisher_mock_repos $source2/$name
+
+        git -C $fisher_cache/$name remote rm origin
+        git -C $fisher_cache/$name remote add origin file://$source2/$name
     end
 
-    set -g fisher_config $path/config
-    set -g fisher_cache $fisher_config/cache
-    set -g fisher_index "file://$index"
-
-    create_mock_source $source $names > $index
-    fisher install $names --quiet
-
-    # Updates the source repos duplicating the original content.
-    # See helpers/create_mock_source.fish
-
-    create_mock_source $source $names $extra > $index
+    fisher_mock_index $source $names $names2 > $index
 end
 
 function -S teardown
     rm -rf $path
+    rm -rf $source/{$names}/.git
 end
 
 for name in $names
-    test "update <$name> package copy in cache"
-        (functions $name $name | xargs) = (
-
-        fisher update $name --quiet
-        fish_indent < $fisher_cache/$name/$name.fish | xargs)
-    end
-
-    test "install <$name> if update is successful"
-        (functions $name $name | xargs) = (
-
-        fisher update $name --quiet
-        fish_indent < $fisher_config/functions/$name.fish | xargs)
+    test "update <$name> in cache" (
+        fisher update $name -q
+        eval $name) = "$name v2"
     end
 end
 
-test "update packages via <stdin>"
-    (functions $names $names | xargs) = (
-
-    printf "%s\n" $names | fisher update --quiet
-    cat $fisher_config/functions/{$names}.fish | fish_indent | xargs)
-end
-
-test "update cache"
-    (functions $names $names | xargs) = (
-
-    fisher update --cache --quiet
-    cat $fisher_config/functions/{$names}.fish | fish_indent | xargs)
-end
-
-test "update index with --index using contents in \$fisher_index" (
-    fisher update --index --quiet
-    awk -F'\n' -v RS='' '{ print $1 }' $fisher_cache/.index) = $names $extra
+test "update index"
+    (fisher update --index; cat $fisher_config/cache/.index) = (cat $index)
 end

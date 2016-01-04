@@ -48,7 +48,7 @@ There are utilities that can help you generate man pages from other text formats
 
 ## EXAMPLES
 
-Display usage help for all Fisherman commands.
+* Display usage help for all Fisherman commands.
 
 ```
 fisher help --commands=bare | fisher help --usage

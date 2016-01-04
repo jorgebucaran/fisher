@@ -15,16 +15,16 @@ Here is an example:
 
 ```
 # my plugins
-gitio
+shark
 fishtape
 
 # other links
 oh-my-fish/bobthefish
 ```
 
-To read fishfiles use `fisher --file`=*fishfile*. This utility reads fishfiles sequentially, writing them to  standard output. Oh My Fish! bundle files are supported too.
+To read fishfiles use `fisher --file`=*fishfile*. This will read *fishfile* sequentially, writing its contents to the standard output. Oh My Fish! bundle files are supported as well.
 
-If *fishfile* is null or an empty string, the global *fishfile* in `$fisher_config`/fishfile is used instead. Use a dash `-` to force read from standard input.
+If *fishfile* is null or an empty string, the global *fishfile* in `$fisher_config`/fishfile will be used. Use a dash `-` to force read from standard input.
 
 ## PLUGINS
 
