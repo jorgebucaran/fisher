@@ -50,4 +50,4 @@ See [`fisherman(1)`][fisherman-1] and [`fisherman(7)`][fisherman-7] for usage an
 [fisherman-7]:       man/man7/fisher.md
 [travis-link]:       https://travis-ci.org/fisherman/fisherman
 [travis-badge]:      https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
-[fisherman-version]: https://img.shields.io/badge/fisherman-v0.1.0-00B9FF.svg?style=flat-square
+[fisherman-version]: https://img.shields.io/badge/fisherman-v0.2.0-00B9FF.svg?style=flat-square
