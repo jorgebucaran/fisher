@@ -68,14 +68,14 @@ end
 ^C
 ```
 
-* Add completions. *wtc* is simple enough that you could get away without `__fish_parse_usage`, but more complex utilities, or utilities whose CLI evolves over time, can benefit using automatic completion generation. Note that in order to use `__fish_parse_usage`, your command must provide a `--help` option that prints usage information to standard output.
+* Add completions. *wtc* is simple enough that you could get away without `__fisher_complete`, but more complex utilities, or utilities whose CLI evolves over time, can benefit using automatic completion generation. Note that in order to use `__fisher_complete`, your command must provide a `--help` option that prints usage information to standard output.
 
     `mkdir` completions<br>
     `cat` > completions/wtc.fish
 
 ```
 set -l IFS ";"
-wtc --help | __fish_parse_usage | while read -l info long short
+wtc --help | __fisher_complete | while read -l info long short
     complete -c wtc -s "$short" -l "$long" -d "$info"
 end
 ^C
