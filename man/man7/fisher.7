@@ -10,7 +10,7 @@
 Fisherman is a plugin manager for \fBfish\fR(1) that lets you share and reuse code, prompts and configurations easily\.
 .
 .P
-Some features include: minimalistic design, flat tree structure, unified plugin architecture, external self\-managed database, cache system, dependency manifest file and compatibility with Oh My Fish! and other frameworks\.
+Some features include: minimalistic design, flat tree structure, unified plugin architecture, external self\-managed database, cache system, dependency manifest file and compatibility with oh-my-fish and other frameworks\.
 .
 .P
 This document describes Fisherman features and some of their implementation details\. For usage and command help see also \fBfisher\fR(1)\.
@@ -291,16 +291,16 @@ Most commands read the standard input by default when no options are given and p
 Fisherman also ships with a CLI options parser and a background job wait spinner that you can use to implement your own commands CLI\. See \fBgetopts\fR(1) and \fBwait\fR(1)\.
 .
 .SH "COMPATIBILITY"
-Fisherman supports Oh My Fish! (Wahoo) themes and plugins by default, but some features are turned off due to performance considerations\.
+Fisherman supports oh-my-fish (Wahoo) themes and plugins by default, but some features are turned off due to performance considerations\.
 .
 .P
-Oh My Fish! evaluates every \fI\.fish\fR file inside the root directory of every plugin during initialization\. This is necessary in order to register any existing \fBinit\fR events and invoke them using fish \fBemit\fR(1)\.
+oh-my-fish evaluates every \fI\.fish\fR file inside the root directory of every plugin during initialization\. This is necessary in order to register any existing \fBinit\fR events and invoke them using fish \fBemit\fR(1)\.
 .
 .P
-Since it is not possible to determine whether a file defines an initialization event without evaluating its contents first, Oh My Fish! sources all \fI\.fish\fR files and then emits events for each plugin\.
+Since it is not possible to determine whether a file defines an initialization event without evaluating its contents first, oh-my-fish sources all \fI\.fish\fR files and then emits events for each plugin\.
 .
 .P
-Not all plugins opt in the initialization mechanism, therefore support for this behavior is turned off by default\. If you would like Fisherman to behave like Oh My Fish! at the start of each session, install the \fBomf\fR compatibility plugin\.
+Not all plugins opt in the initialization mechanism, therefore support for this behavior is turned off by default\. If you would like Fisherman to behave like oh-my-fish at the start of each session, install the \fBomf\fR compatibility plugin\.
 .
 .IP "" 4
 .
@@ -313,7 +313,7 @@ fisher install omf
 .IP "" 0
 .
 .P
-This plugin also adds definitions for some of Oh My Fish! Core Library functions\.
+This plugin also adds definitions for some of oh-my-fish Core Library functions\.
 .
 .SH "SEE ALSO"
 \fBfisher\fR(1)

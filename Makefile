@@ -13,6 +13,8 @@ MAN5 := $(wildcard $(MAN)/man5/*.md)
 MAN7 := $(wildcard $(MAN)/man7/*.md)
 DOCS := $(MAN1:%.md=%.1) $(MAN5:%.md=%.5) $(MAN7:%.md=%.7)
 
+INDEX := $(FISHER_CACHE)/.index
+
 AUTHORS = $(FISHER_HOME)/AUTHORS.md
 VERSION = `cat $(FISHER_HOME)/VERSION`
 
@@ -22,7 +24,12 @@ TILDEIFY = sed "s|$$HOME|~|"
 .PHONY: all test flush uninstall release
 
 all: $(FISH_CONFIG) $(FISHER_CACHE) $(AUTHORS) $(DOCS)
-	@$(call MSG,"Reset your shell to apply changes")
+	@if [ ! -s $(INDEX) ]; then\
+		echo "Downloading the index for the first time...";\
+		fish -c "fisher_update --index";\
+	fi
+	@$(call MSG,"Reset your shell and type 'fisher <command>' to use Fisherman.")
+	@fish -c "fisher -h" | sed -n '5,$$p'
 
 test:
 	@fish -c "fishtape test/*.fish"
@@ -35,7 +42,7 @@ uninstall:
 	@sed -E '/set (fisher_home|fisher_config) /d;/source \$$fisher_home/d' \
 		$(FISH_CONFIG) > $(FISH_CONFIG).tmp
 	@mv $(FISH_CONFIG).tmp $(FISH_CONFIG)
-	@$(call MSG,"Reset your shell to apply changes")
+	@$(call MSG,"Reset your shell to apply changes.")
 
 release: $(FISHER_HOME)
 	@if [ "`git -C $^ status --short --porcelain | xargs`" = "M VERSION" ]; then\
@@ -56,7 +63,7 @@ $(FISH_CONFIG):
 	@echo "set fisher_home $(FISHER_HOME)" | sed "s|/$$||;s|$$HOME|~|" > $@.fisher
 	@echo "set fisher_config $(FISHER_CONFIG)" | sed "s|$$HOME|~|" >> $@.fisher
 	@echo "source \$$fisher_home/config.fish" >> $@.fisher
-	@awk '!config[$$0]++ || /^$$/' $@.fisher $@ > $@.tmp
+	@awk 'FNR==NR{ print; a[$$0]; next } !($$0 in a) || /^$$/' $@.fisher $@ > $@.tmp
 	@mv $@.tmp $@ && rm $@.fisher
 
 $(FISHER_CACHE):
@@ -69,4 +76,5 @@ $(AUTHORS): $(FISHER_HOME)
 		sed -E 's/([^<>]+)<([^<>]*)>/* \1 \&lt;[\2](mailto:\2)\&gt;/' >> $@
 
 %.1 %.5 %.7: %.md
-	@ronn --manual=fisherman --roff $? 2>&1 | sed 's/^ *roff: *//;s|//|/|g'
+	@echo "Creating the documentation..."
+	-@ronn --manual=fisherman --roff $? 1>&2 2> /dev/null 

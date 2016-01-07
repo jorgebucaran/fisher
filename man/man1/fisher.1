@@ -10,15 +10,16 @@
 \fBfisher\fR \fIcommand\fR [\fIoptions\fR] [\fB\-\-version\fR] [\fB\-\-help\fR]
 .
 .br
+\fBfisher\fR \fB\-\-list\fR
+.
+.br
+\fBfisher\fR \fB\-\-alias\fR[=\fIcommand\fR=[\fIalias\fR[,\.\.\.]]]
+.
+.br
 \fBfisher\fR \fB\-\-file\fR=\fIfishfile\fR
 .
 .br
-\fBfisher\fR \fB\-\-validate\fR=\fIname\fR or \fIurl\fR
-.
-.br
-\fBfisher\fR \fB\-\-cache\fR[=\fIpath\fR]
-.
-.br
+\fBfisher\fR \fB\-\-validate\fR
 .
 .SH "DESCRIPTION"
 Fisherman is a plugin manager for \fBfish\fR(1) that lets you share and reuse code, prompts and configurations easily\.
@@ -28,33 +29,37 @@ The following commands are available: \fIinstall\fR, \fIuninstall\fR, \fIupdate\
 .
 .SH "OPTIONS"
 .
-.IP "\(bu" 4
-\fB\-f\fR \fB\-\-file\fR=\fIfishfile\fR: Read \fIfishfile\fR and write contents to standard output\. If \fIfishfile\fR is null or an empty string, your user \fIfishfile\fR in \fB$fisher_config\fR/fishfile will be used instead\. Use a dash \fB\-\fR to force reading from the standard input\. Oh My Fish! bundle files are supported as well\.
+.TP
+\fB\-\-list\fR
+List plugins in the \fB$fisher_cache\fR\. Includes plugins installed using a custom URL\.
 .
-.IP "\(bu" 4
-\fB\-V\fR, \fB\-\-validate\fR=\fIkeyword\fR: Validate a \fIname\fR or \fIurl\fR\. If \fIkeyword\fR resembles a url, the algorithm will attempt to normalize the url by adding / removing missing components\. Otherwise, it will assume \fIkeyword\fR is a potential plugin name and use the following regex \fB^[a\-z]+[\._\-]?[a\-z0\-9]+\fR to validate the string\. This method is used internally to validate user input and support url variations such as \fIowner/repo\fR, \fIgh:owner/repo\fR, \fIbb:owner/repo\fR, etc\. See \fBfisher\fR(7)#{\fBPlugins\fR}\.
+.TP
+\fB\-a\fR \fB\-\-alias\fR[=\fIcommand\fR=[\fIalias\fR[,\.\.\.]]]
+Define one or more comma\-separated \fIalias\fR for \fIcommand\fR using \fB$fisher_alias\fR\. If no value is given, lists all existing aliases\.
 .
-.IP
-If \fIkeyword\fR is null or an empty string, \fB\-\-validate\fR reads keyword\fIs\fR from the standard input\.
+.TP
+\fB\-f\fR \fB\-\-file\fR=\fIfishfile\fR
+Read \fIfishfile\fR and display its contents\. If \fIfishfile\fR is null or an empty string, your user \fIfishfile\fR in \fB$fisher_config\fR/fishfile will be used instead\. Use a dash \fB\-\fR to force reading from the standard input\. oh\-my\-fish bundle files are supported as well\.
 .
-.IP "\(bu" 4
-\fB\-\-cache\fR[=\fIbase\fR] Retrieve the path of every plugin downloaded to \fB$fisher_cache\fR\. Includes plugins installed using a custom URL\. Use \-\-cache=\fIbase\fR to select only the name of the plugin\. See \fBbasename\fR(1)\.
+.TP
+\fB\-V\fR, \fB\-\-validate\fR
+Read the standard input and validate a name, url or path\. If the input is a local path, retrieve the absolute path to the closest directory\. If the input resembles a url, normalize the url according to the rules described in \fBfisher help install\fR\. Otherwise, assume the input is a name and use the regex \fB^[a\-z]+[\._\-]?[a\-z0\-9]+\fR to validate the string\.
 .
-.IP "\(bu" 4
-\fB\-v\fR \fB\-\-version\fR: Show version information\. Fisherman\'s current version can be found in the VERSION file at the root of the project\. The version scheme is based in \fBSemantic Versioning\fR and uses Git annotated tags to track releases\.
+.TP
+\fB\-v\fR \fB\-\-version\fR
+Show version information\. Fisherman\'s current version can be found in the VERSION file at the root of the project\. The version scheme is based in \fBSemantic Versioning\fR and uses Git annotated tags to track releases\.
 .
-.IP "\(bu" 4
-\fB\-h\fR \fB\-\-help\fR: Show usage help\.
-.
-.IP "" 0
+.TP
+\fB\-h\fR \fB\-\-help\fR
+Show usage help\.
 .
 .SH "CUSTOM COMMANDS"
-A Fisherman command is a function that you can invoke using the \fBfisher\fR utility\. By convention, any function of the form \fBfisher_<my_command>\fR is registered as Fisherman command\. You can create plugins that add new commands as well as regular utilities\. See \fBfisher help commands\fR and \fBfisher help plugins\fR for more information\.
+A Fisherman command is a function that you can invoke using the \fBfisher\fR utility\. By convention, any function like \fBfisher_<my_command>\fR is registered as a Fisherman command\. You can create plugins that add new commands this way\. See \fBfisher help commands\fR and \fBfisher help plugins\fR for more information\.
 .
 .SH "EXAMPLES"
 .
 .IP "\(bu" 4
-Install a plugin\.
+Install plugins\.
 .
 .IP "" 0
 .
@@ -62,8 +67,7 @@ Install a plugin\.
 .
 .nf
 
-fisher install fishtape
-fishtape \-\-help
+fisher install fishtape shark
 .
 .fi
 .
@@ -83,24 +87,22 @@ fisher \-\-file=path/to/shared/fishfile | fisher install
 .
 .IP "" 0
 .
-.IP "\(bu" 4
-Validate a url\.
-.
-.IP "" 0
+.TP
+Define a few aliases:
+
 .
 .IP "" 4
 .
 .nf
 
-echo a/b | fisher \-V
-> https://github\.com/a/b
+fisher \-a uninstall=rm,u,del
 .
 .fi
 .
 .IP "" 0
 .
 .SH "AUTHORS"
-Fisherman was created and it is currently maintained by Jorge Bucaran \fIj@bucaran\.me\fR\.
+Fisherman was created by Jorge Bucaran \fIj@bucaran\.me\fR\.
 .
 .P
 See AUTHORS file for a more complete list of contributors\.

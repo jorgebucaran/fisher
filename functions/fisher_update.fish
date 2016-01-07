@@ -1,12 +1,13 @@
 function fisher_update -d "Fisherman Update Manager"
-    set -l option
     set -l path
     set -l items
+    set -l option self
     set -l error /dev/stderr
 
     getopts $argv | while read -l 1 2
         switch "$1"
-            case _
+            case - _
+                set option
                 set items $items $2
 
             case index
@@ -16,29 +17,25 @@ function fisher_update -d "Fisherman Update Manager"
                 set option path
                 set path $2
 
-            case m me self fisher{,man}
-                set option $option me
-
             case q quiet
-                if test -z "$2"
-                    set 2 /dev/null
-                end
-
                 set error $2
 
             case help h
-                printf "usage: fisher update [<name or url> ...] [--me] [--quiet] [--help]\n\n"
+                printf "usage: fisher update [<name or url> ...] [--quiet] [--help]\n\n"
 
-                printf "       -m --me  Update Fisherman\n"
                 printf "    -q --quiet  Enable quiet mode\n"
                 printf "     -h --help  Show usage help \n"
                 return
 
             case \*
-                printf "fisher: '%s' is not a valid option\n" $1 >& 2
+                printf "fisher: Ahoy! '%s' is not a valid option\n" $1 >& 2
                 fisher_update --help >& 2
                 return 1
         end
+    end
+
+    if test -z "$error"
+        set error /dev/null
     end
 
     switch "$option"
@@ -49,47 +46,64 @@ function fisher_update -d "Fisherman Update Manager"
             end
 
             wait --spin=pipe --log=$fisher_error_log "
+
                 git -C $path checkout --quiet master ^/dev/null
-                git -C $path pull --quiet --rebase origin master"
+                git -C $path pull --quiet --rebase origin master
+
+                "
 
         case index
             mkdir -p $fisher_cache
             set -l index $fisher_cache/.index.tmp
 
-            if curl -s $fisher_index > $index
+            if wait --spin=pipe --log=$fisher_error_log "
+                curl --max-time $fisher_timeout -sS $fisher_index > $index
+            "
                 mv -f $index $fisher_cache/.index
+            else
+                printf "fisher: Connection timeout. Try again.\n" > $error
             end
 
             rm -f $index
 
-        case me
-            set -l elap (date +%s)
+        case self
+            set -l elapsed (date +%s)
 
             printf "Updating >> Fisherman\n" > $error
 
             if not fisher_update --path=$fisher_home --quiet=$error
+
+                printf "fisher: Could not update Fisherman.\n" > $error
+                sed -E 's/.*(error:.*)/\1/' $fisher_error_log > $error
+
                 return 1
             end
 
-            printf "Done without errors (%0.fs)\n" (math (date +%s) - $elap) > $error
+            printf "Done without errors (%0.fs)\n" (
+                math (date +%s) - $elapsed) > $error
 
         case \*
-            set -l elap (date +%s)
             set -l count 0
+            set -l index 1
             set -l total (count $items)
+            set -l elapsed (date +%s)
 
             if set -q items[1]
                 printf "%s\n" $items
             else
-                fisher --file=-
-            end | fisher --validate | fisher --translate | while read -l path
+                __fisher_file -
+            end | __fisher_validate | __fisher_cache | while read -l path
 
                 if not test -d "$path"
-                    printf "fisher: '%s' not found\n" $path > $error
-                    continue
+                    switch "$path"
+                        case file:///\*
+                        case \*
+                            printf "fisher: '%s' path not found\n" $path > $error
+                            continue
+                    end
                 end
 
-                set -l name (basename $path)
+                set -l name (printf "%s\n" $path | __fisher_name)
 
                 printf "Updating " > $error
 
@@ -98,21 +112,35 @@ function fisher_update -d "Fisherman Update Manager"
                         printf ">> %s\n" $name > $error
 
                     case \*
-                        printf "(%s of %s) >> %s\n" (math 1 + $count) $total $name > $error
+                        printf "(%s of %s) >> %s\n" $index $total $name > $error
+
+                        set index (math $index + 1)
                 end
 
-                if not fisher_update --path=$path --quiet=$error
-                    sed -nE 's/.*(error|fatal): (.*)/error: \2/p' $fisher_error_log > $error
-                    continue
+                switch "$path"
+                    case file:///\*
+                    case \*
+                        if not test -L $path
+                            if not fisher_update --path=$path --quiet=$error
+                                sed -nE 's/.*(error|fatal): (.*)/error: \2/p
+                                    ' $fisher_error_log > $error
+                                continue
+                            end
+                        end
                 end
 
-                fisher install $name --quiet
+                fisher install --quiet -- (printf "%s\n" $name | __fisher_name)
 
                 set count (math $count + 1)
             end
 
-            printf "%d plugin/s updated (%0.fs)\n" $count (math (date +%s) - $elap) > $error
+            set elapsed (math (date +%s) - $elapsed)
 
-            test $count -gt 0
+            if test $count = 0
+                printf "No plugins were updated.\n" > $error
+                return 1
+            end
+
+            printf "Aye! %d plugin/s updated in %0.fs\n" > $error $count $elapsed
     end
 end

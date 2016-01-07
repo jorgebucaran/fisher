@@ -7,10 +7,10 @@
 \fBfisher\-update\fR \- Fisherman Update Manager
 .
 .SH "SYNOPSIS"
-fisher \fBupdate\fR [\fIname\fR or \fIurl\fR \.\.\.]
+fisher \fBupdate\fR [\fIname\fR, \fIurl\fR or \fIpath\fR \.\.\.]
 .
 .br
-fisher \fBupdate\fR [\fB\-\-me\fR] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
+fisher \fBupdate\fR [\fB\-\-quiet\fR] [\fB\-\-help\fR]
 .
 .br
 .
@@ -21,18 +21,17 @@ fisher \fBupdate\fR \fIplugin\fR \.\.\.
 fisher \fBupdate\fR \fIowner/repo\fR \.\.\.
 .
 .br
+fisher \fBupdate\fR \fIpath\fR \.\.\.
+.
+.br
 .
 .SH "DESCRIPTION"
-Update one or \fImore\fR plugins by \fIname\fR, searching \fB$fisher_index\fR or by \fIurl\fR\. If no arguments are given, read the standard input\. If you try to update a plugin that is currently disabled, but available in the cache, it will be updated and then enabled\.
+Update one or \fImore\fR plugins by \fIname\fR, searching \fB$fisher_index\fR or by \fIurl\fR\. If no arguments are given, update Fisherman by default\. If you try to update a plugin that is currently disabled, but downloaded to the cache, it will be updated and then enabled\. Use a dash \fB\-\fR to read from the standard input\.
 .
 .P
-If a plugin is missing dependencies, they will be installed\. If any dependencies are already installed they will not be updated in order to prevent mismatching version issues\. See \fBfisher help fishfile\fR#{\fBPlugins\fR}\.
+If a plugin is missing dependencies, they will be installed\. If any dependencies are already installed they will not be updated\. See \fBfisher help fishfile\fR#{\fBPlugins\fR}\.
 .
 .SH "OPTIONS"
-.
-.TP
-\fB\-m\fR \fB\-\-me\fR
-Update Fisherman\.
 .
 .TP
 \fB\-q\fR \fB\-\-quiet\fR
@@ -50,7 +49,7 @@ Update all plugins in the cache\.
 .IP "" 0
 .
 .P
-fisher \-\-cache=base | fisher update
+fisher \-\-list | fisher update \-
 .
 .SH "SEE ALSO"
 \fBfisher\fR(1)
