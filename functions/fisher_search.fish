@@ -15,7 +15,7 @@ function fisher_search -d "Search Fisherman Index"
                             case \*/\*
                                 set 1 url
 
-                                set -l url (fisher --validate=$2)
+                                set -l url (printf "%s\n" $2 | __fisher_validate)
                                 if not test -z "$url"
                                     set 2 $url
                                 end
@@ -75,8 +75,8 @@ function fisher_search -d "Search Fisherman Index"
                 set quiet 1
 
             case h help
-                printf "usage: fisher search [<name or url>] [--select=<source>] [--field=<field>]\n"
-                printf "                     [--or|--and] [--quiet] [--help]\n\n"
+                printf "usage: fisher search [<name or url>] [--select=<source>] [--quiet]\n"
+                printf "                     [--or|--and] [--field=<field>] [--help]\n\n"
 
                 printf "    -s --select=<source>  Select all, cache or remote plugins       \n"
                 printf "      -f --field=<field>  Filter by name, url, info, tag or author  \n"
@@ -87,7 +87,7 @@ function fisher_search -d "Search Fisherman Index"
                 return
 
             case \*
-                printf "fisher: '%s' is not a valid option\n" $1 >& 2
+                printf "fisher: Ahoy! '%s' is not a valid option\n" $1 >& 2
                 fisher_search --help >& 2
                 return 1
         end
@@ -117,7 +117,7 @@ function fisher_search -d "Search Fisherman Index"
                 return 1
             end
 
-            set -l cache (fisher --cache=base)
+            set -l cache (__fisher_list)
             awk -v FS='\n' -v RS='' -v cache_items="$cache" '
 
             BEGIN {
@@ -159,7 +159,7 @@ function fisher_search -d "Search Fisherman Index"
                 set -l tags orphan
 
                 for tag in theme plugin oh-my-fish config
-                    if printf "%s" "$url" | grep -q $tag
+                    if printf "%s\n" "$url" | grep -q $tag
                         switch "$tag"
                             case oh-my-fish
                                 set tag omf
@@ -174,10 +174,10 @@ function fisher_search -d "Search Fisherman Index"
             cat $index
 
         case remote
-            fisher_search --index=$index --and --name!=(fisher --cache=base)
+            fisher_search --index=$index --and --name!=(__fisher_list)
 
         case cache
-            fisher --cache=base | read -laz cache
+            __fisher_list | read -laz cache
 
             if test -z "$cache"
                 return 1

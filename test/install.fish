@@ -35,7 +35,7 @@ test "adds installed plugins to fishfile"
 end
 
 test "downloads plugin repos to cache"
-    (fisher --cache=base) = $names
+    (fisher --list) = $names
 end
 
 test "download INDEX copy to the cache"

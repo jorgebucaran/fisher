@@ -4,9 +4,10 @@ fisher(1) -- fish plugin manager
 ## SYNOPSIS
 
 `fisher` *command* [*options*] [`--version`] [`--help`]<br>
+`fisher` `--list`<br>
+`fisher` `--alias`[=*command*=[*alias*[,...]]]<br>
 `fisher` `--file`=*fishfile*<br>
-`fisher` `--validate`=*name* or *url*<br>
-`fisher` `--cache`[=*path*]<br>
+`fisher` `--validate`
 
 ## DESCRIPTION
 
@@ -16,16 +17,17 @@ The following commands are available: *install*, *uninstall*, *update*, *search*
 
 ## OPTIONS
 
+*  `--list`:
+    List plugins in the `$fisher_cache`. Includes plugins installed using a custom URL.
+
+* `-a` `--alias`[=*command*=[*alias*[,...]]]:
+    Define one or more comma-separated *alias* for *command* using `$fisher_alias`. If no value is given, lists all existing aliases.
+
 * `-f` `--file`=*fishfile*:
-    Read *fishfile* and write contents to standard output. If *fishfile* is null or an empty string, your user *fishfile* in `$fisher_config`/fishfile will be used instead. Use a dash `-` to force reading from the standard input. Oh My Fish! bundle files are supported as well.
+    Read *fishfile* and display its contents. If *fishfile* is null or an empty string, your user *fishfile* in `$fisher_config`/fishfile will be used instead. Use a dash `-` to force reading from the standard input. oh-my-fish bundle files are supported as well.
 
-* `-V`, `--validate`=*keyword*:
-    Validate a *name* or *url*. If *keyword* resembles a url, the algorithm will attempt to normalize the url by adding / removing missing components. Otherwise, it will assume *keyword* is a potential plugin name and use the following regex `^[a-z]+[._-]?[a-z0-9]+` to validate the string. This method is used internally to validate user input and support url variations such as *owner/repo*, *gh:owner/repo*, *bb:owner/repo*, etc. See `fisher`(7)#{`Plugins`}.
-
-    If *keyword* is null or an empty string, `--validate` reads keyword*s* from the standard input.
-
-*  `--cache`[=*base*]
-    Retrieve the path of every plugin downloaded to `$fisher_cache`. Includes plugins installed using a custom URL. Use --cache=*base* to select only the name of the plugin. See `basename`(1).
+* `-V`, `--validate`:
+    Read the standard input and validate a name, url or path. If the input is a local path, retrieve the absolute path to the closest directory. If the input resembles a url, normalize the url according to the rules described in `fisher help install`. Otherwise, assume the input is a name and use the regex `^[a-z]+[._-]?[a-z0-9]+` to validate the string.
 
 * `-v` `--version`:
     Show version information. Fisherman's current version can be found in the VERSION file at the root of the project. The version scheme is based in `Semantic Versioning` and uses Git annotated tags to track releases.
@@ -35,15 +37,14 @@ The following commands are available: *install*, *uninstall*, *update*, *search*
 
 ## CUSTOM COMMANDS
 
-A Fisherman command is a function that you can invoke using the `fisher` utility. By convention, any function of the form `fisher_<my_command>` is registered as Fisherman command. You can create plugins that add new commands as well as regular utilities. See `fisher help commands` and `fisher help plugins` for more information.
+A Fisherman command is a function that you can invoke using the `fisher` utility. By convention, any function like `fisher_<my_command>` is registered as a Fisherman command. You can create plugins that add new commands this way. See `fisher help commands` and `fisher help plugins` for more information.
 
 ## EXAMPLES
 
-* Install a plugin.
+* Install plugins.
 
 ```
-fisher install fishtape
-fishtape --help
+fisher install fishtape shark
 ```
 
 * Install plugins from a fishfile or bundle:
@@ -52,16 +53,15 @@ fishtape --help
 fisher --file=path/to/shared/fishfile | fisher install
 ```
 
-* Validate a url.
+* Define a few aliases:
 
 ```
-echo a/b | fisher -V
-> https://github.com/a/b
+fisher -a uninstall=rm,u,del
 ```
 
 ## AUTHORS
 
-Fisherman was created and it is currently maintained by Jorge Bucaran *j@bucaran.me*.
+Fisherman was created by Jorge Bucaran *j@bucaran.me*.
 
 See AUTHORS file for a more complete list of contributors.
 
