@@ -21,8 +21,8 @@ test "read a fishfile using --file"
     (fisher --file=$fishfile) = foo bar baz github/foo/bar
 end
 
-test "fisher --cache=base retrieves plugin names in the cache"
-    (fisher --cache=base) = (
+test "fisher --list retrieves plugin names in the cache"
+    (fisher --list) = (
         for file in $fisher_cache/*
             basename $file
         end)
@@ -45,7 +45,7 @@ test "evaluate \$fisher_alias=<command=alias[,...]> as aliases"
 end
 
 test "display usage"
-    (fisher | sed 1q) = "usage: fisher <command> [<options>] [--version] [--help]"
+    (fisher | sed 3q | xargs) = "usage: fisher [--version] [--help] [--list] [--quiet] [-a <command>=alias[,...]] [-f <path>] <command> [<options>]"
 end
 
 test "display help information about 'help' at the bottom"

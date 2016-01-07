@@ -101,7 +101,7 @@ function wait -d "Run commands and wait with a spin"
     while true
         if status --is-interactive
             for i in $spinners
-                printf "$format" | awk -v t=$time -v i=(printf "%s" $i | sed 's/=/\\\=/') '
+                printf "$format" | awk -v t=$time -v i=(printf "%s\n" $i | sed 's/=/\\\=/') '
                 {
                     system("tput civis")
                     gsub("@", i)

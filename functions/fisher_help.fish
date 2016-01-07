@@ -30,17 +30,16 @@ function fisher_help -d "Display Help Information"
                 set value $value $2
 
             case h help
-                printf "usage: fisher help [<keyword>] [--all] [--guides]\n"
-                printf "                   [--usage[=<command>]] [--help]\n\n"
+                printf "usage: fisher help [<keyword>] [--all] [--guides] [--help]\n\n"
 
-                printf "                  -a --all  List commands and guides   \n"
-                printf "               -g --guides  List documentation guides  \n"
-                printf "    -u --usage[=<command>]  Display command usage help \n"
-                printf "                 -h --help  Show usage help            \n"
+                printf "              -a --all  List available documentation  \n"
+                printf "           -g --guides  List available guides         \n"
+                printf "    -u --usage[=<cmd>]  Display command usage help    \n"
+                printf "             -h --help  Show usage help               \n"
                 return
 
             case \*
-                printf "fisher: '%s' is not a valid option\n" $1 >& 2
+                printf "fisher: Ahoy! '%s' is not a valid option\n" $1 >& 2
                 fisher_help --help >& 2
                 return 1
         end

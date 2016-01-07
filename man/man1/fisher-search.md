@@ -48,7 +48,7 @@ See #{`Output`} for more information.
     Filter the result set by *field*=*match*, where *field* can be one or more of `name`, `url`, `info`, `tag` or `author`. If *match* is not given, this is equivalent to `--select`=*field*. Use `!=` to negate the query.
 
 * --*field*[~`/`*regex*`/`]:
-    Essentially the same as --*field*=*match*, but with Regular Expression support. --*field*~`/`*regex*`/` filters the result set using the given `/`*regex*`/`. For example, --name=`/`^*match*$`/` is the same as --*field*=*match* and --url~`/`oh-my-fish`/` selects only Oh My Fish! plugins.  Use `!~` to negate the query.
+    Essentially the same as --*field*=*match*, but with Regular Expression support. --*field*~`/`*regex*`/` filters the result set using the given `/`*regex*`/`. For example, --name=`/`^*match*$`/` is the same as --*field*=*match* and --url~`/`oh-my-fish`/` selects only oh-my-fish plugins.  Use `!~` to negate the query.
 
 * `-a` `--and`:
     Join query with a logical AND operator.

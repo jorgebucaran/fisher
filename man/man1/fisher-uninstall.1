@@ -7,7 +7,7 @@
 \fBfisher\-uninstall\fR \- Disable / Uninstall Plugins
 .
 .SH "SYNOPSIS"
-fisher \fBuninstall\fR [\fIname\fR or \fIurl\fR \.\.\.]
+fisher \fBuninstall\fR [\fIname\fR, \fIurl\fR or \fIpath\fR \.\.\.]
 .
 .br
 fisher \fBuninstall\fR [\fB\-\-force\fR] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
@@ -19,6 +19,9 @@ fisher \fBuninstall\fR \fIplugin\fR \.\.\.
 .
 .br
 fisher \fBuninstall\fR \fIowner/repo\fR \.\.\.
+.
+.br
+fisher \fBuninstall\fR \fIpath\fR \.\.\.
 .
 .br
 .
@@ -56,7 +59,7 @@ Uninstall all plugins and flush the cache\.
 .
 .nf
 
-fisher \-\-cache=base | fisher uninstall \-\-force
+fisher \-\-list | fisher uninstall \-\-force
 .
 .fi
 .

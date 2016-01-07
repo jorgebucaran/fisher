@@ -3,6 +3,8 @@ set fisher_index https://raw.githubusercontent.com/fisherman/fisher-index/master
 
 set fisher_error_log $fisher_cache/.debug_log
 
+set fisher_timeout 5
+
 set fish_function_path {$fisher_config,$fisher_home}/functions $fish_function_path
 set fish_complete_path {$fisher_config,$fisher_home}/completions $fish_complete_path
 

@@ -29,7 +29,6 @@ function -S setup
 
         fisher_mock_repos $source2/$name
 
-        git -C $fisher_cache/$name remote rm origin
         git -C $fisher_cache/$name remote add origin file://$source2/$name
     end
 

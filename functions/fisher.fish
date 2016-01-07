@@ -1,4 +1,4 @@
-function fisher -d "Fish plugin manager"
+function fisher -d "Fish Shell Plugin Manager"
     if not set -q argv[1]
         fisher --help
         return 1
@@ -7,6 +7,7 @@ function fisher -d "Fish plugin manager"
     set -l option
     set -l value
     set -l quiet -E .
+    set -l alias
 
     getopts $argv | while read -l 1 2
         switch "$1"
@@ -15,17 +16,19 @@ function fisher -d "Fish plugin manager"
                 set value $2
                 break
 
+            case a alias
+                set option alias
+                set alias $alias $2
+
             case h help
                 set option help
                 set value $value $2
 
-            case cache
-                set option cache
-                set value $2
+            case l list
+                set option list
 
-            case translate
-                set option translate
-                set value $2
+            case c cache
+                set option cache
 
             case f file
                 set option file
@@ -33,7 +36,9 @@ function fisher -d "Fish plugin manager"
 
             case V validate
                 set option validate
-                set value $2
+
+            case name
+                set option translate
 
             case v version
                 set option version
@@ -42,7 +47,7 @@ function fisher -d "Fish plugin manager"
                 set quiet -q .
 
             case \*
-                printf "fisher: '%s' is not a valid option\n" $1 >& 2
+                printf "fisher: Ahoy! '%s' is not a valid option\n" $1 >& 2
                 fisher --help >& 2
                 return 1
         end
@@ -50,7 +55,7 @@ function fisher -d "Fish plugin manager"
 
     switch "$option"
         case command
-            printf "%s\n" $fisher_alias | sed 's/[=,]/ /g' | while read -la alias
+            __fisher_alias | while read -la alias
                 if set -q alias[2]
                     switch "$value"
                         case $alias[2..-1]
@@ -73,81 +78,22 @@ function fisher -d "Fish plugin manager"
             end
 
         case validate
-            if not test -z "$value"
-                printf "%s\n" $value | fisher --validate | grep $quiet
-                return
-            end
+            __fisher_validate | grep $quiet
 
-            if not set -q fisher_default_host
-                set fisher_default_host https://github.com
-            end
-
-            set -l id "[A-Za-z0-9_.-]"
-
-            sed -En "
-                s#/\$##
-                s#\.git\$##
-                s#^(https?):*/* *(.*\$)#\1://\2#p
-                s#^(@|(gh[:/])|(github(.com)?[/:]))/?($id+)/($id+)\$#https://github.com/\5/\6#p
-                s#^(bb[:/])/*($id+)/($id+)\$#https://bitbucket.org/\2/\3#p
-                s#^(gl[:/])/*($id+)/($id+)\$#https://gitlab.com/\2/\3#p
-                s#^(omf[:/])/*($id+)\$#https://github.com/oh-my-fish/\2#p
-                s#^($id+)/($id+)\$#$fisher_default_host/\1/\2#p
-                /^file:\/\/\/.*/p
-                /^[a-z]+([._-]?[a-z0-9]+)*\$/p
-                " | grep $quiet
+        case list
+            __fisher_list
 
         case cache
-            for file in $fisher_cache/*
-                if test -d $file
-                    switch "$value"
-                        case base
-                            basename $file
-
-                        case \*
-                            printf "%s\n" $file
-                    end
-                end
-            end
-
-        case translate
-            while read --prompt="" -l item
-                switch "$item"
-                    case \*/\*
-                        for file in $fisher_cache/*
-                            switch "$item"
-                                case (git -C $file ls-remote --get-url | fisher --validate)
-                                    printf "%s\n" $file
-                                    break
-                            end
-                        end
-
-                    case \*
-                        printf "%s\n" $fisher_cache/$item
-                end
-            end
+            __fisher_cache
 
         case file
-            switch "$value"
-                case "-"
-                    set value /dev/stdin
-                case ""
-                    set value $fisher_config/fishfile
-            end
+            __fisher_file "$value"
 
-            awk  '
-                !/^ *(#.*)*$/ {
-                    gsub("#.*", "")
+        case alias
+            __fisher_alias $alias
 
-                    if (/^ *package .+/) {
-                        $1 = $2
-                    }
-
-                    if (!k[$1]++) {
-                        printf("%s\n", $1)
-                    }
-                }
-            ' $value
+        case name
+            __fisher_name
 
         case version
             sed 's/^/fisher version /;q' $fisher_home/VERSION
@@ -157,18 +103,20 @@ function fisher -d "Fish plugin manager"
                 set value commands
             end
 
-            printf "usage: fisher <command> [<options>] [--version] [--help]\n\n"
+            printf "usage: fisher [--version] [--help] [--list] [--quiet]\n"
+            printf "              [-a <command>=alias[,...]] [-f <path>]\n"
+            printf "              <command> [<options>]\n\n"
 
             switch commands
                 case $value
-                    printf "Available Fisherman commands:\n"
+                    printf "Available Commands:\n"
                     fisher_help --commands=bare
                     echo
             end
 
             switch guides
                 case $value
-                    printf "Available Fisherman guides:\n"
+                    printf "Other Documentation:\n"
                     fisher_help --guides=bare
                     echo
             end
