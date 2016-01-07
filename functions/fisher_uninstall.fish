@@ -26,29 +26,35 @@ function fisher_uninstall -d "Disable / Uninstall Plugins"
                 return
 
             case \*
-                printf "fisher: '%s' is not a valid option\n" $1 >& 2
+                printf "fisher: Ahoy! '%s' is not a valid option\n" $1 >& 2
                 fisher_uninstall --help >& 2
                 return 1
         end
     end
 
     set -l count 0
-    set -l duration (date +%s)
+    set -l index 1
     set -l total (count $items)
+    set -l elapsed (date +%s)
 
     if set -q items[1]
         printf "%s\n" $items
     else
-        fisher --file=-
-
-    end | fisher --validate | fisher --translate | while read -l path
+        __fisher_file -
+    end | __fisher_validate | __fisher_cache | while read -l path
 
         if not test -d "$path"
-            printf "fisher: '%s' not found\n" $path > $error
-            continue
+            switch "$path"
+                case file:///\*
+                    set path (printf "%s\n" $path | sed 's|file://||')
+
+                case \*
+                    printf "fisher: '%s' path not found\n" $path > $error
+                    continue
+            end
         end
 
-        set -l name (basename $path)
+        set -l name (printf "%s\n" $path | __fisher_name)
 
         printf "Uninstalling " > $error
 
@@ -57,10 +63,10 @@ function fisher_uninstall -d "Disable / Uninstall Plugins"
                 printf ">> %s\n" $name > $error
 
             case \*
-                printf "(%s of %s) >> %s\n" (math 1 + $count) $total $name > $error
-        end
+                printf "(%s of %s) >> %s\n" (math 1 + $index) $total $name > $error
 
-        set count (math $count + 1)
+                set index (math $index + 1)
+        end
 
         for file in $path/{*,functions{/*,/**/*}}.fish
             set -l base (basename $file)
@@ -77,7 +83,7 @@ function fisher_uninstall -d "Disable / Uninstall Plugins"
                     set base $name.(basename $base .fish).config.fish
             end
 
-            rm -f $file $fisher_config/{functions,conf.d}/$base
+            rm -f $fisher_config/{functions,conf.d}/$base
         end
 
         for file in $path/completions/*.fish
@@ -92,16 +98,18 @@ function fisher_uninstall -d "Disable / Uninstall Plugins"
             end
         end
 
-        git -C $path ls-remote --get-url ^ /dev/null | fisher --validate | read -l url
+        git -C $path ls-remote --get-url ^ /dev/null | __fisher_validate | read -l url
 
         switch force
             case $option
                 rm -rf $path
         end
 
+        set count (math $count + 1)
+
         set -l file $fisher_config/fishfile
 
-        if not fisher --file=$file | grep -Eq "^$name\$|^$url\$"
+        if not __fisher_file $file | grep -Eq "^$name\$|^$url\$"
             continue
         end
 
@@ -110,14 +118,19 @@ function fisher_uninstall -d "Disable / Uninstall Plugins"
         if not sed -E '/^ *'(printf "%s|%s" $name $url | sed 's|/|\\\/|g'
         )'([ #].*)*$/d' < $file > $tmp
             rm -f $tmp
-            printf "fisher: can't delete '%s' from %s\n" $name $file > $error
+            printf "fisher: Could not remove '%s' from %s\n" $name $file > $error
             return 1
         end
 
         mv -f $tmp $file
     end
 
-    printf "%d plugin/s uninstalled (%0.fs)\n" $count (math (date +%s) - $duration) > $error
+    set elapsed (math (date +%s) - $elapsed)
 
-    test $count -gt 0
+    if test $count = 0
+        printf "No plugins were uninstalled.\n" > $error
+        return 1
+    end
+
+    printf "Aye! %d plugin/s uninstalled in %0.fs\n" > $error $count $elapsed
 end

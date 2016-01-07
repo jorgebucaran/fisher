@@ -15,7 +15,7 @@
 .br
 .
 .SH "DESCRIPTION"
-getopts is a tool to help parsing command\-line arguments\. It is designed to process command line arguments that follow the POSIX Utility Syntax Guidelines\. If no arguments are given it returns \fB1\fR\.
+getopts is a command line parser, designed to process command line arguments according to the POSIX Utility Syntax Guidelines\. If no arguments are given it returns \fB1\fR\.
 .
 .SH "USAGE"
 In the following example:
@@ -131,7 +131,7 @@ getopts does \fInot\fR read the standard input\. Use getopts to collect options 
 A double dash, \fB\-\-\fR, marks the end of options\. Arguments after this sequence are placed in the default underscore key, \fB_\fR\.
 .
 .IP "\(bu" 4
-The getopts described in this document is \fInot\fR equivalent to the getopts \fIbuiltin\fR found in other shells\. This tool is only available for \fBfish\fR(1)\.
+The getopts described in this document is \fInot\fR equivalent to the getopts \fIbuiltin\fR found in other shells\.
 .
 .IP "" 0
 .

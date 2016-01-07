@@ -8,7 +8,7 @@ getopts(1) -- Parse CLI options
 
 ## DESCRIPTION
 
-getopts is a tool to help parsing command-line arguments. It is designed to process command line arguments that follow the POSIX Utility Syntax Guidelines. If no arguments are given it returns `1`.
+getopts is a command line parser, designed to process command line arguments according to the POSIX Utility Syntax Guidelines. If no arguments are given it returns `1`.
 
 ## USAGE
 
@@ -97,7 +97,7 @@ end
 
 * A double dash, `--`, marks the end of options. Arguments after this sequence are placed in the default underscore key, `_`.
 
-* The getopts described in this document is *not* equivalent to the getopts *builtin* found in other shells. This tool is only available for `fish`(1).
+* The getopts described in this document is *not* equivalent to the getopts *builtin* found in other shells.
 
 ## AUTHORS
 

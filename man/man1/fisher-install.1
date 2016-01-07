@@ -7,7 +7,7 @@
 \fBfisher\-install\fR \- Enable / Install plugins
 .
 .SH "SYNOPSIS"
-fisher \fBinstall\fR [\fIname\fR or \fIurl\fR \.\.\.] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
+fisher \fBinstall\fR [\fIname\fR, \fIurl\fR or \fIpath\fR \.\.\.] [\fB\-\-link\fR] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
 .
 .SH "USAGE"
 fisher \fBinstall\fR \fIplugin\fR \.\.\.
@@ -16,12 +16,15 @@ fisher \fBinstall\fR \fIplugin\fR \.\.\.
 fisher \fBinstall\fR \fIowner/repo\fR \.\.\.
 .
 .br
+fisher \fBinstall\fR \fIpath\fR \.\.\.
+.
+.br
 .
 .SH "DESCRIPTION"
 Install one or \fImore\fR plugins by \fIname\fR, searching \fB$fisher_index\fR or by \fIurl\fR\. If no arguments are given, read the standard input\.
 .
 .P
-If the domain or host is not provided, Fisherman will use any value in \fB$fisher_default_host\fR\. The default is \fBhttps://github\.com\fR\.
+If the domain or host is not provided, Fisherman will use any value in \fB$fisher_default_host\fR\. The default value is \fBhttps://github\.com\fR\.
 .
 .P
 In addition, all of the following variations are accepted:
@@ -33,7 +36,7 @@ In addition, all of the following variations are accepted:
 
 .
 .IP "\(bu" 4
-\fBgh:\fRowner/repo \fB\->\fR https://github\.com/owner/repo
+\fBgh\fRowner/repo \fB\->\fR https://github\.com/owner/repo
 .
 .br
 
@@ -44,19 +47,19 @@ In addition, all of the following variations are accepted:
 Shortcuts for other common Git repository hosting services are also available:
 .
 .IP "\(bu" 4
-\fBbb:\fR/owner/repo \fB\->\fR https://bitbucket\.org/owner/repo
+\fBbb\fR/owner/repo \fB\->\fR https://bitbucket\.org/owner/repo
 .
 .br
 
 .
 .IP "\(bu" 4
-\fBgl:\fR/owner/repo \fB\->\fR https://gitlab\.com/owner/repo
+\fBgl\fR/owner/repo \fB\->\fR https://gitlab\.com/owner/repo
 .
 .br
 
 .
 .IP "\(bu" 4
-\fBomf:\fR/owner/repo \fB\->\fR https://github\.com/oh\-my\-fish/repo
+\fBomf\fR/owner/repo \fB\->\fR https://github\.com/oh\-my\-fish/repo
 .
 .br
 
@@ -64,7 +67,10 @@ Shortcuts for other common Git repository hosting services are also available:
 .IP "" 0
 .
 .P
-If a copy of the plugin already exists in \fB$fisher_cache\fR, the relevant files will be copied to \fB$fisher_config\fR/functions, otherwise the plugin repository is first downloaded\. If you wish to update a plugin, use \fBfisher update\fR \fIplugin\fR instead\.
+If a copy of the plugin already exists in \fB$fisher_cache\fR, only the relevant files are copied to \fB$fisher_config\fR/functions, otherwise the plugin repository is first downloaded\. If you wish to update a plugin, use \fBfisher update\fR \fIplugin\fR instead\.
+.
+.P
+If a local path is given, copy the directory to the cache\.
 .
 .P
 If the plugin declares dependencies, these will be installed as well\. If any dependencies are already installed they will not be updated in order to prevent version issues\. See \fBfisher help fishfile\fR#{\fBPlugins\fR}\.
@@ -73,6 +79,10 @@ If the plugin declares dependencies, these will be installed as well\. If any de
 If a plugin includes either a fish_prompt\.fish or fish_right_prompt\.fish, both files are first removed from \fB$fisher_config\fR/functions and then the new ones are copied\.
 .
 .SH "OPTIONS"
+.
+.TP
+\fB\-s\fR \fB\-\-link\fR
+Create a symbolic link to the plugin repository in the cache or to the original source directory if a local path is given\.
 .
 .TP
 \fB\-q\fR \fB\-\-quiet\fR
@@ -144,7 +154,7 @@ Here is the \fIplugin\fR tree inside the cache:
 .br
 .
 .P
-And thisi is how the files are copied from \fB$fisher_cache\fR/plugin to \fB$fisher_config\fR:
+And this is how the files are copied from \fB$fisher_cache\fR/plugin to \fB$fisher_config\fR:
 .
 .IP "1." 4
 \fIplugin\fR\.fish \fB\->\fR $fisher_config/functions
