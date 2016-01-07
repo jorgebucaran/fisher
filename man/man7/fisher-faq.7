@@ -4,7 +4,7 @@
 .TH "FISHER\-FAQ" "7" "January 2016" "" "fisherman"
 .
 .SH "NAME"
-\fBfisher\-faq\fR \- Fisherman Frequently Asked Questions
+\fBfisher\-faq\fR \- Frequently Asked Questions
 .
 .SH "SYNOPSIS"
 This document attempts to answer some of Fisherman most frequently asked questions\. Feel free to create a new issue in the Fisherman issue tracker if your question is not answered here\.
@@ -50,14 +50,14 @@ There is no technical distinction between plugins, themes, commands, etc\., but 
 .P
 See \fBfisher help plugins\fR and \fBfisher help commands\fR\.
 .
-.SS "Does Fisherman support Oh My Fish! plugins and themes?"
+.SS "Does Fisherman support oh\-my\-fish plugins and themes?"
 Yes\. To install either a plugin or theme use their URL:
 .
 .IP "" 4
 .
 .nf
 
-fisher install omf/{rbenv,hub,theme\-scorphish}
+fisher install omf/plugin\-{rbenv,tab} omf/theme\-scorphish
 .
 .fi
 .
@@ -87,19 +87,19 @@ end
 .P
 See \fB$fisher_home/config\.fish\fR for the full code\.
 .
-.SS "How is Fisherman faster than Oh My Fish!/Wahoo, etc?"
+.SS "How is Fisherman faster than oh\-my\-fish/Wahoo, etc?"
 Fisherman ameliorates the slow shell start problem using a flat dependency tree instead of loading a directory hierarchy per plugin\. This also means that Fisherman performance does not decline depending on the number of plugins installed\. See also \fBfisher\fR(7)#{\fBFlat Tree\fR}\.
 .
-.SS "Why don\'t you contribute your improvements back to Oh My Fish! instead of creating a new project?"
-I have contributed back to Oh My Fish! extensively\. See also Oh My Fish! history for August 27, 2015 when another project, Wahoo, was entirely merged with Oh My Fish!\.
+.SS "Why don\'t you contribute your improvements back to oh\-my\-fish instead of creating a new project?"
+I have contributed back to oh\-my\-fish extensively\. See also oh\-my\-fish history for August 27, 2015 when another project, Wahoo, was entirely merged with oh\-my\-fish\.
 .
 .P
 In addition, Fisherman was built from the ground up using a completely different design, implementation and set of principles\.
 .
 .P
-Some features include: UNIX familiarity, minimalistic design, flat tree structure, unified plugin architecture, external self\-managed database, cache system, dependency manifest file and compatibility with Oh My Fish!, etc\. See \fBfisher\fR(7)\.
+Some features include: UNIX familiarity, minimalistic design, flat tree structure, unified plugin architecture, external self\-managed database, cache system, dependency manifest file and compatibility with oh\-my\-fish, etc\. See \fBfisher\fR(7)\.
 .
-.SS "How can I upgrade from an existing Oh My Fish! or Wahoo installation?"
+.SS "How can I upgrade from an existing oh\-my\-fish or Wahoo installation?"
 Install Fisherman\.
 .
 .IP "" 4
@@ -115,7 +115,7 @@ make
 .IP "" 0
 .
 .P
-You can now safely remove Oh My Fish! \fB$OMF_PATH\fR and \fB$OMF_CONFIG\fR\.
+You can now safely remove oh\-my\-fish \fB$OMF_PATH\fR and \fB$OMF_CONFIG\fR\.
 .
 .P
 Backup dotfiles and other sensitive data first\.
@@ -185,5 +185,5 @@ chsh \-s /bin/another/shell
 .
 .IP "" 0
 .
-.SS "Why is this FAQ similar to the Oh My Fish! FAQ?"
+.SS "Why is this FAQ similar to the oh\-my\-fish FAQ?"
 Because it was written by the same author of Fisherman and Wahoo and some of the questions and answers simply overlap\.

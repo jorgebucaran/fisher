@@ -3,37 +3,43 @@ fisher-install(1) -- Enable / Install plugins
 
 ## SYNOPSIS
 
-fisher `install` [*name* or *url* ...] [`--quiet`] [`--help`]
+fisher `install` [*name*, *url* or *path* ...] [`--link`] [`--quiet`] [`--help`]
 
 ## USAGE
 
 fisher `install` *plugin* ...<br>
 fisher `install` *owner/repo* ...<br>
+fisher `install` *path* ...<br>
 
 ## DESCRIPTION
 
 Install one or *more* plugins by *name*, searching `$fisher_index` or by *url*. If no arguments are given, read the standard input.
 
-If the domain or host is not provided, Fisherman will use any value in `$fisher_default_host`. The default is `https://github.com`.
+If the domain or host is not provided, Fisherman will use any value in `$fisher_default_host`. The default value is `https://github.com`.
 
 In addition, all of the following variations are accepted:
 
 * `github`/owner/repo `->` https://github.com/owner/repo<br>
-* `gh:`owner/repo `->` https://github.com/owner/repo<br>
+* `gh`owner/repo `->` https://github.com/owner/repo<br>
 
 Shortcuts for other common Git repository hosting services are also available:
 
-* `bb:`/owner/repo `->` https://bitbucket.org/owner/repo<br>
-* `gl:`/owner/repo `->` https://gitlab.com/owner/repo<br>
-* `omf:`/owner/repo `->` https://github.com/oh-my-fish/repo<br>
+* `bb`/owner/repo `->` https://bitbucket.org/owner/repo<br>
+* `gl`/owner/repo `->` https://gitlab.com/owner/repo<br>
+* `omf`/owner/repo `->` https://github.com/oh-my-fish/repo<br>
 
-If a copy of the plugin already exists in `$fisher_cache`, the relevant files will be copied to `$fisher_config`/functions, otherwise the plugin repository is first downloaded. If you wish to update a plugin, use `fisher update` *plugin* instead.
+If a copy of the plugin already exists in `$fisher_cache`, only the relevant files are copied to `$fisher_config`/functions, otherwise the plugin repository is first downloaded. If you wish to update a plugin, use `fisher update` *plugin* instead.
+
+If a local path is given, copy the directory to the cache.
 
 If the plugin declares dependencies, these will be installed as well. If any dependencies are already installed they will not be updated in order to prevent version issues. See `fisher help fishfile`#{`Plugins`}.
 
 If a plugin includes either a fish_prompt.fish or fish_right_prompt.fish, both files are first removed from `$fisher_config`/functions and then the new ones are copied.
 
 ## OPTIONS
+
+* `-s` `--link`:
+    Create a symbolic link to the plugin repository in the cache or to the original source directory if a local path is given.
 
 * `-q` `--quiet`:
     Enable quiet mode.
@@ -68,7 +74,7 @@ Here is the *plugin* tree inside the cache:
         |-- *plugin*.1<br>
 
 
-And thisi is how the files are copied from `$fisher_cache`/plugin to `$fisher_config`:
+And this is how the files are copied from `$fisher_cache`/plugin to `$fisher_config`:
 
 1. *plugin*.fish `->` $fisher_config/functions
 2. functions/plugin_helper.fish `->` $fisher_config/functions

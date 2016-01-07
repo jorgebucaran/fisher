@@ -3,13 +3,14 @@ fisher-uninstall(1) -- Disable / Uninstall Plugins
 
 ## SYNOPSIS
 
-fisher `uninstall` [*name* or *url* ...] <br>
+fisher `uninstall` [*name*, *url* or *path* ...] <br>
 fisher `uninstall` [`--force`] [`--quiet`] [`--help`] <br>
 
 ## USAGE
 
 fisher `uninstall` *plugin* ...<br>
 fisher `uninstall` *owner/repo* ...<br>
+fisher `uninstall` *path*  ...<br>
 
 ## DESCRIPTION
 
@@ -35,7 +36,7 @@ Uninstall does not remove any dependencies installed with other plugins. This be
 * Uninstall all plugins and flush the cache.
 
 ```
-fisher --cache=base | fisher uninstall --force
+fisher --list | fisher uninstall --force
 ```
 
 ## SEE ALSO

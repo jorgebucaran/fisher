@@ -3,24 +3,22 @@ fisher-update(1) -- Fisherman Update Manager
 
 ## SYNOPSIS
 
-fisher `update` [*name* or *url* ...] <br>
-fisher `update` [`--me`] [`--quiet`] [`--help`] <br>
+fisher `update` [*name*, *url* or *path* ...] <br>
+fisher `update` [`--quiet`] [`--help`] <br>
 
 ## USAGE
 
 fisher `update` *plugin* ...<br>
 fisher `update` *owner/repo* ...<br>
+fisher `update` *path*  ...<br>
 
 ## DESCRIPTION
 
-Update one or *more* plugins by *name*, searching `$fisher_index` or by *url*. If no arguments are given, read the standard input. If you try to update a plugin that is currently disabled, but available in the cache, it will be updated and then enabled.
+Update one or *more* plugins by *name*, searching `$fisher_index` or by *url*. If no arguments are given, update Fisherman by default. If you try to update a plugin that is currently disabled, but downloaded to the cache, it will be updated and then enabled. Use a dash `-` to read from the standard input.
 
-If a plugin is missing dependencies, they will be installed. If any dependencies are already installed they will not be updated in order to prevent mismatching version issues. See `fisher help fishfile`#{`Plugins`}.
+If a plugin is missing dependencies, they will be installed. If any dependencies are already installed they will not be updated. See `fisher help fishfile`#{`Plugins`}.
 
 ## OPTIONS
-
-* `-m` `--me`:
-    Update Fisherman.
 
 * `-q` `--quiet`:
     Enable quiet mode.
@@ -32,7 +30,7 @@ If a plugin is missing dependencies, they will be installed. If any dependencies
 
 * Update all plugins in the cache.
 
-fisher --cache=base | fisher update
+fisher --list | fisher update -
 
 ## SEE ALSO
 
