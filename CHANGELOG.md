@@ -6,7 +6,7 @@
 * [0.1.0](#010)
 
 
-## [0.3.0][v030] - 2016-01-08
+## [0.3.1][v031] - 2016-01-10
 
 > This patch contains several amends for 0.3.0 and other minor documentation corrections.
 
@@ -21,6 +21,7 @@
 * :warning: Remove `fisher --link` flag and create symbolic links by default for local paths. The user does not have to worry about symbolic links or whether the copy is as symbolic link or not anymore. If the user tries to install a local path, then the best thing to do is to create a symbolic link. This also eliminates the need to call update.
 
 * :warning: Remove `fisher --cache` and `fisher --validate`. Now, that these options are separated into their own function and they are intentionally private, there is no need for them.
+
 
 ## [0.3.0][v030] - 2016-01-08
 
@@ -125,7 +126,9 @@
 
 <!--  Links -->
 
-[v030]: https://
+[v031]: https://github.com/fisherman/fisherman/commit/a0fe0b339df2fe70a0ba1a5e28dcd7449582742b
+
+[v030]: https://github.com/fisherman/fisherman/commit/19758f98ab349e81d73fa8d813d06ee00a0fcb24
 
 [v020]: https://github.com/fisherman/fisherman/commit/54212e1cbce66c7671baa045653efe912dbb4b77
 
