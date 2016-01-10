@@ -4,10 +4,10 @@
 .TH "FISHER\-UPDATE" "1" "January 2016" "" "fisherman"
 .
 .SH "NAME"
-\fBfisher\-update\fR \- Fisherman Update Manager
+\fBfisher\-update\fR \- Update Fisherman and Plugins
 .
 .SH "SYNOPSIS"
-fisher \fBupdate\fR [\fIname\fR, \fIurl\fR or \fIpath\fR \.\.\.]
+fisher \fBupdate\fR [\fIplugins\fR \.\.\.]
 .
 .br
 fisher \fBupdate\fR [\fB\-\-quiet\fR] [\fB\-\-help\fR]
@@ -26,39 +26,58 @@ fisher \fBupdate\fR \fIpath\fR \.\.\.
 .br
 .
 .SH "DESCRIPTION"
-Update one or \fImore\fR plugins by \fIname\fR, searching \fB$fisher_index\fR or by \fIurl\fR\. If no arguments are given, update Fisherman by default\. If you try to update a plugin that is currently disabled, but downloaded to the cache, it will be updated and then enabled\. Use a dash \fB\-\fR to read from the standard input\.
+Update one or more plugins, by name, URL or local path\. If no arguments are given, update Fisherman itself\. If you try to update a plugin that is currently disabled, but in the cache, it will be updated and then enabled\. Use a dash \fB\-\fR to read from the standard input\.
 .
 .P
-If a plugin is missing dependencies, they will be installed\. If any dependencies are already installed they will not be updated\. See \fBfisher help fishfile\fR#{\fBPlugins\fR}\.
+If a plugin is missing dependencies, they will be installed\. If any dependencies are already installed they will not be updated\. See \fBPlugins\fR in \fBfisher help fishfile\fR\.
 .
 .SH "OPTIONS"
 .
 .TP
-\fB\-q\fR \fB\-\-quiet\fR
+\fB\-q \-\-quiet\fR
 Enable quiet mode\.
 .
 .TP
-\fB\-h\fR \fB\-\-help\fR
+\fB\-h \-\-help\fR
 Show usage help\.
 .
 .SH "EXAMPLES"
+.
+.IP "\(bu" 4
+Update Fisherman
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
+fisher update
+.
+.fi
+.
+.IP "" 0
 .
 .IP "\(bu" 4
 Update all plugins in the cache\.
 .
 .IP "" 0
 .
-.P
+.IP "" 4
+.
+.nf
+
 fisher \-\-list | fisher update \-
 .
+.fi
+.
+.IP "" 0
+.
 .SH "SEE ALSO"
-\fBfisher\fR(1)
+fisher(1)
 .
 .br
-\fBfisher help fishfile\fR#{\fBPlugins\fR}
-.
-.br
-\fBfisher help plugins\fR
+fisher help plugins
 .
 .br
 

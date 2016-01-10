@@ -10,41 +10,46 @@
 This document describes how to use the available configuration options to customize Fisherman\.
 .
 .SH "DESCRIPTION"
-Your fish user configuration, usually located in \fB$XDG_CONFIG_HOME\fR/fish/config\.fish is updated after installing Fisherman to add the global variables \fB$fisher_home\fR and \fB$fisher_config\fR\.
+Your fish user configuration, usually located in \fB$XDG_CONFIG_HOME/fish/config\.fish\fR is updated after installing Fisherman to add the global variables \fB$fisher_home\fR and \fB$fisher_config\fR\.
 .
 .P
-\fB$fisher_home\fR is the location where Fisherman was downloaded\. This location can be anywhere you like\. If you changed this location after installing Fisherman, you need to update \fB$fisher_home\fR as well\.
+\fB$fisher_home\fR is the directory where you downloaded Fisherman\. This location can be anywhere you like\. If you changed this location after installing Fisherman, you need to update \fB$fisher_home\fR as well\.
 .
 .P
-\fB$fisher_config\fR is the user configuration directory and the location of your user \fIfishfile\fR, \fIcache\fR directory and where plugins get installed to\. This location must be different from \fB$fisher_home\fR\. The default location is \fB$XDG_CONFIG_HOME\fR/fisherman\.
+\fB$fisher_config\fR is the user configuration directory and the location of your user \fIfishfile\fR, \fIcache\fR directory and where plugins get installed to\. This location must be different from \fB$fisher_home\fR\. The default location is \fB$XDG_CONFIG_HOME/fisherman\fR\.
 .
 .P
-You can also customize the debug log path, cache location, index source url, command aliases, and other options via \fB$fisher_*\fR variables\.
+You can also customize the debug log path, cache location, index source URL, command aliases, and other options via \fB$fisher_*\fR variables\.
 .
 .SH "VARIABLES"
 .
-.IP "\(bu" 4
-\fB$fisher_home\fR: The home directory\. This is the path where you downloaded Fisherman\.
+.TP
+\fB$fisher_home\fR
+The home directory\. This is the path where you downloaded Fisherman\.
 .
-.IP "\(bu" 4
-\fB$fisher_config\fR: The user configuration directory\. \fB$XDG_CONFIG_HOME\fR/fisherman by default\. This directory is where the \fIcache\fR, \fIfunctions\fR and \fIcompletions\fR directories are located\.
+.TP
+\fB$fisher_config\fR
+The user configuration directory\. \fB$XDG_CONFIG_HOME/fisherman\fR by default\. This directory is where the \fIcache\fR, \fIfunctions\fR and \fIcompletions\fR directories are located\.
 .
-.IP "\(bu" 4
-\fB$fisher_cache\fR: The cache directory\. Plugins are first downloaded here and installed to \fB$fisher_config/functions\fR afterwards\. The cache is \fB$fisher_config\fR/cache by default\.
+.TP
+\fB$fisher_cache\fR
+The cache directory\. Plugins are first downloaded here and installed to \fB$fisher_config/functions\fR afterwards\. The cache is \fB$fisher_config/cache\fR by default\.
 .
-.IP "\(bu" 4
-\fB$fisher_index\fR: Index source url or file\. To use a different index set this to a file or url\. Redirect urls are not supported due to security and performance concerns\. The underlying request and fetch mechanism is based in \fBcurl\fR(1)\. See also \fBfisher\fR(7)#{\fBIndex\fR}\.
+.TP
+\fB$fisher_index\fR
+Index source URL or file\. To use a different index set this to a file or URL\. Redirect urls are not supported due to security and performance concerns\. The underlying request and fetch mechanism is based in \fBcurl(1)\fR\. See also \fBIndex\fR in \fBfisher(7)\fR\.
 .
-.IP "\(bu" 4
-\fB$fisher_error_log\fR: This file keeps a log of the most recent crash stack trace\. \fB$fisher_cache\fR/\.debug_log by default\.
+.TP
+\fB$fisher_error_log\fR
+This file keeps a log of the most recent crash stack trace\. \fB$fisher_cache/\.debug_log\fR by default\.
 .
-.IP "\(bu" 4
-\fB$fisher_alias\fR \fIcommand\fR=\fIalias\fR[,\.\.\.] [\fIcommand2\fR=\fIalias\fR[,\.\.\.]]: Use this variable to define custom aliases for fisher commands\. See #{\fBExamples\fR} below\.
+.TP
+\fB$fisher_alias command=alias[,\.\.\.] [command2=alias[,\.\.\.]]\fR
+Use this variable to define custom aliases for fisher commands\. See \fBExamples\fR below\.
 .
-.IP "\(bu" 4
-\fB$fisher_default_host\fR \fIhost\fR Use this variable to define your preferred git host\. Fisherman uses this value to convert short urls like \fBowner/repo\fR to \fBhttps://host/owner/repo\fR\. The default host is \fIgithub\.com\fR\.
-.
-.IP "" 0
+.TP
+\fB$fisher_default_host\fR
+Use this variable to define your preferred git host\. Fisherman uses this value to convert short urls like \fBowner/repo\fR to \fBhttps://host/owner/repo\fR\. The default host is \fIgithub\.com\fR\.
 .
 .SH "EXAMPLES"
 .
@@ -80,7 +85,4 @@ set fisher_default_host bitbucket\.org
 .IP "" 0
 .
 .SH "SEE ALSO"
-\fBfisher\fR(7)#{\fBIndex\fR}
-.
-.br
-
+fisher(7)

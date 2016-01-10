@@ -16,7 +16,7 @@ Fisherman is a plugin manager for fish that lets you share and reuse code, promp
 Nothing\. You can continue using your shell as usual\. When you are ready to learn more just type \fBman fisher\fR or \fBman 7 fisher\fR\.
 .
 .SS "How do I access other Fisherman documentation?"
-Fisherman documentation is based in UNIX \fBman\fR(1) pages\. See \fBman fisher\fR and \fBman 7 fisher\fR to get started\. You can also access any documentation using the \fBfisher help\fR command\.
+Fisherman documentation is based in UNIX \fBman(1)\fR pages\. See \fBman fisher\fR and \fBman 7 fisher\fR to get started\. You can also access any documentation using the \fBfisher help\fR command\.
 .
 .SS "What are Fisherman plugins?"
 Plugins are written in fish and extend the shell core functionality, run initialization code, add completions or documentations to other commands, etc\. See \fBfisher help plugins\fR\.
@@ -43,7 +43,7 @@ There is no technical distinction between plugins, themes, commands, etc\., but 
 \fBExtension Commands\fR: Plugins that extend Fisherman default commands\. An extension plugin must define one or more functions like \fBfisher_<my_command>\fR\. For specific information about commands, see \fBfisher help commands\fR and then return to this guide\.
 .
 .IP "\(bu" 4
-\fBConfiguration Plugins\fR: Plugins that include one or more \fBmy_plugin\fR\.config\.fish files\. Files that follow this convention are evaluated at the start of the session\.
+\fBConfiguration Plugins\fR: Plugins that include one or more \fBmy_plugin\.config\.fish\fR files\. Files that follow this convention are evaluated at the start of the session\.
 .
 .IP "" 0
 .
@@ -64,7 +64,7 @@ fisher install omf/plugin\-{rbenv,tab} omf/theme\-scorphish
 .IP "" 0
 .
 .P
-You can use the same mechanism to a valid plugin from any given URL\. See also \fBfisher\fR(7)#{\fBCompatibility\fR}\.
+You can use the same mechanism to install any valid plugin from any given URL\. See also \fBCompatibility\fR in \fBfisher(7)\fR\.
 .
 .SS "What does Fisherman do exactly every time I create a new shell session?"
 Essentially, add Fisherman functions and completions to the \fB$fish_{function,complete}_path\fR and evaluate files that follow the convention \fB*\.config\.fish\fR\.
@@ -88,7 +88,7 @@ end
 See \fB$fisher_home/config\.fish\fR for the full code\.
 .
 .SS "How is Fisherman faster than oh\-my\-fish/Wahoo, etc?"
-Fisherman ameliorates the slow shell start problem using a flat dependency tree instead of loading a directory hierarchy per plugin\. This also means that Fisherman performance does not decline depending on the number of plugins installed\. See also \fBfisher\fR(7)#{\fBFlat Tree\fR}\.
+Fisherman ameliorates the slow shell start problem using a flat dependency tree instead of loading a directory hierarchy per plugin\. This also means that Fisherman performance does not decline depending on the number of plugins installed\. See also \fBFlat Tree\fR in \fBfisher(7)\fR\.
 .
 .SS "Why don\'t you contribute your improvements back to oh\-my\-fish instead of creating a new project?"
 I have contributed back to oh\-my\-fish extensively\. See also oh\-my\-fish history for August 27, 2015 when another project, Wahoo, was entirely merged with oh\-my\-fish\.
@@ -97,7 +97,7 @@ I have contributed back to oh\-my\-fish extensively\. See also oh\-my\-fish hist
 In addition, Fisherman was built from the ground up using a completely different design, implementation and set of principles\.
 .
 .P
-Some features include: UNIX familiarity, minimalistic design, flat tree structure, unified plugin architecture, external self\-managed database, cache system, dependency manifest file and compatibility with oh\-my\-fish, etc\. See \fBfisher\fR(7)\.
+Some features include: UNIX familiarity, minimalistic design, flat tree structure, unified plugin architecture, external self\-managed database, cache system, dependency manifest file and compatibility with oh\-my\-fish, etc\. See \fBfisher(7)\fR\.
 .
 .SS "How can I upgrade from an existing oh\-my\-fish or Wahoo installation?"
 Install Fisherman\.
@@ -131,7 +131,7 @@ rm \-rf {$OMF_PATH,$OMF_CONFIG}
 .IP "" 0
 .
 .SS "I changed my prompt with <code>fish_config</code> and now I can\'t use any Fisherman theme, what do I do?"
-\fBfish_config\fR persists the prompt to \fBXDG_CONFIG_HOME/fish/functions\fR/fish_prompt\.fish\. That file takes precedence over Fisherman prompts that installs to \fB$fisher_config\fR/functions/\. To use Fisherman prompts remove the \fBfish_promt\.fish\fR inside \fBXDG_CONFIG_HOME/fish/functions/\fR\.
+\fBfish_config\fR persists the prompt to \fBXDG_CONFIG_HOME/fish/functions/fish_prompt\.fish\fR\. That file takes precedence over Fisherman prompts that installs to \fB$fisher_config/functions\fR\. To use Fisherman prompts remove the \fBfish_promt\.fish\fR inside \fBXDG_CONFIG_HOME/fish/functions\fR\.
 .
 .P
 Assuming \fBXDG_CONFIG_HOME\fR is \fB~/\.config\fR in your system:

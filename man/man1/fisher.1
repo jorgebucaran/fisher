@@ -4,7 +4,7 @@
 .TH "FISHER" "1" "January 2016" "" "fisherman"
 .
 .SH "NAME"
-\fBfisher\fR \- fish plugin manager
+\fBfisher\fR \- Fish Plugin Manager
 .
 .SH "SYNOPSIS"
 \fBfisher\fR \fIcommand\fR [\fIoptions\fR] [\fB\-\-version\fR] [\fB\-\-help\fR]
@@ -19,10 +19,9 @@
 \fBfisher\fR \fB\-\-file\fR=\fIfishfile\fR
 .
 .br
-\fBfisher\fR \fB\-\-validate\fR
 .
 .SH "DESCRIPTION"
-Fisherman is a plugin manager for \fBfish\fR(1) that lets you share and reuse code, prompts and configurations easily\.
+Fisherman is a plugin manager for \fBfish(1)\fR that lets you share and reuse code, prompts and configurations easily\.
 .
 .P
 The following commands are available: \fIinstall\fR, \fIuninstall\fR, \fIupdate\fR, \fIsearch\fR and \fIhelp\fR\. See \fBfisher\fR help \fIcommand\fR for information about each command\.
@@ -34,23 +33,19 @@ The following commands are available: \fIinstall\fR, \fIuninstall\fR, \fIupdate\
 List plugins in the \fB$fisher_cache\fR\. Includes plugins installed using a custom URL\.
 .
 .TP
-\fB\-a\fR \fB\-\-alias\fR[=\fIcommand\fR=[\fIalias\fR[,\.\.\.]]]
+\fB\-a \-\-alias[=command=[alias[,\.\.\.]]]\fR
 Define one or more comma\-separated \fIalias\fR for \fIcommand\fR using \fB$fisher_alias\fR\. If no value is given, lists all existing aliases\.
 .
 .TP
-\fB\-f\fR \fB\-\-file\fR=\fIfishfile\fR
-Read \fIfishfile\fR and display its contents\. If \fIfishfile\fR is null or an empty string, your user \fIfishfile\fR in \fB$fisher_config\fR/fishfile will be used instead\. Use a dash \fB\-\fR to force reading from the standard input\. oh\-my\-fish bundle files are supported as well\.
+\fB\-f \-\-file=fishfile\fR
+Read \fIfishfile\fR and display its contents\. If \fIfishfile\fR is null or an empty string, your user \fIfishfile\fR in \fB$fisher_config/fishfile\fR will be used instead\. Use a dash \fB\-\fR to force reading from the standard input\. oh\-my\-fish bundle files are supported as well\.
 .
 .TP
-\fB\-V\fR, \fB\-\-validate\fR
-Read the standard input and validate a name, url or path\. If the input is a local path, retrieve the absolute path to the closest directory\. If the input resembles a url, normalize the url according to the rules described in \fBfisher help install\fR\. Otherwise, assume the input is a name and use the regex \fB^[a\-z]+[\._\-]?[a\-z0\-9]+\fR to validate the string\.
-.
-.TP
-\fB\-v\fR \fB\-\-version\fR
+\fB\-v \-\-version\fR
 Show version information\. Fisherman\'s current version can be found in the VERSION file at the root of the project\. The version scheme is based in \fBSemantic Versioning\fR and uses Git annotated tags to track releases\.
 .
 .TP
-\fB\-h\fR \fB\-\-help\fR
+\fB\-h \-\-help\fR
 Show usage help\.
 .
 .SH "CUSTOM COMMANDS"
@@ -74,7 +69,7 @@ fisher install fishtape shark
 .IP "" 0
 .
 .TP
-Install plugins from a fishfile or bundle:
+Install plugins from a \fIfishfile\fR or bundle:
 
 .
 .IP "" 4
@@ -108,34 +103,34 @@ Fisherman was created by Jorge Bucaran \fIj@bucaran\.me\fR\.
 See AUTHORS file for a more complete list of contributors\.
 .
 .SH "SEE ALSO"
-\fBfisher\fR(7)
+fisher(7)
 .
 .br
-\fBfisher\fR help \fIhelp\fR
+fisher help
 .
 .br
-\fBfisher\fR help \fIupdate\fR
+fisher update
 .
 .br
-\fBfisher\fR help \fIsearch\fR
+fisher search
 .
 .br
-\fBfisher\fR help \fIconfig\fR
+fisher config
 .
 .br
-\fBfisher\fR help \fIinstall\fR
+fisher install
 .
 .br
-\fBfisher\fR help \fIplugins\fR
+fisher plugins
 .
 .br
-\fBfisher\fR help \fIcommands\fR
+fisher commands
 .
 .br
-\fBfisher\fR help \fIfishfile\fR
+fisher fishfile
 .
 .br
-\fBfisher\fR help \fIuninstall\fR
+fisher uninstall
 .
 .br
 

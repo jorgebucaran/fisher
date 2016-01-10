@@ -4,10 +4,10 @@
 .TH "FISHER\-UNINSTALL" "1" "January 2016" "" "fisherman"
 .
 .SH "NAME"
-\fBfisher\-uninstall\fR \- Disable / Uninstall Plugins
+\fBfisher\-uninstall\fR \- Uninstall Plugins
 .
 .SH "SYNOPSIS"
-fisher \fBuninstall\fR [\fIname\fR, \fIurl\fR or \fIpath\fR \.\.\.]
+fisher \fBuninstall\fR [\fIplugins\fR \.\.\.]
 .
 .br
 fisher \fBuninstall\fR [\fB\-\-force\fR] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
@@ -15,37 +15,37 @@ fisher \fBuninstall\fR [\fB\-\-force\fR] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
 .br
 .
 .SH "USAGE"
-fisher \fBuninstall\fR \fIplugin\fR \.\.\.
+fisher \fBuninstall\fR \fIplugin\fR
 .
 .br
-fisher \fBuninstall\fR \fIowner/repo\fR \.\.\.
+fisher \fBuninstall\fR \fIowner/repo\fR
 .
 .br
-fisher \fBuninstall\fR \fIpath\fR \.\.\.
+fisher \fBuninstall\fR \fIpath\fR
 .
 .br
 .
 .SH "DESCRIPTION"
-Uninstall one or \fImore\fR plugins by \fIname\fR, searching \fB$fisher_index\fR or by \fIurl\fR\. If no arguments are given, read the standard input\. This process is the inverse of Install\. See \fBfisher help install\fR\.
+Uninstall one or more plugins, by name, URL or local path\. If no arguments are given, read the standard input\. This process is the inverse of Install\. See \fBfisher help install\fR\.
 .
 .P
 Uninstall does not remove any copies of the given plugin in \fB$fisher_cache\fR\. To erase the copy from the cache, use the \fB\-\-force\fR option\.
 .
 .P
-Uninstall does not remove any dependencies installed with other plugins\. This behavior prevents breaking plugins that share the same dependency\. See \fBfisher\fR(7){\fBFlat Tree\fR}\.
+Uninstall does not remove any dependencies installed with other plugins\. This behavior prevents breaking plugins that share the same dependency\. See \fBFlat Tree\fR in \fBfisher(7)\fR\.
 .
 .SH "OPTIONS"
 .
 .TP
-\fB\-f\fR \fB\-\-force\fR
+\fB\-f \-\-force\fR
 Delete copy from cache\.
 .
 .TP
-\fB\-q\fR \fB\-\-quiet\fR
+\fB\-q \-\-quiet\fR
 Enable quiet mode\.
 .
 .TP
-\fB\-h\fR \fB\-\-help\fR
+\fB\-h \-\-help\fR
 Show usage help\.
 .
 .SH "EXAMPLES"
@@ -66,10 +66,10 @@ fisher \-\-list | fisher uninstall \-\-force
 .IP "" 0
 .
 .SH "SEE ALSO"
-\fBfisher\fR(1)
+fisher(1)
 .
 .br
-\fBfisher help plugins\fR
+fisher help plugins
 .
 .br
 

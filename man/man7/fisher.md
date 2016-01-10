@@ -3,11 +3,11 @@ fisher(7) -- An Introduction to Fisherman
 
 ## DESCRIPTION
 
-Fisherman is a plugin manager for `fish`(1) that lets you share and reuse code, prompts and configurations easily.
+Fisherman is a plugin manager for `fish(1)` that lets you share and reuse code, prompts and configurations easily.
 
 Some features include: minimalistic design, flat tree structure, unified plugin architecture, external self-managed database, cache system, dependency manifest file and compatibility with oh-my-fish and other frameworks.
 
-This document describes Fisherman features and some of their implementation details. For usage and command help see also `fisher`(1).
+This document describes Fisherman features and some of their implementation details. For usage and command help see also `fisher(1)`.
 
 ## FLAT TREE
 
@@ -37,7 +37,7 @@ With this in mind, it's possible to improve the slow shell start problem using a
 
 The overhead of juggling multiple path hierarchies in a per-plugin basis yields no benefits as everything is shared in the same scope.
 
-Loading a path simply means adding the desired location to the `$fish_function_path` array. See also `functions`(1).
+Loading a path simply means adding the desired location to the `$fish_function_path` array. See also `functions(1)`.
 
 Here is a snapshot of a typical configuration path with a single plugin and prompt:
 
@@ -55,9 +55,9 @@ Here is a snapshot of a typical configuration path with a single plugin and prom
         |-- man1/
             |-- my_plugin.1
 
-If you are already familiar in the way fish handles your user configuration, you will find the above structure similar to `$XDG_CONFIG_HOME/fish`. See `help fish`#{`Initialization Files`} to learn more about fish configuration.
+If you are already familiar in the way fish handles your user configuration, you will find the above structure similar to `$XDG_CONFIG_HOME/fish`. See `Initialization Files` in `help fish` to learn more about fish configuration.
 
-`conf.d`, short for configuration directory, is used for initialization files, i.e., files that should run at the start of the shell. Files that follow the naming convention *name*.config.fish are added there.
+`conf.d`, short for configuration directory, is used for initialization files, i.e., files that should run at the start of the shell. Files that follow the naming convention `<name>.config.fish` are added there.
 
 ### PLUGINS
 
@@ -71,24 +71,25 @@ To install a plugin, you can use their *name* if they are listed in `$fisher_ind
 fisher install shark
 ```
 
-Otherwise, you can use the repository remote *url*.
+Otherwise, you can use the repository remote *URL*.
 
 ```
-fisher install oh-my-fish/bobthefish
+fisher install simnalamburt/shellder
 ```
 
 If the domain or host is not provided, Fisherman will use any value in `$fisher_default_host`. The default value is `https://github.com`.
 
-In addition, all of the following variations are accepted:
+In addition, all of the following `owner/repo` variations are accepted:
 
-* `github`/owner/repo `->` https://github.com/owner/repo<br>
-* `gh:`owner/repo `->` https://github.com/owner/repo<br>
+* owner/repo `>` https://github.com/owner/repo<br>
+* *github*/owner/repo `>` https://github.com/owner/repo<br>
+* *gh*/owner/repo `>` https://github.com/owner/repo<br>
 
-Shortcuts for other common Git repository hosting services are also available:
+Shortcuts to other common Git repository hosting services are also available:
 
-* `bb:`/owner/repo `->` https://bitbucket.org/owner/repo<br>
-* `gl:`/owner/repo `->` https://gitlab.com/owner/repo<br>
-* `omf:`/owner/repo `->` https://github.com/oh-my-fish/repo<br>
+* *bb*/owner/repo `>` https://bitbucket.org/owner/repo<br>
+* *gl*/owner/repo `>` https://gitlab.com/owner/repo<br>
+* *omf*/owner/repo `>` https://github.com/oh-my-fish/repo<br>
 
 Because of Fisherman's flat tree model, there is no technical distinction between plugins or prompts. Installing a prompt is equivalent to switching themes in other systems. The interface is always *install*, *update* or *uninstall*.
 
@@ -96,7 +97,7 @@ Throughout this document and other Fisherman manuals you will find the term prom
 
 ### INDEX
 
-You can install, update and uninstall plugins by name, querying the Fisherman index, or by url using several of the variations described in #{`Plugins`}. The index is a plain text flat database *independent* from Fisherman. You can use a custom index file by setting `$fisher_index` to your own file or url. Redirection urls are not supported due to security and performance concerns. See `fisher help config`.
+You can install, update and uninstall plugins by name, querying the Fisherman index, or by URL using several of the variations described in `Plugins`. The index is a plain text flat database *independent* from Fisherman. You can use a custom index file by setting `$fisher_index` to your own file or URL. Redirection urls are not supported due to security and performance concerns. See `fisher help config`.
 
 A copy of the index is downloaded each time a query happens. This keeps the index up to date and allows you to search the database offline.
 
@@ -127,7 +128,7 @@ You can also submit a new plugin manually and create a pull request.
 ```
 git clone https://github.com/fisherman/fisher-index
 cd index
-echo "$name\n$url\n$info\n$author\n$tags\n\n" >> index
+echo "$name\n$URL\n$info\n$author\n$tags\n\n" >> index
 git push origin master
 open http://github.com
 ```
@@ -164,11 +165,11 @@ Plugins may list any number of dependencies to other plugins in a fishfile at th
 
 ### CONFIGURATION
 
-Fisherman allows a high level of configuration using `$fisher_*` variables. You can customize the home and configuration directories, debug log file, cache location, index source url, command aliases, etc. See `fisher help config`.
+Fisherman allows a high level of configuration using `$fisher_*` variables. You can customize the home and configuration directories, debug log file, cache location, index source URL, command aliases, etc. See `fisher help config`.
 
 You can also extend Fisherman by adding new commands and ship them as plugins as well. Fisherman automatically adds completions to *commands* based in the function *description* and usage help if provided. See `fisher help help` and `fisher help commands`.
 
-To add completions to standalone utility plugins, use `complete`(1).
+To add completions to standalone utility plugins, use `complete(1)`.
 
 ### CLI
 
@@ -176,17 +177,17 @@ If you are already familiar with other UNIX tools, you'll find Fisherman command
 
 Most commands read the standard input by default when no options are given and produce easy to parse output, making Fisherman commands ideal for plumbing and building upon each other.
 
-Fisherman also ships with a CLI options parser and a background job wait spinner that you can use to implement your own commands CLI. See `getopts`(1) and `wait`(1).
+Fisherman also ships with a CLI options parser and a background job wait spinner that you can use to implement your own commands CLI. See `getopts(1)` and `wait(1)`.
 
 ## COMPATIBILITY
 
 Fisherman supports oh-my-fish (Wahoo) themes and plugins by default, but some features are turned off due to performance considerations.
 
-oh-my-fish evaluates every *.fish* file inside the root directory of every plugin during initialization. This is necessary in order to register any existing `init` events and invoke them using fish `emit`(1).
+oh-my-fish evaluates every *.fish* file inside the root directory of every plugin during initialization. This is necessary in order to register any existing `init` events and invoke them using fish `emit(1)`.
 
-Since it is not possible to determine whether a file defines an initialization event without evaluating its contents first, oh-my-fish sources all *.fish* files and then emits events for each plugin.
+Since it is not possible to determine whether a file defines an initialization event without evaluating its contents first, oh-my-fish sources all `*.fish` files and then emits events for each plugin.
 
-Not all plugins opt in the initialization mechanism, therefore support for this behavior is turned off by default. If you would like Fisherman to behave like oh-my-fish at the start of each session, install the `omf` compatibility plugin.
+Not all plugins opt in the initialization mechanism, therefore support for this behavior is turned off by default. If you would like Fisherman to behave like oh-my-fish at the start of every session, install the `omf` compatibility plugin.
 
 ```
 fisher install omf
@@ -196,10 +197,10 @@ This plugin also adds definitions for some of oh-my-fish Core Library functions.
 
 ## SEE ALSO
 
-`fisher`(1)<br>
-`fisher help`<br>
-`fisher help config`<br>
-`fisher help plugins`<br>
-`fisher help commands`<br>
-`wait`(1)<br>
-`getopts`(1)<br>
+fisher(1)<br>
+fisher help<br>
+fisher help config<br>
+fisher help plugins<br>
+fisher help commands<br>
+wait(1)<br>
+getopts(1)<br>

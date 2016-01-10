@@ -15,7 +15,7 @@
 .br
 .
 .SH "DESCRIPTION"
-getopts is a command line parser, designed to process command line arguments according to the POSIX Utility Syntax Guidelines\. If no arguments are given it returns \fB1\fR\.
+getopts is a command line parser, designed to process command line arguments based in the POSIX Utility Syntax Guidelines\. If no arguments are given getopts returns \fB1\fR\.
 .
 .SH "USAGE"
 In the following example:
@@ -50,7 +50,7 @@ _    baz
 The items on the left represent the option flags or \fIkeys\fR associated with the CLI\. The items on the right are the option \fIvalues\fR\. The underscore \fB_\fR character is the default \fIkey\fR for arguments without a key\.
 .
 .P
-Use \fBread\fR(1) to process the generated stream and \fBswitch\fR(1) to match patterns:
+Use \fBread(1)\fR to process the generated stream and \fBswitch(1)\fR to match patterns:
 .
 .IP "" 4
 .
@@ -73,7 +73,7 @@ end
 None\.
 .
 .SH "EXAMPLES"
-The following is a mock of \fBfish\fR(1) CLI missing the implementation:
+The following is a mock of \fBfish(1)\fR CLI missing the implementation:
 .
 .IP "" 4
 .

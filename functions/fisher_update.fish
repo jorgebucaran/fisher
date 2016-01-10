@@ -1,4 +1,4 @@
-function fisher_update -d "Fisherman Update Manager"
+function fisher_update -d "Update Plugins and Fisherman"
     set -l path
     set -l items
     set -l option self
@@ -20,8 +20,11 @@ function fisher_update -d "Fisherman Update Manager"
             case q quiet
                 set error $2
 
-            case help h
-                printf "usage: fisher update [<name or url> ...] [--quiet] [--help]\n\n"
+            case help
+                set option help
+
+            case h
+                printf "usage: fisher update [<plugins>] [--quiet] [--help]\n\n"
 
                 printf "    -q --quiet  Enable quiet mode\n"
                 printf "     -h --help  Show usage help \n"
@@ -29,9 +32,15 @@ function fisher_update -d "Fisherman Update Manager"
 
             case \*
                 printf "fisher: Ahoy! '%s' is not a valid option\n" $1 >& 2
-                fisher_update --help >& 2
+                fisher_update -h >& 2
                 return 1
         end
+    end
+
+    switch "$option"
+        case help
+            fisher help update
+            return
     end
 
     if test -z "$error"
@@ -67,41 +76,30 @@ function fisher_update -d "Fisherman Update Manager"
             rm -f $index
 
         case self
-            set -l elapsed (date +%s)
+            set -l time (date +%s)
 
             printf "Updating >> Fisherman\n" > $error
 
             if not fisher_update --path=$fisher_home --quiet=$error
-
                 printf "fisher: Could not update Fisherman.\n" > $error
                 sed -E 's/.*(error:.*)/\1/' $fisher_error_log > $error
-
                 return 1
             end
 
-            printf "Done without errors (%0.fs)\n" (
-                math (date +%s) - $elapsed) > $error
+            printf "Done without errors (%0.fs)\n" (math (date +%s) - $time) > $error
 
         case \*
+            set -l time (date +%s)
             set -l count 0
             set -l index 1
             set -l total (count $items)
-            set -l elapsed (date +%s)
 
             if set -q items[1]
                 printf "%s\n" $items
             else
                 __fisher_file -
-            end | __fisher_validate | __fisher_cache | while read -l path
 
-                if not test -d "$path"
-                    switch "$path"
-                        case file:///\*
-                        case \*
-                            printf "fisher: '%s' path not found\n" $path > $error
-                            continue
-                    end
-                end
+            end | __fisher_validate | __fisher_cache $error | while read -l path
 
                 set -l name (printf "%s\n" $path | __fisher_name)
 
@@ -112,35 +110,30 @@ function fisher_update -d "Fisherman Update Manager"
                         printf ">> %s\n" $name > $error
 
                     case \*
-                        printf "(%s of %s) >> %s\n" $index $total $name > $error
-
                         set index (math $index + 1)
+                        printf "(%s of %s) >> %s\n" $index $total $name > $error
                 end
 
-                switch "$path"
-                    case file:///\*
-                    case \*
-                        if not test -L $path
-                            if not fisher_update --path=$path --quiet=$error
-                                sed -nE 's/.*(error|fatal): (.*)/error: \2/p
-                                    ' $fisher_error_log > $error
-                                continue
-                            end
-                        end
+                if not fisher_update --path=$path --quiet
+                    if test ! -L $path
+                        sed -nE 's/.*(error|fatal): (.*)/error: \2/p
+                            ' $fisher_error_log > $error
+                        continue
+                    end
                 end
 
-                fisher install --quiet -- (printf "%s\n" $name | __fisher_name)
+                fisher install --quiet -- $name
 
                 set count (math $count + 1)
             end
 
-            set elapsed (math (date +%s) - $elapsed)
+            set time (math (date +%s) - $time)
 
             if test $count = 0
                 printf "No plugins were updated.\n" > $error
                 return 1
             end
 
-            printf "Aye! %d plugin/s updated in %0.fs\n" > $error $count $elapsed
+            printf "Aye! %d plugin/s updated in %0.fs\n" > $error $count $time
     end
 end
