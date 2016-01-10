@@ -7,13 +7,13 @@
 \fBfisher\-fishfile\fR \- Fishfile Format
 .
 .SH "SYNOPSIS"
-A fishfile lets you share plugin configurations across multiple installations, allows plugins to declare dependencies, and prevent information loss in case of system failure\.
+A \fIfishfile\fR lets you share plugin configurations across multiple installations, allows plugins to declare dependencies, and prevent information loss in case of system failure\.
 .
 .P
-Fisherman also keeps a user \fIfishfile\fR in \fB$fisher_config\fR/fishfile which is automatically updated as you install or uninstall plugins\.
+Fisherman also keeps a user \fIfishfile\fR in \fB$fisher_config/fishfile\fR which is automatically updated as you install or uninstall plugins\.
 .
 .SH "USAGE"
-Fishfiles are plain text, manifest files that list one or more plugins by their name, url or short url \fBowner/repo\fR\.
+Fishfiles are plain text, manifest files that list one or more plugins by their name, URL or path to a local project\.
 .
 .P
 Here is an example:
@@ -34,10 +34,10 @@ oh\-my\-fish/bobthefish
 .IP "" 0
 .
 .P
-To read fishfiles use \fBfisher \-\-file\fR=\fIfishfile\fR\. This will read \fIfishfile\fR sequentially, writing its contents to the standard output\. oh-my-fish bundle files are supported as well\.
+To read fishfiles use \fBfisher \-\-file=fishfile\fR\. This will read \fIfishfile\fR sequentially, writing its contents to the standard output\. oh\-my\-fish bundle files are supported as well\.
 .
 .P
-If \fIfishfile\fR is null or an empty string, the global \fIfishfile\fR in \fB$fisher_config\fR/fishfile will be used\. Use a dash \fB\-\fR to force read from standard input\.
+If \fIfishfile\fR is null or an empty string, the global \fIfishfile\fR in \fB$fisher_config/fishfile\fR will be used\. Use a dash \fB\-\fR to force read from standard input\.
 .
 .SH "PLUGINS"
 Plugins may declare any number of dependencies to other plugins in a fishfile at the root of their project\.
@@ -46,16 +46,13 @@ Plugins may declare any number of dependencies to other plugins in a fishfile at
 By default, when Fisherman installs a plugin, it will also fetch and install its dependencies\. If a dependency is already installed, it will not be updated as this could potentially break other plugins using an older version\. For the same reason, uninstalling a plugin does not remove its dependencies\.
 .
 .P
-To understand this behavior, it helps to recall the shell\'s single scope for functions\. The lack of private functions means that, it is \fInot\fR possible to single\-lock a specific dependency version\. See also \fBfisher\fR(7)#{\fBFlat Tree\fR}\.
+To understand this behavior, it helps to recall the shell\'s single scope for functions\. The lack of private functions means that, it is \fInot\fR possible to single\-lock a specific dependency version\. See also \fBFlat Tree\fR in \fBfisher(7)\fR\.
 .
 .SH "SEE ALSO"
-\fBfisher\fR(1)
+fisher(1)
 .
 .br
-\fBfisher help config\fR
-.
-.br
-\fBfisher\fR(7) #{\fBFlat Tree\fR}
+fisher help config
 .
 .br
 

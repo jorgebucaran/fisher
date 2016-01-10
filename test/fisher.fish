@@ -45,7 +45,7 @@ test "evaluate \$fisher_alias=<command=alias[,...]> as aliases"
 end
 
 test "display usage"
-    (fisher | sed 3q | xargs) = "usage: fisher [--version] [--help] [--list] [--quiet] [-a <command>=alias[,...]] [-f <path>] <command> [<options>]"
+    (fisher | sed 1q) = "usage: fisher <command> [<options>] [--version] [--help]"
 end
 
 test "display help information about 'help' at the bottom"

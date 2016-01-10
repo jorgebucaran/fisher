@@ -8,12 +8,12 @@ function __fisher_validate -d "Validate a name, url or path"
     while read -lp "" item
         switch "$item"
             case \*..\* /. /
-                continue
+                return 1
         end
 
         if test -e "$item"
-            if test $item = $HOME
-                continue
+            if test $item = $HOME -o $HOME = $PWD
+                return 1
             end
 
             if test -f "$item"

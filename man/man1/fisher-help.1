@@ -4,7 +4,7 @@
 .TH "FISHER\-HELP" "1" "January 2016" "" "fisherman"
 .
 .SH "NAME"
-\fBfisher\-help\fR \- Display Help Information
+\fBfisher\-help\fR \- Show Help
 .
 .SH "SYNOPSIS"
 fisher \fBhelp\fR [\fIkeyword\fR] [\fB\-\-all\fR] [\fB\-\-guides\fR] [\fB\-\-usage\fR[=\fIcommand\fR]] [\fB\-\-help\fR]
@@ -15,16 +15,18 @@ fisher \fBhelp\fR [\fIkeyword\fR] [\fB\-\-all\fR] [\fB\-\-guides\fR] [\fB\-\-usa
 fisher \fBhelp\fR \fIcommand\fR
 .
 .br
-fisher \fBhelp\fR \fIconcept\fR
+fisher \fBhelp\fR \fIguide\fR
 .
 .br
 fisher \fBhelp\fR \fB\-\-usage\fR=[\fIcommand\fR]
+.
+.br
 .
 .SH "DESCRIPTION"
 Help displays \fIcommand\fR documentation, usage, guides and tutorials\.
 .
 .P
-Help is based in \fBman\fR(1) pages\. To supply help with your own plugin or command, create one or more man\.\fB1~7\fR pages and add them to your project under the corresponding \fBman/man%\fR directory\.
+Help is based in \fBman(1)\fR pages\. To supply help with your own plugin or command, create one or more man\.1~7 pages and add them to your project under the corresponding man/man% directory\.
 .
 .IP "" 4
 .
@@ -41,37 +43,67 @@ my_plugin
 .IP "" 0
 .
 .P
-This will allow you to invoke \fBman\fR my_plugin\. To add documentation to a command, prepend the keyword \fBfisher\-\fR to the man file, e\.g\., \fBfisher\-\fRmy\-command\.1\. This will allow you to access the man page via \fBfisher help my\-command\fR\.
+This will allow you to access help for my_plugin using \fBman(1)\fR\. To add documentation to a \fBfisher(1)\fR command, prepend the keyword \fBfisher\-\fR to the man file, e\.g\., \fBfisher\-\fRmy\-command\.1\. This will allow you to access the man page by \fBfisher help my\-command\fR\.
 .
 .P
-There are utilities that can help you generate man pages from other text formats, such as Markdown\. One example is \fBronn\fR(1)\. For a standalone example see \fBfisher help plugins\fR#{\fBExample\fR}\.
+There are utilities that can help you generate man pages from other text formats, such as Markdown\. One example is \fBronn(1)\fR\. For an example without using external utilities, see \fIExample\fR in \fBfisher help plugins\fR\.
 .
 .SH "OPTIONS"
 .
 .TP
-\fB\-\-commands\fR[=\fIbare\fR]
-List commands\. This is the default behavior of \fBfisher help\fR\. Use \fIbare\fR for easy to parse output\.
+\fB\-a \-\-all\fR
+List both commands and guides\. This shows all the available documentation\.
 .
 .TP
-\fB\-a\fR \fB\-\-all\fR
-List commands and guides\. Display all the available documentation\.
+\fB\-g \-\-guides[=*bare*]\fR
+List guides / tutorials\. Use \fIbare\fR to generate easy to parse output\.
 .
 .TP
-\fB\-g\fR \fB\-\-guides\fR[=\fIbare\fR]
-List guides / tutorials\. Use \fIbare\fR for easy to parse output\.
+\fB\-\-commands[=*bare*]\fR
+List commands\. This is the default behavior of \fBfisher help\fR\. Use \fIbare\fR to generate easy to parse output\.
 .
 .TP
-\fB\-u\fR \fB\-\-usage\fR[=\fIcommand\fR]
-Display usage help for \fIcommand\fR\. To supply usage help with a command, \fIcommand\fR must accept a \fB\-\-help\fR option\.
+\fB\-u \-\-usage[=*command*]\fR
+Display usage help for \fIcommand\fR\. To supply usage help with a command, \fIcommand\fR must implement a \fB\-h\fR flag\.
 .
 .TP
-\fB\-h\fR \fB\-\-help\fR
+\fB\-h \-\-help\fR
 Show usage help\.
 .
 .SH "EXAMPLES"
 .
 .IP "\(bu" 4
-Display usage help for all Fisherman commands\.
+Show all the available documentation\.
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
+fisher help \-a
+.
+.fi
+.
+.IP "" 0
+.
+.IP "\(bu" 4
+Show documentation about help\.
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
+fisher help help
+.
+.fi
+.
+.IP "" 0
+.
+.IP "\(bu" 4
+Show usage help for all Fisherman commands\.
 .
 .IP "" 0
 .
@@ -86,10 +118,10 @@ fisher help \-\-commands=bare | fisher help \-\-usage
 .IP "" 0
 .
 .SH "SEE ALSO"
-\fBfisher\fR(1)
+man(1)
 .
 .br
-\fBfisher help plugins\fR#{\fBExample\fR}
+fisher(1)
 .
 .br
 

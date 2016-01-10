@@ -1,4 +1,4 @@
-function fisher_install -d "Enable / Install one or more plugins"
+function fisher_install -d "Install Plugins"
     set -l items
     set -l option
     set -l error /dev/stderr
@@ -8,44 +8,47 @@ function fisher_install -d "Enable / Install one or more plugins"
             case _
                 set items $items $2
 
-            case s l link
-                set option link
-
             case q quiet
                 set error /dev/null
 
-            case h help
-                printf "usage: fisher install [<name or url> ...] [--link] [--quiet]\n"
-                printf "                      [--help]\n\n"
+            case help
+                set option help
 
-                printf "     -s --link  Install as symbolic links\n"
+            case h
+                printf "usage: fisher install [<plugins>] [--quiet] [--help]\n\n"
+
                 printf "    -q --quiet  Enable quiet mode\n"
                 printf "     -h --help  Show usage help\n"
                 return
 
             case \*
                 printf "fisher: Ahoy! '%s' is not a valid option\n" $1 >& 2
-                fisher_install --help >& 2
+                fisher_install -h >& 2
                 return 1
         end
     end
 
+    switch "$option"
+        case help
+            fisher help install
+            return
+    end
+
+    set -l time (date +%s)
     set -l count 0
     set -l index 1
-    set -l elapsed (date +%s)
     set -l total (count $items)
 
     if set -q items[1]
         printf "%s\n" $items
     else
         __fisher_file -
-
     end | __fisher_validate | while read -l item
 
         switch "$item"
             case \*/\*
                 printf "%s %s\n" $item (
-                    if not fisher_search --url=$item --name
+                    if not fisher_search --name --url=$item
                         printf "%s\n" $item | __fisher_name
                     end)
 
@@ -70,27 +73,22 @@ function fisher_install -d "Enable / Install one or more plugins"
                 printf ">> %s\n" $name > $error
 
             case \*
-                printf "(%s of %s) >> %s\n" $index $total $name > $error
-
                 set index (math $index + 1)
+                printf "(%s of %s) >> %s\n" $index $total $name > $error
         end
 
         mkdir -p $fisher_config/{cache,functions,completions,conf.d,man}
 
         set -l path $fisher_cache/$name
 
-        if not test -e $path
-            switch "$url"
-                case file:///\*
-                    set url (printf "%s\n" $url | sed 's|file://||')
+        switch "$url"
+            case file:///\*
+                if test ! -e $path
+                    ln -sfF (printf "%s\n" $url | sed 's|file://||') $path
+                end
 
-                    if test "$option" = link
-                        ln -sF $url $path
-                    else
-                        cp -rf $url $path
-                    end
-
-                case \*
+            case \*
+                if test ! -e $path
                     if not wait --spin=pipe --log=$fisher_error_log "
                         git clone --quiet --depth 1 $url $path"
 
@@ -103,7 +101,7 @@ function fisher_install -d "Enable / Install one or more plugins"
 
                         continue
                     end
-            end
+                end
         end
 
         if test -L $path
@@ -155,14 +153,14 @@ function fisher_install -d "Enable / Install one or more plugins"
             switch $base
                 case \*\?.config.fish
                     if test "$option" = link
-                        ln -sF $file $fisher_config/conf.d/$base
+                        ln -sfF $file $fisher_config/conf.d/$base
                     else
                         cp -f $file $fisher_config/conf.d/$base
                     end
 
                 case \*
                     if test "$option" = link
-                        ln -sF $file $fisher_config/functions/$base
+                        ln -sfF $file $fisher_config/functions/$base
                     else
                         cp -f $file $fisher_config/functions/$base
                     end
@@ -171,7 +169,7 @@ function fisher_install -d "Enable / Install one or more plugins"
 
         if test "$option" = link
             for file in $path/completions/*.fish
-                ln -sF $file $fisher_config/completions/(basename $file)
+                ln -sfF $file $fisher_config/completions/(basename $file)
             end
         else
             cp -f $path/completions/*.fish $fisher_config/completions/ ^ /dev/null
@@ -184,7 +182,7 @@ function fisher_install -d "Enable / Install one or more plugins"
 
             for file in $path/man/man$n/*.$n
                 if test "$option" = link
-                    ln -sF $file $fisher_config/man/man$n
+                    ln -sfF $file $fisher_config/man/man$n
                 else
                     cp -f $file $fisher_config/man/man$n
                 end
@@ -199,7 +197,7 @@ function fisher_install -d "Enable / Install one or more plugins"
 
         set -l item $name
 
-        if fisher_search --name=$name --and --tag=orphan --quiet
+        if fisher_search --name=$name --and --tag=local --quiet
             set item $url
         end
 
@@ -212,12 +210,12 @@ function fisher_install -d "Enable / Install one or more plugins"
         printf "%s\n" "$item" >> $file
     end
 
-    set elapsed (math (date +%s) - $elapsed)
+    set time (math (date +%s) - $time)
 
     if test "$count" = 0
         printf "No plugins were installed.\n" > $error
         return 1
     end
 
-    printf "Aye! %d plugin/s installed in %0.fs\n" $count $elapsed > $error
+    printf "Aye! %d plugin/s installed in %0.fs\n" $count $time > $error
 end

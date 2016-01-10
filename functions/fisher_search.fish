@@ -1,4 +1,5 @@
-function fisher_search -d "Search Fisherman Index"
+function fisher_search -d "Search Plugins"
+    set -l option
     set -l select all
     set -l fields
     set -l join "||"
@@ -16,7 +17,7 @@ function fisher_search -d "Search Fisherman Index"
                                 set 1 url
 
                                 set -l url (printf "%s\n" $2 | __fisher_validate)
-                                if not test -z "$url"
+                                if test ! -z "$url"
                                     set 2 $url
                                 end
 
@@ -74,14 +75,16 @@ function fisher_search -d "Search Fisherman Index"
             case q quiet
                 set quiet 1
 
-            case h help
-                printf "usage: fisher search [<name or url>] [--select=<source>] [--quiet]\n"
+            case help
+                set option help
+
+            case h
+                printf "usage: fisher search [<plugins>] [--select=<source>] [--quiet]\n"
                 printf "                     [--or|--and] [--field=<field>] [--help]\n\n"
 
                 printf "    -s --select=<source>  Select all, cache or remote plugins       \n"
                 printf "      -f --field=<field>  Filter by name, url, info, tag or author  \n"
-                printf "                -a --and  Join query with AND operator              \n"
-                printf "                 -o --or  Join query with OR operator               \n"
+                printf "      -o --or | -a --and  Join query with AND/OR operator           \n"
                 printf "              -q --quiet  Enable quiet mode                         \n"
                 printf "               -h --help  Show usage help                           \n"
                 return
@@ -91,6 +94,12 @@ function fisher_search -d "Search Fisherman Index"
                 fisher_search --help >& 2
                 return 1
         end
+    end
+
+    switch "$option"
+        case help
+            fisher help search
+            return
     end
 
     if test -z "$fields[1]"
@@ -112,16 +121,17 @@ function fisher_search -d "Search Fisherman Index"
                 end
             end
 
-            if not test -s $index
+            if test ! -s $index
                 printf "fisher: '%s' invalid path or url\n" $index >& 2
                 return 1
             end
 
             set -l cache (__fisher_list)
-            awk -v FS='\n' -v RS='' -v cache_items="$cache" '
+
+            awk -v FS='\n' -v RS='' -v items="$cache" '
 
             BEGIN {
-                split(cache_items, cache, " ")
+                split(items, cache, " ")
             }
 
             /^ *#/ { next } {
@@ -138,37 +148,47 @@ function fisher_search -d "Search Fisherman Index"
                 }
             }
 
-            ' $index | while read -l orphan
-                git -C $fisher_cache/$orphan ls-remote --get-url \
-                    | read -l url
+            ' $index | while read -l item
 
-                printf "%s\n" $url \
-                    | sed -E '
-                        s|^https?://||
-                        s|^github\.com||
-                        s|^bitbucket.org|bb:|
-                        s|^gitlab.com|gl:|
-                        s|^/||' \
-                    | read -l info
+                set -l url
+                set -l info
+                set -l tags
+                set -l author
 
-                git -C $fisher_cache/$orphan show -s --format='%ae;%an' (
-                    git -C $fisher_cache/$orphan rev-list --max-parents=0 HEAD) \
-                    | awk -v FS=';' '{ printf("%s\n", ($1 ? $1 : $2 ? $2 : "unknown")) }' \
-                    | read -l author
+                if test -e $fisher_cache/$item/.git
+                    set tags custom
 
-                set -l tags orphan
+                    set url (git -C $fisher_cache/$item ls-remote --get-url)
 
-                for tag in theme plugin oh-my-fish config
-                    if printf "%s\n" "$url" | grep -q $tag
-                        switch "$tag"
-                            case oh-my-fish
-                                set tag omf
+                    set info (printf "%s\n" $url \
+                        | sed -E '
+                            s|^https?://||
+                            s|^github\.com||
+                            s|^bitbucket.org|bb:|
+                            s|^gitlab.com|gl:|
+                            s|^/||')
+
+                    set author (printf "%s\n" $url | sed 's|/[^/]*$||;s|.*/||')
+
+                    for tag in theme plugin config
+                        switch "$url"
+                            case \*$tag\*
+                                set tags $tag $tags
                         end
-                        set tags $tag $tags
                     end
+                else
+                    set tags local
+                    set url $fisher_cache/$item
+
+                    if test -L $url
+                        set url (readlink $url)
+                    end
+
+                    set author $USER
+                    set info "$author/$item"
                 end
 
-                printf "\n%s\n%s\n%s\n%s\n%s\n\n" "$orphan" "$url" "$info" "$tags" "$author"
+                printf "\n%s\n%s\n%s\n%s\n%s\n\n" "$item" "$url" "$info" "$tags" "$author"
             end
 
             cat $index
@@ -177,7 +197,7 @@ function fisher_search -d "Search Fisherman Index"
             fisher_search --index=$index --and --name!=(__fisher_list)
 
         case cache
-            __fisher_list | read -laz cache
+            set -l cache (__fisher_list)
 
             if test -z "$cache"
                 return 1
