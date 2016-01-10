@@ -18,7 +18,7 @@ Uninstall one or more plugins, by name, URL or local path. If no arguments are g
 
 Uninstall does not remove any copies of the given plugin in `$fisher_cache`. To erase the copy from the cache, use the `--force` option.
 
-Uninstall does not remove any dependencies installed with other plugins. This behavior prevents breaking plugins that share the same dependency. See `Flat Tree` in `fisher(7)`.
+Uninstall does not remove any dependencies installed with other plugins. This behavior prevents breaking plugins that share the same dependency. See `Flat Tree` in `fisher help tour`.
 
 ## OPTIONS
 

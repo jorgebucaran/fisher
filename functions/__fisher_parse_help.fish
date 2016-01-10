@@ -1,13 +1,4 @@
-# Usage
-#     __fisher_complete [<awk var>=value] [--help]
-#
-# Example
-#     set -l IFS \t
-#     STDIN | __fisher_complete | while read -l d l s
-#         complete -c <command> -s  -l  -d
-#     end
-
-function __fisher_complete -d "Parse usage help output"
+function __fisher_parse_help -d "parse usage help output"
     switch "$argv"
         case \*OFS=\*
         case \*

@@ -6,8 +6,6 @@ function fisher -d "Fish Shell Plugin Manager"
 
     set -l option
     set -l value
-    set -l quiet -E .
-    set -l alias
 
     getopts $argv | while read -l 1 2
         switch "$1"
@@ -16,16 +14,13 @@ function fisher -d "Fish Shell Plugin Manager"
                 set value $2
                 break
 
-            case a alias
-                set option alias
-                set alias $alias $2
-
             case h help
                 set option help
                 set value $value $2
 
             case l list
                 set option list
+                set value $2
 
             case f file
                 set option file
@@ -40,9 +35,6 @@ function fisher -d "Fish Shell Plugin Manager"
             case v version
                 set option version
 
-            case q quiet
-                set quiet -q .
-
             case \*
                 printf "fisher: Ahoy! '%s' is not a valid option\n" $1 >& 2
                 fisher --help >& 2
@@ -52,7 +44,7 @@ function fisher -d "Fish Shell Plugin Manager"
 
     switch "$option"
         case command
-            __fisher_alias | while read -la alias
+            printf "%s\n" $fisher_alias | sed 's/[=,]/ /g' | while read -la alias
                 if set -q alias[2]
                     switch "$value"
                         case $alias[2..-1]
@@ -75,13 +67,20 @@ function fisher -d "Fish Shell Plugin Manager"
             end
 
         case list
-            __fisher_list
+            if not __fisher_list $value
+                return 1
+            end
 
         case file
-            __fisher_file "$value"
+            if test -z "$value"
+                set value $fisher_config/fishfile
+            end
 
-        case alias
-            __fisher_alias $alias
+            if test value = -
+                set value /dev/stdin
+            end
+
+            __fisher_file $value
 
         case version
             sed 's/^/fisher version /;q' $fisher_home/VERSION

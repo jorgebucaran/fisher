@@ -37,7 +37,7 @@ The cache directory\. Plugins are first downloaded here and installed to \fB$fis
 .
 .TP
 \fB$fisher_index\fR
-Index source URL or file\. To use a different index set this to a file or URL\. Redirect urls are not supported due to security and performance concerns\. The underlying request and fetch mechanism is based in \fBcurl(1)\fR\. See also \fBIndex\fR in \fBfisher(7)\fR\.
+Index source URL or file\. To use a different index set this to a file or URL\. Redirect urls are not supported due to security and performance concerns\. The underlying request and fetch mechanism is based in \fBcurl(1)\fR\. See also \fBIndex\fR in \fBfisher help tour\fR\.
 .
 .TP
 \fB$fisher_error_log\fR
@@ -50,6 +50,14 @@ Use this variable to define custom aliases for fisher commands\. See \fBExamples
 .TP
 \fB$fisher_default_host\fR
 Use this variable to define your preferred git host\. Fisherman uses this value to convert short urls like \fBowner/repo\fR to \fBhttps://host/owner/repo\fR\. The default host is \fIgithub\.com\fR\.
+.
+.TP
+\fB$fisher_share\fR
+Used to share scripts other than \fB\.fish\fR files between plugins\. Use \fB$fisher_share_extensions\fR to customize what extensions are used\.
+.
+.TP
+\fB$fisher_share_extensions\fR
+Customize what file extensions are copied to \fB$fisher_config\fR when sharing scripts\. By default \fBpy rb php pl awk sed\fR are used\.
 .
 .SH "EXAMPLES"
 .
@@ -85,4 +93,4 @@ set fisher_default_host bitbucket\.org
 .IP "" 0
 .
 .SH "SEE ALSO"
-fisher(7)
+fisher help tour

@@ -58,7 +58,7 @@ Yes. To install either a plugin or theme use their URL:
 fisher install omf/plugin-{rbenv,tab} omf/theme-scorphish
 ```
 
-You can use the same mechanism to install any valid plugin from any given URL. See also `Compatibility` in `fisher(7)`.
+You can use the same mechanism to install any valid plugin from any given URL. See also `Compatibility` in `fisher help tour`.
 
 
 ### What does Fisherman do exactly every time I create a new shell session?
@@ -79,7 +79,7 @@ See `$fisher_home/config.fish` for the full code.
 
 ### How is Fisherman faster than oh-my-fish/Wahoo, etc?
 
-Fisherman ameliorates the slow shell start problem using a flat dependency tree instead of loading a directory hierarchy per plugin. This also means that Fisherman performance does not decline depending on the number of plugins installed. See also `Flat Tree` in `fisher(7)`.
+Fisherman ameliorates the slow shell start problem using a flat dependency tree instead of loading a directory hierarchy per plugin. This also means that Fisherman performance does not decline depending on the number of plugins installed. See also `Flat Tree` in `fisher help tour`.
 
 ### Why don't you contribute your improvements back to oh-my-fish instead of creating a new project?
 
@@ -87,7 +87,7 @@ I have contributed back to oh-my-fish extensively. See also oh-my-fish history f
 
 In addition, Fisherman was built from the ground up using a completely different design, implementation and set of principles.
 
-Some features include: UNIX familiarity, minimalistic design, flat tree structure, unified plugin architecture, external self-managed database, cache system, dependency manifest file and compatibility with oh-my-fish, etc. See `fisher(7)`.
+Some features include: UNIX familiarity, minimalistic design, flat tree structure, unified plugin architecture, external self-managed database, cache system, dependency manifest file and compatibility with oh-my-fish, etc. See `fisher help tour`.
 
 
 ### How can I upgrade from an existing oh-my-fish or Wahoo installation?

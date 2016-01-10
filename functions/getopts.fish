@@ -25,5 +25,5 @@ function getopts -d "Parse CLI options"
             }
         }
         END { while (len) out(pop()) }
-        '
+    '
 end

@@ -18,7 +18,7 @@ fisher `search` *owner/repo*<br>
 
 ## DESCRIPTION
 
-Search the Fisherman index database. You can use a custom index file by setting `$fisher_index` to your preferred URL or file. See `fisher help config` and *Index* in `fisher(7)`.
+Search the Fisherman index database. You can use a custom index file by setting `$fisher_index` to your preferred URL or file. See `fisher help config` and *Index* in `fisher help tour`.
 
 A copy of the index is downloaded every time a search query happens, keeping the index up to date all the time.
 

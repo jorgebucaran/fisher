@@ -2,7 +2,7 @@ function wait -d "Run commands and wait with a spin"
     set -l option
     set -l commands
     set -l spinners
-    set -l time 0.03
+    set -l time 0.02
     set -l log
     set -l format "@\r"
 

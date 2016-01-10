@@ -42,7 +42,7 @@ function fisher_install -d "Install Plugins"
     if set -q items[1]
         printf "%s\n" $items
     else
-        __fisher_file -
+        __fisher_file /dev/stdin
     end | __fisher_validate | while read -l item
 
         switch "$item"
@@ -73,11 +73,12 @@ function fisher_install -d "Install Plugins"
                 printf ">> %s\n" $name > $error
 
             case \*
-                set index (math $index + 1)
                 printf "(%s of %s) >> %s\n" $index $total $name > $error
+                set index (math $index + 1)
         end
 
-        mkdir -p $fisher_config/{cache,functions,completions,conf.d,man}
+        mkdir -p $fisher_config/{functions,completions,conf.d,man}
+        mkdir -p $fisher_cache $fisher_share
 
         set -l path $fisher_cache/$name
 
@@ -102,10 +103,6 @@ function fisher_install -d "Install Plugins"
                         continue
                     end
                 end
-        end
-
-        if test -L $path
-            set option link
         end
 
         set -l bundle $path/fishfile
@@ -139,55 +136,7 @@ function fisher_install -d "Install Plugins"
             functions -e fish_{,right_}prompt
         end
 
-        for file in $path/{*,functions{/*,/**}}.fish
-            set -l base (basename $file)
-
-            switch $base
-                case {$name,fish_{,right_}prompt}.fish
-                    source $file
-
-                case {init,uninstall}.fish
-                    set base $name.(basename $base .fish).config.fish
-            end
-
-            switch $base
-                case \*\?.config.fish
-                    if test "$option" = link
-                        ln -sfF $file $fisher_config/conf.d/$base
-                    else
-                        cp -f $file $fisher_config/conf.d/$base
-                    end
-
-                case \*
-                    if test "$option" = link
-                        ln -sfF $file $fisher_config/functions/$base
-                    else
-                        cp -f $file $fisher_config/functions/$base
-                    end
-            end
-        end
-
-        if test "$option" = link
-            for file in $path/completions/*.fish
-                ln -sfF $file $fisher_config/completions/(basename $file)
-            end
-        else
-            cp -f $path/completions/*.fish $fisher_config/completions/ ^ /dev/null
-        end
-
-        for n in (seq 9)
-            if test -d $path/man/man$n
-                mkdir -p $fisher_config/man/man$n
-            end
-
-            for file in $path/man/man$n/*.$n
-                if test "$option" = link
-                    ln -sfF $file $fisher_config/man/man$n
-                else
-                    cp -f $file $fisher_config/man/man$n
-                end
-            end
-        end
+        __fisher_plugin --enable $name $path
 
         set count (math $count + 1)
 
