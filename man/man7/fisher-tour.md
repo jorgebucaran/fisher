@@ -1,17 +1,19 @@
-fisher(7) -- An Introduction to Fisherman
-=========================================
+fisher-tour(7) -- Fisherman Feature Tour
+========================================
 
 ## DESCRIPTION
 
-Fisherman is a plugin manager for `fish(1)` that lets you share and reuse code, prompts and configurations easily.
+Fisherman is a plugin manager and CLI toolkit for Fish to help you build powerful utilities and share your code easily.
 
-Some features include: minimalistic design, flat tree structure, unified plugin architecture, external self-managed database, cache system, dependency manifest file and compatibility with oh-my-fish and other frameworks.
+Fisherman uses a flat tree structure that adds no cruft to your shell, making it as fast as no Fisherman. The cache mechanism lets you query the index offline and enable or disable plugins as you wish.
 
-This document describes Fisherman features and some of their implementation details. For usage and command help see also `fisher(1)`.
+Other features include dependency management, great plugin search capabilities and full compatibility with Tackle, Wahoo and oh-my-fish themes and packages.
+
+This document describes Fisherman features and their implementation details. For usage and command help  see `fisher(1)`.
 
 ## FLAT TREE
 
-The configuration directory structure is optimized to help fish start new sessions as quickly as possible, regardless of the numbers of plugins or prompts enabled at any given time.
+The configuration directory structure is optimized to help your shell start new sessions as quickly as possible, regardless of the numbers of plugins or prompts enabled at any given time. An old saying goes that Fisherman is as fast as no Fisherman.
 
 To explain how this is possible, we need to make a digression and discuss function scope first. In fish, all functions share the same scope and you can use only one name per function.
 
@@ -61,23 +63,25 @@ If you are already familiar in the way fish handles your user configuration, you
 
 ### PLUGINS
 
-Plugins are components that extend and add features to your shell. To see what plugins are available use `fisher search`. You can also type `fisher install` and hit *tab* once to get full name completions and plugin information. The same works for `fisher update` and `fisher uninstall`.
+Plugins are components that extend and add features to your shell. To see what plugins are available use `fisher search`. You can also type `fisher install` and hit *tab* once to get formatted plugin information. The same works for `fisher update` and `fisher uninstall`.
 
 To learn how to create plugins, see `fisher help plugins`.
 
-To install a plugin, you can use their *name* if they are listed in `$fisher_index`.
+You can install a plugin by their name, URL or path to a local project.
+
+If you use a *name*, this must be listed in the index database. See `Index`.
 
 ```
 fisher install shark
 ```
 
-Otherwise, you can use the repository remote *URL*.
+You can use an URL too if you have one.
 
 ```
 fisher install simnalamburt/shellder
 ```
 
-If the domain or host is not provided, Fisherman will use any value in `$fisher_default_host`. The default value is `https://github.com`.
+If the domain or host is not provided, Fisherman will use any value in `$fisher_default_host` to guess the full URL. The default value is `https://github.com`.
 
 In addition, all of the following `owner/repo` variations are accepted:
 

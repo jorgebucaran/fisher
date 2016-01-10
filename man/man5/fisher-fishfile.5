@@ -46,7 +46,7 @@ Plugins may declare any number of dependencies to other plugins in a fishfile at
 By default, when Fisherman installs a plugin, it will also fetch and install its dependencies\. If a dependency is already installed, it will not be updated as this could potentially break other plugins using an older version\. For the same reason, uninstalling a plugin does not remove its dependencies\.
 .
 .P
-To understand this behavior, it helps to recall the shell\'s single scope for functions\. The lack of private functions means that, it is \fInot\fR possible to single\-lock a specific dependency version\. See also \fBFlat Tree\fR in \fBfisher(7)\fR\.
+To understand this behavior, it helps to recall the shell\'s single scope for functions\. The lack of private functions means that, it is \fInot\fR possible to single\-lock a specific dependency version\. See also \fBFlat Tree\fR in \fBfisher help tour\fR\.
 .
 .SH "SEE ALSO"
 fisher(1)
