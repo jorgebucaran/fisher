@@ -27,9 +27,6 @@ function fisher -d "Fish Shell Plugin Manager"
             case l list
                 set option list
 
-            case c cache
-                set option cache
-
             case f file
                 set option file
                 set value $2
@@ -77,23 +74,14 @@ function fisher -d "Fish Shell Plugin Manager"
                 return 1
             end
 
-        case validate
-            __fisher_validate | grep $quiet
-
         case list
             __fisher_list
-
-        case cache
-            __fisher_cache
 
         case file
             __fisher_file "$value"
 
         case alias
             __fisher_alias $alias
-
-        case name
-            __fisher_name
 
         case version
             sed 's/^/fisher version /;q' $fisher_home/VERSION
@@ -103,9 +91,7 @@ function fisher -d "Fish Shell Plugin Manager"
                 set value commands
             end
 
-            printf "usage: fisher [--version] [--help] [--list] [--quiet]\n"
-            printf "              [-a <command>=alias[,...]] [-f <path>]\n"
-            printf "              <command> [<options>]\n\n"
+            printf "usage: fisher <command> [<options>] [--version] [--help]\n\n"
 
             switch commands
                 case $value

@@ -1,4 +1,5 @@
 function wait -d "Run commands and wait with a spin"
+    set -l option
     set -l commands
     set -l spinners
     set -l time 0.03
@@ -23,7 +24,10 @@ function wait -d "Run commands and wait with a spin"
             case f format
                 set format $2
 
-            case h help
+            case help
+                set option help
+
+            case h
                 printf "usage: wait <commands> [--spin=<style>] [--time=<delay>] [--log=<file>] \n"
                 printf "                       [--format=<format>] [--help]\n\n"
 
@@ -36,9 +40,15 @@ function wait -d "Run commands and wait with a spin"
 
             case \*
                 printf "wait: '%s' is not a valid option\n" $1 >& 2
-                wait --help >& 2
+                wait -h >& 2
                 return 1
         end
+    end
+
+    switch "$option"
+        case help
+            man wait
+            return
     end
 
     if not set -q commands[1]
