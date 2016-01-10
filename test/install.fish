@@ -19,7 +19,7 @@ end
 
 function -S teardown
     rm -rf $path
-    rm -rf $source/{$names}.git
+    rm -rf $source/{$names}/.git
 end
 
 test "install creates config directory if there is none"

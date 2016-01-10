@@ -20,7 +20,7 @@ end
 
 function -S teardown
     rm -rf $path
-    rm -rf $source/{$names}.git
+    rm -rf $source/{$names}/.git
 end
 
 for name in $names

@@ -1,4 +1,4 @@
-function __fisher_alias -a value -d "Define one or more comma-separated command aliases."
+function __fisher_alias -a value -d "Define command aliases"
     switch "$value"
         case ""
             if test -z "$fisher_alias"

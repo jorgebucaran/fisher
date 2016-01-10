@@ -25,7 +25,6 @@ Features include a flat tree structure, external self-managed database, cache sy
 git clone https://github.com/fisherman/fisherman
 cd fisherman
 make
-fisher help
 ```
 
 ## Contributing

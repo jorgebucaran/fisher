@@ -1,8 +1,18 @@
-function __fisher_cache -d "Calculate path of a name, url or path relative to the cache"
+function __fisher_cache -a error -d "Get plugin in cache from a name, url or path"
+    if test -z "$error"
+        set error /dev/stderr
+    end
+
     while read --prompt="" -l item
         switch "$item"
             case file:///\*
-                printf "%s\n" $item
+                for file in $fisher_cache/*
+                    switch "$item"
+                        case file://(readlink $file)
+                            printf "%s\n" $file
+                            break
+                    end
+                end
 
             case \*/\*
                 for file in $fisher_cache/*
@@ -14,7 +24,18 @@ function __fisher_cache -d "Calculate path of a name, url or path relative to th
                 end
 
             case \*
-                printf "%s\n" $fisher_cache/$item
+                set item $fisher_cache/$item
+                if test -d "$item"
+                    printf "%s\n" $item
+                end
+
+        end | read -l path
+
+        if test -z "$path"
+            printf "fisher: Avast! '%s' is not in the cache\n" $item > $error
+            continue
         end
+
+        printf "%s\n" $path
     end
 end
