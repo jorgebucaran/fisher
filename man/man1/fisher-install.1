@@ -4,62 +4,48 @@
 .TH "FISHER\-INSTALL" "1" "January 2016" "" "fisherman"
 .
 .SH "NAME"
-\fBfisher\-install\fR \- Enable / Install plugins
+\fBfisher\-install\fR \- Install Plugins
 .
 .SH "SYNOPSIS"
-fisher \fBinstall\fR [\fIname\fR, \fIurl\fR or \fIpath\fR \.\.\.] [\fB\-\-link\fR] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
+fisher \fBinstall\fR [\fIplugins\fR \.\.\.] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
 .
 .SH "USAGE"
-fisher \fBinstall\fR \fIplugin\fR \.\.\.
+fisher \fBinstall\fR \fIname\fR
 .
 .br
-fisher \fBinstall\fR \fIowner/repo\fR \.\.\.
+fisher \fBinstall\fR \fIURL\fR
 .
 .br
-fisher \fBinstall\fR \fIpath\fR \.\.\.
+fisher \fBinstall\fR \fIpath\fR
+.
+.br
+fisher \fBinstall\fR \fIowner/repo\fR
 .
 .br
 .
 .SH "DESCRIPTION"
-Install one or \fImore\fR plugins by \fIname\fR, searching \fB$fisher_index\fR or by \fIurl\fR\. If no arguments are given, read the standard input\.
+Install one or more plugins, by name, URL or local path\. If no arguments are given, read the standard input\.
 .
 .P
-If the domain or host is not provided, Fisherman will use any value in \fB$fisher_default_host\fR\. The default value is \fBhttps://github\.com\fR\.
+If the Git host is not provided, Fisherman will use any value available in \fB$fisher_default_host\fR or https://github\.com by default\.
 .
 .P
-In addition, all of the following variations are accepted:
+In addition, all of the following \fBowner/repo\fR variations are accepted:
 .
 .IP "\(bu" 4
-\fBgithub\fR/owner/repo \fB\->\fR https://github\.com/owner/repo
+owner/repo \fB>\fR https://github\.com/owner/repo
 .
 .br
 
 .
 .IP "\(bu" 4
-\fBgh\fRowner/repo \fB\->\fR https://github\.com/owner/repo
-.
-.br
-
-.
-.IP "" 0
-.
-.P
-Shortcuts for other common Git repository hosting services are also available:
-.
-.IP "\(bu" 4
-\fBbb\fR/owner/repo \fB\->\fR https://bitbucket\.org/owner/repo
+\fIgithub\fR/owner/repo \fB>\fR https://github\.com/owner/repo
 .
 .br
 
 .
 .IP "\(bu" 4
-\fBgl\fR/owner/repo \fB\->\fR https://gitlab\.com/owner/repo
-.
-.br
-
-.
-.IP "\(bu" 4
-\fBomf\fR/owner/repo \fB\->\fR https://github\.com/oh\-my\-fish/repo
+\fIgh\fR/owner/repo \fB>\fR https://github\.com/owner/repo
 .
 .br
 
@@ -67,22 +53,41 @@ Shortcuts for other common Git repository hosting services are also available:
 .IP "" 0
 .
 .P
-If a copy of the plugin already exists in \fB$fisher_cache\fR, only the relevant files are copied to \fB$fisher_config\fR/functions, otherwise the plugin repository is first downloaded\. If you wish to update a plugin, use \fBfisher update\fR \fIplugin\fR instead\.
+Shortcuts to other common Git repository hosting services are also available:
+.
+.IP "\(bu" 4
+\fIbb\fR/owner/repo \fB>\fR https://bitbucket\.org/owner/repo
+.
+.br
+
+.
+.IP "\(bu" 4
+\fIgl\fR/owner/repo \fB>\fR https://gitlab\.com/owner/repo
+.
+.br
+
+.
+.IP "\(bu" 4
+\fIomf\fR/owner/repo \fB>\fR https://github\.com/oh\-my\-fish/repo
+.
+.br
+
+.
+.IP "" 0
 .
 .P
-If a local path is given, copy the directory to the cache\.
+If a URL is given, the repository is cloned to \fB$fisher_cache\fR the first time and any relevant plugin files are copied to \fB$fisher_config\fR functions, completions, conf\.d and man directories\.
 .
 .P
-If the plugin declares dependencies, these will be installed as well\. If any dependencies are already installed they will not be updated in order to prevent version issues\. See \fBfisher help fishfile\fR#{\fBPlugins\fR}\.
+If the plugin already exists in \fB$fisher_cache\fR, the files are copied to \fB$fisher_config\fR\. To update a plugin use \fBfisher update\fR\.
 .
 .P
-If a plugin includes either a fish_prompt\.fish or fish_right_prompt\.fish, both files are first removed from \fB$fisher_config\fR/functions and then the new ones are copied\.
+If the plugin declares dependencies, these will be installed too\. If any of the dependencies are already enabled or downloaded to the cache, they will not be updated to prevent version issues\. See \fIPlugins\fR in \fBfisher help fishfile\fR\.
+.
+.P
+If a plugin includes either a fish_prompt\.fish or fish_right_prompt\.fish, both files are first removed from \fB$fisher_config/functions\fR and then the new ones are copied\.
 .
 .SH "OPTIONS"
-.
-.TP
-\fB\-s\fR \fB\-\-link\fR
-Create a symbolic link to the plugin repository in the cache or to the original source directory if a local path is given\.
 .
 .TP
 \fB\-q\fR \fB\-\-quiet\fR
@@ -92,98 +97,94 @@ Enable quiet mode\.
 \fB\-h\fR \fB\-\-help\fR
 Show usage help\.
 .
-.SH "PROCESS"
-Here is a typical install process breakdown for \fIplugin\fR:
+.SH "INSTALL PROCESS"
+Here is the typical install process breakdown for \fIplugin\fR:
 .
 .IP "1." 4
 Check if \fIplugin\fR exists in \fB$fisher_index\fR\. Fail otherwise\.
 .
 .IP "2." 4
-Download \fIplugin\fR to \fB$fisher_cache\fR if it is not there already\.
+Download \fIplugin\fR to \fB$fisher_cache\fR if not there already\.
 .
 .IP "3." 4
-Copy all \fB*\.fish\fR and functions/\fB*\.fish\fR files to \fB$fisher_config\fR/functions\.
+Copy all \fB*\.fish\fR and \fBfunctions/*\.fish\fR files to \fB$fisher_config/functions\fR\.
 .
 .IP "4." 4
-Copy all completions/\fB*\.fish\fR to \fB$fisher_config\fR/completions\.
+Copy all \fBcompletions/*\.fish\fR to \fB$fisher_config/completions\fR\.
 .
 .IP "5." 4
-Copy all man/man[\fB1\-7\fR] to \fB$fisher_config\fR/man/man\fB%\fR
+Copy all \fBinit\.fish\fR and \fB*\.config\.fish\fR files to \fB$fisher_config/conf\.d\fR\.
+.
+.IP "6." 4
+Copy all man/man% to \fB$fisher_config/man/man%\fR\.
 .
 .IP "" 0
 .
-.P
-Here is the \fIplugin\fR tree inside the cache:
+.SH "EXAMPLES"
+Here is the directory tree of \fImy_plugin\fR somewhere deep under the sea:
 .
-.P
-\fB$fisher_cache\fR/\fIplugin\fR
+.IP "" 4
 .
-.br
+.nf
+
+my_plugin
 |\-\- README\.md
-.
-.br
-|\-\- \fIplugin\fR\.fish
-.
-.br
+|\-\- my_plugin\.fish
 |\-\- functions
-.
-.br
-| |\-\- plugin_helper\.fish
-.
-.br
+|   |\-\- my_plugin_helper\.fish
 |\-\- completions
-.
-.br
-| |\-\- \fIplugin\fR\.fish
-.
-.br
+|   |\-\- my_plugin\.fish
 |\-\- test
-.
-.br
-| |\-\- \fIplugin\fR\.fish
-.
-.br
+|   |\-\- my_plugin\.fish
 |\-\- man
+    |\-\- man1
+        |\-\- my_plugin\.1
 .
-.br
-|\-\- man1
-.
-.br
-|\-\- \fIplugin\fR\.1
-.
-.br
-.
-.P
-And this is how the files are copied from \fB$fisher_cache\fR/plugin to \fB$fisher_config\fR:
-.
-.IP "1." 4
-\fIplugin\fR\.fish \fB\->\fR $fisher_config/functions
-.
-.IP "2." 4
-functions/plugin_helper\.fish \fB\->\fR $fisher_config/functions
-.
-.IP "3." 4
-completions/\fIplugin\fR\.fish \fB\->\fR $fisher_config/completions
-.
-.IP "4." 4
-man/man1/\fIplugin\fR\.1 \fB\->\fR $fisher_config/man/man1
+.fi
 .
 .IP "" 0
+.
+.P
+And here is the directory tree of \fB$fisher_config/\fR after running \fBfisher install my_plugin\fR:
+.
+.IP "" 4
+.
+.nf
+
+$fisher_config
+|\-\- functions
+    |\-\- my_plugin\.fish
+    |\-\- my_plugin_helper\.fish
+|\-\- completions
+    |\-\- my_plugin\.fish
+|\-\- man
+    |\-\- man1
+        |\-\- my_plugin\.1
+|\-\- cache
+    |\-\- my_other_plugin
+    |\-\- my_plugin/\.\.\.
+.
+.fi
+.
+.IP "" 0
+.
+.P
+In addition, any \fBinit\.fish\fR or \fB*\.config\.fish\fR files, are copied to \fB$fisher_config/conf\.d\fR and evaluated during the start of the shell\.
+.
+.P
+Notes: \fBinit\.fish\fR files are renamed to \fBmy_plugin\.init\.fish\fR to prevent name collisions\.
 .
 .SH "SEE ALSO"
-\fBfisher\fR(1)
+fisher(1)
 .
 .br
-\fBfisher help config\fR
+fisher help config
 .
 .br
-\fBfisher help update\fR
+fisher help update
 .
 .br
-\fBfisher help uninstall\fR
-.
-.br
-\fBfisher help fishfile\fR#{\fBPlugins\fR}
+fisher help uninstall
 .
 .br
 

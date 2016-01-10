@@ -12,24 +12,24 @@ Run *commands* as a background process and wait until the job has finished. Any 
 
 ## OPTIONS
 
-* `-s`, `--spin`=*style*|*string*:
-    Set spinner style. See #{Styles} for a list of styles and instructions on how to use your own character sequences, progress bar usage, etc.
+* `-s --spin=style|string`:
+    Set spinner style. See `Styles` for a list of styles and instructions on how to use your own character sequences, progress bar usage, etc.
 
-* `-t` `--time`=*interval*:
+* `-t --time=interval`:
     Set spinner transition time delay in *seconds*. A large value will refresh the spinner more slowly. You may use decimal numbers to represent smaller numbers.
 
-* `-l` `--log`=*file*:
+* `-l --log=file`:
     Output standard error to given *file*.
 
-* `-f` `--format`=*format*:
+* `-f --format=format`:
     Use given *format* to display the spinner. The default format is `"\r@"` where `@` represents the spinner token and `\r` a carriage return, used to refresh / erase the line.
 
-* `-h` `--help`:
+* `-h --help`:
     Show usage help.
 
 ## STYLES
 
-The following styles are supported via `--spin=`*style*:
+The following styles are supported via `--spin=style`:
 
 * arc, star, pipe, ball, flip, mixer, caret
 * bar1~3
@@ -42,7 +42,7 @@ For example `--spin=12345` will display the numbers from 1 to 5, and `--spin=. -
 
 ### PROGRESS BARS
 
-Display a progress bar with a percent indicator using `--spin`=*bar1~3*:
+Display a progress bar with a percent indicator using `--spin=bar1~3`:
 
 * bar1: [=====] *num*%
 * bar2: [#####] *num*%
@@ -67,23 +67,17 @@ For example:
 Run a lengthy operation as a background job and display a spinning pipe character until it is finished.
 
 ```
-wait --spin=pipe "curl -sS $url"
+wait --spin=pipe "curl -sS $URL"
 ```
 
 Output any errors to *debug.txt*.
 
 ```
-if not wait --spin=pipe --log=debug.txt "curl -sS $url"
+if not wait --spin=pipe --log=debug.txt "curl -sS $URL"
     return 1
 end
 ```
 
-## AUTHORS
-
-Jorge Bucaran *j@bucaran.me*.
-
-
 ## SEE ALSO
 
-`sleep`(1)<br>
-`help introduction`#{`Background Jobs`}<br>
+sleep(1)<br>

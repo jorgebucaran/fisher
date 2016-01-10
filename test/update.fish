@@ -16,7 +16,11 @@ function -S setup
     fisher_mock_index $source $names > $index
     fisher_mock_config $path $index
 
-    fisher install $names -q
+    mkdir -p $fisher_cache
+
+    for name in $names
+        cp -rf $source/$name $fisher_cache
+    end
 
     mkdir -p $source2
 

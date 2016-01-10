@@ -1,5 +1,5 @@
 # Usage
-#     __fisher_complete [awk_var=value] [--help]
+#     __fisher_complete [<awk var>=value] [--help]
 #
 # Example
 #     set -l IFS \t

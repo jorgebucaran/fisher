@@ -8,7 +8,7 @@ getopts(1) -- Parse CLI options
 
 ## DESCRIPTION
 
-getopts is a command line parser, designed to process command line arguments according to the POSIX Utility Syntax Guidelines. If no arguments are given it returns `1`.
+getopts is a command line parser, designed to process command line arguments based in the POSIX Utility Syntax Guidelines. If no arguments are given getopts returns `1`.
 
 ## USAGE
 
@@ -29,7 +29,7 @@ _    baz
 
 The items on the left represent the option flags or *keys* associated with the CLI. The items on the right are the option *values*. The underscore `_` character is the default *key* for arguments without a key.
 
-Use `read`(1) to process the generated stream and `switch`(1) to match patterns:
+Use `read(1)` to process the generated stream and `switch(1)` to match patterns:
 
 ```
 getopts -ab1 --foo=bar baz | while read -l key option
@@ -48,7 +48,7 @@ None.
 
 ## EXAMPLES
 
-The following is a mock of `fish`(1) CLI missing the implementation:
+The following is a mock of `fish(1)` CLI missing the implementation:
 
 ```
 function fish

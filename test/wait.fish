@@ -33,5 +33,5 @@ test "log standard error to log if <file> is given" (
 end
 
 test "display help"
-    (wait --help | xargs) = "usage: wait <commands> [--spin=<style>] [--time=<delay>] [--log=<file>] [--format=<format>] [--help] -s --spin=<style> Set spinner style -t --time=<delay> Set spinner transition time delay -l --log=<file> Output standard error to <file> -f --format=<format> Use given <format> to display spinner -h --help Show usage help"
+    (wait -h | xargs) = "usage: wait <commands> [--spin=<style>] [--time=<delay>] [--log=<file>] [--format=<format>] [--help] -s --spin=<style> Set spinner style -t --time=<delay> Set spinner transition time delay -l --log=<file> Output standard error to <file> -f --format=<format> Use given <format> to display spinner -h --help Show usage help"
 end

@@ -18,27 +18,27 @@ Run \fIcommands\fR as a background process and wait until the job has finished\.
 .SH "OPTIONS"
 .
 .TP
-\fB\-s\fR, \fB\-\-spin\fR=\fIstyle\fR|\fIstring\fR
-Set spinner style\. See #{Styles} for a list of styles and instructions on how to use your own character sequences, progress bar usage, etc\.
+\fB\-s \-\-spin=style|string\fR
+Set spinner style\. See \fBStyles\fR for a list of styles and instructions on how to use your own character sequences, progress bar usage, etc\.
 .
 .TP
-\fB\-t\fR \fB\-\-time\fR=\fIinterval\fR
+\fB\-t \-\-time=interval\fR
 Set spinner transition time delay in \fIseconds\fR\. A large value will refresh the spinner more slowly\. You may use decimal numbers to represent smaller numbers\.
 .
 .TP
-\fB\-l\fR \fB\-\-log\fR=\fIfile\fR
+\fB\-l \-\-log=file\fR
 Output standard error to given \fIfile\fR\.
 .
 .TP
-\fB\-f\fR \fB\-\-format\fR=\fIformat\fR
+\fB\-f \-\-format=format\fR
 Use given \fIformat\fR to display the spinner\. The default format is \fB"\er@"\fR where \fB@\fR represents the spinner token and \fB\er\fR a carriage return, used to refresh / erase the line\.
 .
 .TP
-\fB\-h\fR \fB\-\-help\fR
+\fB\-h \-\-help\fR
 Show usage help\.
 .
 .SH "STYLES"
-The following styles are supported via \fB\-\-spin=\fR\fIstyle\fR:
+The following styles are supported via \fB\-\-spin=style\fR:
 .
 .IP "\(bu" 4
 arc, star, pipe, ball, flip, mixer, caret
@@ -55,7 +55,7 @@ In addition to the default styles, you can specify a string of character tokens 
 For example \fB\-\-spin=12345\fR will display the numbers from 1 to 5, and \fB\-\-spin=\. \-\-format=@\fR an increasing sequence of dots\.
 .
 .SS "PROGRESS BARS"
-Display a progress bar with a percent indicator using \fB\-\-spin\fR=\fIbar1~3\fR:
+Display a progress bar with a percent indicator using \fB\-\-spin=bar1~3\fR:
 .
 .IP "\(bu" 4
 bar1: [=====] \fInum\fR%
@@ -103,7 +103,7 @@ Run a lengthy operation as a background job and display a spinning pipe characte
 .
 .nf
 
-wait \-\-spin=pipe "curl \-sS $url"
+wait \-\-spin=pipe "curl \-sS $URL"
 .
 .fi
 .
@@ -116,7 +116,7 @@ Output any errors to \fIdebug\.txt\fR\.
 .
 .nf
 
-if not wait \-\-spin=pipe \-\-log=debug\.txt "curl \-sS $url"
+if not wait \-\-spin=pipe \-\-log=debug\.txt "curl \-sS $URL"
     return 1
 end
 .
@@ -124,14 +124,8 @@ end
 .
 .IP "" 0
 .
-.SH "AUTHORS"
-Jorge Bucaran \fIj@bucaran\.me\fR\.
-.
 .SH "SEE ALSO"
-\fBsleep\fR(1)
-.
-.br
-\fBhelp introduction\fR#{\fBBackground Jobs\fR}
+sleep(1)
 .
 .br
 

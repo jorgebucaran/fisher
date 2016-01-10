@@ -18,7 +18,7 @@ Nothing. You can continue using your shell as usual. When you are ready to learn
 
 ### How do I access other Fisherman documentation?
 
-Fisherman documentation is based in UNIX `man`(1) pages. See `man fisher` and `man 7 fisher` to get started. You can also access any documentation using the `fisher help` command.
+Fisherman documentation is based in UNIX `man(1)` pages. See `man fisher` and `man 7 fisher` to get started. You can also access any documentation using the `fisher help` command.
 
 
 ### What are Fisherman plugins?
@@ -45,7 +45,7 @@ There is no technical distinction between plugins, themes, commands, etc., but t
 
 * `Extension Commands`: Plugins that extend Fisherman default commands. An extension plugin must define one or more functions like `fisher_<my_command>`. For specific information about commands, see `fisher help commands` and then return to this guide.
 
-* `Configuration Plugins`: Plugins that include one or more `my_plugin`.config.fish files. Files that follow this convention are evaluated at the start of the session.
+* `Configuration Plugins`: Plugins that include one or more `my_plugin.config.fish` files. Files that follow this convention are evaluated at the start of the session.
 
 See `fisher help plugins` and `fisher help commands`.
 
@@ -58,7 +58,7 @@ Yes. To install either a plugin or theme use their URL:
 fisher install omf/plugin-{rbenv,tab} omf/theme-scorphish
 ```
 
-You can use the same mechanism to a valid plugin from any given URL. See also `fisher`(7)#{`Compatibility`}.
+You can use the same mechanism to install any valid plugin from any given URL. See also `Compatibility` in `fisher(7)`.
 
 
 ### What does Fisherman do exactly every time I create a new shell session?
@@ -79,7 +79,7 @@ See `$fisher_home/config.fish` for the full code.
 
 ### How is Fisherman faster than oh-my-fish/Wahoo, etc?
 
-Fisherman ameliorates the slow shell start problem using a flat dependency tree instead of loading a directory hierarchy per plugin. This also means that Fisherman performance does not decline depending on the number of plugins installed. See also `fisher`(7)#{`Flat Tree`}.
+Fisherman ameliorates the slow shell start problem using a flat dependency tree instead of loading a directory hierarchy per plugin. This also means that Fisherman performance does not decline depending on the number of plugins installed. See also `Flat Tree` in `fisher(7)`.
 
 ### Why don't you contribute your improvements back to oh-my-fish instead of creating a new project?
 
@@ -87,7 +87,7 @@ I have contributed back to oh-my-fish extensively. See also oh-my-fish history f
 
 In addition, Fisherman was built from the ground up using a completely different design, implementation and set of principles.
 
-Some features include: UNIX familiarity, minimalistic design, flat tree structure, unified plugin architecture, external self-managed database, cache system, dependency manifest file and compatibility with oh-my-fish, etc. See `fisher`(7).
+Some features include: UNIX familiarity, minimalistic design, flat tree structure, unified plugin architecture, external self-managed database, cache system, dependency manifest file and compatibility with oh-my-fish, etc. See `fisher(7)`.
 
 
 ### How can I upgrade from an existing oh-my-fish or Wahoo installation?
@@ -111,7 +111,7 @@ rm -rf {$OMF_PATH,$OMF_CONFIG}
 
 ### I changed my prompt with `fish_config` and now I can't use any Fisherman theme, what do I do?
 
-`fish_config` persists the prompt to `XDG_CONFIG_HOME/fish/functions`/fish_prompt.fish. That file takes precedence over Fisherman prompts that installs to `$fisher_config`/functions/. To use Fisherman prompts remove the `fish_promt.fish` inside `XDG_CONFIG_HOME/fish/functions/`.
+`fish_config` persists the prompt to `XDG_CONFIG_HOME/fish/functions/fish_prompt.fish`. That file takes precedence over Fisherman prompts that installs to `$fisher_config/functions`. To use Fisherman prompts remove the `fish_promt.fish` inside `XDG_CONFIG_HOME/fish/functions`.
 
 Assuming `XDG_CONFIG_HOME` is `~/.config` in your system:
 

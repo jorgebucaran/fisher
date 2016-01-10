@@ -1,6 +1,6 @@
-function fisher_help -d "Display Help Information"
+function fisher_help -d "Show Help"
     if not set -q argv[1]
-        fisher --help
+        man fisher
         return 1
     end
 
@@ -29,12 +29,15 @@ function fisher_help -d "Display Help Information"
                 set option usage
                 set value $value $2
 
-            case h help
+            case help
+                set option help
+
+            case h
                 printf "usage: fisher help [<keyword>] [--all] [--guides] [--help]\n\n"
 
                 printf "              -a --all  List available documentation  \n"
                 printf "           -g --guides  List available guides         \n"
-                printf "    -u --usage[=<cmd>]  Display command usage help    \n"
+                printf "    -u --usage[=<cmd>]  Display command usage         \n"
                 printf "             -h --help  Show usage help               \n"
                 return
 
@@ -50,12 +53,17 @@ function fisher_help -d "Display Help Information"
     end
 
     switch "$option"
+        case help
+            fisher help help
+
         case manual
             switch "$value"
-                case fisherman
-                    man $value 7
-                case fisher me @
+                case fisherman fisher-7 7-fisher
+                    man 7 fisher
+
+                case fisher me
                     man fisher
+
                 case \*
                     man fisher-$value
             end
@@ -64,7 +72,7 @@ function fisher_help -d "Display Help Information"
             if test -z "$value"
                 sed -E 's/^ *([^ ]+).*/\1/' | while read -l value
                     if functions -q fisher_$value
-                        fisher $value --help
+                        fisher $value -h
                     end
                 end
             else
