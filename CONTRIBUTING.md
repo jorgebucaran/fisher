@@ -1,12 +1,8 @@
 # Contributing to Fisherman
 
-You can start contributing right away:
+[![Wharf][wharf-badge]][wharf-link]
 
-* [Join][join] the community.
-* [Spread][tweet] the voice.
-* Report [bugs][bugs].
-
-If you are looking for other ways to help, peruse [open issues][issues]. If you are already working on something, feel free to send us a PR.
+If you are looking for ways to help, peruse the [open issues][issues]. If you are already working on something, feel free to send us a PR.
 
 ## Guidelines
 
@@ -19,23 +15,31 @@ If you are looking for other ways to help, peruse [open issues][issues]. If you 
 * Follow the [seven rules][seven-rules] of a great git commit message.
 
 
-## Addons
+## Plugins
 
 Third-party plugins are essential for keeping this project exciting. To learn how to create your own plugins and other extensions see `fisher help plugins`.
 
 To browse the available content use `fisher search` or see the [Fisherman Index][fisher-index].
 
+:anchor:
+
+
 <!-- Links -->
 
-[org]:          https://github.com/fisherman
-[join]:         https://gitter.im/fisherman/wharf
-[bugs]:         https://github.com/fisherman/fisherman/issues
-[issues]:       https://github.com/fisherman/fisherman/issues?q=is%3Aopen+is%3Aissue
-[fishtape]:     https://github.com/fisherman/fishtape
-[fish-docs]:    http://fishshell.com/docs/current/index.html  
-[seven-rules]:  http://chris.beams.io/posts/git-commit/#seven-rules
+[org]: https://github.com/fisherman
+
+[bugs]: https://github.com/fisherman/fisherman/issues
+
+[issues]: https://github.com/fisherman/fisherman/issues?q=is%3Aopen+is%3Aissue
+
+[fishtape]: https://github.com/fisherman/fishtape
+
+[fish-docs]: http://fishshell.com/docs/current/index.html  
+
+[seven-rules]: http://chris.beams.io/posts/git-commit/#seven-rules
+
 [fisher-index]: https://github.com/fisherman/fisher-index
 
-[tweet]: https://twitter.com/intent/tweet?url=https%3A%2F%2Fgit.io%2Ffisher&via=jbucaran&text=Check+out+%23Fisherman+for+the+%23fishshell
+[wharf-link]: https://fisherman-wharf.herokuapp.com/
 
-:anchor:
+[wharf-badge]: https://img.shields.io/badge/wharf-join%20the%20chat-00cc99.svg?style=flat-square

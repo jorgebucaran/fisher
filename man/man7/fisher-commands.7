@@ -28,7 +28,7 @@ end
 Make sure it works: \fBfisher hello\fR\.
 .
 .P
-To make this function available to the current and future fish sessions, add it to \fB$XDG_CONFIG_HOME\fR/fish/functions:
+To make this function available to the current and future fish sessions, add it to \fB$XDG_CONFIG_HOME/fish/functions\fR:
 .
 .IP "" 4
 .
@@ -41,7 +41,7 @@ funcsave fisher_hello
 .IP "" 0
 .
 .P
-You may also choose to save this function to \fB$fisher_config\fR/functions\.
+You may also choose to save this function to \fB$fisher_config/functions\fR\.
 .
 .SH "EXAMPLES"
 The following example implements a command to retrieve plugin information and format the output into columns\.
@@ -53,8 +53,8 @@ The following example implements a command to retrieve plugin information and fo
 function fisher_info \-d "Display information about plugins"
     switch "$argv"
         case \-h \-\-help
-            printf "usage: fisher info name | url [\.\.\.]\en\en"
-            printf "  \-h \-\-help  Show usage help\en"
+            printf "usage: fisher info name | URL [\.\.\.]\en\en"
+            printf "    \-h \-\-help  Show usage help\en"
             return
     end
     for item in $argv
@@ -67,16 +67,16 @@ end
 .IP "" 0
 .
 .SH "SEE ALSO"
-\fBfisher\fR(1)
+fisher(1)
 .
 .br
-\fBfisher\fR(7)
+fisher(7)
 .
 .br
-\fBfuncsave\fR(1)
+funcsave(1)
 .
 .br
-\fBfisher help plugins\fR
+fisher help plugins
 .
 .br
 

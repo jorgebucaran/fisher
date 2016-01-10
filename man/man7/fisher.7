@@ -7,13 +7,13 @@
 \fBfisher\fR \- An Introduction to Fisherman
 .
 .SH "DESCRIPTION"
-Fisherman is a plugin manager for \fBfish\fR(1) that lets you share and reuse code, prompts and configurations easily\.
+Fisherman is a plugin manager for \fBfish(1)\fR that lets you share and reuse code, prompts and configurations easily\.
 .
 .P
-Some features include: minimalistic design, flat tree structure, unified plugin architecture, external self\-managed database, cache system, dependency manifest file and compatibility with oh-my-fish and other frameworks\.
+Some features include: minimalistic design, flat tree structure, unified plugin architecture, external self\-managed database, cache system, dependency manifest file and compatibility with oh\-my\-fish and other frameworks\.
 .
 .P
-This document describes Fisherman features and some of their implementation details\. For usage and command help see also \fBfisher\fR(1)\.
+This document describes Fisherman features and some of their implementation details\. For usage and command help see also \fBfisher(1)\fR\.
 .
 .SH "FLAT TREE"
 The configuration directory structure is optimized to help fish start new sessions as quickly as possible, regardless of the numbers of plugins or prompts enabled at any given time\.
@@ -55,7 +55,7 @@ With this in mind, it\'s possible to improve the slow shell start problem using 
 The overhead of juggling multiple path hierarchies in a per\-plugin basis yields no benefits as everything is shared in the same scope\.
 .
 .P
-Loading a path simply means adding the desired location to the \fB$fish_function_path\fR array\. See also \fBfunctions\fR(1)\.
+Loading a path simply means adding the desired location to the \fB$fish_function_path\fR array\. See also \fBfunctions(1)\fR\.
 .
 .P
 Here is a snapshot of a typical configuration path with a single plugin and prompt:
@@ -83,10 +83,10 @@ $fisher_config
 .IP "" 0
 .
 .P
-If you are already familiar in the way fish handles your user configuration, you will find the above structure similar to \fB$XDG_CONFIG_HOME/fish\fR\. See \fBhelp fish\fR#{\fBInitialization Files\fR} to learn more about fish configuration\.
+If you are already familiar in the way fish handles your user configuration, you will find the above structure similar to \fB$XDG_CONFIG_HOME/fish\fR\. See \fBInitialization Files\fR in \fBhelp fish\fR to learn more about fish configuration\.
 .
 .P
-\fBconf\.d\fR, short for configuration directory, is used for initialization files, i\.e\., files that should run at the start of the shell\. Files that follow the naming convention \fIname\fR\.config\.fish are added there\.
+\fBconf\.d\fR, short for configuration directory, is used for initialization files, i\.e\., files that should run at the start of the shell\. Files that follow the naming convention \fB<name>\.config\.fish\fR are added there\.
 .
 .SS "PLUGINS"
 Plugins are components that extend and add features to your shell\. To see what plugins are available use \fBfisher search\fR\. You can also type \fBfisher install\fR and hit \fItab\fR once to get full name completions and plugin information\. The same works for \fBfisher update\fR and \fBfisher uninstall\fR\.
@@ -108,13 +108,13 @@ fisher install shark
 .IP "" 0
 .
 .P
-Otherwise, you can use the repository remote \fIurl\fR\.
+Otherwise, you can use the repository remote \fIURL\fR\.
 .
 .IP "" 4
 .
 .nf
 
-fisher install oh\-my\-fish/bobthefish
+fisher install simnalamburt/shellder
 .
 .fi
 .
@@ -124,16 +124,22 @@ fisher install oh\-my\-fish/bobthefish
 If the domain or host is not provided, Fisherman will use any value in \fB$fisher_default_host\fR\. The default value is \fBhttps://github\.com\fR\.
 .
 .P
-In addition, all of the following variations are accepted:
+In addition, all of the following \fBowner/repo\fR variations are accepted:
 .
 .IP "\(bu" 4
-\fBgithub\fR/owner/repo \fB\->\fR https://github\.com/owner/repo
+owner/repo \fB>\fR https://github\.com/owner/repo
 .
 .br
 
 .
 .IP "\(bu" 4
-\fBgh:\fRowner/repo \fB\->\fR https://github\.com/owner/repo
+\fIgithub\fR/owner/repo \fB>\fR https://github\.com/owner/repo
+.
+.br
+
+.
+.IP "\(bu" 4
+\fIgh\fR/owner/repo \fB>\fR https://github\.com/owner/repo
 .
 .br
 
@@ -141,22 +147,22 @@ In addition, all of the following variations are accepted:
 .IP "" 0
 .
 .P
-Shortcuts for other common Git repository hosting services are also available:
+Shortcuts to other common Git repository hosting services are also available:
 .
 .IP "\(bu" 4
-\fBbb:\fR/owner/repo \fB\->\fR https://bitbucket\.org/owner/repo
+\fIbb\fR/owner/repo \fB>\fR https://bitbucket\.org/owner/repo
 .
 .br
 
 .
 .IP "\(bu" 4
-\fBgl:\fR/owner/repo \fB\->\fR https://gitlab\.com/owner/repo
+\fIgl\fR/owner/repo \fB>\fR https://gitlab\.com/owner/repo
 .
 .br
 
 .
 .IP "\(bu" 4
-\fBomf:\fR/owner/repo \fB\->\fR https://github\.com/oh\-my\-fish/repo
+\fIomf\fR/owner/repo \fB>\fR https://github\.com/oh\-my\-fish/repo
 .
 .br
 
@@ -170,7 +176,7 @@ Because of Fisherman\'s flat tree model, there is no technical distinction betwe
 Throughout this document and other Fisherman manuals you will find the term prompt when referring to the \fIconcept\fR of a theme, i\.e\., a plugin that defines a \fBfish_prompt\fR and / or \fBfish_right_prompt\fR functions\.
 .
 .SS "INDEX"
-You can install, update and uninstall plugins by name, querying the Fisherman index, or by url using several of the variations described in #{\fBPlugins\fR}\. The index is a plain text flat database \fIindependent\fR from Fisherman\. You can use a custom index file by setting \fB$fisher_index\fR to your own file or url\. Redirection urls are not supported due to security and performance concerns\. See \fBfisher help config\fR\.
+You can install, update and uninstall plugins by name, querying the Fisherman index, or by URL using several of the variations described in \fBPlugins\fR\. The index is a plain text flat database \fIindependent\fR from Fisherman\. You can use a custom index file by setting \fB$fisher_index\fR to your own file or URL\. Redirection urls are not supported due to security and performance concerns\. See \fBfisher help config\fR\.
 .
 .P
 A copy of the index is downloaded each time a query happens\. This keeps the index up to date and allows you to search the database offline\.
@@ -225,7 +231,7 @@ You can also submit a new plugin manually and create a pull request\.
 
 git clone https://github\.com/fisherman/fisher\-index
 cd index
-echo "$name\en$url\en$info\en$author\en$tags\en\en" >> index
+echo "$name\en$URL\en$info\en$author\en$tags\en\en" >> index
 git push origin master
 open http://github\.com
 .
@@ -273,13 +279,13 @@ The fishfile updates as you install / uninstall plugins\. See also \fBfisher hel
 Plugins may list any number of dependencies to other plugins in a fishfile at the root of each project\. By default, when Fisherman installs a plugin, it will also fetch and install its dependencies\. If a dependency is already installed, it will not be updated as this could potentially break other plugins using an older version\. For the same reasons, uninstalling a plugin does not remove its dependencies\. See \fBfisher help update\fR\.
 .
 .SS "CONFIGURATION"
-Fisherman allows a high level of configuration using \fB$fisher_*\fR variables\. You can customize the home and configuration directories, debug log file, cache location, index source url, command aliases, etc\. See \fBfisher help config\fR\.
+Fisherman allows a high level of configuration using \fB$fisher_*\fR variables\. You can customize the home and configuration directories, debug log file, cache location, index source URL, command aliases, etc\. See \fBfisher help config\fR\.
 .
 .P
 You can also extend Fisherman by adding new commands and ship them as plugins as well\. Fisherman automatically adds completions to \fIcommands\fR based in the function \fIdescription\fR and usage help if provided\. See \fBfisher help help\fR and \fBfisher help commands\fR\.
 .
 .P
-To add completions to standalone utility plugins, use \fBcomplete\fR(1)\.
+To add completions to standalone utility plugins, use \fBcomplete(1)\fR\.
 .
 .SS "CLI"
 If you are already familiar with other UNIX tools, you\'ll find Fisherman commands behave intuitively\.
@@ -288,19 +294,19 @@ If you are already familiar with other UNIX tools, you\'ll find Fisherman comman
 Most commands read the standard input by default when no options are given and produce easy to parse output, making Fisherman commands ideal for plumbing and building upon each other\.
 .
 .P
-Fisherman also ships with a CLI options parser and a background job wait spinner that you can use to implement your own commands CLI\. See \fBgetopts\fR(1) and \fBwait\fR(1)\.
+Fisherman also ships with a CLI options parser and a background job wait spinner that you can use to implement your own commands CLI\. See \fBgetopts(1)\fR and \fBwait(1)\fR\.
 .
 .SH "COMPATIBILITY"
-Fisherman supports oh-my-fish (Wahoo) themes and plugins by default, but some features are turned off due to performance considerations\.
+Fisherman supports oh\-my\-fish (Wahoo) themes and plugins by default, but some features are turned off due to performance considerations\.
 .
 .P
-oh-my-fish evaluates every \fI\.fish\fR file inside the root directory of every plugin during initialization\. This is necessary in order to register any existing \fBinit\fR events and invoke them using fish \fBemit\fR(1)\.
+oh\-my\-fish evaluates every \fI\.fish\fR file inside the root directory of every plugin during initialization\. This is necessary in order to register any existing \fBinit\fR events and invoke them using fish \fBemit(1)\fR\.
 .
 .P
-Since it is not possible to determine whether a file defines an initialization event without evaluating its contents first, oh-my-fish sources all \fI\.fish\fR files and then emits events for each plugin\.
+Since it is not possible to determine whether a file defines an initialization event without evaluating its contents first, oh\-my\-fish sources all \fB*\.fish\fR files and then emits events for each plugin\.
 .
 .P
-Not all plugins opt in the initialization mechanism, therefore support for this behavior is turned off by default\. If you would like Fisherman to behave like oh-my-fish at the start of each session, install the \fBomf\fR compatibility plugin\.
+Not all plugins opt in the initialization mechanism, therefore support for this behavior is turned off by default\. If you would like Fisherman to behave like oh\-my\-fish at the start of every session, install the \fBomf\fR compatibility plugin\.
 .
 .IP "" 4
 .
@@ -313,28 +319,28 @@ fisher install omf
 .IP "" 0
 .
 .P
-This plugin also adds definitions for some of oh-my-fish Core Library functions\.
+This plugin also adds definitions for some of oh\-my\-fish Core Library functions\.
 .
 .SH "SEE ALSO"
-\fBfisher\fR(1)
+fisher(1)
 .
 .br
-\fBfisher help\fR
+fisher help
 .
 .br
-\fBfisher help config\fR
+fisher help config
 .
 .br
-\fBfisher help plugins\fR
+fisher help plugins
 .
 .br
-\fBfisher help commands\fR
+fisher help commands
 .
 .br
-\fBwait\fR(1)
+wait(1)
 .
 .br
-\fBgetopts\fR(1)
+getopts(1)
 .
 .br
 

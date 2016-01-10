@@ -1,8 +1,8 @@
-function __fisher_file -a file -d "Read a fishfile and display its contents"
+function __fisher_file -a file -d "Read a fishfiles"
     switch "$file"
         case ""
             set file $fisher_config/fishfile
-            
+
         case "-"
             set file /dev/stdin
     end
@@ -15,5 +15,5 @@ function __fisher_file -a file -d "Read a fishfile and display its contents"
 
             if (!duplicates[$1]++) printf("%s\n", $1)
         }
-    ' $file
+    ' $argv
 end

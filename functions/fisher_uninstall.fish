@@ -1,15 +1,12 @@
-function fisher_uninstall -d "Disable / Uninstall Plugins"
-    set -l option
-    set -l items
+function fisher_uninstall -d "Uninstall Plugins"
     set -l error /dev/stderr
+    set -l items
+    set -l option
 
     getopts $argv | while read -l 1 2
         switch "$1"
             case _
                 set items $items $2
-
-            case a all
-                set option $option all
 
             case f force
                 set option $option force
@@ -17,8 +14,11 @@ function fisher_uninstall -d "Disable / Uninstall Plugins"
             case q quiet
                 set error /dev/null
 
-            case help h
-                printf "usage: fisher uninstall [<name or url> ...] [--force] [--quiet] [--help]\n\n"
+            case help
+                set option help
+
+            case h
+                printf "usage: fisher uninstall [<plugins>] [--force] [--quiet] [--help]\n\n"
 
                 printf "    -f --force  Delete copy from cache \n"
                 printf "    -q --quiet  Enable quiet mode      \n"
@@ -27,32 +27,28 @@ function fisher_uninstall -d "Disable / Uninstall Plugins"
 
             case \*
                 printf "fisher: Ahoy! '%s' is not a valid option\n" $1 >& 2
-                fisher_uninstall --help >& 2
+                fisher_uninstall -h >& 2
                 return 1
         end
     end
 
+    switch "$option"
+        case help
+            fisher help uninstall
+            return
+    end
+
+    set -l time (date +%s)
     set -l count 0
     set -l index 1
     set -l total (count $items)
-    set -l elapsed (date +%s)
 
     if set -q items[1]
         printf "%s\n" $items
     else
         __fisher_file -
-    end | __fisher_validate | __fisher_cache | while read -l path
 
-        if not test -d "$path"
-            switch "$path"
-                case file:///\*
-                    set path (printf "%s\n" $path | sed 's|file://||')
-
-                case \*
-                    printf "fisher: '%s' path not found\n" $path > $error
-                    continue
-            end
-        end
+    end | __fisher_validate | __fisher_cache $error | while read -l path
 
         set -l name (printf "%s\n" $path | __fisher_name)
 
@@ -63,9 +59,8 @@ function fisher_uninstall -d "Disable / Uninstall Plugins"
                 printf ">> %s\n" $name > $error
 
             case \*
-                printf "(%s of %s) >> %s\n" (math 1 + $index) $total $name > $error
-
                 set index (math $index + 1)
+                printf "(%s of %s) >> %s\n" (math 1 + $index) $total $name > $error
         end
 
         for file in $path/{*,functions{/*,/**/*}}.fish
@@ -125,12 +120,12 @@ function fisher_uninstall -d "Disable / Uninstall Plugins"
         mv -f $tmp $file
     end
 
-    set elapsed (math (date +%s) - $elapsed)
+    set time (math (date +%s) - $time)
 
     if test $count = 0
         printf "No plugins were uninstalled.\n" > $error
         return 1
     end
 
-    printf "Aye! %d plugin/s uninstalled in %0.fs\n" > $error $count $elapsed
+    printf "Aye! %d plugin/s uninstalled in %0.fs\n" > $error $count $time
 end

@@ -18,13 +18,13 @@ end
 
 Make sure it works: `fisher hello`.
 
-To make this function available to the current and future fish sessions, add it to `$XDG_CONFIG_HOME`/fish/functions:
+To make this function available to the current and future fish sessions, add it to `$XDG_CONFIG_HOME/fish/functions`:
 
 ```
 funcsave fisher_hello
 ```
 
-You may also choose to save this function to `$fisher_config`/functions.
+You may also choose to save this function to `$fisher_config/functions`.
 
 ## EXAMPLES
 
@@ -34,8 +34,8 @@ The following example implements a command to retrieve plugin information and fo
 function fisher_info -d "Display information about plugins"
     switch "$argv"
         case -h --help
-            printf "usage: fisher info name | url [...]\n\n"
-            printf "  -h --help  Show usage help\n"
+            printf "usage: fisher info name | URL [...]\n\n"
+            printf "    -h --help  Show usage help\n"
             return
     end
     for item in $argv
@@ -46,7 +46,7 @@ end
 
 ## SEE ALSO
 
-`fisher`(1)<br>
-`fisher`(7)<br>
-`funcsave`(1)<br>
-`fisher help plugins`<br>
+fisher(1)<br>
+fisher(7)<br>
+funcsave(1)<br>
+fisher help plugins<br>

@@ -28,8 +28,8 @@ all: $(FISH_CONFIG) $(FISHER_CACHE) $(AUTHORS) $(DOCS)
 		echo "Downloading the index for the first time...";\
 		fish -c "fisher_update --index";\
 	fi
-	@$(call MSG,"Reset your shell and type 'fisher <command>' to use Fisherman.")
-	@fish -c "fisher -h" | sed -n '5,$$p'
+	@$(call MSG,"Reset your shell and type 'fisher <command>' to use Fisherman")
+	@fish -c "fisher help -a" | sed -n '3,$$p'
 
 test:
 	@fish -c "fishtape test/*.fish"
@@ -76,5 +76,4 @@ $(AUTHORS): $(FISHER_HOME)
 		sed -E 's/([^<>]+)<([^<>]*)>/* \1 \&lt;[\2](mailto:\2)\&gt;/' >> $@
 
 %.1 %.5 %.7: %.md
-	@echo "Creating the documentation..."
-	-@ronn --manual=fisherman --roff $? 1>&2 2> /dev/null 
+	-@ronn --manual=fisherman --roff $? 1>&2 2> /dev/null
