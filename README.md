@@ -33,7 +33,7 @@ Check out the [contribution](CONTRIBUTING.md) guidelines.
 
 ## Help
 
-See [`fisherman(1)`][fisherman-1] and [`fisherman(7)`][fisherman-7] for usage and documentation. For support and feedback join the Slack [room][wharf-link] or browse the [issues][issues].
+See [`fisher(1)`][fisher-1] and [`fisher(7)`][fisher-7] for usage and documentation. For support and feedback join the Slack [room][wharf-link] or browse the [issues][issues].
 
 
 :anchor:
@@ -47,8 +47,8 @@ See [`fisherman(1)`][fisherman-1] and [`fisherman(7)`][fisherman-7] for usage an
 [wharf-link]:        https://fisherman-wharf.herokuapp.com/
 [wharf-badge]:       https://img.shields.io/badge/wharf-join%20the%20chat-00cc99.svg?style=flat-square
 [screencasts]:       https://github.com/fisherman/fisherman/wiki/Screencasts
-[fisherman-1]:       man/man1/fisher.md
-[fisherman-7]:       man/man7/fisher.md
+[fisher-1]:          man/man1/fisher.md
+[fisher-7]:          man/man7/fisher.md
 [travis-link]:       https://travis-ci.org/fisherman/fisherman
 [travis-badge]:      https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
 [fisherman-version]: https://img.shields.io/badge/fisherman-v0.3.1-00B9FF.svg?style=flat-square
