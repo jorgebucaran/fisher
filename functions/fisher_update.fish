@@ -1,4 +1,4 @@
-function fisher_update -d "Update Plugins and Fisherman"
+function fisher_update -d "Update Fisherman or Plugins"
     set -l path
     set -l items
     set -l option self
@@ -65,6 +65,10 @@ function fisher_update -d "Update Plugins and Fisherman"
             mkdir -p $fisher_cache
             set -l index $fisher_cache/.index.tmp
 
+            if not set -q fisher_timeout
+                set fisher_timeout 5
+            end
+
             if wait --spin=pipe --log=$fisher_error_log "
                 curl --max-time $fisher_timeout -sS $fisher_index > $index
             "
@@ -81,8 +85,8 @@ function fisher_update -d "Update Plugins and Fisherman"
             printf "Updating >> Fisherman\n" > $error
 
             if not fisher_update --path=$fisher_home --quiet=$error
-                printf "fisher: Could not update Fisherman.\n" > $error
-                sed -E 's/.*(error:.*)/\1/' $fisher_error_log > $error
+                printf "fisher: Arrr! Could not update Fisherman.\n" > $error
+                sed -E 's/.*error: (.*)/\1/' $fisher_error_log > $error
                 return 1
             end
 
@@ -97,9 +101,9 @@ function fisher_update -d "Update Plugins and Fisherman"
             if set -q items[1]
                 printf "%s\n" $items
             else
-                __fisher_file -
+                __fisher_file /dev/stdin
 
-            end | __fisher_validate | __fisher_cache $error | while read -l path
+            end | __fisher_validate | __fisher_resolve_plugin $error | while read -l path
 
                 set -l name (printf "%s\n" $path | __fisher_name)
 
@@ -110,8 +114,8 @@ function fisher_update -d "Update Plugins and Fisherman"
                         printf ">> %s\n" $name > $error
 
                     case \*
-                        set index (math $index + 1)
                         printf "(%s of %s) >> %s\n" $index $total $name > $error
+                        set index (math $index + 1)
                 end
 
                 if not fisher_update --path=$path --quiet

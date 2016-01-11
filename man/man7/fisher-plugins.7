@@ -105,7 +105,7 @@ end
 .IP "" 0
 .
 .IP "\(bu" 4
-Add completions\. \fIwtc\fR is simple enough that you could get away without \fB__fisher_complete\fR, but more complex utilities, or utilities whose CLI evolves over time, can benefit using automatic completion generation\. Note that in order to use \fB__fisher_complete\fR, your command must provide a \fB\-\-help\fR option that prints usage information to standard output\.
+Add completions\. \fIwtc\fR is simple enough that you could get away without \fB__fisher_parse_help\fR, but more complex utilities, or utilities whose CLI evolves over time, can benefit using automatic completion generation\. Note that in order to use \fB__fisher_parse_help\fR, your command must provide a \fB\-\-help\fR option that prints usage information to standard output\.
 .
 .IP "" 0
 .
@@ -117,7 +117,7 @@ mkdir completions
 cat > completions/wtc\.fish
 
 set \-l IFS ";"
-wtc \-\-help | __fisher_complete | while read \-l info long short
+wtc \-\-help | __fisher_parse_help | while read \-l info long short
     complete \-c wtc \-s "$short" \-l "$long" \-d "$info"
 end
 ^C
@@ -170,7 +170,7 @@ git push origin master
 .IP "" 0
 .
 .IP "\(bu" 4
-Install with Fisherman\. If you would like to submit your package for registration install the \fBsubmit\fR plugin or send a pull request to the main index repository in \fIhttps://github\.com/fisherman/index\fR\. See \fBIndex\fR in \fBfisher(7)\fR\.
+Install with Fisherman\. If you would like to submit your package for registration install the \fBsubmit\fR plugin or send a pull request to the main index repository in \fIhttps://github\.com/fisherman/index\fR\. See \fBIndex\fR in \fBfisher help tour\fR\.
 .
 .IP "" 0
 .

@@ -1,10 +1,58 @@
 # Change Log
 
++ [0.4.0](#040) :gem:
 * [0.3.1](#031)
 * [0.3.0](#030)
 * [0.2.0](#020)
 * [0.1.0](#010)
 
+
+## [0.4.0][v040] - 2016-01-11
+
+:anchor: Introducting Fisherman's official website :construction:
+
+<a href="http://fisherman.sh">
+<img src="https://cloud.githubusercontent.com/assets/8317250/12229311/c0eea838-b889-11e5-94eb-280d95fbdd49.png">
+</a>
+
+. Powered by Jekyll and hosted by GitHub pages.
+
+* Refactor `fisher install` / `fisher uninstall` by extracting the logic to enable / disable plugins into `__fisher_plugin`. The algorithm to enable/disable plugins is essentially the same. The only difference is _enable_, copies/symlinks files and disable removes them from `$fisher_config/...`. Closes #45.
+
+* Add support for legacy oh-my-fish! plugins using `.load` initialization files. Closes #35.
+
+* Add support for [Tackle](https://github.com/justinmayer/tackle) Fish framework initialization modules. Closes #35.
+
+* :gem: Add support for plugins that share scripts in languages like Python or Perl. For example `oh-my-fish/plugin-vi-mode` assumes there is a `vi-mode-impl.py` file in the same path of the running script. This opens the door for including code snippets in other languages.
+
+    * Any files inside a `share` directory, except for `*.md` or `*.fish` files, are copied to `$fisher_config/functions`. This allows you to run legacy plugins that retrieve the currently running script path with `(dirname (status -f))` out of the box.
+
+    * A cleaner alternative is using the new `$fisher_share` variable like this: `python $fisher_share/my_plugin_script.py`.
+
+    * `$fisher_share` points to `$fisher_config/share` by default, but you may change this in your user `config.fish`. This path contains copies (or symbolic links) to the same script files copied to `$fisher_config/functions`.
+
+    * Introduce the `$fisher_share_extensions` variable to let you customize what extensions Fisherman is aware of. Only extensions in this array will be processed during the install process. The default is `py rb php pl awk sed`.
+
+    * `.fish` and `.md` extensions are always ignored.
+
+
+* Remove ad-hoc debug `d` function created by mistake in the Fisherman config.fish file. Closes #34.
+
+* Remove almost useless `fisher --alias`. You can still create aliases using `$fisher_alias`. It's difficult to add auto-complete to this feature, and even if we do so, it is slow.
+
+* Fix bug introduced in the previous release caused by swapping the lines that calculate the index of the current plugin being installed/updated/uninstalled and the line that displays the value, causing the CLI to show incorrect values. Closes #36. Thanks @kballard
+
+* Add `cache`, `enabled` and `disabled` options to `fisher --list`. Now you can type `fisher -l enabled` to get a list of what plugins are currently enabled.
+
+* Add new `$fisher_plugins` universal variable to keep track of what plugins are enabled / disabled.
+
+* Update completions after a plugin is installed, updated or uninstalled.
+
+* Improve autocomplete speed by removing the descriptions from plugins installed with custom URLs.
+
+* `fisher --list` displays nothing and returns 1 when there are no plugins installed. Closes #38.
+
+* `fisher uninstall` does not attempt to uninstall plugins already disabled by looking at the `$fisher_plugins` array. `--force` will bypass this. Closes #40
 
 ## [0.3.1][v031] - 2016-01-10
 
@@ -43,13 +91,13 @@
 
 * Add feature to Makefile to download the index for the first time in order to provide auto-complete before the user can install/update/search, actions which would case the index to be updated.
 
-* Add link to Slack [room][wharf] in README. Thanks @simnalamburt.
+* Add link to Slack [room](http://fisherman-wharf.herokuapp.com/) in README. Thanks @simnalamburt.
 
 * Add new `$fisher_timeout` configuration variable that lets you specify `curl(1)` `--max-time` option. Without this, `curl` could hang for a long time if you are in a bad connection.
 
-* Add `fisher install --link` to allow installing plugins creating a symbolic link to each of the relevant files to be copied during the install process. If you use ***`--link`*** to install a plugin that is a _path to a directory_ or file, a symbolic link to the directory will be created making local testing more convenient as you are not required to update the plugin's repository to test changes within Fisherman. If you are testing using [Fishtape][fishtape] you do not even need to reset the shell session.
+* Add `fisher install --link` to allow installing plugins creating a symbolic link to each of the relevant files to be copied during the install process. If you use ***`--link`*** to install a plugin that is a _path to a directory_ or file, a symbolic link to the directory will be created making local testing more convenient as you are not required to update the plugin's repository to test changes within Fisherman. If you are testing using [Fishtape](https://github.com/fisherman/fishtape) you do not even need to reset the shell session.
 
-* Add `fisher --alias[=<command>=<alias>]` to simplify creating new aliases for `fisher` commands. Use `fisher --alias` without arguments to list the current set of aliases. Also add auto-complete for aliases to install, update or uninstall. Note that aliases are **not** persisted this way. To save your aliases use `$fisher_alias` as described in `fisher help config`. Also note that aliases are only auto-complete if you call `fisher --alias`. To auto-complete aliases saved to `$fisher_alias` you can do `fisher --alias (fisher --alias)`.
+* ~~Add `fisher --alias[=<command>=<alias>]` to simplify creating new aliases for `fisher` commands. Use `fisher --alias` without arguments to list the current set of aliases. Also add auto-complete for aliases to install, update or uninstall. Note that aliases are **not** persisted this way. To save your aliases use `$fisher_alias` as described in `fisher help config`. Also note that aliases are only auto-complete if you call `fisher --alias`. To auto-complete aliases saved to `$fisher_alias` you can do `fisher --alias (fisher --alias)`.~~
 
 * Add short options for new and old fisher flags:
 
@@ -104,11 +152,11 @@
 
 * Fix a bug where `mktemp` would fail in some systems. Closes #7. Thanks @tobywf.
 
-* Add [CODE_OF_CONDUCT][code_of_conduct]. Closes #6.
+* Add [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md). Closes #6.
 
 * Fisherman can now unload themes within the same shell, without having to restart the session. Closes #5.
 
-* Fisherman can now load themes within the same shell, without having to restart the session using `exec fish`. Shoddy themes, for example those failing to declare global variables with the `-g` flag still require the session to be reset. See [**related**][bobthefish-19]. Closes #4.
+* Fisherman can now load themes within the same shell, without having to restart the session using `exec fish`. Shoddy themes, for example those failing to declare global variables with the `-g` flag still require the session to be reset. See [**related**](https://github.com/oh-my-fish/theme-bobthefish/pull/19). Closes #4.
 
 * Move `getopts` implementation to `share/getopts.awk`. Closes #3.
 
@@ -126,6 +174,8 @@
 
 <!--  Links -->
 
+[v040]: https://
+
 [v031]: https://github.com/fisherman/fisherman/commit/a0fe0b339df2fe70a0ba1a5e28dcd7449582742b
 
 [v030]: https://github.com/fisherman/fisherman/commit/19758f98ab349e81d73fa8d813d06ee00a0fcb24
@@ -133,11 +183,3 @@
 [v020]: https://github.com/fisherman/fisherman/commit/54212e1cbce66c7671baa045653efe912dbb4b77
 
 [v010]: https://github.com/fisherman/fisherman/commit/3386ed052ae4a84338c340d37b98c1742f8a45f6
-
-[bobthefish-19]: https://github.com/oh-my-fish/theme-bobthefish/pull/19
-
-[code_of_conduct]: CODE_OF_CONDUCT.md
-
-[fishtape]: https://github.com/fisherman/fishtape
-
-[wharf]: http://fisherman-wharf.herokuapp.com/

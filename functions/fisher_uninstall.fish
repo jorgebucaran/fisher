@@ -46,11 +46,17 @@ function fisher_uninstall -d "Uninstall Plugins"
     if set -q items[1]
         printf "%s\n" $items
     else
-        __fisher_file -
+        __fisher_file /dev/stdin
 
-    end | __fisher_validate | __fisher_cache $error | while read -l path
+    end | __fisher_validate | __fisher_resolve_plugin $error | while read -l path
 
         set -l name (printf "%s\n" $path | __fisher_name)
+
+        if not contains -- $name $fisher_plugins
+            if not contains -- force $option
+                continue
+            end
+        end
 
         printf "Uninstalling " > $error
 
@@ -59,39 +65,11 @@ function fisher_uninstall -d "Uninstall Plugins"
                 printf ">> %s\n" $name > $error
 
             case \*
+                printf "(%s of %s) >> %s\n" $index $total $name > $error
                 set index (math $index + 1)
-                printf "(%s of %s) >> %s\n" (math 1 + $index) $total $name > $error
         end
 
-        for file in $path/{*,functions{/*,/**/*}}.fish
-            set -l base (basename $file)
-
-            switch $base
-                case {$name,fish_{,right_}prompt}.fish
-                    functions -e (basename $base .fish)
-
-                    if test "$base" = fish_prompt.fish
-                        source $__fish_datadir/functions/fish_prompt.fish ^ /dev/null
-                    end
-
-                case {init,before.init,uninstall}.fish
-                    set base $name.(basename $base .fish).config.fish
-            end
-
-            rm -f $fisher_config/{functions,conf.d}/$base
-        end
-
-        for file in $path/completions/*.fish
-            rm -f $fisher_config/completions/(basename $file)
-        end
-
-        for n in (seq 9)
-            if test -d $path/man/man$n
-                for file in $path/man/man$n/*.$n
-                    rm -f $fisher_config/man/man$n/(basename $file)
-                end
-            end
-        end
+        __fisher_plugin --disable $name $path
 
         git -C $path ls-remote --get-url ^ /dev/null | __fisher_validate | read -l url
 

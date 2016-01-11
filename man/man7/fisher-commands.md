@@ -47,6 +47,6 @@ end
 ## SEE ALSO
 
 fisher(1)<br>
-fisher(7)<br>
+fisher help tour<br>
 funcsave(1)<br>
 fisher help plugins<br>

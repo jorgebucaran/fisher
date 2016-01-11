@@ -10,10 +10,7 @@
 \fBfisher\fR \fIcommand\fR [\fIoptions\fR] [\fB\-\-version\fR] [\fB\-\-help\fR]
 .
 .br
-\fBfisher\fR \fB\-\-list\fR
-.
-.br
-\fBfisher\fR \fB\-\-alias\fR[=\fIcommand\fR=[\fIalias\fR[,\.\.\.]]]
+\fBfisher\fR \fB\-\-list=cache|enabled|disabled\fR
 .
 .br
 \fBfisher\fR \fB\-\-file\fR=\fIfishfile\fR
@@ -21,24 +18,20 @@
 .br
 .
 .SH "DESCRIPTION"
-Fisherman is a plugin manager for \fBfish(1)\fR that lets you share and reuse code, prompts and configurations easily\.
+Fisherman is a plugin manager and CLI toolkit for \fBfish(1)\fR to help you build powerful utilities and share your code easily\.
 .
 .P
-The following commands are available: \fIinstall\fR, \fIuninstall\fR, \fIupdate\fR, \fIsearch\fR and \fIhelp\fR\. See \fBfisher\fR help \fIcommand\fR for information about each command\.
+The following commands are available out of the box: \fIinstall\fR, \fIuninstall\fR, \fIupdate\fR, \fIsearch\fR and \fIhelp\fR\. See \fBfisher help <command>\fR for information about each command\.
 .
 .SH "OPTIONS"
 .
 .TP
-\fB\-\-list\fR
-List plugins in the \fB$fisher_cache\fR\. Includes plugins installed using a custom URL\.
-.
-.TP
-\fB\-a \-\-alias[=command=[alias[,\.\.\.]]]\fR
-Define one or more comma\-separated \fIalias\fR for \fIcommand\fR using \fB$fisher_alias\fR\. If no value is given, lists all existing aliases\.
+\fB\-\-list=cache|enabled|disabled\fR
+List plugins according to the given category\.
 .
 .TP
 \fB\-f \-\-file=fishfile\fR
-Read \fIfishfile\fR and display its contents\. If \fIfishfile\fR is null or an empty string, your user \fIfishfile\fR in \fB$fisher_config/fishfile\fR will be used instead\. Use a dash \fB\-\fR to force reading from the standard input\. oh\-my\-fish bundle files are supported as well\.
+Read \fIfishfile\fR and display its contents\. If \fIfishfile\fR is null or an empty string, your user \fIfishfile\fR in \fB$fisher_config/fishfile\fR will be shown instead\. Use a dash \fB\-\fR to read from the standard input\. Other formats such as the oh\-my\-fish bundle files are supported as well\.
 .
 .TP
 \fB\-v \-\-version\fR
@@ -49,7 +42,7 @@ Show version information\. Fisherman\'s current version can be found in the VERS
 Show usage help\.
 .
 .SH "CUSTOM COMMANDS"
-A Fisherman command is a function that you can invoke using the \fBfisher\fR utility\. By convention, any function like \fBfisher_<my_command>\fR is registered as a Fisherman command\. You can create plugins that add new commands this way\. See \fBfisher help commands\fR and \fBfisher help plugins\fR for more information\.
+A Fisherman command is a function that you invoke using the \fBfisher\fR CLI utility\. By convention, any function like \fBfisher_<my_command>\fR is recognized as a Fisherman command\. You can create plugins that add new commands this way\. See \fBfisher help commands\fR and \fBfisher help plugins\fR for more information\.
 .
 .SH "EXAMPLES"
 .
@@ -76,21 +69,7 @@ Install plugins from a \fIfishfile\fR or bundle:
 .
 .nf
 
-fisher \-\-file=path/to/shared/fishfile | fisher install
-.
-.fi
-.
-.IP "" 0
-.
-.TP
-Define a few aliases:
-
-.
-.IP "" 4
-.
-.nf
-
-fisher \-a uninstall=rm,u,del
+fisher \-\-file=path/to/bundle | fisher install
 .
 .fi
 .
@@ -100,37 +79,37 @@ fisher \-a uninstall=rm,u,del
 Fisherman was created by Jorge Bucaran \fIj@bucaran\.me\fR\.
 .
 .P
-See AUTHORS file for a more complete list of contributors\.
+See AUTHORS file for the complete list of contributors\.
 .
 .SH "SEE ALSO"
-fisher(7)
+fisher help tour
 .
 .br
-fisher help
+fisher help help
 .
 .br
-fisher update
+fisher help update
 .
 .br
-fisher search
+fisher help search
 .
 .br
-fisher config
+fisher help config
 .
 .br
-fisher install
+fisher help install
 .
 .br
-fisher plugins
+fisher help plugins
 .
 .br
-fisher commands
+fisher help commands
 .
 .br
-fisher fishfile
+fisher help fishfile
 .
 .br
-fisher uninstall
+fisher help uninstall
 .
 .br
 

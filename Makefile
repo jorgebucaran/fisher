@@ -28,7 +28,7 @@ all: $(FISH_CONFIG) $(FISHER_CACHE) $(AUTHORS) $(DOCS)
 		echo "Downloading the index for the first time...";\
 		fish -c "fisher_update --index";\
 	fi
-	@$(call MSG,"Reset your shell and type 'fisher <command>' to use Fisherman")
+	@$(call MSG,"Ahoy! Reset your shell and type 'fisher <command>'")
 	@fish -c "fisher help -a" | sed -n '3,$$p'
 
 test:
