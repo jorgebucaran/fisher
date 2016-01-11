@@ -32,7 +32,7 @@ Plugins may declare any number of dependencies to other plugins in a fishfile at
 
 By default, when Fisherman installs a plugin, it will also fetch and install its dependencies. If a dependency is already installed, it will not be updated as this could potentially break other plugins using an older version. For the same reason, uninstalling a plugin does not remove its dependencies.
 
-To understand this behavior, it helps to recall the shell's single scope for functions. The lack of private functions means that, it is *not* possible to single-lock a specific dependency version. See also `Flat Tree` in `fisher(7)`.
+To understand this behavior, it helps to recall the shell's single scope for functions. The lack of private functions means that, it is *not* possible to single-lock a specific dependency version. See also `Flat Tree` in `fisher help tour`.
 
 ## SEE ALSO
 

@@ -61,8 +61,8 @@ for name in $names
         -e $fisher_config/conf.d/$name.config.fish
     end
 
-    test "add init files to conf.d as <name>.init.config"
-        -e $fisher_config/conf.d/$name.init.config.fish
+    test "add init files to conf.d as <name>.init"
+        -e $fisher_config/conf.d/$name.init.fish
     end
 
     test "add manual pages to config/man/"

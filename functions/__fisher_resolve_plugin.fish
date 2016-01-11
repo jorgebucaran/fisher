@@ -1,4 +1,4 @@
-function __fisher_cache -a error -d "Get plugin in cache from a name, url or path"
+function __fisher_resolve_plugin -a error -d "resolve path to a plugin"
     if test -z "$error"
         set error /dev/stderr
     end
