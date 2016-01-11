@@ -55,4 +55,4 @@ See [`fisher help`][fisher-1] and [`fisher help tour`][fisher-tour] for command 
 [screencasts]: https://github.com/fisherman/fisherman/wiki/Screencasts
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
-[fisherman-version]: https://img.shields.io/badge/fisherman-v0.3.1-00B9FF.svg?style=flat-square
+[fisherman-version]: https://img.shields.io/badge/fisherman-v0.4.0-00B9FF.svg?style=flat-square
