@@ -1,4 +1,4 @@
-function __fisher_validate -d "Validate a name, url or path"
+function __fisher_validate -d "validate a name, url or path"
     set -l id "[A-Za-z0-9_]+([.-]?[A-Za-z0-9_])*"
 
     if not set -q fisher_default_host
