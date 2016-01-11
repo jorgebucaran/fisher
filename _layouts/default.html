@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8 />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> {% if page.title %}{{ page.title }}{% else %}Fisherman{% endif %}</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="fish shell,fishshell,framework,oh-my-fish,wahoo,tackle,shell,terminal,unix,commandline,theme,prompt,powerline">
+  <link rel="shortcut icon" href="{{site.url}}/images/favicon.ico">
+  <link rel="canonical" href="">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{{site.url}}/css/style.css"/>
+</head>
+<body>
+
+  {% include header.html %}
+
+  {{ content }}
+
+  {% include footer.html %}
+
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8 />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Fisherman</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="fish shell,fishshell,framework,oh-my-fish,wahoo,tackle,shell,terminal,unix,commandline,theme,prompt,powerline">
+  <link rel="shortcut icon" href="http://127.0.0.1:4000//images/favicon.ico">
+  <link rel="canonical" href="">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://127.0.0.1:4000//css/style.css"/>
+</head>
+<body>
+
+  <header>
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headernav" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="headernav">
+        <ul class="nav navbar-nav navbar-left">
+          <li class="active"><a href="https://github.com/search?l=Shell&q=fish&ref=simplesearch&type=Repositories&utf8=%E2%9C%93"><i class="fa fa-binoculars"></i> Discover</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#quickstart">Quickstart</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="https://github.com/fisherman/fisherman">GitHub</a></li>
+          <li><a href="/documentation.html">Documentation</a></li>
+          <li><a href="https://github.com/fisherman/fisherman/wiki/FAQ">FAQ</a></li>
+          <li class="active"><a href="https://fisherman-wharf.herokuapp.com"><strong>Wharf</strong> <i class="fa fa-slack"></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+<header>
+
+
+    <section class="github-share hidden-xs">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <a class="github-button" href="https://github.com/fisherman/fisherman/fork" data-style="mega" data-count-href="/fisherman/fisherman/network" data-count-api="/repos/fisherman/fisherman#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork fisherman/fisherman on GitHub">Fork</a>
+
+          <a class="github-button" href="https://github.com/fisherman/fisherman" data-style="mega" data-count-href="/fisherman/fisherman/stargazers" data-count-api="/repos/fisherman/fisherman#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star fisherman/fisherman on GitHub">Star</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="logo">
+            <a href="/"><img src="http://127.0.0.1:4000//images/fisherman-logo.png" alt="Fisherman"/></a>
+          </div>
+          <h1>The plugin manager and CLI toolkit for fish</h1>
+          <h2>An Open Source project by the Ocean. Made with <img src="http://127.0.0.1:4000//images/muscle.png" alt="Muscle" class="muscle"/>by Fishermen</h2>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="github-share hidden-lg hidden-md hidden-sm">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <a class="github-button" href="https://github.com/fisherman/fisherman/fork" data-style="mega" data-count-href="/fisherman/fisherman/network" data-count-api="/repos/fisherman/fisherman#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork fisherman/fisherman on GitHub">Fork</a>
+          <a class="github-button" href="https://github.com/fisherman/fisherman" data-style="mega" data-count-href="/fisherman/fisherman/stargazers" data-count-api="/repos/fisherman/fisherman#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star fisherman/fisherman on GitHub">Star</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="benefits">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-12">
+          <div class="icon"><i class="fa fa-gamepad"></i></div>
+          <h4>Easy</h4>
+          <p>Share and reuse code, prompts and configurations easily.</p>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+          <div class="icon"><i class="fa fa-share-alt"></i></div>
+          <h4>Social</h4>
+          <p>Compatible with plugins and prompts from others like Tackle, Oh My Fish! and Wahoo.</p>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+          <div class="icon"><i class="fa fa-wrench"></i></div>
+          <h4>Tools</h4>
+          <p>Create powerful CLI utilities with <a href="https://github.com/fisherman/fishtape">Fishtape</a>, <a href="https://github.com/bucaran/getopts">Getopts</a> and <a href="https://github.com/fisherman/fisherman/blob/master/man/man1/wait.md">Wait</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features hidden-xs">
+    <a name="features"></a>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h3>What's so great about Fisherman?</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 col-sm-2 col-md-offset-1 col-sm-offset-1">
+          <a href="https://github.com/fisherman/fisherman/blob/master/man/man7/fisher.md#flat-tree">
+            <div class="icon"><i class="fa fa-bars"></i></div>
+            <p>Flat-Tree Model</p>
+          </a>
+        </div>
+        <div class="col-md-2 col-sm-2">
+          <a href="https://github.com/fisherman/fisherman/blob/master/man/man7/fisher.md#index">
+            <div class="icon"><i class="fa fa-table"></i></div>
+            <p>External self-managed index</p>
+          </a>
+        </div>
+        <div class="col-md-2 col-sm-2">
+          <a href="https://github.com/fisherman/fisherman/blob/master/man/man7/fisher.md#plugins">
+            <div class="icon"><i class="fa fa-cubes"></i></div>
+            <p>Unified plugin architecture</p>
+          </a>
+        </div>
+        <div class="col-md-2 col-sm-2">
+          <a href="https://github.com/fisherman/fisherman/blob/master/man/man7/fisher.md#fishfiles">
+            <div class="icon"><i class="fa fa-file-text"></i></div>
+            <p>Dependency manifest file</p>
+          </a>
+        </div>
+        <div class="col-md-2 col-sm-2">
+          <a href="https://github.com/fisherman/fisherman/blob/master/man/man7/fisher.md#cache">
+            <div class="icon"><i class="fa fa-database"></i></div>
+            <p>Built-in cache system</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="get-started hidden-xs">
+    <a name="quickstart"></a>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h3>Get started with Fisherman</h3>
+        </div>
+      </div>
+
+          <div class="col-md-12">
+            <h5>Prepare to be boarded:</h5>
+            <div class="code">
+              <div class="code-content">
+              <p><span class="comment"># Clone the booty</span><br>
+              <span>$</span> git clone https://github.com/fisherman/fisherman</p>
+
+              <p><span class="comment"># Board the repository</span><br>
+              <span>$</span> cd fisherman</p>
+
+              <p><span class="comment"># Install Fisherman</span><br>
+              <span>$</span> <strong>make</strong></p>
+              </div>
+            </div>
+            <p class="bottom">Also checkout the ASCII <a href="https://github.com/fisherman/fisherman/wiki/Screencasts">screencasts</a> and the <a href="https://github.com/fisherman/fisherman/blob/master/man/man7/fisher-tour.md">Feature Tour</a></p>
+          </div>
+
+
+
+  </section>
+
+  <section class="get-started mobile hidden-md hidden-lg hidden-sm">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h3>Get started with Fisherman</h3>
+          <div class="code">
+            <div class="code-content">
+              <p><span class="comment"># Clone the booty</span><br>
+              <span>$</span> git clone https://github.com/fisherman/fisherman</p>
+
+              <p><span class="comment"># Board the repository</span><br>
+              <span>$</span> cd fisherman</p>
+
+              <p><span class="comment"># Install Fisherman</span><br>
+              <span>$</span> <strong>make</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="bottom-links">
+          <div class="col-md-6 col-sm-6 col-xs-6">
+            <a href="https://github.com/fisherman/fisherman/blob/master/man/man7/fisher-tour.md">Introduction</a>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-6">
+            <a href="https://github.com/fisherman/fisherman/wiki/Screencasts">Screencasts</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer>
+     <div class="container">
+       <div class="row hidden-xs">
+         <div class="col-md-8 col-sm-8 col-xs-12">
+           <ul>
+             <li><a href="https://github.com/fisherman/fisherman">GitHub</a></li>
+             <li><a href="https://github.com/fisherman/fisherman/wiki/Documentation">Documentation</a></li>
+             <li><a href="https://github.com/fisherman/fisherman/blob/master/CONTRIBUTING.md">Contributing</a></li>
+             <li><a href="https://github.com/fisherman/fisherman/blob/master/CHANGELOG.md">Changelog</a></li>
+             <li><a href="https://github.com/fisherman/fisherman/wiki/FAQ">FAQ</a></li>
+           </ul>
+         </div>
+         <div class="col-md-4 col-sm-4 col-xs-12">
+           <a href="https://github.com/fisherman"><i class="fa fa-anchor"></i></a>
+         </div>
+       </div>
+       <div class="row hidden-md hidden-lg hidden-sm">
+         <div class="col-md-12">
+           <ul>
+             <li><a herf="https://github.com/fisherman/fisherman/wiki/Documentation">Documentation</a></li>
+             <li><a href="https://github.com/fisherman/fisherman/blob/master/CONTRIBUTING.md">Contributing</a></li>
+             <li><a href="https://github.com/fisherman/fisherman/wiki/FAQ">FAQ</a></li>
+             <li><a href="https://github.com/fisherman"><i class="fa fa-anchor"></i></a></li>
+           </ul>
+         </div>
+       </div>
+     </div>
+   </footer>
+
+ </div>
+ <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+ <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+ <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+ <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+</body>
+</html>
