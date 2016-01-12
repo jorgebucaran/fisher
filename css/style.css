@@ -11,26 +11,15 @@
 
 }
 
-@font-face {
-    font-family: 'source_code_pro_for_powerlSBd';
-    src: url('sauce_code_powerline_semibold-webfont.eot');
-    src: url('sauce_code_powerline_semibold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('sauce_code_powerline_semibold-webfont.woff2') format('woff2'),
-         url('sauce_code_powerline_semibold-webfont.woff') format('woff'),
-         url('sauce_code_powerline_semibold-webfont.ttf') format('truetype'),
-         url('sauce_code_powerline_semibold-webfont.svg#source_code_pro_for_powerlSBd') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
 body {
   font-family: "Helvetica Neue", "Arial", sans-serif;
   background-color: #00bafe;
   color: #fff;
   line-height: 150%;
 }
-.code .code-content p, .release{
+
+.code
+.code-content p, .release{
   font-family: 'source_code_pro_for_powerliMd';
   src: url('sauce_code_powerline_medium-webfont.eot');
   src: url('sauce_code_powerline_medium-webfont.eot?#iefix') format('embedded-opentype'),
@@ -41,9 +30,6 @@ body {
   font-weight: normal;
   font-style: normal;
   text-align: left;
-}
-.release{
-  text-align: center;
 }
 
 section{
@@ -58,22 +44,35 @@ a{
 }
 
 
+
+
+
+
+
+
+.github-button {
+    font-size: 0px;
+}
+
 .github-share{
     margin: 75px 0 50px 0;
     font-size: 100px;
 }
 
 .github-share iframe{
-  margin: 0 10px;
+    margin-left: 44px;
 }
+
+
+
+
+
+
 
 
 .navbar{
   background: transparent;
   border: none;
-}
-.docs .navbar{
-  margin: 0;
 }
 .navbar i{
   color: #fff;
@@ -131,6 +130,11 @@ a{
 .logo a:hover{
   opacity: 0.95;
 }
+
+
+
+
+
 h1{
   font-size: 2.9rem;
   margin: 30px 0 20px;
@@ -149,27 +153,18 @@ h2 img.muscle{
   height: auto;
   margin: -10px 10px 0 5px;
 }
-.benefits{
-  margin: 50px 0 40px 0;
-}
-.benefits .icon{
-  font-size: 95px;
-  margin-top: 70px;
-  margin-bottom: 15px;
-}
+
+
 h4{
-  font-size: 25px;
+  font-size: 30px;
   font-weight: normal;
   margin: 20px 0;
 }
 p{
-  font-size: 16px;
+  font-size: 18px;
   line-height: 150%;
 }
-.benefits a{
-  color: #fff;
-  font-weight: 600;
-}
+
 h3{
   padding: 20px;
   font-size: 3.6rem;
@@ -179,15 +174,34 @@ h3{
 .get-started h3{
   margin-bottom: 25px;
 }
-.benefits .col-md-4{
-  margin-bottom: 20px;
+
+
+
+section.benefits{
+  padding: 35px 0 85px;
 }
+section.benefits .icon{
+  font-size: 95px;
+  margin-top: 70px;
+  margin-bottom: 15px;
+}
+section.benefits a{
+  color: #fff;
+  font-weight: 600;
+}
+section.benefits .col-md-4{
+  margin-bottom: 60px;
+}
+
+
+
+
 
 
 
 section.features{
   background-color: #231d20;
-  padding: 65px 0;
+  padding: 65px 0 85px;
 }
 .features a{
   color: #fff;
@@ -202,21 +216,25 @@ section.features{
 }
 .features .icon{
   font-size: 38px;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 }
 
-/* GET STARTED */
-section.get-started{
-  padding: 65px 0;
-}
-.get-started a{
-  color: #fff;
-}
+
+
+
 
 h5{
   font-size: 2.8rem;
   font-weight: 200;
   margin: 0px 0 40px 0;
+}
+
+
+section.get-started{
+  padding: 65px 0;
+}
+.get-started a{
+  color: #fff;
 }
 .get-started a{
   font-weight: bold;
@@ -224,6 +242,11 @@ h5{
 .get-started .bottom{
   margin: 28px 0 10px 0;
 }
+
+
+
+
+
 .code{
   position: relative;
   background: #231d20;
@@ -262,6 +285,10 @@ h5{
 .code strong{
    color: #fff;
 }
+
+
+
+
 section.get-started.mobile{
   background: #231d20;
   padding: 60px 0;
@@ -275,7 +302,9 @@ section.get-started.mobile .code{
   margin: 0 auto;
 }
 
-/* FOOTER */
+
+
+
 footer{
   background: #fff;
   padding: 15px 0;
@@ -303,7 +332,10 @@ footer .hidden-md a{
   color:#231d20 ;
 }
 
-/* RESPONSIVE QUERIES */
+
+
+
+
 @media only screen and (min-width : 320px) {
     .navbar-brand{
       display: none;
@@ -343,7 +375,7 @@ footer .hidden-md a{
     display: block;
   }
   .navbar-default .navbar-nav>li>a{
-    font-size: 14px;
+    font-size: 15px;
     padding: 15px 10px;
     font-weight: 400;
   }
@@ -352,11 +384,11 @@ footer .hidden-md a{
   }
   h1{
     font-size: 3.6rem;
+    padding: 10px;
   }
   h2{
     font-size: 2.4rem;
   }
-
 }
 
 @media only screen and (min-width : 992px) {
@@ -372,8 +404,4 @@ footer .hidden-md a{
   .navbar-brand{
     width: 29%;
   }
-}
-
-@media only screen and (min-width : 1200px) {
-
 }
