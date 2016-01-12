@@ -14,7 +14,7 @@ Fisherman is a plugin manager and CLI toolkit for [Fish][fish] to help you build
 
 Fisherman uses a [flat tree][flat-tree] structure that adds no cruft to your shell, making it as fast as no Fisherman. The cache mechanism lets you query the index offline and enable or disable plugins as you wish.
 
-Other features include dependency management, great plugin search capabilities and full compatibility with **Tacklebox**, **Wahoo** and **Oh My Fish** themes and packages.
+Other features include dependency management, great plugin search capabilities and full compatibility with _Tacklebox_, _Wahoo_ and _Oh My Fish_ themes and packages.
 
 ## Install
 
