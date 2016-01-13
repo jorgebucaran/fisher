@@ -18,10 +18,8 @@ Other features include dependency management, great plugin search capabilities a
 
 ## Install
 
-```fish
-git clone https://github.com/fisherman/fisherman
-cd fisherman
-make
+```sh
+curl -L install.fisherman.sh | fish
 ```
 
 
