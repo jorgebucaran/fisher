@@ -41,7 +41,7 @@ Start in the [**Wiki**][docs] for links to the documentation and other guides or
 [intro]: man/man7/fisher-tour.md
 [issues]: http://github.com/fisherman/fisherman/issues
 [quickstart]: https://github.com/fisherman/fisherman/wiki/Quickstart-Guide
-[flat-tree]: https://github.com/fisherman/fisherman/blob/master/man/man7/fisher.md#flat-tree
+[flat-tree]: https://github.com/fisherman/fisherman/blob/master/man/man7/fisher-tour.md#flat-tree
 [wharf-link]: https://fisherman-wharf.herokuapp.com/
 [fisher-tour]: man/man7/fisher-tour.md
 [wharf-badge]: https://img.shields.io/badge/wharf-join%20the%20chat-00cc99.svg?style=flat-square
