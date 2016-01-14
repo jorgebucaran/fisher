@@ -4,29 +4,11 @@
   </a>
 </p>
 
+[![Build Status][travis-badge]][travis-link]
+![Fisherman Version][fisherman-version]
+[![Wharf][wharf-badge]][wharf-link]
 
-<p align="center">
-  <a href="https://github.com/fisherman/fisherman/blob/master/VERSION">
-    <img src="https://img.shields.io/badge/fisherman-v0.4.0-00B9FF.svg?style=flat-square"
-         alt="Fisherman Version">
-  </a>
-
-  <a href="https://travis-ci.org/fisherman/fisherman">
-    <img src="https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square"
-         alt="Build Status">
-  </a>
-
-  <a href="https://fisherman-wharf.herokuapp.com/">
-    <img src="https://img.shields.io/badge/wharf-join%20the%20chat-00cc99.svg?style=flat-square"
-         alt="Join the Wharf">
-  </a>
-</p>
-
-<br>
-
-
-
-**Fisherman** is a fast, modern plugin system and CLI toolkit for [Fish](http://fishshell.com/).
+<br>**Fisherman** is a fast, modern plugin system and CLI toolkit for [Fish](http://fishshell.com/).
 
 Its flat tree architecture adds no cruft to your shell, making it as fast as _no_ Fisherman. The cache mechanism lets you query the index offline and enable or disable plugins as you wish.
 
