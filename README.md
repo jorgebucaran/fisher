@@ -4,11 +4,27 @@
   </a>
 </p>
 
-[![Build Status][travis-badge]][travis-link]
-![Fisherman Version][fisherman-version]
-[![Wharf][wharf-badge]][wharf-link]
 
-## About
+<p align="center">
+  <a href="https://github.com/fisherman/fisherman/blob/master/VERSION">
+    <img src="https://img.shields.io/badge/fisherman-v0.4.0-00B9FF.svg?style=flat-square"
+         alt="Fisherman Version">
+  </a>
+
+  <a href="https://travis-ci.org/fisherman/fisherman">
+    <img src="https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square"
+         alt="Build Status">
+  </a>
+
+  <a href="https://fisherman-wharf.herokuapp.com/">
+    <img src="https://img.shields.io/badge/wharf-join%20the%20chat-00cc99.svg?style=flat-square"
+         alt="Join the Wharf">
+  </a>
+</p>
+
+<br>
+
+
 
 **Fisherman** is a fast, modern plugin system and CLI toolkit for [Fish](http://fishshell.com/).
 
@@ -16,12 +32,7 @@ Its flat tree architecture adds no cruft to your shell, making it as fast as _no
 
 Other features include dependency management, great plugin search capabilities and full compatibility with [Tacklebox](https://github.com/justinmayer/tacklebox), [Wahoo](https://github.com/wa) and [Oh My Fish](https://github.com/oh-my-fish?utf8=%E2%9C%93&query=plugin-) themes and plugins.
 
-:beginner: [**Get started**][quickstart].
-
-
-## Help
-
-For usage, examples and guides [see the wiki][wiki]. For support and feedback join the [Wharf][wharf-link] or browse the [issues][issues].
+:beginner: [**Get Started**][quickstart].
 
 
 
@@ -33,8 +44,11 @@ For usage, examples and guides [see the wiki][wiki]. For support and feedback jo
 [issues]: http://github.com/fisherman/fisherman/issues
 [wiki]: https://github.com/fisherman/fisherman/wiki
 [quickstart]: https://github.com/fisherman/fisherman/wiki/Quickstart-Guide
+
 [wharf-link]: https://fisherman-wharf.herokuapp.com/
 [wharf-badge]: https://img.shields.io/badge/wharf-join%20the%20chat-00cc99.svg?style=flat-square
+
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
+
 [fisherman-version]: https://img.shields.io/badge/fisherman-v0.4.0-00B9FF.svg?style=flat-square
