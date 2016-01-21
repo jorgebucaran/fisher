@@ -10,6 +10,8 @@
 
 ## About
 
+[![Join the chat at https://gitter.im/fisherman/fisherman](https://badges.gitter.im/fisherman/fisherman.svg)](https://gitter.im/fisherman/fisherman?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 **Fisherman** is a fast, modern plugin system for [Fish](http://fishshell.com/).
 
 Its flat tree architecture adds no cruft to your shell, making it as fast as _no_ Fisherman. The cache mechanism lets you query the index offline and enable or disable plugins as you wish.
