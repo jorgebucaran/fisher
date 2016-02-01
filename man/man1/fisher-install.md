@@ -3,20 +3,20 @@ fisher-install(1) -- Install Plugins
 
 ## SYNOPSIS
 
-fisher `install` [*plugins* ...] [`--quiet`] [`--help`]
+fisher `install` [*plugins* ...] [`--force`] [`--quiet`] [`--help`]
 
 ## USAGE
 
-fisher `install` *name*<br>
-fisher `install` *URL*<br>
-fisher `install` *path*<br>
-fisher `install` *owner/repo*<br>
+fisher `install` *url* ...<br>
+fisher `install` *name* ...<br>
+fisher `install` *path*  ...<br>
+fisher `install` *owner/repo* ...<br>
 
 ## DESCRIPTION
 
 Install one or more plugins, by name, URL or local path. If no arguments are given, read the standard input.
 
-If the Git host is not provided, Fisherman will use any value available in `$fisher_default_host` or https://github.com by default.
+If the Git host is not provided, Fisherman will use https://github.com by default.
 
 In addition, all of the following `owner/repo` variations are accepted:
 
@@ -39,6 +39,9 @@ If the plugin declares dependencies, these will be installed too. If any of the 
 If a plugin includes either a fish_prompt.fish or fish_right_prompt.fish, both files are first removed from `$fisher_config/functions` and then the new ones are copied.
 
 ## OPTIONS
+
+* `-f` `--force`:
+    Reinstall given plugin/s. If the plugin is already in the cache, it will be installed from the cache.
 
 * `-q` `--quiet`:
     Enable quiet mode.

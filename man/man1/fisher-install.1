@@ -7,19 +7,19 @@
 \fBfisher\-install\fR \- Install Plugins
 .
 .SH "SYNOPSIS"
-fisher \fBinstall\fR [\fIplugins\fR \.\.\.] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
+fisher \fBinstall\fR [\fIplugins\fR \.\.\.] [\fB\-\-force\fR] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
 .
 .SH "USAGE"
-fisher \fBinstall\fR \fIname\fR
+fisher \fBinstall\fR \fIurl\fR \.\.\.
 .
 .br
-fisher \fBinstall\fR \fIURL\fR
+fisher \fBinstall\fR \fIname\fR \.\.\.
 .
 .br
-fisher \fBinstall\fR \fIpath\fR
+fisher \fBinstall\fR \fIpath\fR \.\.\.
 .
 .br
-fisher \fBinstall\fR \fIowner/repo\fR
+fisher \fBinstall\fR \fIowner/repo\fR \.\.\.
 .
 .br
 .
@@ -27,7 +27,7 @@ fisher \fBinstall\fR \fIowner/repo\fR
 Install one or more plugins, by name, URL or local path\. If no arguments are given, read the standard input\.
 .
 .P
-If the Git host is not provided, Fisherman will use any value available in \fB$fisher_default_host\fR or https://github\.com by default\.
+If the Git host is not provided, Fisherman will use https://github\.com by default\.
 .
 .P
 In addition, all of the following \fBowner/repo\fR variations are accepted:
@@ -88,6 +88,10 @@ If the plugin declares dependencies, these will be installed too\. If any of the
 If a plugin includes either a fish_prompt\.fish or fish_right_prompt\.fish, both files are first removed from \fB$fisher_config/functions\fR and then the new ones are copied\.
 .
 .SH "OPTIONS"
+.
+.TP
+\fB\-f\fR \fB\-\-force\fR
+Reinstall given plugin/s\. If the plugin is already in the cache, it will be installed from the cache\.
 .
 .TP
 \fB\-q\fR \fB\-\-quiet\fR

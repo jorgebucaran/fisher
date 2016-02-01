@@ -5,7 +5,7 @@ fisher-fishfile(5) -- Fishfile Format
 
 A *fishfile* lets you share plugin configurations across multiple installations, allows plugins to declare dependencies, and prevent information loss in case of system failure.
 
-Fisherman also keeps a user *fishfile* in `$fisher_config/fishfile` which is automatically updated as you install or uninstall plugins.
+Fisherman also keeps a user *fishfile* in `$fisher_file` which is automatically updated as you install or uninstall plugins.
 
 ## USAGE
 
@@ -24,7 +24,7 @@ oh-my-fish/bobthefish
 
 To read fishfiles use `fisher --file=fishfile`. This will read *fishfile* sequentially, writing its contents to the standard output. oh-my-fish bundle files are supported as well.
 
-If *fishfile* is null or an empty string, the global *fishfile* in `$fisher_config/fishfile` will be used. Use a dash `-` to force read from standard input.
+If *fishfile* is null or an empty string, the global *fishfile* in `$fisher_file` will be used. Use a dash `-` to force read from standard input.
 
 ## PLUGINS
 

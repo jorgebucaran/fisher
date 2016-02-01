@@ -13,7 +13,7 @@ Run *commands* as a background process and wait until the job has finished. Any 
 ## OPTIONS
 
 * `-s --spin=style|string`:
-    Set spinner style. See `Styles` for a list of styles and instructions on how to use your own character sequences, progress bar usage, etc.
+    Set spinner style. See `Styles` for styles and details to customize the spinner characters.
 
 * `-t --time=interval`:
     Set spinner transition time delay in *seconds*. A large value will refresh the spinner more slowly. You may use decimal numbers to represent smaller numbers.
@@ -29,16 +29,16 @@ Run *commands* as a background process and wait until the job has finished. Any 
 
 ## STYLES
 
-The following styles are supported via `--spin=style`:
-
 * arc, star, pipe, ball, flip, mixer, caret
 * bar1~3
+
+If no style is given in `--spin=<style>`, `mixer` is used by default. If you don't want to display any spinners, use `--spin=""`.
 
 ### CUSTOMIZATION
 
 In addition to the default styles, you can specify a string of character tokens to be used each per spinner refresh cycle.
 
-For example `--spin=12345` will display the numbers from 1 to 5, and `--spin=. --format=@` an increasing sequence of dots.
+For example `--spin=12345` will display the numbers from 1 to 5, and `--spin=. --format=@` an increasing sequence of dots and `@` represents the spinner character.
 
 ### PROGRESS BARS
 
@@ -47,20 +47,6 @@ Display a progress bar with a percent indicator using `--spin=bar1~3`:
 * bar1: [=====] *num*%
 * bar2: [#####] *num*%
 * bar3: ....... *num*%
-
-You can customize the appearance as follows:
-
-```
---spin=bar:<opening token><fill token><empty slot token><closing token>[%]
-```
-
-For example:
-
-```
---spin="bar:[+-]%"
---spin="bar:(@o)"
---spin="bar:||_|"
-```
 
 ## EXAMPLES
 

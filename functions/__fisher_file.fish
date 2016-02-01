@@ -1,15 +1,19 @@
-function __fisher_file -d "read one or more fishfiles"
+function __fisher_file
     awk  '
-        !/^ *(#.*)*$/ {
+        /^[ \t]*(package|theme) .+/ {
+            if ($1 == "package") {
+                $1 = "https://github.com/oh-my-fish/plugin-"$2
+            } else {
+                $1 = "https://github.com/oh-my-fish/theme-"$2
+            }
+        }
+
+        !/^[ \t]*(#.*)*$/ {
             gsub("#.*", "")
 
-            if (/^ *package .+/) {
-                $1 = $2
-            }
-
-            if (!duplicates[$1]++) {
+            if (! seen[$1]++) {
                 printf("%s\n", $1)
             }
         }
-    ' $argv
+    '
 end

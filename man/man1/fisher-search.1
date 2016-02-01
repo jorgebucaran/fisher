@@ -10,16 +10,7 @@
 fisher \fBsearch\fR [\fIplugins\fR \.\.\.]
 .
 .br
-fisher \fBsearch\fR [\fB\-\-select\fR=\fIall\fR|\fIcache\fR|\fIremote\fR]
-.
-.br
-fisher \fBsearch\fR [\fB\-\-field\fR=\fIname\fR|\fIurl\fR|\fIinfo\fR|\fItag\fR|\fIauthor\fR]
-.
-.br
-fisher \fBsearch\fR [\fB\-\-\fR\fIfield[\fR=\fImatch\fR]]
-.
-.br
-fisher \fBsearch\fR [\fB\-\-\fR\fIfield\fR~\fB/\fR\fIregex\fR\fB/\fR]
+fisher \fBsearch\fR [\fB\-\-name|\-\-url|\-\-info|\-\-tag|\-\-author\fR]
 .
 .br
 fisher \fBsearch\fR [\fB\-\-query\fR=\fIfield\fR[\fB&&\fR,\fB||\fR]\fIfield\fR\.\.\.]
@@ -30,18 +21,21 @@ fisher \fBsearch\fR [\fB\-\-and\fR] [\fB\-\-or\fR] [\fB\-\-quiet\fR] [\fB\-\-hel
 .br
 .
 .SH "USAGE"
-fisher \fBsearch\fR \fIplugin\fR
+fisher \fBsearch\fR \fIurl\fR
+.
+.br
+fisher \fBsearch\fR \fIname\fR
 .
 .br
 fisher \fBsearch\fR \fIowner/repo\fR
 .
 .br
+fisher \fBsearch\fR \fIquery\fR
+.
+.br
 .
 .SH "DESCRIPTION"
-Search the Fisherman index database\. You can use a custom index file by setting \fB$fisher_index\fR to your preferred URL or file\. See \fBfisher help config\fR and \fIIndex\fR in \fBfisher help tour\fR\.
-.
-.P
-A copy of the index is downloaded every time a search query happens, keeping the index up to date all the time\.
+Search plugins in the Fisherman index\.
 .
 .P
 The index file consists of records separated by blank lines \fB\'\en\en\'\fR and each record consists of fields separated by a single line \fB\'\en\'\fR\.
@@ -64,44 +58,32 @@ author
 .IP "" 0
 .
 .P
-See \fIOutput\fR for more information\.
+See \fIIndex\fR in \fBfisher help tour\fR for more information about the index\.
 .
 .SH "OPTIONS"
 .
 .TP
-\fB\-s \-\-select[=all|cache|remote]\fR
-Select the record source\. \-\-select=\fIcache\fR queries only local plugins, i\.e\., those inside \fB$fisher_cache\fR\. \-\-select=\fIremote\fR queries all plugins not in the cache, i\.e, those available to install\. \-\-select=\fIall\fR queries everything\.
+\fB\-\-<field>[=match]\fR
+Display index records where \fB<field>\fR==\fImatch\fR\. \fIfield\fR can be any of \fBname\fR, \fBurl\fR, \fBinfo\fR, \fBtag/s\fR or \fBauthor\fR\. If \fImatch\fR is not given, display only the given \fIfield\fR from every record in the index\. Use \fB!=\fR to negate the query\.
 .
 .TP
-\fB\-f \-\-field=name|url|info|tag|author\fR
-Display only the given fields from the selected records\. Use \-\-\fIfield\fR as a shortcut for \-\-field=\fIfield\fR\. For example \fBfisher search \-\-url\fR will display only the URLs for
-.
-.TP
-\fB\-\-field[=match]\fR
-Filter the result set by \fIfield\fR=\fImatch\fR, where \fIfield\fR can be one or more of \fBname\fR, \fBurl\fR, \fBinfo\fR, \fBtag\fR or \fBauthor\fR\. If \fImatch\fR is not given, this is equivalent to \-\-select=\fIfield\fR\. Use \fB!=\fR to negate the query\.
-.
-.TP
-\fB\-\-field[~/regex/]\fR
-Essentially the same as \-\-\fIfield\fR=\fImatch\fR, but with Regular Expression support\. \-\-\fIfield\fR~/\fIregex\fR/ filters the result set using the given /\fIregex\fR/\. For example, \-\-name=/^\fImatch\fR$/ is the same as \-\-\fIfield\fR=\fImatch\fR and \-\-url~/oh\-my\-fish/ selects only oh\-my\-fish plugins\. Use \fB!~\fR to negate the query\.
+\fB\-\-<field>[~/regex/]\fR
+Same as \fB\-\-<field>[=regex]\fR, but with a Regular Expression instead of an exact match\. Use \fB!~\fR to negate the query\.
 .
 .TP
 \fB\-a \-\-and\fR
-Join query with the logical AND operator\.
+Join the query with a logical AND operator\.
 .
 .TP
 \fB\-o \-\-or\fR
-Join query with the logical OR operator\. This the default operator for each query\.
-.
-.TP
-\fB\-Q \-\-query=field[&&,||]field\.\.\.\fR
-Use a custom search expression\. For example, \fB\-\-query=name~/[0\-9]/||name~/^[xyz]/\fR selects all plugins that contain numbers in their name \fIor\fR begin with the characters \fIx\fR, \fIy\fR or \fIz\fR\.
+Join the query with a logical OR operator\. This is the default operator\.
 .
 .TP
 \fB\-q \-\-quiet\fR
 Enable quiet mode\.
 .
 .TP
-\fB\-h \-\-search\fR
+\fB\-h \-\-help\fR
 Show help\.
 .
 .SH "OUTPUT"
@@ -115,7 +97,7 @@ fisher search shark
 shark
 https://github\.com/bucaran/shark
 Sparkline Generator
-chart tool
+chart tool graph sparkline
 bucaran
 .
 .fi
@@ -123,7 +105,7 @@ bucaran
 .IP "" 0
 .
 .P
-Search is optimized for parsing when using the filters: \fB\-\-name\fR, \fB\-\-url\fR, \fB\-\-info\fR, \fB\-\-tags\fR, \fB\-\-author\fR or \fB\-\-field=name|url|info|tag|author\fR\.
+Search is designed for easy parsing when using the filters: \fB\-\-name\fR, \fB\-\-url\fR, \fB\-\-info\fR, \fB\-\-tags\fR, \fB\-\-author\fR\.
 .
 .IP "" 4
 .
@@ -138,12 +120,12 @@ shark;https://github\.com/bucaran/shark
 .IP "" 0
 .
 .P
-The result set above consists of single line \fB\'\en\'\fR separated records, and each record consists of one or more of the given fields separated by a semicolon \fB\';\'\fR\.
+The result set above consists of single line per record, and each record consists of one or more of the given fields separated by a semicolon \fB\';\'\fR\.
 .
 .SH "EXAMPLES"
 .
 .IP "\(bu" 4
-Display all plugins by name and format into multiple columns\.
+Display plugins by name and format into multiple columns\.
 .
 .IP "" 0
 .
@@ -158,7 +140,7 @@ fisher search \-\-name | column
 .IP "" 0
 .
 .IP "\(bu" 4
-Display all plugins by URL, sans \fIhttps://github\.com/\fR and format into multiple columns\.
+Display plugins by URL, sans \fIhttps://github\.com/\fR and format into multiple columns\.
 .
 .IP "" 0
 .
@@ -166,14 +148,14 @@ Display all plugins by URL, sans \fIhttps://github\.com/\fR and format into mult
 .
 .nf
 
-fisher search \-\-field=url \-\-select=all | sed \'s|https://github\.com/||\' | column
+fisher search \-\-field=url | sed \'s|https://github\.com/||\' | column
 .
 .fi
 .
 .IP "" 0
 .
 .IP "\(bu" 4
-Display all remote plugins by name tagged as \fIa\fR or \fIb\fR\.
+Display remote plugins, i\.e, those in the index, but \fInot\fR in the cache\.
 .
 .IP "" 0
 .
@@ -181,14 +163,14 @@ Display all remote plugins by name tagged as \fIa\fR or \fIb\fR\.
 .
 .nf
 
-fisher search \-\-select=remote \-\-name \-\-tag=github \-\-or \-\-tag=tool
+fisher_search \-\-and \-\-name!=(fisher \-\-list=bare)
 .
 .fi
 .
 .IP "" 0
 .
 .IP "\(bu" 4
-Search plugins from a list of one or more urls and / or names and display their authors\.
+Search all plugins whose name does not start with the letter \fBs\fR\.
 .
 .IP "" 0
 .
@@ -196,22 +178,7 @@ Search plugins from a list of one or more urls and / or names and display their 
 .
 .nf
 
-fisher search $urls $names \-\-url
-.
-.fi
-.
-.IP "" 0
-.
-.IP "\(bu" 4
-Search all plugins in the cache whose name does not start with the letter \fBs\fR\.
-.
-.IP "" 0
-.
-.IP "" 4
-.
-.nf
-
-fisher search \-\-select=cache \-\-name~/^[^s]/
+fisher search \-\-name!~/^s/
 .
 .fi
 .

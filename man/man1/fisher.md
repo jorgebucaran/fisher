@@ -15,11 +15,11 @@ The following commands are available out of the box: *install*, *uninstall*, *up
 
 ## OPTIONS
 
-*  `--list=cache|enabled|disabled`:
-    List plugins according to the given category.
+*  `--list[=bare|enabled|disabled]`:
+    List plugins according to the given category. List plugins in the cache by default. Enabled plugins are prepended with a `*` character. To list plugins without the `*` character use `--list=bare`.
 
 * `-f --file=fishfile`:
-    Read *fishfile* and display its contents. If *fishfile* is null or an empty string, your user *fishfile* in `$fisher_config/fishfile` will be shown instead. Use a dash `-` to read from the standard input. Other formats such as the oh-my-fish bundle files are supported as well.
+    Read *fishfile* and display its contents. If *fishfile* is null or an empty string, your user *fishfile* in `$fisher_file` will be shown instead. Use a dash `-` to read from the standard input. Other formats such as the oh-my-fish bundle files are supported as well.
 
 * `-v --version`:
     Show version information. Fisherman's current version can be found in the VERSION file at the root of the project. The version scheme is based in `Semantic Versioning` and uses Git annotated tags to track releases.

@@ -1,37 +1,21 @@
-set -l path $DIRNAME/$TESTNAME.test(random)
+test "$TESTNAME: Fail if no commands are given"
+    1 = (
+        wait
+        echo $status
+        )
+end
 
-function -S setup
-    if not mkdir -p $path
-        return 1
+test "$TESTNAME - Fail if there is any output to standard error" (
+    if not wait 'echo error >&2'
+        echo ok
     end
-
-    pushd $path
+    ) = ok
 end
 
-function -S teardown
-    popd
-    rm -rf $path
+test "$TESTNAME - Run commands in the background"
+    (wait "math 1 + 2") = 3
 end
 
-test "fail if no commands are given" (
-    wait
-    echo $status) = 1
-end
-
-test "do not redirect standard output"
-    (wait "echo output") = output
-end
-
-test "fail if there is any output to standard error" (
-    wait "echo output > &2"
-    echo $status) = 1
-end
-
-test "log standard error to log if <file> is given" (
-    wait "printf '%s\n' a b c d >&2" --log=$path/log
-    cat $path/log | xargs) = "1 a 2 b 3 c 4 d"
-end
-
-test "display help"
+test "$TESTNAME - Display help information"
     (wait -h | xargs) = "usage: wait <commands> [--spin=<style>] [--time=<delay>] [--log=<file>] [--format=<format>] [--help] -s --spin=<style> Set spinner style -t --time=<delay> Set spinner transition time delay -l --log=<file> Output standard error to <file> -f --format=<format> Use given <format> to display spinner -h --help Show usage help"
 end

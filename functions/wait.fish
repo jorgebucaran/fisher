@@ -1,9 +1,9 @@
-function wait -d "Run commands and wait with a spin"
+function wait -d "Run commands and display a spinner"
+    set -l log
+    set -l time 0.02
     set -l option
     set -l commands
     set -l spinners
-    set -l time 0.02
-    set -l log
     set -l format "@\r"
 
     getopts $argv | while read -l 1 2
@@ -12,7 +12,7 @@ function wait -d "Run commands and wait with a spin"
             case _
                 set commands $commands ";$2"
 
-            case s spin spinner{,s} style
+            case s spin
                 set spinners $spinners $2
 
             case t time
@@ -55,33 +55,33 @@ function wait -d "Run commands and wait with a spin"
         return 1
     end
 
+    if not set -q spinners[1]
+        set spinners mixer
+    end
+
     switch "$spinners"
         case arc star pipe ball flip mixer caret
             set -l arc "◜◠◝◞◡◟"
             set -l star "+x*"
-            set -l pipe "-\\|/"
+            set -l pipe "|/--\\"
             set -l ball "▖▘▝▗"
             set -l flip "___-``'´-___"
-            set -l mixer "⠄⠆⠇⠋⠙⠸⠰⠠⠰⠸⠙⠋⠇⠆"
+            set -l mixer "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
             set -l caret "II||"
 
             set spinners "$$spinners"
 
-        case bar{1,2,3,\?\?\*}
+        case bar{1,2,3}
             set -l bar
             set -l bar1 "[" "=" " " "]" "%"
             set -l bar2 "[" "#" " " "]" "%"
             set -l bar3 "." "." " " " " "%"
 
-            switch "$spinners"
-                case \*{1,2,3}
-                case \*
-                    printf "%s\n" $spinners | sed -E 's/^bar.?//;s/./& /g' | read -az bar
-                    set spinners bar
-            end
-
-            set -l IFS \t
-            printf "%s\t" $$spinners | read -l open fill void close symbol
+            set -l open $$spinners[1][1]
+            set -l fill $$spinners[1][2]
+            set -l void $$spinners[1][3]
+            set -l close $$spinners[1][4]
+            set -l symbol $$spinners[1][5]
 
             set spinners
 
@@ -111,14 +111,14 @@ function wait -d "Run commands and wait with a spin"
     while true
         if status --is-interactive
             for i in $spinners
-                printf "$format" | awk -v t=$time -v i=(printf "%s\n" $i | sed 's/=/\\\=/') '
+                printf "$format" | awk -v i=(printf "%s\n" $i | sed 's/=/\\\=/') '
                 {
-                    system("tput civis")
                     gsub("@", i)
-                    printf("%s", $0)
-                    system("sleep "t";tput cnorm")
+                    printf(" %s", $0)
                 }
                 ' > /dev/stderr
+
+                sleep $time
             end
         end
 
