@@ -59,5 +59,5 @@ For documentation, examples and guides [see the wiki][wiki]. For questions and f
 [fundle-slow]: https://github.com/tuvistavie/fundle/blob/master/functions/fundle.fish#L232
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
-[fisherman-version]: https://img.shields.io/badge/latest-v0.4.0-00B9FF.svg?style=flat-square
+[fisherman-version]: https://img.shields.io/badge/latest-v0.5.0-00B9FF.svg?style=flat-square
 [performance]: https://github.com/fisherman/fisherman/wiki/Performance
