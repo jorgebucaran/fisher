@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "WAIT" "1" "January 2016" "" "fisherman"
+.TH "WAIT" "1" "February 2016" "" "fisherman"
 .
 .SH "NAME"
 \fBwait\fR \- Run commands and wait with a spin
@@ -19,7 +19,7 @@ Run \fIcommands\fR as a background process and wait until the job has finished\.
 .
 .TP
 \fB\-s \-\-spin=style|string\fR
-Set spinner style\. See \fBStyles\fR for a list of styles and instructions on how to use your own character sequences, progress bar usage, etc\.
+Set spinner style\. See \fBStyles\fR for styles and details to customize the spinner characters\.
 .
 .TP
 \fB\-t \-\-time=interval\fR
@@ -38,7 +38,6 @@ Use given \fIformat\fR to display the spinner\. The default format is \fB"\er@"\
 Show usage help\.
 .
 .SH "STYLES"
-The following styles are supported via \fB\-\-spin=style\fR:
 .
 .IP "\(bu" 4
 arc, star, pipe, ball, flip, mixer, caret
@@ -48,11 +47,14 @@ bar1~3
 .
 .IP "" 0
 .
+.P
+If no style is given in \fB\-\-spin=<style>\fR, \fBmixer\fR is used by default\. If you don\'t want to display any spinners, use \fB\-\-spin=""\fR\.
+.
 .SS "CUSTOMIZATION"
 In addition to the default styles, you can specify a string of character tokens to be used each per spinner refresh cycle\.
 .
 .P
-For example \fB\-\-spin=12345\fR will display the numbers from 1 to 5, and \fB\-\-spin=\. \-\-format=@\fR an increasing sequence of dots\.
+For example \fB\-\-spin=12345\fR will display the numbers from 1 to 5, and \fB\-\-spin=\. \-\-format=@\fR an increasing sequence of dots and \fB@\fR represents the spinner character\.
 .
 .SS "PROGRESS BARS"
 Display a progress bar with a percent indicator using \fB\-\-spin=bar1~3\fR:
@@ -65,34 +67,6 @@ bar2: [#####] \fInum\fR%
 .
 .IP "\(bu" 4
 bar3: \.\.\.\.\.\.\. \fInum\fR%
-.
-.IP "" 0
-.
-.P
-You can customize the appearance as follows:
-.
-.IP "" 4
-.
-.nf
-
-\-\-spin=bar:<opening token><fill token><empty slot token><closing token>[%]
-.
-.fi
-.
-.IP "" 0
-.
-.P
-For example:
-.
-.IP "" 4
-.
-.nf
-
-\-\-spin="bar:[+\-]%"
-\-\-spin="bar:(@o)"
-\-\-spin="bar:||_|"
-.
-.fi
 .
 .IP "" 0
 .

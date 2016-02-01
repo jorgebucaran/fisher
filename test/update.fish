@@ -1,56 +1,29 @@
-source $DIRNAME/helpers/fisher_mock_repos.fish
-source $DIRNAME/helpers/fisher_mock_index.fish
-source $DIRNAME/helpers/fisher_mock_config.fish
-
-set -l path $DIRNAME/$TESTNAME.test(random)
-set -l source $DIRNAME/fixtures/source
-set -l source2 $path/source
-set -l index $path/INDEX
-set -l names foo bar baz
-set -l names2 norf
+set -l path $DIRNAME/.t-$TESTNAME-(random)
 
 function -S setup
-    mkdir -p $path
+    mkdir -p $path/config/cache
 
-    fisher_mock_repos $source/*
-    fisher_mock_index $source $names > $index
-    fisher_mock_config $path $index
+    source $DIRNAME/helpers/config-mock.fish $path/config
 
-    mkdir -p $fisher_cache
-
-    for name in $names
-        cp -rf $source/$name $fisher_cache
+    function __fisher_path_update
+        echo "$argv"
     end
 
-    mkdir -p $source2
+    fisher install foo --quiet
+    fisher update foo > $path/foo --quiet
 
-    cp -rf $source $path
-
-    for name in $names
-        set -l file $source2/$name/$name.fish
-        sed "s/echo $name/echo $name v2/" $file > $file.tmp
-        mv $file.tmp $file
-
-        fisher_mock_repos $source2/$name
-
-        git -C $fisher_cache/$name remote add origin file://$source2/$name
-    end
-
-    fisher_mock_index $source $names $names2 > $index
+    fisher update --quiet > $path/self
 end
 
 function -S teardown
     rm -rf $path
-    rm -rf $source/{$names}/.git
+    source $DIRNAME/helpers/config-mock-teardown.fish
 end
 
-for name in $names
-    test "update <$name> in cache" (
-        fisher update $name -q
-        eval $name) = "$name v2"
-    end
+test "$TESTNAME - Update plugin path"
+    (cat $path/foo) = $path/config/cache/foo
 end
 
-test "update index"
-    (fisher update --index; cat $fisher_config/cache/.index) = (cat $index)
+test "$TESTNAME - Update index and Fisherman's home"
+    (cat $path/self) = $fisher_home
 end

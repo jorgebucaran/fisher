@@ -10,7 +10,7 @@
 A \fIfishfile\fR lets you share plugin configurations across multiple installations, allows plugins to declare dependencies, and prevent information loss in case of system failure\.
 .
 .P
-Fisherman also keeps a user \fIfishfile\fR in \fB$fisher_config/fishfile\fR which is automatically updated as you install or uninstall plugins\.
+Fisherman also keeps a user \fIfishfile\fR in \fB$fisher_file\fR which is automatically updated as you install or uninstall plugins\.
 .
 .SH "USAGE"
 Fishfiles are plain text, manifest files that list one or more plugins by their name, URL or path to a local project\.
@@ -37,7 +37,7 @@ oh\-my\-fish/bobthefish
 To read fishfiles use \fBfisher \-\-file=fishfile\fR\. This will read \fIfishfile\fR sequentially, writing its contents to the standard output\. oh\-my\-fish bundle files are supported as well\.
 .
 .P
-If \fIfishfile\fR is null or an empty string, the global \fIfishfile\fR in \fB$fisher_config/fishfile\fR will be used\. Use a dash \fB\-\fR to force read from standard input\.
+If \fIfishfile\fR is null or an empty string, the global \fIfishfile\fR in \fB$fisher_file\fR will be used\. Use a dash \fB\-\fR to force read from standard input\.
 .
 .SH "PLUGINS"
 Plugins may declare any number of dependencies to other plugins in a fishfile at the root of their project\.

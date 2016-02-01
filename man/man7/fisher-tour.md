@@ -1,5 +1,5 @@
-fisher-tour(7) -- Fisherman Feature Tour
-========================================
+fisher-tour(7) -- Fisherman Tour
+================================
 
 ## DESCRIPTION
 
@@ -81,7 +81,7 @@ You can use an URL too if you have one.
 fisher install simnalamburt/shellder
 ```
 
-If the domain or host is not provided, Fisherman will use any value in `$fisher_default_host` to guess the full URL. The default value is `https://github.com`.
+If the domain or host is not provided, Fisherman will use `https://github.com` by default.
 
 In addition, all of the following `owner/repo` variations are accepted:
 

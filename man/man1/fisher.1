@@ -26,12 +26,12 @@ The following commands are available out of the box: \fIinstall\fR, \fIuninstall
 .SH "OPTIONS"
 .
 .TP
-\fB\-\-list=cache|enabled|disabled\fR
-List plugins according to the given category\.
+\fB\-\-list[=bare|enabled|disabled]\fR
+List plugins according to the given category\. List plugins in the cache by default\. Enabled plugins are prepended with a \fB*\fR character\. To list plugins without the \fB*\fR character use \fB\-\-list=bare\fR\.
 .
 .TP
 \fB\-f \-\-file=fishfile\fR
-Read \fIfishfile\fR and display its contents\. If \fIfishfile\fR is null or an empty string, your user \fIfishfile\fR in \fB$fisher_config/fishfile\fR will be shown instead\. Use a dash \fB\-\fR to read from the standard input\. Other formats such as the oh\-my\-fish bundle files are supported as well\.
+Read \fIfishfile\fR and display its contents\. If \fIfishfile\fR is null or an empty string, your user \fIfishfile\fR in \fB$fisher_file\fR will be shown instead\. Use a dash \fB\-\fR to read from the standard input\. Other formats such as the oh\-my\-fish bundle files are supported as well\.
 .
 .TP
 \fB\-v \-\-version\fR

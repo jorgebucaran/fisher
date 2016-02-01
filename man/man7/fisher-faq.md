@@ -13,12 +13,19 @@ Fisherman is a plugin manager for fish that lets you share and reuse code, promp
 
 ### What do I need to know to use Fisherman?
 
-Nothing. You can continue using your shell as usual. When you are ready to learn more just type `man fisher` or `man 7 fisher`.
+Nothing. You can continue using your shell as usual. When you are ready to learn more just type `fisher help` or `fisher help tour`.
 
 
-### How do I access other Fisherman documentation?
+### How do I access the documentation?
 
-Fisherman documentation is based in UNIX `man(1)` pages. See `man fisher` and `man 7 fisher` to get started. You can also access any documentation using the `fisher help` command.
+Fisherman documentation is based in UNIX `man(1)` pages. For basic usage and command enter `fisher help`. For help about a specific *command*, enter `fisher help <command>`. The following guides are also available:
+
+fisher help `faq`: Fisherman FAQ<br>
+fisher help `tour`: Fisherman Tour<br>
+fisher help `config`: Fisherman Configuration<br>
+fisher help `plugins`: Creating Fisherman Plugins<br>
+fisher help `commands`: Creating Fisherman Commands<br>
+fisher help `fishfile`: Fishfile Format<br>
 
 
 ### What are Fisherman plugins?
@@ -50,7 +57,7 @@ There is no technical distinction between plugins, themes, commands, etc., but t
 See `fisher help plugins` and `fisher help commands`.
 
 
-### Does Fisherman support oh-my-fish plugins and themes?
+### Does Fisherman support Oh My Fish plugins and themes?
 
 Yes. To install either a plugin or theme use their URL:
 
@@ -77,20 +84,20 @@ end
 See `$fisher_home/config.fish` for the full code.
 
 
-### How is Fisherman faster than oh-my-fish/Wahoo, etc?
+### How is Fisherman faster than Oh My Fish and other systems?
 
 Fisherman ameliorates the slow shell start problem using a flat dependency tree instead of loading a directory hierarchy per plugin. This also means that Fisherman performance does not decline depending on the number of plugins installed. See also `Flat Tree` in `fisher help tour`.
 
-### Why don't you contribute your improvements back to oh-my-fish instead of creating a new project?
+### Why don't you contribute your improvements back to Oh My Fish?
 
-I have contributed back to oh-my-fish extensively. See also oh-my-fish history for August 27, 2015 when another project, Wahoo, was entirely merged with oh-my-fish.
+I have contributed back to Oh My Fish extensively. See also Oh My Fish history for August 27, 2015 when another project, Wahoo, was entirely merged with Oh My Fish.
 
 In addition, Fisherman was built from the ground up using a completely different design, implementation and set of principles.
 
-Some features include: UNIX familiarity, minimalistic design, flat tree structure, unified plugin architecture, external self-managed database, cache system, dependency manifest file and compatibility with oh-my-fish, etc. See `fisher help tour`.
+Some features include: UNIX familiarity, minimalistic design, flat tree structure, unified plugin architecture, external self-managed database, cache system, dependency manifest file and compatibility with Oh My Fish, etc. See `fisher help tour`.
 
 
-### How can I upgrade from an existing oh-my-fish or Wahoo installation?
+### How can I upgrade from an existing Oh My Fish or Wahoo installation?
 
 Install Fisherman.
 
@@ -100,7 +107,7 @@ cd fisherman
 make
 ```
 
-You can now safely remove oh-my-fish `$OMF_PATH` and `$OMF_CONFIG`.
+You can now safely remove Oh My Fish `$OMF_PATH` and `$OMF_CONFIG`.
 
 Backup dotfiles and other sensitive data first.
 
@@ -141,6 +148,6 @@ chsh -s /bin/another/shell
 ```
 
 
-### Why is this FAQ similar to the oh-my-fish FAQ?
+### Why is this FAQ similar to the Oh My Fish FAQ?
 
 Because it was written by the same author of Fisherman and Wahoo and some of the questions and answers simply overlap.

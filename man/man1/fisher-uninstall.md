@@ -8,9 +8,10 @@ fisher `uninstall` [`--force`] [`--quiet`] [`--help`] <br>
 
 ## USAGE
 
-fisher `uninstall` *plugin*<br>
-fisher `uninstall` *owner/repo*<br>
-fisher `uninstall` *path*<br>
+fisher `uninstall` *url* ...<br>
+fisher `uninstall` *name* ...<br>
+fisher `uninstall` *path*  ...<br>
+fisher `uninstall` *owner/repo* ...<br>
 
 ## DESCRIPTION
 

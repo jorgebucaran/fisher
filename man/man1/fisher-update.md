@@ -3,14 +3,14 @@ fisher-update(1) -- Update Fisherman and Plugins
 
 ## SYNOPSIS
 
-fisher `update` [*plugins* ...] <br>
-fisher `update` [`--quiet`] [`--help`] <br>
+fisher `update` [*plugins* ...] [`--quiet`] [`--help`] <br>
 
 ## USAGE
 
-fisher `update` *plugin* ...<br>
-fisher `update` *owner/repo* ...<br>
+fisher `update` *url* ...<br>
+fisher `update` *name* ...<br>
 fisher `update` *path*  ...<br>
+fisher `update` *owner/repo* ...<br>
 
 ## DESCRIPTION
 

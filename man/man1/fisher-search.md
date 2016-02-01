@@ -1,26 +1,31 @@
+usage: fisher search [<plugins>] [--and|--or] [--quiet] [--help]
+
+     --field[=value]  Filter by url, name, info, author or tags
+              -o --or  Join query with OR operator
+             -a --and  Join query with AND operator
+           -q --quiet  Enable quiet mode
+            -h --help  Show usage help
+
 fisher-search(1) -- Search Plugin Index
 ==========================================
 
 ## SYNOPSIS
 
 fisher `search` [*plugins* ...]<br>
-fisher `search` [`--select`=*all*|*cache*|*remote*]<br>
-fisher `search` [`--field`=*name*|*url*|*info*|*tag*|*author*]<br>
-fisher `search` [`--`*field[*=*match*]] <br>
-fisher `search` [`--`*field*~`/`*regex*`/`] <br>
+fisher `search` [`--name|--url|--info|--tag|--author`]<br>
 fisher `search` [`--query`=*field*[`&&`,`||`]*field*...]<br>
 fisher `search` [`--and`] [`--or`] [`--quiet`] [`--help`]<br>
 
 ## USAGE
 
-fisher `search` *plugin*<br>
+fisher `search` *url*<br>
+fisher `search` *name*<br>
 fisher `search` *owner/repo*<br>
+fisher `search` *query*<br>
 
 ## DESCRIPTION
 
-Search the Fisherman index database. You can use a custom index file by setting `$fisher_index` to your preferred URL or file. See `fisher help config` and *Index* in `fisher help tour`.
-
-A copy of the index is downloaded every time a search query happens, keeping the index up to date all the time.
+Search plugins in the Fisherman index.
 
 The index file consists of records separated by blank lines `'\n\n'` and each record consists of fields separated by a single line `'\n'`.
 
@@ -34,35 +39,27 @@ tag1 tag2 tag3 ...
 author
 ```
 
-See *Output* for more information.
+See *Index* in `fisher help tour` for more information about the index.
+
 
 ## OPTIONS
 
-* `-s --select[=all|cache|remote]`:
-    Select the record source. --select=*cache* queries only local plugins, i.e., those inside `$fisher_cache`. --select=*remote* queries all plugins not in the cache, i.e, those available to install. --select=*all* queries everything.
+* `--<field>[=match]`:
+    Display index records where `<field>`==*match*. *field* can be any of `name`, `url`, `info`, `tag/s` or `author`. If *match* is not given, display only the given *field* from every record in the index. Use `!=` to negate the query.
 
-* `-f --field=name|url|info|tag|author`:
-    Display only the given fields from the selected records. Use --*field* as a shortcut for --field=*field*. For example `fisher search --url` will display only the URLs for
-
-* `--field[=match]`:
-    Filter the result set by *field*=*match*, where *field* can be one or more of `name`, `url`, `info`, `tag` or `author`. If *match* is not given, this is equivalent to --select=*field*. Use `!=` to negate the query.
-
-* `--field[~/regex/]`:
-    Essentially the same as --*field*=*match*, but with Regular Expression support. --*field*~/*regex*/ filters the result set using the given /*regex*/. For example, --name=/^*match*$/ is the same as --*field*=*match* and --url~/oh-my-fish/ selects only oh-my-fish plugins.  Use `!~` to negate the query.
+* `--<field>[~/regex/]`:
+    Same as `--<field>[=regex]`, but with a Regular Expression instead of an exact match. Use `!~` to negate the query.
 
 * `-a --and`:
-    Join query with the logical AND operator.
+    Join the query with a logical AND operator.
 
 * `-o --or`:
-    Join query with the logical OR operator. This the default operator for each query.
-
-* `-Q --query=field[&&,||]field...`:
-    Use a custom search expression. For example, `--query=name~/[0-9]/||name~/^[xyz]/` selects all plugins that contain numbers in their name *or* begin with the characters *x*, *y* or *z*.
+    Join the query with a logical OR operator. This is the default operator.
 
 * `-q --quiet`:
     Enable quiet mode.
 
-* `-h --search`:
+* `-h --help`:
     Show help.
 
 ## OUTPUT
@@ -74,11 +71,11 @@ fisher search shark
 shark
 https://github.com/bucaran/shark
 Sparkline Generator
-chart tool
+chart tool graph sparkline
 bucaran
 ```
 
-Search is optimized for parsing when using the filters: `--name`, `--url`, `--info`, `--tags`, `--author` or `--field=name|url|info|tag|author`.
+Search is designed for easy parsing when using the filters: `--name`, `--url`, `--info`, `--tags`, `--author`.
 
 ```
 fisher search shark --name --url
@@ -86,38 +83,32 @@ fisher search shark --name --url
 shark;https://github.com/bucaran/shark
 ```
 
-The result set above consists of single line `'\n'` separated records, and each record consists of one or more of the given fields separated by a semicolon `';'`.
+The result set above consists of single line per record, and each record consists of one or more of the given fields separated by a semicolon `';'`.
 
 ## EXAMPLES
 
-* Display all plugins by name and format into multiple columns.
+* Display plugins by name and format into multiple columns.
 
 ```
 fisher search --name | column
 ```
 
-* Display all plugins by URL, sans *https://github.com/* and format into multiple columns.
+* Display plugins by URL, sans *https://github.com/* and format into multiple columns.
 
 ```
-fisher search --field=url --select=all | sed 's|https://github.com/||' | column
+fisher search --field=url | sed 's|https://github.com/||' | column
 ```
 
-* Display all remote plugins by name tagged as *a* or *b*.
+* Display remote plugins, i.e, those in the index, but *not* in the cache.
 
 ```
-fisher search --select=remote --name --tag=github --or --tag=tool
+fisher_search --and --name!=(fisher --list=bare)
 ```
 
-* Search plugins from a list of one or more urls and / or names and display their authors.
+* Search all plugins whose name does not start with the letter `s`.
 
 ```
-fisher search $urls $names --url
-```
-
-* Search all plugins in the cache whose name does not start with the letter `s`.
-
-```
-fisher search --select=cache --name~/^[^s]/
+fisher search --name!~/^s/
 ```
 
 ## SEE ALSO

@@ -1,0 +1,41 @@
+# This is a Fishfile, created by ocean inside a sea tornado of sharks!
+#
+# The fishfile is your ship's log and tells your adventures across the
+# 7 seas and beyond. The old Fisherman will keep track of your plugins
+# in this file. Plugins can be names, urls or paths.
+#
+# Comments and empty lines are never removed. You are the captain!
+#
+# You can store this file in any place you like and Fisherman will
+# make a note to remember that.
+#
+#   set -g fisher_file ~/.config/fish/fishfile
+#
+# If you would like to restore a previous Fisherman installation, you
+# can do so too:
+#
+#   fisher install < you/old/fishfile
+#
+# If you have upgraded from an Oh My Fish! setup, you can feed bundle
+# file instead of a fishfile too. Fisherman will take care of it.
+
+foo
+bar
+baz
+
+# Oh My Bundle? Add 'plugin-' or 'theme-' prefixes.
+
+package norf
+theme zerg
+
+# Plugins installed from unknown URLs look like this.
+
+https://github.com/quux/quux
+https://github.com/quux/pkg-hoge
+https://github.com/quux/omf-theme-foobar
+https://github.com/quux/fish-fred
+https://github.com/quux/fisher-thud
+
+# Finally, you can install a plugin from a local directory too.
+
+/Users/fisherboy/Projects/fisherman/plugins/chomp

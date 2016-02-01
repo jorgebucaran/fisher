@@ -12,7 +12,7 @@ function getopts -d "Parse CLI options"
         !/^ *$/ {
             if (done) out("_" , $1$2$3)
             else if ($1 == "--" && !$2) done = 1
-            else if ($1 !~ /^-|^--/ ) out(pop(), $0)
+            else if ($2 == "" || $1 !~ /^-|^--/ ) out(pop(), $0)
             else {
                 while (len) out(pop())
                 if ($3) for (i = 4; i <= NF; i++) $3 = $3" "$i
