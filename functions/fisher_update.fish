@@ -37,7 +37,17 @@ function fisher_update -d "Update Plugins/Fisherman"
                 return 1
             end
 
-            printf "Done without errors. (%0.fs)\n" (math (date +%s) - $time) > $error
+            #############################
+            ## Remove before 1.0
+            set -g fisher_file $fisher_config/fishfile
+            if test ! -e $fisher_file
+                touch $fisher_file
+            end
+            ## Remove before 1.0
+            #############################
+
+            printf "Aye! Fisherman updated to version %s (%0.fs)\n" (
+                cat $fisher_home/VERSION) (math (date +%s) - $time) > $error
 
         case \*
             set -l time (date +%s)
