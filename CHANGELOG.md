@@ -1,46 +1,95 @@
 # Change Log
 
-+ [0.4.0](#040) :gem:
+* [0.5.0](#050)
+
+  The *highlights* of this version are a large refactor of the install/uninstall algorithms, a rewrite of the entire test suite adding better coverage / improving test speed and support for user key bindings.
+
+
+* [0.4.0](#040)
 * [0.3.1](#031)
 * [0.3.0](#030)
 * [0.2.0](#020)
 * [0.1.0](#010)
 
 
+## [0.5.0][v050] - 2016-01-20
+
+* **Add user key bindings support.** (See #42).
+
+  Recall `$fisher_home/functions` are always before user functions in `$fish_function_path`. This was an early design decision in order to prevent users from redefining core functions by mistake or by means other than using plugins (recommended). In other words, you are free to create a plugin that modifies a Fisherman core function, but you can't redefine a Fisherman function privately by saving it to your user config fish. If you found a bug in a Fisherman function, instead of creating a private patch send it upstream. If you created a function that overrides a Fisherman core feature, create a plugin. This way the community can benefit from your code whenever you are ready to publish it.
+
+  By default, Fisherman provides no `fish_user_key_bindings`, so if the user has already defined their own `fish_user_key_bindings` that one will not be affected.
+
+  Now, plugins **can** define their own key bindings inside a `fish_user_key_bindings.fish` *or* `key_bindings.fish` at the root of their repository or inside a `functions` directory. You can put your key bindings inside a function or not. If you put it inside a function, the function name **must** be the same as the file without the `.fish` extension.
+
+  + *`$fisher_config/bindings.fish`*
+
+  When a plugin with key bindings is installed for the first time or the only one with bindings is uninstalled, Fisherman will modify `~/.config/functions/fish_user_key_bindings.fish` (or create it for the first time) and add a single line at the top of the `fish_user_key_bindings` function to source the new **`$fisher_config/bindings.fish`**. All the key bindings defined by the enabled/installed plugins are concatenated and saved to this file.
+
+  This mechanism has the following **advantages**:
+
+    * Does not slow down shell start.
+    * Does not require Fisherman to provide his own `fish_user_key_bindings` by default.
+    * Honors any previously existing user key bindings.
+    * Allows plugin to define their own key bindings and coexist with the user's key bindings.
+    * If the user updates his `fish_user_key_bindings`, re-running the function **does** update the key bindings.
+
+* **Mega Refactoring**
+
+  + The entire source code of Fisherman received a major revision and refactoring. The validation and install/uninstall mechanisms were thoroughly revised and and broken down into smaller functions easier to test as well as several other sub parts of the system.
+
+  + Rewrite `fisher search` and remove features that are mostly already covered by `fisher --list` and remove the ability to generate information about plugins of unknown origin. The decision to **remove this feature** was based in performance concerns and the result of thinking about the usability and whether it was really worth the speed tradeoff. The conclusion is I would rather have better performance and if I need to query a plugins origin I can always use `fisher --list` or `fisher --list=url` or `fisher --list=author`.
+
+  + Add `$fisher_update_interval` to determine if the index should update or not when a search query is taking place. The default value is 10 seconds. This means the index will *not* be updated if less than 10 seconds have elapsed since the last action that triggered an update in the first place. See #43.
+
+  + Improve Install/Uninstall/Update status output. If a plugin fails to install decrease the total. If any plugins are skipped because they are already installed in the case of `fisher install` or available in the cache, but disabled in the case of `fisher uninstall` they are collected into an array and displayed in a new section `n plugin/s skipped (a, b, c)` at the bottom of the report.
+
+
+* **Improve test coverage.**
+
+  + Tightly coupled functions were making testing increasingly difficult. Most of the test effort was basically testing whether `git clone` or `git pull`. New separation of concerns makes tests run faster and the difficult install/uninstall algorithms has better coverage now.
+
+* **Other**
+
+  + Now `__fisher_list` can list plugins from the _cache_, a _fishfile/bundle_ and plugins that are _installed/enabled_ or _disabled_. This removes `__fisher_file` and combines it with `__fisher_list`. This also removes `fisher -f` and replaces it with `fisher -l <file>` or `fisher --list=<file>`.
+
+  + Rename `__fisher_parse_help` to `__fisher_complete` and have the function create the completions automatically. This allows you to complete your commands with parseable usage help faster. The original design was fine, but this change improves auto-complete performance so it was preferred.
+
+  + Use `__fisher_index_update` when building file with Make. This helps prevent an error when using a `fish` version < 2.2.0. See #55 #50 #48.
+
+  + Add `__fisher_index_update` to update the index and remove previously undocumented `fisher update --index`. This function is designed to bypass GitHub's server network cache passing an arbitrary query string to `curl` like `$fisher_index?RANDOM_NUMBER`. This means index updates are immediately available now.
+
+  + Add `fisher --list=url` option to display local plugin url or path.
+
+  + Add `fisher --list=bare` option to display local plugins in the cache without the `*` enabled symbol.
+
+  + Prepend `>` to the currently enabled theme when using `fisher --list[=cache]`. Related #49.
+
+  + Prepend `*` to plugin names to indicate they are currently enabled when using `fisher --list[=cache]`. See #49.
+
+
 ## [0.4.0][v040] - 2016-01-11
 
-:anchor: Introducting Fisherman's official website :construction:
+* Introducing Fisherman's official website, hosted by GitHub pages.
 
-<a href="http://fisherman.sh">
-<img src="https://cloud.githubusercontent.com/assets/8317250/12229311/c0eea838-b889-11e5-94eb-280d95fbdd49.png">
-</a>
-
-. Powered by Jekyll and hosted by GitHub pages.
-
-* Refactor `fisher install` / `fisher uninstall` by extracting the logic to enable / disable plugins into `__fisher_plugin`. The algorithm to enable/disable plugins is essentially the same. The only difference is _enable_, copies/symlinks files and disable removes them from `$fisher_config/...`. Closes #45.
-
-* Add support for legacy oh-my-fish! plugins using `.load` initialization files. Closes #35.
-
-* Add support for [Tackle](https://github.com/justinmayer/tackle) Fish framework initialization modules. Closes #35.
-
-* :gem: Add support for plugins that share scripts in languages like Python or Perl. For example `oh-my-fish/plugin-vi-mode` assumes there is a `vi-mode-impl.py` file in the same path of the running script. This opens the door for including code snippets in other languages.
-
-    * Any files inside a `share` directory, except for `*.md` or `*.fish` files, are copied to `$fisher_config/functions`. This allows you to run legacy plugins that retrieve the currently running script path with `(dirname (status -f))` out of the box.
-
-    * A cleaner alternative is using the new `$fisher_share` variable like this: `python $fisher_share/my_plugin_script.py`.
-
-    * `$fisher_share` points to `$fisher_config/share` by default, but you may change this in your user `config.fish`. This path contains copies (or symbolic links) to the same script files copied to `$fisher_config/functions`.
-
-    * Introduce the `$fisher_share_extensions` variable to let you customize what extensions Fisherman is aware of. Only extensions in this array will be processed during the install process. The default is `py rb php pl awk sed`.
-
-    * `.fish` and `.md` extensions are always ignored.
+&emsp;&emsp; [**http://fisherman.sh**](http://fisherman.sh)
 
 
-* Remove ad-hoc debug `d` function created by mistake in the Fisherman config.fish file. Closes #34.
+* Refactor `fisher install` / `fisher uninstall` by extracting the logic to enable / disable plugins into `__fisher_plugin_enable`. The algorithm to enable/disable plugins is essentially the same. The only difference is _enable_, copies/symlinks files and disable removes them from `$fisher_config/...`. See #45.
+
+* Add support for legacy oh-my-fish! plugins using `.load` initialization files. See #35.
+
+* Add support for [Tackle](https://github.com/justinmayer/tackle) Fish framework initialization modules. See #35.
+
+* :gem: :snake: :camel: :penguin: Add support for plugins that share scripts in languages like Python or Perl. For example `oh-my-fish/plugin-vi-mode` assumes there is a `vi-mode-impl.py` file in the same path of the running script. This opens the door for including code snippets in other languages.
+
+* Any `py`, `rb`, `php`, `pl`, `awk` or `sed` files at the root level of a plugin repository, or inside the `functions` or the new _`scripts`_ directory are copied to `$fisher_config/functions` or `$fisher_config/scripts`.
+
+* Remove ad-hoc debug `d` function created by mistake in the Fisherman config.fish file. See #34.
 
 * Remove almost useless `fisher --alias`. You can still create aliases using `$fisher_alias`. It's difficult to add auto-complete to this feature, and even if we do so, it is slow.
 
-* Fix bug introduced in the previous release caused by swapping the lines that calculate the index of the current plugin being installed/updated/uninstalled and the line that displays the value, causing the CLI to show incorrect values. Closes #36. Thanks @kballard
+* Fix bug introduced in the previous release caused by swapping the lines that calculate the index of the current plugin being installed/updated/uninstalled and the line that displays the value, causing the CLI to show incorrect values. See #36. Thanks @kballard
 
 * Add `cache`, `enabled` and `disabled` options to `fisher --list`. Now you can type `fisher -l enabled` to get a list of what plugins are currently enabled.
 
@@ -50,9 +99,9 @@
 
 * Improve autocomplete speed by removing the descriptions from plugins installed with custom URLs.
 
-* `fisher --list` displays nothing and returns 1 when there are no plugins installed. Closes #38.
+* `fisher --list` displays nothing and returns 1 when there are no plugins installed. See #38.
 
-* `fisher uninstall` does not attempt to uninstall plugins already disabled by looking at the `$fisher_plugins` array. `--force` will bypass this. Closes #40
+* `fisher uninstall` does not attempt to uninstall plugins already disabled by looking at the `$fisher_plugins` array. `--force` will bypass this. See #40
 
 ## [0.3.1][v031] - 2016-01-10
 
@@ -62,7 +111,7 @@
 
 * `fisher help` shows `fisher(1)` by default now.
 
-* Fix a critical bug that was causing `fisher uninstall --force` to remove _not_ the symbolic link, but the actual files. Closes #24
+* Fix a critical bug that was causing `fisher uninstall --force` to remove _not_ the symbolic link, but the actual files. See #24
 
 * Rename `orphan` tag to `custom` for plugins installed using a custom URL.
 
@@ -77,13 +126,13 @@
 
 ### Fixes
 
-* Fix a critical bug in the Makefile that was incorrectly merging any existing user configuration file and the generated Fisherman configuration. Closes #21.
+* Fix a critical bug in the Makefile that was incorrectly merging any existing user configuration file and the generated Fisherman configuration. See #21.
 
 * Fix a bug in install and uninstall that was adding plugin names to fishfiles instead of the URL when interacting with custom URLs. Probably closes #23.
 
 * Fix a bug in install, update and uninstall that was displaying an incorrect plugin count if there was at least on failure.
 
-* Fix bug in `fisher install` that causes install to fail even though it succeeds, due to `wait(1)`'s behavior of returning `1` if there is any output to standard error. Closes #20.
+* Fix bug in `fisher install` that causes install to fail even though it succeeds, due to `wait(1)`'s behavior of returning `1` if there is any output to standard error. See #20.
 
 * Fix bug in `fisher uninstall` that was removing plugins from the cache by mistake.
 
@@ -107,11 +156,11 @@
 
 ### Improvements
 
-* Improve help message for failed installs. Closes ##24. @namandistro
+* Improve help message for failed installs. See ##24. @namandistro
 
 * Improve `fisher --validate` to automatically correct common misspellings, for example when installing a oh-my-fish package, one often types ohmyifsh.
 
-* :point_up: Improve auto-complete performance by extracting the implementation of the different `fisher` flags to `__fisher_*` functions. `completions/fisher.fish` relies heavily in `fisher_search` to query what plugins are available to install/update/uninstall. In this process, numerous calls to `fisher --list` and `fisher --validate`, etc., are made. Now, auto-complete does not have to pay the penalty of entering `fisher`, parsing options, etc. Closes #27. @namandistro
+* :point_up: Improve auto-complete performance by extracting the implementation of the different `fisher` flags to `__fisher_*` functions. `completions/fisher.fish` relies heavily in `fisher_search` to query what plugins are available to install/update/uninstall. In this process, numerous calls to `fisher --list` and `fisher --validate`, etc., are made. Now, auto-complete does not have to pay the penalty of entering `fisher`, parsing options, etc. See #27. @namandistro
 
 * Improve `fisher --help` output and show up until now poorly documented ***`--list`***, ***`--file`***, etc. flags consistently. Also display available commands after `make install` to improve usability.
 
@@ -125,13 +174,13 @@
 
 ## :warning: Remove / Rename
 
-* Modify `fisher update` default behavior. Now this command updates Fisherman by default. Use of `--self` and `--me` is also **deprecated**. To read from the standard input use a dash `-`. For example: `fisher --list | fisher update -`. See [Usage of dash in place of a filename](http://unix.stackexchange.com/questions/16357/usage-of-dash-in-place-of-a-filename/16364#16364). Closes #25.
+* Modify `fisher update` default behavior. Now this command updates Fisherman by default. Use of `--self` and `--me` is also **deprecated**. To read from the standard input use a dash `-`. For example: `fisher --list | fisher update -`. See [Usage of dash in place of a filename](http://unix.stackexchange.com/questions/16357/usage-of-dash-in-place-of-a-filename/16364#16364). See #25.
 
 * Rename `--cache` to more descriptive ***`--list`***. Thanks @colstrom.
 
 * Remove `fisher --cache=base` and make it return the base names of all directories in the path by default. To get the full path use printf `printf "$fisher_cache/%s" (fisher --list)`
 
-* Rename undocumented `fisher --translate` flag (again) to `fisher --cache`. This function reads the standard input for a name, URL or local path and calculates the plugin's path relative to the cache. For a name this is simple `$fisher_cache/<name>` for an URL, retrieve the remote URL of every repository until there is a match with the given URL and return the path in the cache of that repository. Finally, if the input is a local path of the form `file:///` it will pass it as is.
+* ~~Rename undocumented `fisher --translate` flag (again) to `fisher --cache`. This function reads the standard input for a name, URL or local path and calculates the plugin's path relative to the cache. For a name this is simple `$fisher_cache/<name>` for an URL, retrieve the remote URL of every repository until there is a match with the given URL and return the path in the cache of that repository. Finally, if the input is a local path of the form `file:///` it will pass it as is.~~
 
 * Revert #3. The reason `getopts.fish` was in its own file originally is because @bucaran wanted a standalone, dependency free cli parser solution, arguably slightly faster than having Awk read `getopts.awk` for each use. The performance improvement is negligible at best, but `getopts` is also used by every single command and future commands and plugins are very likely to use it as well, so we might as well use the slightly faster version.
 
@@ -142,25 +191,25 @@
 
 * :warning: Remove `fisher update --cache` in favor of `fisher --list | fisher update` and `fisher uninstall --all` in favor of `fisher --list | fisher uninstall`.
 
-* :warning: Fisherman does not move initialization / configuration files following the convention `name`.config.fish to `$fisher_config/functions`, but to `$fisher_config/conf.d` now and evaluates each `*.config.fish` inside at shell start as usual. Closes #13.
+* :warning: Fisherman does not move initialization / configuration files following the convention `name`.config.fish to `$fisher_config/functions`, but to `$fisher_config/conf.d` now and evaluates each `*.config.fish` inside at shell start as usual. See #13.
 
-* ~~Add `fisher --cache[=base]` option to retrieve contents in `$fisher_cache`, eliminating flaky usage of `find(1)`~~. Closes #11.
+* ~~Add `fisher --cache[=base]` option to retrieve contents in `$fisher_cache`, eliminating flaky usage of `find(1)`~~. See #11.
 
-* Fisherman now generates information about plugins installed via custom URLs. For the description, a shortened version of the URL is used. For the URL the full URL is used. For tags, the URL is fuzzily checked and tags such as _theme_, _plugin_, _config_ and _omf_ are added. The tag ~~_orphan_~~ **custom** is added by default as well. Finally, the author is generated by retrieving the e-mail or username of the author of the first commit in the plugin's repository. Closes #9 and #14.
+* Fisherman now generates information about plugins installed via custom URLs. For the description, a shortened version of the URL is used. For the URL the full URL is used. For tags, the URL is fuzzily checked and tags such as _theme_, _plugin_, _config_ and _omf_ are added. The tag ~~_orphan_~~ **custom** is added by default as well. Finally, the author is generated by retrieving the e-mail or username of the author of the first commit in the plugin's repository. See #9 and #14.
 
-* ~~Change `--path-in-cache` to `--translate.` This function translates an name or supported URL/URL variation into a path inside `$fisher_cache`. This allows you to treat plugins installed via custom URLs almost like regular plugins if they are installed. Closes #8.~~
+* ~~Change `--path-in-cache` to `--translate.` This function translates an name or supported URL/URL variation into a path inside `$fisher_cache`. This allows you to treat plugins installed via custom URLs almost like regular plugins if they are installed. See #8.~~
 
-* Fix a bug where `mktemp` would fail in some systems. Closes #7. Thanks @tobywf.
+* Fix a bug where `mktemp` would fail in some systems. See #7. Thanks @tobywf.
 
-* Add [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md). Closes #6.
+* Add [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md). See #6.
 
-* Fisherman can now unload themes within the same shell, without having to restart the session. Closes #5.
+* Fisherman can now unload themes within the same shell, without having to restart the session. See #5.
 
-* Fisherman can now load themes within the same shell, without having to restart the session using `exec fish`. Shoddy themes, for example those failing to declare global variables with the `-g` flag still require the session to be reset. See [**related**](https://github.com/oh-my-fish/theme-bobthefish/pull/19). Closes #4.
+* Fisherman can now load themes within the same shell, without having to restart the session using `exec fish`. Shoddy themes, for example those failing to declare global variables with the `-g` flag still require the session to be reset. See [**related**](https://github.com/oh-my-fish/theme-bobthefish/pull/19). See #4.
 
-* Move `getopts` implementation to `share/getopts.awk`. Closes #3.
+* ~~Move `getopts` implementation to `share/getopts.awk`.~~ See #3.
 
-* Support dots inside URIs in `fisher --validate`. Closes #2.
+* Support dots inside URIs in `fisher --validate`. See #2.
 
 * Refactor and improve tests for `install`, `update` and `uninstall`.
 
@@ -174,7 +223,9 @@
 
 <!--  Links -->
 
-[v040]: https://
+[v050]: https://
+
+[v040]: https://github.com/fisherman/fisherman/commit/fd24fef56b68f8139ca95f5b0ef406647ce3ec4c
 
 [v031]: https://github.com/fisherman/fisherman/commit/a0fe0b339df2fe70a0ba1a5e28dcd7449582742b
 

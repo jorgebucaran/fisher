@@ -1,10 +1,9 @@
-set -l cmd awk
-set -l fishfile $DIRNAME/fixtures/fishfile
+set -l mock_command awk
 
 function -S setup
-    set -g fisher_alias "$cmd=A,B"
+    set -g fisher_alias "$mock_command=A,B"
 
-    function fisher_$cmd
+    function fisher_$mock_command
         if not set -q argv[1]
             echo usage:...
             return 1
@@ -14,44 +13,33 @@ function -S setup
 end
 
 function -S teardown
-    functions -e fisher_$cmd
+    functions -e fisher_$mock_command
 end
 
-test "read a fishfile using --file"
-    (fisher --file=$fishfile) = foo bar baz github/foo/bar
+test "$TESTNAME - Evaluate `fisher_' (sub) commands"
+    (fisher $mock_command) = usage:...
 end
 
-test "fisher --list retrieves plugin names in the cache"
-    (fisher --list) = (
-        for file in $fisher_cache/*
-            basename $file
-        end)
+test "$TESTNAME - Commands can read standard input"
+    (echo "foo bar baz" | fisher $mock_command '{ print $2 }' | xargs) = "bar"
 end
 
-test "evaluate commands"
-    (fisher $cmd) = usage:...
-end
-
-test "evaluate commands w/ standard input"
-    (echo "foo bar baz" | fisher $cmd '{ print $2 }' | xargs) = "bar"
-end
-
-test "display version information"
+test "$TESTNAME - Display version information"
     (fisher --version | cut -d " " -f3) = (sed 1q $fisher_home/VERSION)
 end
 
-test "evaluate \$fisher_alias=<command=alias[,...]> as aliases"
-    (fisher A; fisher B) = (fisher $cmd; fisher $cmd)
+test "$TESTNAME - Handle \$fisher_alias aliases"
+    (fisher A; fisher B) = (fisher $mock_command; fisher $mock_command)
 end
 
-test "display usage"
-    (fisher | sed 1q) = "usage: fisher <command> [<options>] [--version] [--help]"
+test "$TESTNAME - Display usage help"
+    (fisher | sed 1q) = "usage: fisher <command> [<args>] [--list] [--version] [--help]"
 end
 
-test "display help information about 'help' at the bottom"
+test "$TESTNAME - Display basic information about using the `help' command by default"
     (fisher | tail -n2 | xargs) = "Use fisher help -g to list guides and other documentation. See fisher help <command or concept> to access a man page."
 end
 
-test "display basic help information about available commands"
-    (fisher | sed -E 's/ +//' | grep "^$cmd\$")
+test "$TESTNAME - Display basic information about available commands"
+    (fisher | sed -E 's/ +//' | grep "^$mock_command\$")
 end

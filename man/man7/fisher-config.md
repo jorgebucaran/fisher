@@ -29,21 +29,11 @@ You can also customize the debug log path, cache location, index source URL, com
 * `$fisher_index`:
     Index source URL or file. To use a different index set this to a file or URL. Redirect urls are not supported due to security and performance concerns. The underlying request and fetch mechanism is based in `curl(1)`. See also `Index` in `fisher help tour`.
 
-* `$fisher_error_log`:
-    This file keeps a log of the most recent crash stack trace. `$fisher_cache/.debug_log` by default.
+* `$fisher_file`:
+    This file keeps a list of what plugins you have installed and are currently enabled. `$fisher_cofig/fishfile` by default.
 
 * `$fisher_alias command=alias[,...] [command2=alias[,...]]`:
     Use this variable to define custom aliases for fisher commands. See `Examples` below.
-
-* `$fisher_default_host`:
-    Use this variable to define your preferred git host. Fisherman uses this value to convert short urls like `owner/repo` to `https://host/owner/repo`. The default host is *github.com*.
-
-* `$fisher_share`:
-    Used to share scripts other than `.fish` files between plugins. Use `$fisher_share_extensions` to customize what extensions are used.
-
-* `$fisher_share_extensions`:
-    Customize what file extensions are copied to `$fisher_config` when sharing scripts. By default `py rb php pl awk sed` are used.
-
 
 ## EXAMPLES
 
@@ -53,11 +43,10 @@ You can also customize the debug log path, cache location, index source URL, com
 set fisher_alias install=i,in,inst update=up
 ```
 
-* Set `$fisher_index` and `$fisher_default_host`.
+* Set `$fisher_index` to a custom database.
 
 ```
 set fisher_index https://raw.../owner/repo/master/index2.txt
-set fisher_default_host bitbucket.org
 ```
 
 ## SEE ALSO

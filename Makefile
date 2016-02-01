@@ -26,7 +26,7 @@ TILDEIFY = sed "s|$$HOME|~|"
 all: $(FISH_CONFIG) $(FISHER_CACHE) $(AUTHORS) $(DOCS)
 	@if [ ! -s $(INDEX) ]; then\
 		echo "Downloading the index for the first time...";\
-		fish -c "fisher_update --index";\
+		fish -c "__fisher_index_update";\
 	fi
 	@$(call MSG,"Ahoy! Reset your shell and type 'fisher <command>'")
 	@fish -c "fisher help -a" | sed -n '3,$$p'
@@ -47,7 +47,7 @@ uninstall:
 release: $(FISHER_HOME)
 	@if [ "`git -C $^ status --short --porcelain | xargs`" = "M VERSION" ]; then\
 		echo "`git -C $^ describe --abbrev=0 2>/dev/null || echo \*` -> $(VERSION)";\
-		sed "s/fisherman-v.\..\..-00B9FF/fisherman-v$(VERSION)-00B9FF/" $^/README.md > $^/README.md.swap;\
+		sed "s/latest-v.\..\..-00B9FF/latest-v$(VERSION)-00B9FF/" $^/README.md > $^/README.md.swap;\
 		mv $^/README.md.swap $^/README.md;\
 		git -C $^ add README.md;\
 		git -C $^ add $^/VERSION;\
@@ -76,4 +76,6 @@ $(AUTHORS): $(FISHER_HOME)
 		sed -E 's/([^<>]+)<([^<>]*)>/* \1 \&lt;[\2](mailto:\2)\&gt;/' >> $@
 
 %.1 %.5 %.7: %.md
-	-@ronn --manual=fisherman --roff $? 1>&2 2> /dev/null
+	-@if type ronn 2>/dev/null 1>&2; then \
+		ronn --manual=fisherman --roff $? 1>&2 2> /dev/null;\
+	fi;\

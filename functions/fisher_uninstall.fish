@@ -1,59 +1,65 @@
 function fisher_uninstall -d "Uninstall Plugins"
-    set -l error /dev/stderr
-    set -l items
+    set -l plugins
     set -l option
+    set -l error /dev/stderr
 
     getopts $argv | while read -l 1 2
         switch "$1"
             case _
-                set items $items $2
+                set plugins $plugins $2
 
             case f force
-                set option $option force
+                set option force
 
             case q quiet
                 set error /dev/null
 
-            case help
-                set option help
-
             case h
                 printf "usage: fisher uninstall [<plugins>] [--force] [--quiet] [--help]\n\n"
 
-                printf "    -f --force  Delete copy from cache \n"
-                printf "    -q --quiet  Enable quiet mode      \n"
-                printf "     -h --help  Show usage help        \n"
+                printf "    -f --force  Delete copy from cache\n"
+                printf "    -q --quiet  Enable quiet mode\n"
+                printf "     -h --help  Show usage help\n"
                 return
 
             case \*
-                printf "fisher: Ahoy! '%s' is not a valid option\n" $1 >& 2
+                printf "fisher: '%s' is not a valid option.\n" $1 >& 2
                 fisher_uninstall -h >& 2
                 return 1
         end
     end
 
-    switch "$option"
-        case help
-            fisher help uninstall
-            return
-    end
-
     set -l time (date +%s)
     set -l count 0
     set -l index 1
-    set -l total (count $items)
+    set -l total (count $plugins)
+    set -l skipped
 
-    if set -q items[1]
-        printf "%s\n" $items
+    if set -q plugins[1]
+
+        printf "%s\n" $plugins
     else
-        __fisher_file /dev/stdin
+        __fisher_file
 
-    end | __fisher_validate | __fisher_resolve_plugin $error | while read -l path
+    end | while read -l item path
+
+        if not set item (__fisher_plugin_validate $item)
+            printf "fisher: '%s' is not a valid name, path or url.\n" $item > $error
+            continue
+        end
+
+        if not set path (__fisher_path_from_plugin $item)
+            set total (math $total - 1)
+            printf "fisher: '%s' not found\n" $item > $error
+            continue
+        end
 
         set -l name (printf "%s\n" $path | __fisher_name)
 
-        if not contains -- $name $fisher_plugins
-            if not contains -- force $option
+        if not contains -- $name (__fisher_list $fisher_file)
+            if test -z "$option"
+                set total (math $total - 1)
+                set skipped $skipped $name
                 continue
             end
         end
@@ -69,41 +75,36 @@ function fisher_uninstall -d "Uninstall Plugins"
                 set index (math $index + 1)
         end
 
-        __fisher_plugin --disable $name $path
+        if begin not __fisher_path_is_prompt $path; or test "$name" = "$fisher_prompt"; end
 
-        git -C $path ls-remote --get-url ^ /dev/null | __fisher_validate | read -l url
+            # You can use --force to remove any plugin from the cache. If prompt A is enabled
+            # you can still uninstall prompt B using --force. This will delete B's repository
+            # from $fisher_cache.
 
-        switch force
-            case $option
-                rm -rf $path
+            __fisher_plugin_disable "$name" "$path"
+        end
+
+        if test "$option" = force
+            rm -rf $path
         end
 
         set count (math $count + 1)
-
-        set -l file $fisher_config/fishfile
-
-        if not __fisher_file $file | grep -Eq "^$name\$|^$url\$"
-            continue
-        end
-
-        set -l tmp (mktemp -t fisher.XXX)
-
-        if not sed -E '/^ *'(printf "%s|%s" $name $url | sed 's|/|\\\/|g'
-        )'([ #].*)*$/d' < $file > $tmp
-            rm -f $tmp
-            printf "fisher: Could not remove '%s' from %s\n" $name $file > $error
-            return 1
-        end
-
-        mv -f $tmp $file
     end
 
     set time (math (date +%s) - $time)
 
-    if test $count = 0
+    if test ! -z "$skipped"
+        printf "%s plugin/s skipped (%s)\n" (count $skipped) (
+            printf "%s\n" $skipped | paste -sd ' ' -) > $error
+    end
+
+    if test $count -le 0
         printf "No plugins were uninstalled.\n" > $error
         return 1
     end
+
+    __fisher_complete_reset
+    __fisher_key_bindings_reset
 
     printf "Aye! %d plugin/s uninstalled in %0.fs\n" > $error $count $time
 end

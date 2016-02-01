@@ -1,0 +1,2 @@
+bind -e foo
+bind -e bar
