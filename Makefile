@@ -6,6 +6,7 @@ FISH_CONFIG := $(XDG_CONFIG_HOME)/fish/config.fish
 FISHER_HOME := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 FISHER_CONFIG := $(XDG_CONFIG_HOME)/fisherman
 FISHER_CACHE := $(FISHER_CONFIG)/cache
+FISHER_FILE := $(FISHER_CONFIG)/fishfile
 
 MAN := $(FISHER_HOME)/man
 MAN1 := $(wildcard $(MAN)/man1/*.md)
@@ -23,7 +24,7 @@ TILDEIFY = sed "s|$$HOME|~|"
 
 .PHONY: all test flush uninstall release
 
-all: $(FISH_CONFIG) $(FISHER_CACHE) $(AUTHORS) $(DOCS)
+all: $(FISH_CONFIG) $(FISHER_CACHE) $(FISHER_FILE) $(AUTHORS) $(DOCS)
 	@if [ ! -s $(INDEX) ]; then\
 		echo "Downloading the index for the first time...";\
 		fish -c "__fisher_index_update";\
@@ -69,6 +70,9 @@ $(FISH_CONFIG):
 $(FISHER_CACHE):
 	@[ -d $@ ] || echo "Creating $@" | $(TILDEIFY)
 	@mkdir -p $@
+
+$(FISHER_FILE):
+	@touch $@
 
 $(AUTHORS): $(FISHER_HOME)
 	@echo "# Authors" > $@
