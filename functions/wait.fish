@@ -4,7 +4,7 @@ function wait -d "Run commands and display a spinner"
     set -l option
     set -l commands
     set -l spinners
-    set -l format "@\r"
+    set -l format " @\r"
 
     getopts $argv | while read -l 1 2
         switch "$1"
@@ -114,7 +114,7 @@ function wait -d "Run commands and display a spinner"
                 printf "$format" | awk -v i=(printf "%s\n" $i | sed 's/=/\\\=/') '
                 {
                     gsub("@", i)
-                    printf(" %s", $0)
+                    printf("%s", $0)
                 }
                 ' > /dev/stderr
 
@@ -123,13 +123,13 @@ function wait -d "Run commands and display a spinner"
         end
 
         if test -z (jobs)
-            printf "$format" | tr @ "\0" > /dev/stderr
+            # printf "$format" | tr @ "\0" > /dev/stderr
             break
         end
     end
 
     if test -s $tmp
-        if set -q log[1]
+        if test ! -z "$log"
             nl -n ln -- $tmp > $log
         end
 
