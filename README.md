@@ -31,7 +31,7 @@ Fisherman runs virtually no initialization code making it as fast as no Fisherma
 To learn more about these benchmarks, see [Performance][performance].
 
 <p align="center">
-<img width=70% src="https://cloud.githubusercontent.com/assets/8317250/12769211/4238848c-ca59-11e5-96b2-66696f3cc691.png"
+<img width=65% src="https://cloud.githubusercontent.com/assets/8317250/12769257/b66859b8-ca59-11e5-8ac1-e1bc078154dc.png"
 </p>
 
 
