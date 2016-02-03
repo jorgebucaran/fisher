@@ -10,7 +10,7 @@ function __fisher_plugin_walk -a plugin path
             case \?\*/uninstall.fish
                 printf "%s %s\n" --uninstall $file
 
-            case \?\*/{conf.d,modules}/\?\* \?\*/\*config.fish \?\*/{,before.}init.fish \*/$plugin.load
+            case \?\*/{conf.d,modules}/\?\* \?\*/\*config.fish \?\*/{before.,}init.fish \*/$plugin.load
                 switch "$base"
                     case \*$plugin\*
                     case \*
