@@ -11,12 +11,14 @@
 [![Wharf][wharf-badge]][wharf-link]
 
 
+## About
+
 **Fisherman** is a blazing [fast](#performance), modern plugin manager for [Fish](http://fishshell.com/).
 
 
 Features include a flat tree dependency model, external self-managed database, cache mechanism, great test coverage and compatibility with Tackle, Oh My Fish! and Wahoo themes and plugins.
 
-:beginner: [**Get Started**][quickstart]
+:point_right: [**Get Started**][quickstart]
 
 ## Performance
 
@@ -31,14 +33,14 @@ Fisherman runs virtually no initialization code making it as fast as no Fisherma
 To learn more about these benchmarks, see [Performance][performance].
 
 <p align="center">
-<img width=65% src="https://cloud.githubusercontent.com/assets/8317250/12769257/b66859b8-ca59-11e5-8ac1-e1bc078154dc.png"
+<img width=65% src="https://cloud.githubusercontent.com/assets/8317250/12769643/c6e2db4e-ca5c-11e5-9f4e-7d90cd072063.png"
 </p>
 
 
 
 ## Documentation
 
-For documentation, examples and guides [see the wiki][wiki]. For questions and feedback join the Slack [room][wharf-link] or browse the [issues][issues].
+For documentation and guides [see the wiki][wiki]. For questions and feedback join the Slack [room][wharf-link] or browse the [issues][issues].
 
 
 :anchor:
