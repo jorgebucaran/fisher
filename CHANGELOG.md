@@ -77,7 +77,7 @@
 
 * Refactor `fisher install` / `fisher uninstall` by extracting the logic to enable / disable plugins into `__fisher_plugin_enable`. The algorithm to enable/disable plugins is essentially the same. The only difference is _enable_, copies/symlinks files and disable removes them from `$fisher_config/...`. See #45.
 
-* Add support for legacy oh-my-fish! plugins using `.load` initialization files. See #35.
+* Add support for legacy Oh My Fish! plugins using `.load` initialization files. See #35.
 
 * Add support for [Tackle](https://github.com/justinmayer/tackle) Fish framework initialization modules. See #35.
 
@@ -158,7 +158,7 @@
 
 * Improve help message for failed installs. See ##24. @namandistro
 
-* Improve `fisher --validate` to automatically correct common misspellings, for example when installing a oh-my-fish package, one often types ohmyifsh.
+* Improve `fisher --validate` to automatically correct common misspellings, for example when installing a Oh My Fish! package, one often types ohmyifsh.
 
 * :point_up: Improve auto-complete performance by extracting the implementation of the different `fisher` flags to `__fisher_*` functions. `completions/fisher.fish` relies heavily in `fisher_search` to query what plugins are available to install/update/uninstall. In this process, numerous calls to `fisher --list` and `fisher --validate`, etc., are made. Now, auto-complete does not have to pay the penalty of entering `fisher`, parsing options, etc. See #27. @namandistro
 

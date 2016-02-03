@@ -3,11 +3,11 @@ fisher-tour(7) -- Fisherman Tour
 
 ## DESCRIPTION
 
-Fisherman is a plugin manager and CLI toolkit for Fish to help you build powerful utilities and share your code easily.
+Fisherman is a blazing fast, modern plugin manager for Fish.
 
 Fisherman uses a flat tree structure that adds no cruft to your shell, making it as fast as no Fisherman. The cache mechanism lets you query the index offline and enable or disable plugins as you wish.
 
-Other features include dependency management, great plugin search capabilities and full compatibility with Tackle, Wahoo and oh-my-fish themes and packages.
+Other features include dependency management, great plugin search capabilities and full compatibility with Tackle, Oh My Fish! and Wahoo themes and packages.
 
 This document describes Fisherman features and their implementation details. For usage and command help  see `fisher(1)`.
 
@@ -185,19 +185,19 @@ Fisherman also ships with a CLI options parser and a background job wait spinner
 
 ## COMPATIBILITY
 
-Fisherman supports oh-my-fish (Wahoo) themes and plugins by default, but some features are turned off due to performance considerations.
+Fisherman supports Oh My Fish! (Wahoo) themes and plugins by default, but some features are turned off due to performance considerations.
 
-oh-my-fish evaluates every *.fish* file inside the root directory of every plugin during initialization. This is necessary in order to register any existing `init` events and invoke them using fish `emit(1)`.
+Oh My Fish! evaluates every *.fish* file inside the root directory of every plugin during initialization. This is necessary in order to register any existing `init` events and invoke them using fish `emit(1)`.
 
-Since it is not possible to determine whether a file defines an initialization event without evaluating its contents first, oh-my-fish sources all `*.fish` files and then emits events for each plugin.
+Since it is not possible to determine whether a file defines an initialization event without evaluating its contents first, Oh My Fish! sources all `*.fish` files and then emits events for each plugin.
 
-Not all plugins opt in the initialization mechanism, therefore support for this behavior is turned off by default. If you would like Fisherman to behave like oh-my-fish at the start of every session, install the `omf` compatibility plugin.
+Not all plugins opt in the initialization mechanism, therefore support for this behavior is turned off by default. If you would like Fisherman to behave like Oh My Fish! at the start of every session, install the `omf` compatibility plugin.
 
 ```
 fisher install omf
 ```
 
-This plugin also adds definitions for some of oh-my-fish Core Library functions.
+This plugin also adds definitions for some of Oh My Fish! Core Library functions.
 
 ## SEE ALSO
 

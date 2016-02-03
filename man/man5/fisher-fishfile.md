@@ -22,7 +22,7 @@ fishtape
 oh-my-fish/bobthefish
 ```
 
-To read fishfiles use `fisher --file=fishfile`. This will read *fishfile* sequentially, writing its contents to the standard output. oh-my-fish bundle files are supported as well.
+To read fishfiles use `fisher --file=fishfile`. This will read *fishfile* sequentially, writing its contents to the standard output. Oh My Fish! bundle files are supported as well.
 
 If *fishfile* is null or an empty string, the global *fishfile* in `$fisher_file` will be used. Use a dash `-` to force read from standard input.
 
