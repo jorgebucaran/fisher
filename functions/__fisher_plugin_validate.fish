@@ -25,10 +25,10 @@ function __fisher_plugin_validate -a plugin
 
             printf "%s\n" $plugin \
                 | sed -E "
-                    s|^gh[:/]*|https://github.com/|
-                    s|^gl[:/]*|https://gitlab.com/|
-                    s|^bb[:/]*|https://bitbucket.org/|
-                    s|^omf[:/]*|https://github.com/oh-my-fish/|
+                    s|^gh[:/]+|https://github.com/|
+                    s|^gl[:/]+|https://gitlab.com/|
+                    s|^bb[:/]+|https://bitbucket.org/|
+                    s|^omf[:/]+|https://github.com/oh-my-fish/|
                     s|^($id+)/($id+)\$|https://github.com/\1/\2|
                     s|^http(s?)[:/]*|http\1://|
                     s|https://github((.com)?/)?|https://github.com/|
