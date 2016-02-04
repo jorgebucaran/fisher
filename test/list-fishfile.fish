@@ -1,6 +1,6 @@
 set -l manifest $DIRNAME/fixtures/manifest
 
-set -l plugins foo bar baz norf zerg quux hoge foobar fred thud chomp
+set -l plugins foo bar baz norf zerg quux hoge foobar fred thud chomp boo loo
 
 test "$TESTNAME - Parse fishfile and retrieve plugin names with fisher --list=fishfile"
 
