@@ -18,11 +18,11 @@ function __fisher_list -a source
 
             for i in (__fisher_cache_list)
                 if contains -- $i $enabled
-                    if test -L $fisher_cache/$i
-                        printf "%s%s\n" "|" $i
-
-                    else if test $i = "$fisher_prompt"
+                    if test $i = "$fisher_prompt"
                         printf "%s%s\n" ">" $i
+
+                    else if test -L $fisher_cache/$i
+                        printf "%s%s\n" "|" $i
                         
                     else
                         printf "%s%s\n" "*" $i
