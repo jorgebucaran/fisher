@@ -1,8 +1,9 @@
 # Change Log
 
+* [0.6.0](#060)
 * [0.5.0](#050)
 
-  The *highlights* of this version are a large refactor of the install/uninstall algorithms, a rewrite of the entire test suite adding better coverage / improving test speed and support for user key bindings.
+ The *highlights* of this version are a large refactor of the install/uninstall algorithms, a rewrite of the entire test suite adding better coverage / improving test speed and support for user key bindings.
 
 
 * [0.4.0](#040)
@@ -12,7 +13,26 @@
 * [0.1.0](#010)
 
 
-## [0.5.0][v050] - 2016-01-20
+## [0.6.0][v060] - 2016-02-05
+
+* Added new plugin decorator `|` for plugins that are symbolic links to local projects. These plugins are those installed like `fisher install path/to/local/plugin`.
+
+* Improve Install/Update/Uninstall message channels. Before everything, both errors and success information was sent to stderr. Now, the total number of plugins installed/updated/uninstalled is sent to stdout allowing us to parse this output and implement a more robust (and simpler) `__fisher_deps_install`.
+
+* Add new __fisher_plugin_source function to allow plugins to tap into the install mechanism and provider additional features. For example, [autoinit](https://github.com/bucaran/fish-autoinit) adds `init_*` event support to Fisherman.
+
+* Tweak validate regex to correctly handle plugins that could be named `bb`, `gh`, `gl` or `omf`.
+
+* **wait.fish** Add a single " " space after spinner by default. To remove the white space use a format like `--format="@\r"`.
+
+* Supress unwated error message when the cache is empty. Closes #66.
+
+* Add temporary upgrade check to warn users upgrading from < 5.0
+
+* Create empty fishfile during make install.
+
+
+## [0.5.0][v050] - 2016-02-02
 
 * **Add user key bindings support.** (See #42).
 
@@ -223,7 +243,9 @@
 
 <!--  Links -->
 
-[v050]: https://
+[v060]: https://
+
+[v050]: https://github.com/fisherman/fisherman/releases/tag/0.5.0
 
 [v040]: https://github.com/fisherman/fisherman/commit/fd24fef56b68f8139ca95f5b0ef406647ce3ec4c
 
