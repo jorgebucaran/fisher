@@ -1,7 +1,8 @@
 function fisher_uninstall -d "Uninstall Plugins"
     set -l plugins
     set -l option
-    set -l error /dev/stderr
+    set -l stdout /dev/stdout
+    set -l stderr /dev/stderr
 
     getopts $argv | while read -l 1 2
         switch "$1"
@@ -12,7 +13,8 @@ function fisher_uninstall -d "Uninstall Plugins"
                 set option force
 
             case q quiet
-                set error /dev/null
+                set stdout /dev/null
+                set stderr /dev/null
 
             case h
                 printf "usage: fisher uninstall [<plugins>] [--force] [--quiet] [--help]\n\n"
@@ -23,8 +25,8 @@ function fisher_uninstall -d "Uninstall Plugins"
                 return
 
             case \*
-                printf "fisher: '%s' is not a valid option.\n" $1 >& 2
-                fisher_uninstall -h >& 2
+                printf "fisher: '%s' is not a valid option.\n" $1 >& /dev/stderr
+                fisher_uninstall -h >& /dev/stderr
                 return 1
         end
     end
@@ -44,13 +46,13 @@ function fisher_uninstall -d "Uninstall Plugins"
     end | while read -l item path
 
         if not set item (__fisher_plugin_validate $item)
-            printf "fisher: '%s' is not a valid name, path or url.\n" $item > $error
+            printf "fisher: '%s' is not a valid name, path or url.\n" $item > $stderr
             continue
         end
 
         if not set path (__fisher_path_from_plugin $item)
             set total (math $total - 1)
-            printf "fisher: '%s' not found\n" $item > $error
+            printf "fisher: '%s' not found\n" $item > $stderr
             continue
         end
 
@@ -64,14 +66,14 @@ function fisher_uninstall -d "Uninstall Plugins"
             end
         end
 
-        printf "Uninstalling " > $error
+        printf "Uninstalling " > $stderr
 
         switch $total
             case 0 1
-                printf ">> %s\n" $name > $error
+                printf ">> %s\n" $name > $stderr
 
             case \*
-                printf "(%s of %s) >> %s\n" $index $total $name > $error
+                printf "(%s of %s) >> %s\n" $index $total $name > $stderr
                 set index (math $index + 1)
         end
 
@@ -95,16 +97,17 @@ function fisher_uninstall -d "Uninstall Plugins"
 
     if test ! -z "$skipped"
         printf "%s plugin/s skipped (%s)\n" (count $skipped) (
-            printf "%s\n" $skipped | paste -sd ' ' -) > $error
+            printf "%s\n" $skipped | paste -sd ' ' -
+            ) > $stdout
     end
 
     if test $count -le 0
-        printf "No plugins were uninstalled.\n" > $error
+        printf "No plugins were uninstalled.\n" > $stdout
         return 1
     end
 
     __fisher_complete_reset
     __fisher_key_bindings_reset
 
-    printf "Aye! %d plugin/s uninstalled in %0.fs\n" > $error $count $time
+    printf "Aye! %d plugin/s uninstalled in %0.fs\n" $count $time > $stdout
 end

@@ -1,7 +1,8 @@
 function fisher_install -d "Install Plugins"
     set -l plugins
     set -l option
-    set -l error /dev/stderr
+    set -l stdout /dev/stdout
+    set -l stderr /dev/stderr
 
     getopts $argv | while read -l 1 2
         switch "$1"
@@ -12,7 +13,8 @@ function fisher_install -d "Install Plugins"
                 set option force
 
             case q quiet
-                set error /dev/null
+                set stdout /dev/null
+                set stderr /dev/null
 
             case h
                 printf "usage: fisher install [<plugins>] [--force] [--quiet] [--help]\n\n"
@@ -23,8 +25,8 @@ function fisher_install -d "Install Plugins"
                 return
 
             case \*
-                printf "fisher: '%s' is not a valid option.\n" $1 >& 2
-                fisher_install -h >& 2
+                printf "fisher: '%s' is not a valid option.\n" $1 >& /dev/stderr
+                fisher_install -h >& /dev/stderr
                 return 1
         end
     end
@@ -45,7 +47,7 @@ function fisher_install -d "Install Plugins"
     end | while read -l item
 
         if not set item (__fisher_plugin_validate $item)
-            printf "fisher: '%s' is not a valid name, path or url.\n" $item > $error
+            printf "fisher: '%s' is not a valid name, path or url.\n" $item > $stderr
             continue
         end
 
@@ -62,7 +64,7 @@ function fisher_install -d "Install Plugins"
 
                 else
                     set total (math $total - 1)
-                    printf "fisher: '%s' not found.\n" $item > $error
+                    printf "fisher: '%s' not found.\n" $item > $stderr
                 end
         end
 
@@ -76,14 +78,14 @@ function fisher_install -d "Install Plugins"
             end
         end
 
-        printf "Installing " > $error
+        printf "Installing " > $stderr
 
         switch $total
             case 0 1
-                printf ">> %s\n" $name > $error
+                printf ">> %s\n" $name > $stderr
 
             case \*
-                printf "(%s of %s) >> %s\n" $index $total $name > $error
+                printf "(%s of %s) >> %s\n" $index $total $name > $stderr
                 set index (math $index + 1)
         end
 
@@ -96,11 +98,11 @@ function fisher_install -d "Install Plugins"
                 ln -sfF $url $path
 
             else if not wait "__fisher_url_clone $url $path"
-                printf "fisher: Repository not found: '%s'\n" $url > $error
+                printf "fisher: Repository not found: '%s'\n" $url > $stderr
 
                 switch "$url"
                     case \*oh-my-fish\*
-                        printf "Did you miss a 'plugin-' or 'theme-' prefix?\n" > $error
+                        printf "Did you miss a 'plugin-' or 'theme-' prefix?\n" > $stderr
                 end
 
                 continue
@@ -110,7 +112,7 @@ function fisher_install -d "Install Plugins"
         set -l deps (__fisher_deps_install "$path")
 
         if not __fisher_path_make "$path" --quiet
-            printf "fisher: Failed to build '%s'. See '%s/Makefile'.\n" $name $path > $error
+            printf "fisher: Failed to build '%s'. See '%s/Makefile'.\n" $name $path > $stderr
         end
 
         __fisher_plugin_enable "$name" "$path"
@@ -122,16 +124,16 @@ function fisher_install -d "Install Plugins"
 
     if test ! -z "$skipped"
         printf "%s plugin/s skipped (%s)\n" (count $skipped) (
-            printf "%s\n" $skipped | paste -sd ' ' -) > $error
+            printf "%s\n" $skipped | paste -sd ' ' -) > $stdout
     end
 
     if test "$count" -le 0
-        printf "No plugins were installed.\n" > $error
+        printf "No plugins were installed.\n" > $stdout
         return 1
     end
 
     __fisher_complete_reset
     __fisher_key_bindings_reset
 
-    printf "Aye! %d plugin/s installed in %0.fs\n" $count $time > $error
+    printf "Aye! %d plugin/s installed in %0.fs\n" $count $time > $stdout
 end
