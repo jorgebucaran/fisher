@@ -8,7 +8,6 @@ function wait -d "Run commands and display a spinner"
 
     getopts $argv | while read -l 1 2
         switch "$1"
-            case -
             case _
                 set commands $commands ";$2"
 
@@ -123,7 +122,6 @@ function wait -d "Run commands and display a spinner"
         end
 
         if test -z (jobs)
-            # printf "$format" | tr @ "\0" > /dev/stderr
             break
         end
     end
