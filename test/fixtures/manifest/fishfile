@@ -36,6 +36,6 @@ https://github.com/quux/omf-theme-foobar
 https://github.com/quux/fish-fred
 https://github.com/quux/fisher-thud
 
-# Finally, you can install a plugin from a local directory too.
+# You can install a plugin from a local directory too.
 
 /Users/fisherboy/Projects/fisherman/plugins/chomp
