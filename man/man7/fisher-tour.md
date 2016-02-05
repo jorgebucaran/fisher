@@ -185,16 +185,16 @@ Fisherman also ships with a CLI options parser and a background job wait spinner
 
 ## COMPATIBILITY
 
-Fisherman supports Oh My Fish! (Wahoo) themes and plugins by default, but some features are turned off due to performance considerations.
+Fisherman supports Oh My Fish! themes and plugins by default, but some features are turned off due to performance considerations.
 
-Oh My Fish! evaluates every *.fish* file inside the root directory of every plugin during initialization. This is necessary in order to register any existing `init` events and invoke them using fish `emit(1)`.
+Oh My Fish! evaluates every *.fish* file inside the root directory for every plugin installed during shell start. This is necessary in order to load any existing `init` event functions and immediately invoke them using fish `emit(1)`.
 
 Since it is not possible to determine whether a file defines an initialization event without evaluating its contents first, Oh My Fish! sources all `*.fish` files and then emits events for each plugin.
 
-Not all plugins opt in the initialization mechanism, therefore support for this behavior is turned off by default. If you would like Fisherman to behave like Oh My Fish! at the start of every session, install the `omf` compatibility plugin.
+Not all plugins opt in the initialization mechanism, therefore support for this behavior is turned off by default. If you would like Fisherman to behave like Oh My Fish! at the start of the shell session, install the `legacy` compatibility plugin.
 
 ```
-fisher install omf
+fisher install legacy
 ```
 
 This plugin also adds definitions for some of Oh My Fish! Core Library functions.
