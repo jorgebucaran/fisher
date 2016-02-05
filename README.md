@@ -35,7 +35,7 @@ The following benchmarks were calculated using a 2.4 GHz Intel Core i5 MacBook P
 time -p fish -ic exit
 ```
 
-Fisherman runs virtually no initialization code making it as fast as no Fisherman. Fundle performs well, but still [runs][fundle] cumbersome startup code. Oh My Fish! has the worst performance at `0.21s`.
+Fisherman runs virtually no initialization code making it as fast as no Fisherman. Fundle performs well, but still [runs][fundle] cumbersome startup code. Oh My Fish! has the worst performance at `0.21` for a lightweight setup.
 
 <p align="center">
     <a href="https://github.com/fisherman/fisherman/wiki/Performance">
