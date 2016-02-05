@@ -3,12 +3,17 @@ function __fisher_plugin_walk -a plugin path
         set -l name (basename $file .fish)
         set -l base $name.fish
 
+        echo (set_color red)$file(set_color normal) > /dev/stderr
+
         switch $file
             case \*/{fish_user_,}key_bindings.fish
                 printf "%s %s %s\n" --bind $file
 
             case \?\*/uninstall.fish
                 printf "%s %s\n" --uninstall $file
+
+            case \?\*/completions/\*.fish
+                printf "%s %s %s\n" --source $file completions/$base
 
             case \?\*/{conf.d,modules}/\?\* \?\*/\*config.fish \?\*/{before.,}init.fish \*/$plugin.load
                 switch "$base"
@@ -18,9 +23,6 @@ function __fisher_plugin_walk -a plugin path
                 end
 
                 printf "%s %s %s\n" --source $file conf.d/$base
-
-            case \*/completions/$plugin.fish
-                printf "%s %s %s\n" --source $file completions/$base
 
             case \*
                 printf "%s %s %s %s\n" --source $file functions/$base $name
