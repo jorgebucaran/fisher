@@ -10,22 +10,17 @@
 </p>
 
 
-
 [![Build Status][travis-badge]][travis-link]
 [![Fisherman Version][version-badge]][version-link]
 [![Wharf][wharf-badge]][wharf-link]
 
-
-
-## About
+# Fisherman
 
 **Fisherman** is a blazing [fast](#performance), modern plugin manager for [Fish](http://fishshell.com/).
 
-Features include a flat tree dependency model, external self-managed database, cache mechanism, great test coverage and compatibility with Tackle, Oh My Fish! and Wahoo themes and plugins.
+Features include a flat tree dependency model, external self-managed index, cache mechanism, full test coverage and compatibility with Tackle, Oh My Fish! and Wahoo themes and plugins.
 
 &nbsp; :point_right: [**Get Started**][quickstart]
-
-
 
 ## Performance
 
@@ -35,7 +30,7 @@ The following benchmarks were calculated using a 2.4 GHz Intel Core i5 MacBook P
 time -p fish -ic exit
 ```
 
-Fisherman runs virtually no initialization code making it as fast as no Fisherman. Fundle performs well, but still [runs][fundle] cumbersome startup code. Oh My Fish! has the worst performance at `0.21` for a lightweight setup.
+Fisherman runs virtually no initialization code making it as fast as no Fisherman. Fundle performs well, but still [runs][fundle] cumbersome startup code. Oh My Fish! has the worst performance at `0.21` seconds for a lightweight setup.
 
 <p align="center">
     <a href="https://github.com/fisherman/fisherman/wiki/Performance">
@@ -48,17 +43,11 @@ Fisherman runs virtually no initialization code making it as fast as no Fisherma
     </a>
 </p>
 
-
-
 ## Documentation
 
 For documentation and guides [see the wiki][wiki]. For questions and feedback join the Slack [room][wharf-link] or browse the [issues][issues].
 
-
-
 :anchor:
-
-
 
 <!-- Header -->
 
@@ -69,19 +58,17 @@ For documentation and guides [see the wiki][wiki]. For questions and feedback jo
 [wharf-link]:       https://fisherman-wharf.herokuapp.com/
 [wharf-badge]:      https://img.shields.io/badge/Slack-join%20the%20chat-00cc99.svg?style=flat-square
 
-
 <!-- About -->
 
-[fish]:         https://github.com/fish-shell/fish-shell
-[quickstart]:   https://github.com/fisherman/fisherman/wiki/Quickstart-Guide
-
+[fish]:             https://github.com/fish-shell/fish-shell
+[quickstart]:       https://github.com/fisherman/fisherman/wiki/Quickstart-Guide
 
 <!-- Performance -->
 
-[fundle]:       https://github.com/tuvistavie/fundle/blob/master/functions/fundle.fish#L232
-[performance]:  https://github.com/fisherman/fisherman/wiki/Performance
-
+[fundle]:           https://github.com/tuvistavie/fundle/blob/master/functions/fundle.fish#L232
+[performance]:      https://github.com/fisherman/fisherman/wiki/Performance
 
 <!-- Documentation -->
-[wiki]:     https://github.com/fisherman/fisherman/wiki
-[issues]:   http://github.com/fisherman/fisherman/issues
+
+[wiki]:             https://github.com/fisherman/fisherman/wiki
+[issues]:           http://github.com/fisherman/fisherman/issues
