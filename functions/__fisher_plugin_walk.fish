@@ -3,8 +3,6 @@ function __fisher_plugin_walk -a plugin path
         set -l name (basename $file .fish)
         set -l base $name.fish
 
-        echo (set_color red)$file(set_color normal) > /dev/stderr
-
         switch $file
             case \*/{fish_user_,}key_bindings.fish
                 printf "%s %s %s\n" --bind $file
