@@ -15,6 +15,8 @@
 
 ## [0.6.0][v060] - 2016-02-05
 
+* Fix bug in `__fisher_plugin_walk` that was not generating the correct output for plugin completions.
+
 * Added new plugin decorator `|` for plugins that are symbolic links to local projects. These plugins are those installed like `fisher install path/to/local/plugin`.
 
 * Improve Install/Update/Uninstall message channels. Before everything, both errors and success information was sent to stderr. Now, the total number of plugins installed/updated/uninstalled is sent to stdout allowing us to parse this output and implement a more robust (and simpler) `__fisher_deps_install`.
