@@ -13,7 +13,11 @@
 * [0.1.0](#010)
 
 
-## [0.6.0][v060] - 2016-02-05
+## [0.6.0][v060] - 2016-02-07
+
+* Remove definition of `$fisher_index` from Fisherman's `config.fish`. Mostly due to cosmetic reasons and because I would like to isolate the use of the official URL into `__fisher_index_update` alone. You can still redefine this variable and your setting will be favored over the default of 5 second timeout. In addition, `__fisher_index_update` can also take `timeout` argument that shadows `$fisher_timeout`. This change is to "guarantee" an index update in some critical cases, for example, downloading the index for the first time should wait as needed in order to make sure Fisherman is installed.
+
+* Revise the documentation, improve words and grammar. Remove deprecated information, add new API information. Begin to employ a more consistent writing style across manual pages.
 
 * Fix bug in `__fisher_plugin_walk` that was not generating the correct output for plugin completions.
 
@@ -21,7 +25,7 @@
 
 * Improve Install/Update/Uninstall message channels. Before everything, both errors and success information was sent to stderr. Now, the total number of plugins installed/updated/uninstalled is sent to stdout allowing us to parse this output and implement a more robust (and simpler) `__fisher_deps_install`.
 
-* Add new __fisher_plugin_source function to allow plugins to tap into the install mechanism and provider additional features. For example, [autoinit](https://github.com/bucaran/fish-autoinit) adds `init_*` event support to Fisherman.
+* Add new **`__fisher_plugin_source`** function to allow plugins to tap into the install mechanism and provider additional features. For example, [autoinit](https://github.com/fishery/autoinit) adds `init_*` event support to Fisherman.
 
 * Tweak validate regex to correctly handle plugins that could be named `bb`, `gh`, `gl` or `omf`.
 
