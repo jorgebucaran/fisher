@@ -18,9 +18,9 @@ function __fisher_index_update -a timeout
     end
 
     if not curl --max-time $timeout -sS "$url" > $index
-        rm -f $index
+        command rm -f $index
         return 1
     end
 
-    mv -f $index $fisher_cache/.index
+    command mv -f $index $fisher_cache/.index
 end

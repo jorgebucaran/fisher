@@ -89,13 +89,13 @@ function fisher_install -d "Install Plugins"
                 set index (math $index + 1)
         end
 
-        mkdir -p $fisher_config/{functions,scripts,completions,conf.d,man} $fisher_cache
+        command mkdir -p $fisher_config/{functions,scripts,completions,conf.d,man} $fisher_cache
 
         set -l path $fisher_cache/$name
 
         if test ! -e $path
             if test -d "$url"
-                ln -sfF $url $path
+                command ln -sfF $url $path
 
             else if not wait "__fisher_url_clone $url $path"
                 printf "fisher: Repository not found: '%s'\n" $url > $stderr
