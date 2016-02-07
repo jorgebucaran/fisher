@@ -27,7 +27,7 @@ TILDEIFY = sed "s|$$HOME|~|"
 all: $(FISH_CONFIG) $(FISHER_CACHE) $(FISHER_FILE) $(AUTHORS) $(DOCS)
 	@if [ ! -s $(INDEX) ]; then\
 		echo "Downloading the index for the first time...";\
-		fish -c "__fisher_index_update";\
+		fish -c "__fisher_index_update 0";\
 	fi
 	@$(call MSG,"Ahoy! Reset your shell and type 'fisher <command>'")
 	@fish -c "fisher help -a" | sed -n '3,$$p'
