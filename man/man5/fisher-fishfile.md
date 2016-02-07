@@ -3,34 +3,35 @@ fisher-fishfile(5) -- Fishfile Format
 
 ## SYNOPSIS
 
-A *fishfile* lets you share plugin configurations across multiple installations, allows plugins to declare dependencies, and prevent information loss in case of system failure.
+Fishfiles let you share plugin configurations across multiple installations, let plugins declare dependencies and teach Fisherman what plugins are currently enabled / disabled when using `fisher --list`.
 
-Fisherman also keeps a user *fishfile* in `$fisher_file` which is automatically updated as you install or uninstall plugins.
+Your fishfile is stored in `$fisher_config/fishfile` by default, but you can customize this location overriding the `$fisher_file` variable in your fish configuration file.
 
 ## USAGE
 
-Fishfiles are plain text, manifest files that list one or more plugins by their name, URL or path to a local project.
+Fishfiles list one or more plugins by their name, URL or path to a local project.
 
 Here is an example:
 
 ```
-# my plugins
-shark
-fishtape
+# Ahoy!
 
-# other links
-oh-my-fish/bobthefish
+gitio
+fishtape
+shark
+get
+some_user/her_plugin
 ```
 
-To read fishfiles use `fisher --file=fishfile`. This will read *fishfile* sequentially, writing its contents to the standard output. Oh My Fish! bundle files are supported as well.
+A fishfile may contain any amount of whitespace and comments.
 
-If *fishfile* is null or an empty string, the global *fishfile* in `$fisher_file` will be used. Use a dash `-` to force read from standard input.
+If you need to parse a fishfile to list its plugins, for example, to pipe the input into `fisher install` or `fisher update`, you can use `fisher --list=path/to/fishfile`. Notice that Oh My Fish! bundle file syntax is also supported.
 
 ## PLUGINS
 
-Plugins may declare any number of dependencies to other plugins in a fishfile at the root of their project.
+Plugins may list any number of dependencies to other plugins in a fishfile at the root of the project.
 
-By default, when Fisherman installs a plugin, it will also fetch and install its dependencies. If a dependency is already installed, it will not be updated as this could potentially break other plugins using an older version. For the same reason, uninstalling a plugin does not remove its dependencies.
+When a plugin is installed, its dependencies are downloaded for the first time. If a dependency is already installed, it is not updated in order to prevent breaking other plugins using a different version. Currently, uninstalling a plugin does not remove any its dependencies either.
 
 To understand this behavior, it helps to recall the shell's single scope for functions. The lack of private functions means that, it is *not* possible to single-lock a specific dependency version. See also `Flat Tree` in `fisher help tour`.
 

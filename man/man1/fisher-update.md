@@ -14,7 +14,9 @@ fisher `update` *owner/repo* ...<br>
 
 ## DESCRIPTION
 
-Update one or more plugins, by name, URL or local path. If no arguments are given, update Fisherman itself. If you try to update a plugin that is currently disabled, but in the cache, it will be updated and then enabled. Use a dash `-` to read from the standard input.
+Update one or more plugins, by name, URL or a local path. If no arguments are given, update Fisherman to the latest release. If you try to update a plugin that is currently disabled, but present in the cache, it will be updated and then enabled. Use a dash `-` to read from the standard input.
+
+One exception to the process described above is updating a prompt which is not the current one. In this case the repository is updated, but it will not be activated as that is probably not what the user wants.
 
 If a plugin is missing dependencies, they will be installed. If any dependencies are already installed they will not be updated. See `Plugins` in `fisher help fishfile`.
 
@@ -34,7 +36,7 @@ If a plugin is missing dependencies, they will be installed. If any dependencies
 fisher update
 ```
 
-* Update all plugins in the cache.
+* Update all the plugins in the cache.
 
 ```
 fisher --list | fisher update -

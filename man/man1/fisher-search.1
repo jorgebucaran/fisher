@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "FISHER\-SEARCH" "1" "January 2016" "" "fisherman"
+.TH "FISHER\-SEARCH" "1" "February 2016" "" "fisherman"
 .
 .SH "NAME"
 \fBfisher\-search\fR \- Search Plugin Index
@@ -64,11 +64,11 @@ See \fIIndex\fR in \fBfisher help tour\fR for more information about the index\.
 .
 .TP
 \fB\-\-<field>[=match]\fR
-Display index records where \fB<field>\fR==\fImatch\fR\. \fIfield\fR can be any of \fBname\fR, \fBurl\fR, \fBinfo\fR, \fBtag/s\fR or \fBauthor\fR\. If \fImatch\fR is not given, display only the given \fIfield\fR from every record in the index\. Use \fB!=\fR to negate the query\.
+Display index records where \fIfield\fR equals \fImatch\fR\. \fIfield\fR can be any of \fBname\fR, \fBurl\fR, \fBinfo\fR, \fBtag/s\fR or \fBauthor\fR\. If \fImatch\fR is not given, display only the given \fIfield\fR from every record in the index\. Use \fB!=\fR to negate the query\.
 .
 .TP
 \fB\-\-<field>[~/regex/]\fR
-Same as \fB\-\-<field>[=regex]\fR, but with a Regular Expression instead of an exact match\. Use \fB!~\fR to negate the query\.
+Same as \fB\-\-<field>[=regex]\fR, but using Regular Expressions instead of exact matching\. Use \fB!~\fR to negate the query\.
 .
 .TP
 \fB\-a \-\-and\fR
@@ -87,7 +87,7 @@ Enable quiet mode\.
 Show help\.
 .
 .SH "OUTPUT"
-The default behavior is to print the result set to standard output in their original format\.
+Search prints the result records in their original format by default\.
 .
 .IP "" 4
 .
@@ -105,27 +105,27 @@ bucaran
 .IP "" 0
 .
 .P
-Search is designed for easy parsing when using the filters: \fB\-\-name\fR, \fB\-\-url\fR, \fB\-\-info\fR, \fB\-\-tags\fR, \fB\-\-author\fR\.
+To allow for easier parsing, Search will print results records in the same line when using one or more of the following options: \fB\-\-name\fR, \fB\-\-url\fR, \fB\-\-info\fR, \fB\-\-tags\fR, \fB\-\-author\fR\.
 .
 .IP "" 4
 .
 .nf
 
-fisher search shark \-\-name \-\-url
+fisher search shark \-\-name \-\-url \-\-author
 
-shark;https://github\.com/bucaran/shark
+shark;https://github\.com/fishery/shark;bucaran
 .
 .fi
 .
 .IP "" 0
 .
 .P
-The result set above consists of single line per record, and each record consists of one or more of the given fields separated by a semicolon \fB\';\'\fR\.
+The result set above consists of single line per record, and each record consists of one or more of the specified fields separated by semicolons \fB\';\'\fR\.
 .
 .SH "EXAMPLES"
 .
 .IP "\(bu" 4
-Display plugins by name and format into multiple columns\.
+Display plugins by name and format the result into multiple columns\.
 .
 .IP "" 0
 .

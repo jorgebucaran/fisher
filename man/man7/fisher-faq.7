@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "FISHER\-FAQ" "7" "January 2016" "" "fisherman"
+.TH "FISHER\-FAQ" "7" "February 2016" "" "fisherman"
 .
 .SH "NAME"
 \fBfisher\-faq\fR \- Frequently Asked Questions
@@ -110,35 +110,11 @@ See \fB$fisher_home/config\.fish\fR for the full code\.
 .SS "How is Fisherman faster than Oh My Fish and other systems?"
 Fisherman ameliorates the slow shell start problem using a flat dependency tree instead of loading a directory hierarchy per plugin\. This also means that Fisherman performance does not decline depending on the number of plugins installed\. See also \fBFlat Tree\fR in \fBfisher help tour\fR\.
 .
-.SS "Why don\'t you contribute your improvements back to Oh My Fish?"
-I have contributed back to Oh My Fish extensively\. See also Oh My Fish history for August 27, 2015 when another project, Wahoo, was entirely merged with Oh My Fish\.
-.
-.P
-In addition, Fisherman was built from the ground up using a completely different design, implementation and set of principles\.
-.
-.P
-Some features include: UNIX familiarity, minimalistic design, flat tree structure, unified plugin architecture, external self\-managed database, cache system, dependency manifest file and compatibility with Oh My Fish, etc\. See \fBfisher help tour\fR\.
-.
 .SS "How can I upgrade from an existing Oh My Fish or Wahoo installation?"
-Install Fisherman\.
-.
-.IP "" 4
-.
-.nf
-
-git clone https://github\.com/fisherman/fisherman
-cd fisherman
-make
-.
-.fi
-.
-.IP "" 0
+Remove the \fB$OMF_PATH\fR and \fB$OMF_CONFIG\fR variables from your \fBconfig\.fish\fR\.
 .
 .P
-You can now safely remove Oh My Fish \fB$OMF_PATH\fR and \fB$OMF_CONFIG\fR\.
-.
-.P
-Backup dotfiles and other sensitive data first\.
+Backup dotfiles and other sensitive data\.
 .
 .IP "" 4
 .
@@ -150,17 +126,14 @@ rm \-rf {$OMF_PATH,$OMF_CONFIG}
 .
 .IP "" 0
 .
-.SS "I changed my prompt with <code>fish_config</code> and now I can\'t use any Fisherman theme, what do I do?"
-\fBfish_config\fR persists the prompt to \fBXDG_CONFIG_HOME/fish/functions/fish_prompt\.fish\fR\. That file takes precedence over Fisherman prompts that installs to \fB$fisher_config/functions\fR\. To use Fisherman prompts remove the \fBfish_promt\.fish\fR inside \fBXDG_CONFIG_HOME/fish/functions\fR\.
-.
 .P
-Assuming \fBXDG_CONFIG_HOME\fR is \fB~/\.config\fR in your system:
+Install Fisherman\.
 .
 .IP "" 4
 .
 .nf
 
-rm ~/\.config/fish/functions/fish_prompt\.fish
+curl \-sL install\.fisherman\.sh | fish
 .
 .fi
 .
@@ -204,6 +177,4 @@ chsh \-s /bin/another/shell
 .fi
 .
 .IP "" 0
-.
-.SS "Why is this FAQ similar to the Oh My Fish FAQ?"
-Because it was written by the same author of Fisherman and Wahoo and some of the questions and answers simply overlap\.
+

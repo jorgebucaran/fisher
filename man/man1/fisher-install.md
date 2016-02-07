@@ -14,9 +14,7 @@ fisher `install` *owner/repo* ...<br>
 
 ## DESCRIPTION
 
-Install one or more plugins, by name, URL or local path. If no arguments are given, read the standard input.
-
-If the Git host is not provided, Fisherman will use https://github.com by default.
+Install one or more plugins, by name, URL or a local path. If no arguments are given, read the standard input.
 
 In addition, all of the following `owner/repo` variations are accepted:
 
@@ -30,13 +28,13 @@ Shortcuts to other common Git repository hosting services are also available:
 * *gl*/owner/repo `>` https://gitlab.com/owner/repo<br>
 * *omf*/owner/repo `>` https://github.com/oh-my-fish/repo<br>
 
-If a URL is given, the repository is cloned to `$fisher_cache` the first time and any relevant plugin files are copied to `$fisher_config` functions, completions, conf.d and man directories.
+If a URL is given, the repository is cloned to `$fisher_cache` the first time and any relevant plugin files are copied to `$fisher_config` functions, completions, conf.d, scripts and man directories.
 
-If the plugin already exists in `$fisher_cache`, the files are copied to `$fisher_config`. To update a plugin use `fisher update`.
+If the plugin already exists in `$fisher_cache`, the files are only copied to `$fisher_config`. To update a plugin use `fisher update`.
 
 If the plugin declares dependencies, these will be installed too. If any of the dependencies are already enabled or downloaded to the cache, they will not be updated to prevent version issues. See *Plugins* in `fisher help fishfile`.
 
-If a plugin includes either a fish_prompt.fish or fish_right_prompt.fish, both files are first removed from `$fisher_config/functions` and then the new ones are copied.
+If a plugin includes either a `fish_prompt.fish` or `fish_right_prompt.fish`, both files are first removed from `$fisher_config/functions` and then the new ones are copied.
 
 ## OPTIONS
 
@@ -49,20 +47,9 @@ If a plugin includes either a fish_prompt.fish or fish_right_prompt.fish, both f
 * `-h` `--help`:
     Show usage help.
 
-## INSTALL PROCESS
-
-Here is the typical install process breakdown for *plugin*:
-
-1. Check if *plugin* exists in `$fisher_index`. Fail otherwise.
-2. Download *plugin* to `$fisher_cache` if not there already.
-3. Copy all `*.fish` and `functions/*.fish` files to `$fisher_config/functions`.
-4. Copy all `completions/*.fish` to `$fisher_config/completions`.
-5. Copy all `init.fish` and `*.config.fish` files to `$fisher_config/conf.d`.
-5. Copy all man/man% to `$fisher_config/man/man%`.
-
 ## EXAMPLES
 
-Here is the directory tree of *my_plugin* somewhere deep under the sea:
+Here is the directory tree of *my_plugin*:
 
 ```
 my_plugin
@@ -96,9 +83,17 @@ $fisher_config
     |-- my_plugin/...
 ```
 
-In addition, any `init.fish` or `*.config.fish` files, are copied to `$fisher_config/conf.d` and evaluated during the start of the shell.
+In addition, any `init.fish` and `*.config.fish` files, are copied to `$fisher_config/conf.d` and evaluated during the start of the shell.
 
-Notes: `init.fish` files are renamed to `my_plugin.init.fish` to prevent name collisions.
+To prevent name collisions, `init.fish` files are renamed to `my_plugin.init.fish`.
+
+## EXAMPLES
+
+* Install plugins from multiple sources.
+
+```fisher
+fisher install fishtape simnalamburt/shellder ~/plugins/my_plugin
+```
 
 ## SEE ALSO
 
