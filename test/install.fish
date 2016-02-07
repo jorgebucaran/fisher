@@ -43,6 +43,6 @@ test "$TESTNAME - Add `<plugin>/scripts/` to scripts directory"
     -e $path/config/scripts/norf.py
 end
 
-test "$TESTNAME - `cache/.index` is a copy of the URL in \$fisher_index"
+test "$TESTNAME - cache/.index is a copy of the URL in \$fisher_index"
     (cat $path/config/cache/.index) = (cat $DIRNAME/fixtures/plugins/index)
 end
