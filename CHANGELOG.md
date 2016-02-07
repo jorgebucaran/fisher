@@ -1,18 +1,5 @@
 # Change Log
 
-* [0.6.0](#060)
-* [0.5.0](#050)
-
- The *highlights* of this version are a large refactor of the install/uninstall algorithms, a rewrite of the entire test suite adding better coverage / improving test speed and support for user key bindings.
-
-
-* [0.4.0](#040)
-* [0.3.1](#031)
-* [0.3.0](#030)
-* [0.2.0](#020)
-* [0.1.0](#010)
-
-
 ## [0.6.0][v060] - 2016-02-07
 
 * Remove definition of `$fisher_index` from Fisherman's `config.fish`. Mostly due to cosmetic reasons and because I would like to isolate the use of the official URL into `__fisher_index_update` alone. You can still redefine this variable and your setting will be favored over the default of 5 second timeout. In addition, `__fisher_index_update` can also take `timeout` argument that shadows `$fisher_timeout`. This change is to "guarantee" an index update in some critical cases, for example, downloading the index for the first time should wait as needed in order to make sure Fisherman is installed.
@@ -249,16 +236,16 @@
 
 <!--  Links -->
 
-[v060]: https://
+[v060]: https://github.com/fisherman/fisherman/releases/tag/0.6.0
 
 [v050]: https://github.com/fisherman/fisherman/releases/tag/0.5.0
 
-[v040]: https://github.com/fisherman/fisherman/commit/fd24fef56b68f8139ca95f5b0ef406647ce3ec4c
+[v040]: https://github.com/fisherman/fisherman/releases/tag/0.4.0
 
-[v031]: https://github.com/fisherman/fisherman/commit/a0fe0b339df2fe70a0ba1a5e28dcd7449582742b
+[v031]: https://github.com/fisherman/fisherman/releases/tag/0.3.1
 
-[v030]: https://github.com/fisherman/fisherman/commit/19758f98ab349e81d73fa8d813d06ee00a0fcb24
+[v030]: https://github.com/fisherman/fisherman/releases/tag/0.3.0
 
-[v020]: https://github.com/fisherman/fisherman/commit/54212e1cbce66c7671baa045653efe912dbb4b77
+[v020]: https://github.com/fisherman/fisherman/releases/tag/0.2.0
 
-[v010]: https://github.com/fisherman/fisherman/commit/3386ed052ae4a84338c340d37b98c1742f8a45f6
+[v010]: https://github.com/fisherman/fisherman/releases/tag/0.1.0
