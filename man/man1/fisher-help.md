@@ -25,14 +25,14 @@ my_plugin
         |-- my_plugin.1
 ```
 
-This will allow you to access help for my_plugin using `man(1)`. To add documentation to a `fisher(1)` command, prepend the keyword `fisher-` to the man file, e.g., `fisher-`my-command.1. This will allow you to access the man page by `fisher help my-command`.
+Help for my_plugin is now available via `man(1)`. To add documentation to a `fisher` command, prepend the keyword `fisher-` to the man file, e.g., `fisher-my-command.1`. This will teach Fisherman how to access the man page using `fisher help my-command`.
 
 There are utilities that can help you generate man pages from other text formats, such as Markdown. One example is `ronn(1)`. For an example without using external utilities, see *Example* in `fisher help plugins`.
 
 ## OPTIONS
 
 * `-a --all`:
-    List both commands and guides. This shows all the available documentation.
+    List all available commands and guides.
 
 * `-g --guides[=*bare*]`:
     List guides / tutorials. Use *bare* to generate easy to parse output.
@@ -41,7 +41,7 @@ There are utilities that can help you generate man pages from other text formats
     List commands. This is the default behavior of `fisher help`. Use *bare* to generate easy to parse output.
 
 * `-u --usage[=*command*]`:
-    Display usage help for *command*. To supply usage help with a command, *command* must implement a `-h` flag.
+    Display usage help for *command*. To teach Fisherman how to display help for your command, *command* must implement a `-h` flag.
 
 * `-h --help`:
     Show usage help.
@@ -65,7 +65,6 @@ fisher help help
 ```
 fisher help --commands=bare | fisher help --usage
 ```
-
 
 ## SEE ALSO
 

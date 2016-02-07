@@ -3,34 +3,34 @@ fisher-config(7) -- Fisherman Configuration
 
 ## SYNOPSIS
 
-This document describes how to use the available configuration options to customize Fisherman.
+This document describes how to use Fisherman configuration variables.
 
 ## DESCRIPTION
 
 Your fish user configuration, usually located in `$XDG_CONFIG_HOME/fish/config.fish` is updated after installing Fisherman to add the global variables `$fisher_home` and `$fisher_config`.
 
-`$fisher_home` is the directory where you downloaded Fisherman. This location can be anywhere you like. If you changed this location after installing Fisherman, you need to update `$fisher_home` as well.
+`$fisher_home` is the directory where Fisherman is downloaded to a
 
-`$fisher_config` is the user configuration directory and the location of your user *fishfile*, *cache* directory and where plugins get installed to. This location must be different from `$fisher_home`. The default location is `$XDG_CONFIG_HOME/fisherman`.
+`$fisher_config` is the user configuration directory and the
 
-You can also customize the debug log path, cache location, index source URL, command aliases, and other options via `$fisher_*` variables.
+Using the following variables, you can customize the locations of the cache, index URL, fishfile, create command aliases, etc.
 
 ## VARIABLES
 
 * `$fisher_home`:
-    The home directory. This is the path where you downloaded Fisherman.
+    The home directory. If you installed Fisherman using the recommended method `curl -sL install.fisherman.sh | fish`, the location will be `$XDG_DATA_HOME/fisherman`. If you clone Fisherman and run `make` yourself, `$fisher_home` will the current working directory.
 
 * `$fisher_config`:
-    The user configuration directory. `$XDG_CONFIG_HOME/fisherman` by default. This directory is where the *cache*, *functions* and *completions* directories are located.
-
-* `$fisher_cache`:
-    The cache directory. Plugins are first downloaded here and installed to `$fisher_config/functions` afterwards. The cache is `$fisher_config/cache` by default.
-
-* `$fisher_index`:
-    Index source URL or file. To use a different index set this to a file or URL. Redirect urls are not supported due to security and performance concerns. The underlying request and fetch mechanism is based in `curl(1)`. See also `Index` in `fisher help tour`.
+    The user configuration directory. This is default location of your user *fishfile*, Fisherman *key_bindings.fish* file and the *cache*, *functions*, *completions*, *conf.d* and *scripts* directories. `$XDG_CONFIG_HOME/fisherman` by default.
 
 * `$fisher_file`:
-    This file keeps a list of what plugins you have installed and are currently enabled. `$fisher_cofig/fishfile` by default.
+    This file keeps a list of what plugins you have installed and are currently enabled. `$fisher_cofig/fishfile` by default. See `fisher help fishfile` for details.
+
+* `$fisher_cache`:
+    The cache directory. Plugins are downloaded first here and installed to `$fisher_config/functions` afterwards. The cache is `$fisher_config/cache` by default.
+
+* `$fisher_index`:
+    The URL to the index database. To use a different index set this to a file or URL. Redirect URLs are currently not supported due to security and performance concerns. The underlying request and fetch mechanism is based in `curl(1)`.
 
 * `$fisher_alias command=alias[,...] [command2=alias[,...]]`:
     Use this variable to define custom aliases for fisher commands. See `Examples` below.
@@ -41,12 +41,6 @@ You can also customize the debug log path, cache location, index source URL, com
 
 ```
 set fisher_alias install=i,in,inst update=up
-```
-
-* Set `$fisher_index` to a custom database.
-
-```
-set fisher_index https://raw.../owner/repo/master/index2.txt
 ```
 
 ## SEE ALSO

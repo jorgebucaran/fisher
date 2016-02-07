@@ -8,17 +8,17 @@ getopts(1) -- Parse CLI options
 
 ## DESCRIPTION
 
-getopts is a command line parser, designed to process command line arguments based in the POSIX Utility Syntax Guidelines. If no arguments are given getopts returns `1`.
+`Getopts` is a command line parser implemented in `awk(1)`, designed to process command line arguments in the easiest way possible.
 
 ## USAGE
 
-In the following example:
+The best way to understand how `getopts` work is by studying a simple example.
 
 ```
 getopts -ab1 --foo=bar baz
 ```
 
-And its output:
+And its output.
 
 ```
 a
@@ -102,7 +102,3 @@ end
 ## AUTHORS
 
 Jorge Bucaran <j@bucaran.me>.
-
-## SEE ALSO
-
-POSIX Utility Syntax Guidelines [goo.gl/yrgQn9]<br>

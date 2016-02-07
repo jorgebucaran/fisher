@@ -1,5 +1,5 @@
 fisher-uninstall(1) -- Uninstall Plugins
-==================================================
+========================================
 
 ## SYNOPSIS
 
@@ -15,7 +15,7 @@ fisher `uninstall` *owner/repo* ...<br>
 
 ## DESCRIPTION
 
-Uninstall one or more plugins, by name, URL or local path. If no arguments are given, read the standard input. This process is the inverse of Install. See `fisher help install`.
+Uninstall one or more plugins, by name, URL or a local path. If no arguments are given, read the standard input. This process is the inverse of Install. See `fisher help install`.
 
 Uninstall does not remove any copies of the given plugin in `$fisher_cache`. To erase the copy from the cache, use the `--force` option.
 
@@ -36,7 +36,7 @@ Uninstall does not remove any dependencies installed with other plugins. This be
 
 * Uninstall all plugins and flush the cache.
 
-```
+```fish
 fisher --list | fisher uninstall --force
 ```
 

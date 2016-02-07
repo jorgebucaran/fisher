@@ -5,16 +5,13 @@ fisher-faq(7) -- Frequently Asked Questions
 
 This document attempts to answer some of Fisherman most frequently asked questions. Feel free to create a new issue in the Fisherman issue tracker if your question is not answered here.
 
-
 ### What is Fisherman?
 
 Fisherman is a plugin manager for fish that lets you share and reuse code, prompts and configurations easily.
 
-
 ### What do I need to know to use Fisherman?
 
 Nothing. You can continue using your shell as usual. When you are ready to learn more just type `fisher help` or `fisher help tour`.
-
 
 ### How do I access the documentation?
 
@@ -27,20 +24,17 @@ fisher help `plugins`: Creating Fisherman Plugins<br>
 fisher help `commands`: Creating Fisherman Commands<br>
 fisher help `fishfile`: Fishfile Format<br>
 
-
 ### What are Fisherman plugins?
 
 Plugins are written in fish and extend the shell core functionality, run initialization code, add completions or documentations to other commands, etc. See `fisher help plugins`.
 
 Plugins may list any number of dependencies to other plugins using a *fishfile*.
 
-
 ### What is a Fishfile?
 
 A plain text file that lists what plugins you have installed or a plugin's dependencies to other plugins.
 
 Fishfiles let you share plugin configurations across multiple installations, allow plugins to declare dependencies, and prevent information loss in case of system failure. See also `fisher help fishfile`.
-
 
 ### What kind of Fisherman plugins are there?
 
@@ -56,7 +50,6 @@ There is no technical distinction between plugins, themes, commands, etc., but t
 
 See `fisher help plugins` and `fisher help commands`.
 
-
 ### Does Fisherman support Oh My Fish plugins and themes?
 
 Yes. To install either a plugin or theme use their URL:
@@ -66,7 +59,6 @@ fisher install omf/plugin-{rbenv,tab} omf/theme-scorphish
 ```
 
 You can use the same mechanism to install any valid plugin from any given URL. See also `Compatibility` in `fisher help tour`.
-
 
 ### What does Fisherman do exactly every time I create a new shell session?
 
@@ -83,49 +75,25 @@ end
 
 See `$fisher_home/config.fish` for the full code.
 
-
 ### How is Fisherman faster than Oh My Fish and other systems?
 
 Fisherman ameliorates the slow shell start problem using a flat dependency tree instead of loading a directory hierarchy per plugin. This also means that Fisherman performance does not decline depending on the number of plugins installed. See also `Flat Tree` in `fisher help tour`.
 
-### Why don't you contribute your improvements back to Oh My Fish?
-
-I have contributed back to Oh My Fish extensively. See also Oh My Fish history for August 27, 2015 when another project, Wahoo, was entirely merged with Oh My Fish.
-
-In addition, Fisherman was built from the ground up using a completely different design, implementation and set of principles.
-
-Some features include: UNIX familiarity, minimalistic design, flat tree structure, unified plugin architecture, external self-managed database, cache system, dependency manifest file and compatibility with Oh My Fish, etc. See `fisher help tour`.
-
-
 ### How can I upgrade from an existing Oh My Fish or Wahoo installation?
 
-Install Fisherman.
+Remove the `$OMF_PATH` and `$OMF_CONFIG` variables from your `config.fish`.
 
-```
-git clone https://github.com/fisherman/fisherman
-cd fisherman
-make
-```
-
-You can now safely remove Oh My Fish `$OMF_PATH` and `$OMF_CONFIG`.
-
-Backup dotfiles and other sensitive data first.
+Backup dotfiles and other sensitive data.
 
 ```fish
 rm -rf {$OMF_PATH,$OMF_CONFIG}
 ```
 
-
-### I changed my prompt with `fish_config` and now I can't use any Fisherman theme, what do I do?
-
-`fish_config` persists the prompt to `XDG_CONFIG_HOME/fish/functions/fish_prompt.fish`. That file takes precedence over Fisherman prompts that installs to `$fisher_config/functions`. To use Fisherman prompts remove the `fish_promt.fish` inside `XDG_CONFIG_HOME/fish/functions`.
-
-Assuming `XDG_CONFIG_HOME` is `~/.config` in your system:
+Install Fisherman.
 
 ```
-rm ~/.config/fish/functions/fish_prompt.fish
+curl -sL install.fisherman.sh | fish
 ```
-
 
 ### How do I use fish as my default shell?
 
@@ -146,8 +114,3 @@ To switch back to another shell.
 ```sh
 chsh -s /bin/another/shell
 ```
-
-
-### Why is this FAQ similar to the Oh My Fish FAQ?
-
-Because it was written by the same author of Fisherman and Wahoo and some of the questions and answers simply overlap.
