@@ -39,7 +39,7 @@ function __fisher_plugin_enable -a plugin path
             case --uninstall
             case \*
                 if test "$class" = --man
-                    mkdir -p (dirname $fisher_config/$target)
+                    command mkdir -p (dirname $fisher_config/$target)
                 end
 
                 __fisher_plugin_link $link $source $fisher_config/$target
