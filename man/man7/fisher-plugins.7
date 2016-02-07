@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "FISHER\-PLUGINS" "7" "January 2016" "" "fisherman"
+.TH "FISHER\-PLUGINS" "7" "February 2016" "" "fisherman"
 .
 .SH "NAME"
 \fBfisher\-plugins\fR \- Creating Fisherman Plugins
@@ -15,21 +15,21 @@ There is no technical distinction between any of the terms aforementioned, but t
 .SH "DEFINITIONS"
 .
 .IP "\(bu" 4
-\fBStandalone Utilities\fR: Plugins that define one or more functions, meant to be used at the command line\.
+\fBStandalone Utilities\fR: Plugins that define one or more functions\.
 .
 .IP "\(bu" 4
-\fBPrompts / Themes\fR: Plugins that modify the appearance of the fish prompt by defining a \fBfish_prompt\fR and / or \fBfish_right_prompt\fR functions\.
+\fBPrompts / Themes\fR: Plugins that modify the appearance of the fish prompt by defining a \fBfish_prompt\fR / \fBfish_right_prompt\fR function/s\.
 .
 .IP "\(bu" 4
-\fBExtension Commands\fR: Plugins that extend Fisherman default commands\. An extension plugin must define one or more functions like \fBfisher_<my_command>\fR\. For specific information about commands, see \fBfisher help commands\fR and then return to this guide\.
+\fBExtension Commands\fR: Plugins that extend Fisherman default commands\. An extension plugin must define one or more functions like \fBfisher_<my_command>\fR\. For specific information about commands, see \fBfisher help commands\fR\.
 .
 .IP "\(bu" 4
-\fBConfiguration Plugins\fR: Plugins that include one or more \fBmy_plugin\.config\.fish\fR files\. Files that follow this convention are evaluated at the start of the session\.
+\fBConfiguration Plugins\fR: Plugins that include one or more \fBmy_plugin\.config\.fish\fR files\. Files that follow this convention are evaluated at the start of the session\. If a file does not follow the \fB<my_plugin>\.config\.fish\fR convention, it must be added to \fBconf\.d/*\.fish\fR and the \fB<my_plugin>\fR name will be prepended to the file during the installation process\.
 .
 .IP "" 0
 .
 .P
-The following tree is that of a plugin that displays the characteristics of all the plugins described above\.
+An example plugin that follows several of the conventions proposed above\.
 .
 .IP "" 4
 .
@@ -41,20 +41,37 @@ my_plugin
 |\-\- fish_prompt\.fish
 |\-\- fish_right_prompt\.fish
 |\-\- my_plugin\.config\.fish
-|\-\- functions/
+|\-\- functions
 |   |\-\- my_plugin_helper\.fish
-|\-\- completions/
+|\-\- conf\.d
+|   |\-\- *\.fish
+|\-\- completions
 |   |\-\- my_plugin\.fish
-|\-\- man/
-    |\-\- man1/
+|\-\- man
+    |\-\- man1
         |\-\- my_plugin\.1
 .
 .fi
 .
 .IP "" 0
 .
+.SH "DEPENDENCIES"
+A plugin may list any number of dependencies to other plugins using a \fIfishfile\fR, see \fBfisher help fishfile\fR\.
+.
 .P
-Plugins may list any number of dependencies to other plugins using a \fIfishfile\fR, see \fBfisher help fishfile\fR\.
+For example, if \fB<my_plugin>\fR depends on \fB<your_plugin>\fR, add this dependency into a fishfile at the root of the project:
+.
+.IP "" 4
+.
+.nf
+
+cat > my_plugin/fishfile
+your_plugin
+CTRL^D
+.
+.fi
+.
+.IP "" 0
 .
 .P
 Plugins may also define completions using \fBcomplete(1)\fR and provide documentation in the form of \fBman(1)\fR pages\.

@@ -9,40 +9,43 @@ fisher(1) -- Fish Plugin Manager
 
 ## DESCRIPTION
 
-Fisherman is a plugin manager and CLI toolkit for `fish(1)` to help you build powerful utilities and share your code easily.
+Fisherman is a blazing fast, modern plugin manager for `fish(1)`.
 
-The following commands are available out of the box: *install*, *uninstall*, *update*, *search* and *help*. See `fisher help <command>` for information about each command.
+The following commands are available: *install*, *uninstall*, *update*, *search* and *help*. See `fisher help <command>` for information about each command.
 
 ## OPTIONS
 
-*  `--list[=bare|enabled|disabled]`:
-    List plugins according to the given category. List plugins in the cache by default. Enabled plugins are prepended with a `*` character. To list plugins without the `*` character use `--list=bare`.
-
-* `-f --file=fishfile`:
-    Read *fishfile* and display its contents. If *fishfile* is null or an empty string, your user *fishfile* in `$fisher_file` will be shown instead. Use a dash `-` to read from the standard input. Other formats such as the Oh My Fish! bundle files are supported as well.
+*  `--list[=bare|url|all|enabled|disabled|theme|file]`:
+    List local plugins according to a given option. Plugins are prepended with a legend character to indicate their kind. `*` for enabled plugins, `>` for the currently enabled prompt and `|` for symbolic links. To list plugins without the legend use `--list=bare`. Use a dash `-` to read from the standard input.
 
 * `-v --version`:
-    Show version information. Fisherman's current version can be found in the VERSION file at the root of the project. The version scheme is based in `Semantic Versioning` and uses Git annotated tags to track releases.
+    Show version information. Fisherman's current version can be found in the VERSION file at the root of the project. The version scheme is based in `Semantic Versioning` and uses Git annotated tags to track each release.
 
 * `-h --help`:
     Show usage help.
 
 ## CUSTOM COMMANDS
 
-A Fisherman command is a function that you invoke using the `fisher` CLI utility. By convention, any function like `fisher_<my_command>` is recognized as a Fisherman command. You can create plugins that add new commands this way. See `fisher help commands` and `fisher help plugins` for more information.
+A Fisherman command is a regular function that can be invoked using the `fisher` command. By convention, any function like `fisher_<my_command>` is recognized as a Fisherman command. You can create plugins that add new commands this way. See `fisher help commands` and `fisher help plugins` for more information.
 
 ## EXAMPLES
 
 * Install plugins.
 
-```
-fisher install fishtape shark
+```fish
+fisher install fishtape shark get
 ```
 
-* Install plugins from a *fishfile* or bundle:
+* Install plugins from a *fishfile* or bundle.
 
+```fish
+fisher --list=path/to/bundle | fisher install
 ```
-fisher --file=path/to/bundle | fisher install
+
+* Install a plugin if inside a plugin project.
+
+```fish
+fisher install .
 ```
 
 ## AUTHORS

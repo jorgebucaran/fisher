@@ -13,25 +13,25 @@
 \fBwait\fR \fIcommands\fR [\fB\-\-time\fR=interval] [\fB\-\-log\fR=file] [\fB\-\-format\fR=format] [\fB\-\-help\fR]
 .
 .SH "DESCRIPTION"
-Run \fIcommands\fR as a background process and wait until the job has finished\. Any output to standard error indicates \fBwait\fR to return \fB1\fR once is done\. While it waits, a customizable spinner is displayed in the command line\.
+Run \fIcommands\fR in the background and wait until the job has finished\. Any output to standard error indicates \fBwait\fR to return \fB1\fR\. While it waits, a customizable spinner is displayed in the command line\.
 .
 .SH "OPTIONS"
 .
 .TP
 \fB\-s \-\-spin=style|string\fR
-Set spinner style\. See \fBStyles\fR for styles and details to customize the spinner characters\.
+Set the spinner style\. See \fBStyles\fR for styles and details on how to customize the spinner tokens\.
 .
 .TP
 \fB\-t \-\-time=interval\fR
-Set spinner transition time delay in \fIseconds\fR\. A large value will refresh the spinner more slowly\. You may use decimal numbers to represent smaller numbers\.
+Set spinner transition time delay in \fIseconds\fR\. A large value will refresh the spinner more slowly\. You may use decimal numbers to represent smaller numbers\. The default interval is \fB0\.02\fR\.
 .
 .TP
 \fB\-l \-\-log=file\fR
-Output standard error to given \fIfile\fR\.
+Write the standard error output to a given \fIfile\fR\.
 .
 .TP
 \fB\-f \-\-format=format\fR
-Use given \fIformat\fR to display the spinner\. The default format is \fB"\er@"\fR where \fB@\fR represents the spinner token and \fB\er\fR a carriage return, used to refresh / erase the line\.
+Use the given \fIformat\fR to display the spinner\. The default format is \fB"\er@"\fR where \fB@\fR represents the spinner token and \fB\er\fR a carriage return, used to refresh (erase) the line\.
 .
 .TP
 \fB\-h \-\-help\fR
@@ -48,13 +48,13 @@ bar1~3
 .IP "" 0
 .
 .P
-If no style is given in \fB\-\-spin=<style>\fR, \fBmixer\fR is used by default\. If you don\'t want to display any spinners, use \fB\-\-spin=""\fR\.
+If no style is given, \fBmixer\fR is used by default\. If you don\'t want to display any spinners, use \fB\-\-spin=""\fR\.
 .
 .SS "CUSTOMIZATION"
 In addition to the default styles, you can specify a string of character tokens to be used each per spinner refresh cycle\.
 .
 .P
-For example \fB\-\-spin=12345\fR will display the numbers from 1 to 5, and \fB\-\-spin=\. \-\-format=@\fR an increasing sequence of dots and \fB@\fR represents the spinner character\.
+For example \fB\-\-spin=12345\fR will display the numbers from 1 to 5, and \fB\-\-spin=\. \-\-format=@\fR an increasing sequence of dots\.
 .
 .SS "PROGRESS BARS"
 Display a progress bar with a percent indicator using \fB\-\-spin=bar1~3\fR:
@@ -71,7 +71,7 @@ bar3: \.\.\.\.\.\.\. \fInum\fR%
 .IP "" 0
 .
 .SH "EXAMPLES"
-Run a lengthy operation as a background job and display a spinning pipe character until it is finished\.
+Run commands in the background and display a spinning pipe while until finished\.
 .
 .IP "" 4
 .
@@ -84,7 +84,7 @@ wait \-\-spin=pipe "curl \-sS $URL"
 .IP "" 0
 .
 .P
-Output any errors to \fIdebug\.txt\fR\.
+Write the standard error output to \fIdebug\.txt\fR\.
 .
 .IP "" 4
 .

@@ -7,19 +7,19 @@
 \fBfisher\-tour\fR \- Fisherman Tour
 .
 .SH "DESCRIPTION"
-Fisherman is a blazing fast, modern plugin manager for Fish\.
+Fisherman is a blazing fast, modern plugin manager for \fBfish(1)\fR\.
 .
 .P
-Fisherman uses a flat tree structure that adds no cruft to your shell, making it as fast as no Fisherman\. The cache mechanism lets you query the index offline and enable or disable plugins as you wish\.
+Fisherman runs virtually no initialization code, making it as fast as no Fisherman\. The cache mechanism lets you query the index offline and enable or disable plugins as you wish\.
 .
 .P
-Other features include dependency management, great plugin search capabilities and full compatibility with Tackle, Oh My Fish! and Wahoo themes and packages\.
+Other features include dependency management, excellent test coverage, plugin search capabilities and full compatibility with Tackle, Oh My Fish! and Wahoo themes and plugins\.
 .
 .P
 This document describes Fisherman features and their implementation details\. For usage and command help see \fBfisher(1)\fR\.
 .
 .SH "FLAT TREE"
-The configuration directory structure is optimized to help your shell start new sessions as quickly as possible, regardless of the numbers of plugins or prompts enabled at any given time\. An old saying goes that Fisherman is as fast as no Fisherman\.
+The configuration directory structure is optimized to help your shell start new sessions as quickly as possible, regardless of the numbers of plugins or prompts enabled at any given time\.
 .
 .P
 To explain how this is possible, we need to make a digression and discuss function scope first\. In fish, all functions share the same scope and you can use only one name per function\.
@@ -49,19 +49,19 @@ end
 \fIfoo\fR and \fIbar\fR are available immediately at the command line prompt and both print their names\. But there is a catch, calling \fIfoo\fR at least once will create a new \fIbar\fR function, effectively erasing the previous \fIbar\fR definition\. Subsequent calls to \fIbar\fR will print nothing\.
 .
 .P
-By convention, functions that start with any number of underscores are \fIintentionally\fR private, but there is no mechanism that prevents you from calling them at any time once loaded\.
+By convention, functions that start with any number of underscores are \fIintentionally\fR private, but there is no mechanism that prevents you from calling them once they are loaded\.
 .
 .P
 With this in mind, it\'s possible to improve the slow shell start problem using a \fIflat\fR tree structure whose path is loaded only once\.
 .
 .P
-The overhead of juggling multiple path hierarchies in a per\-plugin basis yields no benefits as everything is shared in the same scope\.
+The overhead of juggling multiple path hierarchies in a per\-plugin basis yields no benefits as everything is shared inside the same scope\.
 .
 .P
 Loading a path simply means adding the desired location to the \fB$fish_function_path\fR array\. See also \fBfunctions(1)\fR\.
 .
 .P
-Here is a snapshot of a typical configuration path with a single plugin and prompt:
+Here is a snapshot of an example Fisherman configuration path with a single plugin and prompt:
 .
 .IP "" 4
 .
@@ -86,10 +86,10 @@ $fisher_config
 .IP "" 0
 .
 .P
-If you are already familiar in the way fish handles your user configuration, you will find the above structure similar to \fB$XDG_CONFIG_HOME/fish\fR\. See \fBInitialization Files\fR in \fBhelp fish\fR to learn more about fish configuration\.
+If you are already familiar in the way Fish handles your user configuration, you will find the above structure similar to \fB$XDG_CONFIG_HOME/fish\fR\. See \fBInitialization Files\fR in \fBhelp fish\fR to learn more about fish configuration\.
 .
 .P
-\fBconf\.d\fR, short for configuration directory, is used for initialization files, i\.e\., files that should run at the start of the shell\. Files that follow the naming convention \fB<name>\.config\.fish\fR are added there\.
+\fBconf\.d\fR, short for configuration directory, is used for initialization files, i\.e\., files that should run at the start of the shell\. Files that follow the naming convention \fB<my_plugin>\.config\.fish\fR are added there\. If a file does not follow the \fB<my_plugin>\.config\.fish\fR convention, \fB<my_plugin>\fR will be added during the installation process\.
 .
 .SS "PLUGINS"
 Plugins are components that extend and add features to your shell\. To see what plugins are available use \fBfisher search\fR\. You can also type \fBfisher install\fR and hit \fItab\fR once to get formatted plugin information\. The same works for \fBfisher update\fR and \fBfisher uninstall\fR\.
@@ -98,10 +98,10 @@ Plugins are components that extend and add features to your shell\. To see what 
 To learn how to create plugins, see \fBfisher help plugins\fR\.
 .
 .P
-You can install a plugin by their name, URL or path to a local project\.
+You can install a plugin by their name, URL or by indicating the path to a local plugin project\.
 .
 .P
-If you use a \fIname\fR, this must be listed in the index database\. See \fBIndex\fR\.
+In order to install a plugin by \fIname\fR, it must be already published in the index database\. See \fBIndex\fR\.
 .
 .IP "" 4
 .
@@ -179,19 +179,19 @@ Shortcuts to other common Git repository hosting services are also available:
 Because of Fisherman\'s flat tree model, there is no technical distinction between plugins or prompts\. Installing a prompt is equivalent to switching themes in other systems\. The interface is always \fIinstall\fR, \fIupdate\fR or \fIuninstall\fR\.
 .
 .P
-Throughout this document and other Fisherman manuals you will find the term prompt when referring to the \fIconcept\fR of a theme, i\.e\., a plugin that defines a \fBfish_prompt\fR and / or \fBfish_right_prompt\fR functions\.
+Throughout this document and other Fisherman manuals you will find the term prompt when referring to the \fIconcept\fR of a theme, i\.e\., a plugin that defines a \fBfish_prompt\fR / \fBfish_right_prompt\fR function/s\.
 .
 .SS "INDEX"
-You can install, update and uninstall plugins by name, querying the Fisherman index, or by URL using several of the variations described in \fBPlugins\fR\. The index is a plain text flat database \fIindependent\fR from Fisherman\. You can use a custom index file by setting \fB$fisher_index\fR to your own file or URL\. Redirection urls are not supported due to security and performance concerns\. See \fBfisher help config\fR\.
+You can install, update and uninstall plugins by their name, querying the Fisherman index\. The index is a plain text flat database independently managed\. You can use a custom index file by setting \fB$fisher_index\fR to your own file or URL\. Redirection URLs are currently not supported due to security and performance concerns\. See \fBfisher help config\fR\.
 .
 .P
-A copy of the index is downloaded each time a query happens\. This keeps the index up to date and allows you to search the database offline\.
+A copy of the index is downloaded each time a search query takes place, \fB$fisher_update_interval\fR seconds since the last update\. \fB$fisher_update_interval\fR is 10 seconds by default if not set\. This helps keeping the index up to date and allows you to search the database offline\.
 .
 .P
-The index is a list of records, each consisting of the following fields:
+The index itself is a list of records, each consisting of the following fields:
 .
 .IP "\(bu" 4
-\fBname\fR, \fBurl\fR, \fBinfo\fR, \fBauthor\fR and one or more \fBtags\fR\.
+\fBname\fR, \fBurl\fR, \fBinfo\fR, one or more \fBtags\fR and \fBauthor\fR\.
 .
 .IP "" 0
 .
@@ -204,8 +204,8 @@ Fields are separated by a new line \fB\'\en\'\fR\. Tags are separated by one \fI
 
 shark
 https://github\.com/bucaran/shark
-Sparklines for your Fish
-graph spark data
+Fantastic Sparkline Generator
+chart tool report sparkline graph
 bucaran
 .
 .fi
@@ -229,7 +229,7 @@ fisher install submit
 For usage see the bundled documentation \fBfisher help submit\fR\.
 .
 .P
-You can also submit a new plugin manually and create a pull request\.
+You can also submit a new plugin manually and create a pull request in the index repository (github\.com/fisherman/fisher\-index):
 .
 .IP "" 4
 .
@@ -245,20 +245,17 @@ open http://github\.com
 .
 .IP "" 0
 .
-.P
-Now you can create a new pull request in the upstream repository\.
-.
 .SS "CACHE"
-Downloaded plugins are tracked as Git repositories under \fB$fisher_cache\fR\. See \fBfisher help config\fR to find out about other Fisherman configuration variables\.
+Downloaded plugins are stored as Git repositories under \fB$fisher_cache\fR\. See \fBfisher help config\fR to find out about other Fisherman configuration variables\.
 .
 .P
-When you install or uninstall a plugin, Fisherman downloads the repository to the cache and copies only the relevant files from the cache to the loaded function and / or completion path\. In addition, man pages are added to the corresponding man directory and if a Makefile is detected, the command \fBmake\fR is run\.
-.
-.P
-The cache also provides a location for a local copy of the Index\.
+When you install or uninstall a plugin, Fisherman downloads the repository to the cache and copies only the relevant files from the cache to the loaded function and / or completion path\. In this sense, this location works also like an intermediate \fBstage\fR\. In addition, manual pages are added to the corresponding man directory and if a Makefile is also detected, the command \fBmake\fR is run\.
 .
 .SS "FISHFILES"
-Dependency manifest file, or fishfiles for short, let you share plugin configurations across multiple installations, allow plugins to declare dependencies, and prevent information loss in case of system failure\. See \fBfisher help fishfile\fR\.
+Fishfiles let you share plugin configurations across multiple installations, let plugins declare dependencies and teach Fisherman what plugins are currently enabled / disabled when using \fBfisher \-\-list\fR\.
+.
+.P
+Your fishfile is stored in \fB$fisher_config/fishfile\fR by default, but you can customize its location setting \fB$fisher_file\fR in your user fish configuration file\.
 .
 .P
 Here is an example fishfile inside \fB$fisher_config\fR:
@@ -267,12 +264,11 @@ Here is an example fishfile inside \fB$fisher_config\fR:
 .
 .nf
 
-# my plugins
+# Ahoy! This is my Fishfile
 gitio
 fishtape
-
-# my links
-github/bucaran/shark
+shark
+get
 .
 .fi
 .
@@ -281,14 +277,11 @@ github/bucaran/shark
 .P
 The fishfile updates as you install / uninstall plugins\. See also \fBfisher help install\fR or \fBfisher help uninstall\fR\.
 .
-.P
-Plugins may list any number of dependencies to other plugins in a fishfile at the root of each project\. By default, when Fisherman installs a plugin, it will also fetch and install its dependencies\. If a dependency is already installed, it will not be updated as this could potentially break other plugins using an older version\. For the same reasons, uninstalling a plugin does not remove its dependencies\. See \fBfisher help update\fR\.
-.
 .SS "CONFIGURATION"
-Fisherman allows a high level of configuration using \fB$fisher_*\fR variables\. You can customize the home and configuration directories, debug log file, cache location, index source URL, command aliases, etc\. See \fBfisher help config\fR\.
+Fisherman allows a high level of configuration using \fB$fisher_*\fR variables\. You can customize the home and configuration directories, cache and fishfile location, index source URL, command aliases, etc\. See \fBfisher help config\fR\.
 .
 .P
-You can also extend Fisherman by adding new commands and ship them as plugins as well\. Fisherman automatically adds completions to \fIcommands\fR based in the function \fIdescription\fR and usage help if provided\. See \fBfisher help help\fR and \fBfisher help commands\fR\.
+You can also extend Fisherman by adding new commands and ship them as plugins\. Fisherman automatically adds completions to \fIcommands\fR based in the function \fIdescription\fR and usage help if provided\. See \fBfisher help help\fR and \fBfisher help commands\fR\.
 .
 .P
 To add completions to standalone utility plugins, use \fBcomplete(1)\fR\.
@@ -303,22 +296,22 @@ Most commands read the standard input by default when no options are given and p
 Fisherman also ships with a CLI options parser and a background job wait spinner that you can use to implement your own commands CLI\. See \fBgetopts(1)\fR and \fBwait(1)\fR\.
 .
 .SH "COMPATIBILITY"
-Fisherman supports Oh My Fish! (Wahoo) themes and plugins by default, but some features are turned off due to performance considerations\.
+Fisherman supports Oh My Fish! themes and plugins, but some features are turned off by default for performance reasons\.
 .
 .P
-Oh My Fish! evaluates every \fI\.fish\fR file inside the root directory of every plugin during initialization\. This is necessary in order to register any existing \fBinit\fR events and invoke them using fish \fBemit(1)\fR\.
+Oh My Fish! evaluates every \fI\.fish\fR file inside the root directory for every plugin installed during shell start\. This is necessary in order to load any existing \fBinit\fR event functions and immediately invoke them using fish \fBemit(1)\fR\.
 .
 .P
 Since it is not possible to determine whether a file defines an initialization event without evaluating its contents first, Oh My Fish! sources all \fB*\.fish\fR files and then emits events for each plugin\.
 .
 .P
-Not all plugins opt in the initialization mechanism, therefore support for this behavior is turned off by default\. If you would like Fisherman to behave like Oh My Fish! at the start of every session, install the \fBomf\fR compatibility plugin\.
+Not all plugins opt in the initialization mechanism, therefore support for this behavior is turned off by default\. If you would like Fisherman to behave like Oh My Fish! at the start of the shell session, install the \fBlegacy\fR compatibility plugin\.
 .
 .IP "" 4
 .
 .nf
 
-fisher install omf
+fisher install legacy
 .
 .fi
 .

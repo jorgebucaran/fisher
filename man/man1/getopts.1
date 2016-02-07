@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "GETOPTS" "1" "January 2016" "" "fisherman"
+.TH "GETOPTS" "1" "February 2016" "" "fisherman"
 .
 .SH "NAME"
 \fBgetopts\fR \- Parse CLI options
@@ -15,10 +15,10 @@
 .br
 .
 .SH "DESCRIPTION"
-getopts is a command line parser, designed to process command line arguments based in the POSIX Utility Syntax Guidelines\. If no arguments are given getopts returns \fB1\fR\.
+\fBGetopts\fR is a command line parser implemented in \fBawk(1)\fR, designed to process command line arguments in the easiest way possible\.
 .
 .SH "USAGE"
-In the following example:
+The best way to understand how \fBgetopts\fR work is by studying a simple example\.
 .
 .IP "" 4
 .
@@ -31,7 +31,7 @@ getopts \-ab1 \-\-foo=bar baz
 .IP "" 0
 .
 .P
-And its output:
+And its output\.
 .
 .IP "" 4
 .
@@ -137,9 +137,3 @@ The getopts described in this document is \fInot\fR equivalent to the getopts \f
 .
 .SH "AUTHORS"
 Jorge Bucaran \fIj@bucaran\.me\fR\.
-.
-.SH "SEE ALSO"
-POSIX Utility Syntax Guidelines [goo\.gl/yrgQn9]
-.
-.br
-

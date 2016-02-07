@@ -18,31 +18,27 @@
 .br
 .
 .SH "DESCRIPTION"
-Fisherman is a plugin manager and CLI toolkit for \fBfish(1)\fR to help you build powerful utilities and share your code easily\.
+Fisherman is a blazing fast, modern plugin manager for \fBfish(1)\fR\.
 .
 .P
-The following commands are available out of the box: \fIinstall\fR, \fIuninstall\fR, \fIupdate\fR, \fIsearch\fR and \fIhelp\fR\. See \fBfisher help <command>\fR for information about each command\.
+The following commands are available: \fIinstall\fR, \fIuninstall\fR, \fIupdate\fR, \fIsearch\fR and \fIhelp\fR\. See \fBfisher help <command>\fR for information about each command\.
 .
 .SH "OPTIONS"
 .
 .TP
-\fB\-\-list[=bare|enabled|disabled]\fR
-List plugins according to the given category\. List plugins in the cache by default\. Enabled plugins are prepended with a \fB*\fR character\. To list plugins without the \fB*\fR character use \fB\-\-list=bare\fR\.
-.
-.TP
-\fB\-f \-\-file=fishfile\fR
-Read \fIfishfile\fR and display its contents\. If \fIfishfile\fR is null or an empty string, your user \fIfishfile\fR in \fB$fisher_file\fR will be shown instead\. Use a dash \fB\-\fR to read from the standard input\. Other formats such as the Oh My Fish! bundle files are supported as well\.
+\fB\-\-list[=bare|url|all|enabled|disabled|theme|file]\fR
+List local plugins according to a given option\. Plugins are prepended with a legend character to indicate their kind\. \fB*\fR for enabled plugins, \fB>\fR for the currently enabled prompt and \fB|\fR for symbolic links\. To list plugins without the legend use \fB\-\-list=bare\fR\. Use a dash \fB\-\fR to read from the standard input\.
 .
 .TP
 \fB\-v \-\-version\fR
-Show version information\. Fisherman\'s current version can be found in the VERSION file at the root of the project\. The version scheme is based in \fBSemantic Versioning\fR and uses Git annotated tags to track releases\.
+Show version information\. Fisherman\'s current version can be found in the VERSION file at the root of the project\. The version scheme is based in \fBSemantic Versioning\fR and uses Git annotated tags to track each release\.
 .
 .TP
 \fB\-h \-\-help\fR
 Show usage help\.
 .
 .SH "CUSTOM COMMANDS"
-A Fisherman command is a function that you invoke using the \fBfisher\fR CLI utility\. By convention, any function like \fBfisher_<my_command>\fR is recognized as a Fisherman command\. You can create plugins that add new commands this way\. See \fBfisher help commands\fR and \fBfisher help plugins\fR for more information\.
+A Fisherman command is a regular function that can be invoked using the \fBfisher\fR command\. By convention, any function like \fBfisher_<my_command>\fR is recognized as a Fisherman command\. You can create plugins that add new commands this way\. See \fBfisher help commands\fR and \fBfisher help plugins\fR for more information\.
 .
 .SH "EXAMPLES"
 .
@@ -55,21 +51,37 @@ Install plugins\.
 .
 .nf
 
-fisher install fishtape shark
+fisher install fishtape shark get
 .
 .fi
 .
 .IP "" 0
 .
-.TP
-Install plugins from a \fIfishfile\fR or bundle:
-
+.IP "\(bu" 4
+Install plugins from a \fIfishfile\fR or bundle\.
+.
+.IP "" 0
 .
 .IP "" 4
 .
 .nf
 
-fisher \-\-file=path/to/bundle | fisher install
+fisher \-\-list=path/to/bundle | fisher install
+.
+.fi
+.
+.IP "" 0
+.
+.IP "\(bu" 4
+Install a plugin if inside a plugin project\.
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
+fisher install \.
 .
 .fi
 .
