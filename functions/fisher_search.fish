@@ -87,7 +87,9 @@ function fisher_search -d "Search Plugins"
         end
 
         if test $fisher_last_update -gt $fisher_update_interval -o ! -f $index
-            wait "__fisher_index_update"
+            if wait "__fisher_index_update"
+                __fisher_complete_reset
+            end
         end
 
         set -U fisher_last_update (date +%s)
