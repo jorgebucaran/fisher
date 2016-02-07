@@ -4,11 +4,10 @@
     <a href="http://fisherman.sh">
         <img
             alt="Fisherman"
-            width=750px  
+            width=720px
             src="https://cloud.githubusercontent.com/assets/8317250/10865127/daa0e138-8044-11e5-91f9-f72228974552.png">
     </a>
 </p>
-
 
 [![Build Status][travis-badge]][travis-link]
 [![Fisherman Version][version-badge]][version-link]
@@ -56,7 +55,7 @@ For documentation and guides [see the wiki][wiki]. For questions and feedback jo
 [version-badge]:    https://img.shields.io/badge/latest-v0.5.0-00B9FF.svg?style=flat-square
 [version-link]:     https://github.com/fisherman/fisherman/releases
 [wharf-link]:       https://fisherman-wharf.herokuapp.com/
-[wharf-badge]:      https://img.shields.io/badge/Slack-join%20the%20chat-00cc99.svg?style=flat-square
+[wharf-badge]:      https://img.shields.io/badge/slack-join%20the%20chat-00cc99.svg?style=flat-square
 
 <!-- About -->
 
