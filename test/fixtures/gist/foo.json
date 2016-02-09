@@ -1,0 +1,46 @@
+{
+  "url": "https://api.github.com/gists/897324897f239847w238974g",
+  "forks_url": "https://api.github.com/gists/897324897f239847w238974g/forks",
+  "commits_url": "https://api.github.com/gists/897324897f239847w238974g/commits",
+  "id": "897324897f239847w238974g",
+  "git_pull_url": "https://gist.github.com/897324897f239847w238974g.git",
+  "git_push_url": "https://gist.github.com/897324897f239847w238974g.git",
+  "html_url": "https://gist.github.com/897324897f239847w238974g",
+  "files": {
+    "foo.fish": {
+      "filename": "foo.fish",
+      "type": "text/plain",
+      "language": "fish",
+      "raw_url": "https://gist.githubusercontent.com/user/897324897f239847w238974g/raw/c4ede9079b2080b0f06bf25a55c0f500de37e7f3/foo.fish",
+      "size": 530,
+      "truncated": false,
+      "content": "...."
+    }
+  },
+  "public": true,
+  "created_at": "2016-02-05T20:43:29Z",
+  "updated_at": "2016-02-10T18:37:28Z",
+  "description": "foo description",
+  "comments": 0,
+  "user": null,
+  "comments_url": "https://api.github.com/gists/897324897f239847w238974g/comments",
+  "owner": {
+    "login": "user",
+    "id": 0000000,
+    "avatar_url": "https://avatars.githubusercontent.com/u/8317250?v=3",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/user",
+    "html_url": "https://github.com/user",
+    "followers_url": "https://api.github.com/users/user/followers",
+    "following_url": "https://api.github.com/users/user/following{/other_user}",
+    "gists_url": "https://api.github.com/users/user/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/user/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/user/subscriptions",
+    "organizations_url": "https://api.github.com/users/user/orgs",
+    "repos_url": "https://api.github.com/users/user/repos",
+    "events_url": "https://api.github.com/users/user/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/user/received_events",
+    "type": "User",
+    "site_admin": false
+  }
+}

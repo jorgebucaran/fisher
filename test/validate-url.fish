@@ -33,3 +33,9 @@ for url in omf/a omf:a
         "https://github.com/oh-my-fish/a" = (__fisher_plugin_validate $url)
     end
 end
+
+test "$TESTNAME - Add https:// to gist.github.com URLs"
+    https://gist.github.com/owner/1234567890 = (
+        __fisher_plugin_validate gist.github.com/owner/1234567890
+        )
+end
