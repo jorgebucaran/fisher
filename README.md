@@ -1,19 +1,23 @@
 <a name="fisherman"></a>
 
 <p align="center">
+    <br>
     <a href="http://fisherman.sh">
         <img
             alt="Fisherman"
-            width=720px
-            src="https://cloud.githubusercontent.com/assets/8317250/10865127/daa0e138-8044-11e5-91f9-f72228974552.png">
+            width=660px
+            src="https://rawgit.com/fisherman/logo/master/fisherman-black-white.svg">
     </a>
+    <br>
+    <br>
+    <br>
 </p>
 
 [![Build Status][travis-badge]][travis-link]
 [![Fisherman Version][version-badge]][version-link]
 [![Wharf][wharf-badge]][wharf-link]
 
-# Fisherman
+<hr>
 
 **Fisherman** is a blazing [fast](#performance), modern plugin manager for [Fish](http://fishshell.com/).
 

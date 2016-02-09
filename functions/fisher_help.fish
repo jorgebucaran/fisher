@@ -42,8 +42,8 @@ function fisher_help -d "Show Help"
                 return
 
             case \*
-                printf "fisher: '%s' is not a valid option.\n" $1 >& 2
-                fisher_help --help >& 2
+                printf "fisher: '%s' is not a valid option.\n" $1 > /dev/stderr
+                fisher_help --help > /dev/stderr
                 return 1
         end
     end

@@ -22,8 +22,8 @@ function __fisher_list -a source
                         printf "%s%s\n" ">" $i
 
                     else if test -L $fisher_cache/$i
-                        printf "%s%s\n" "|" $i
-                        
+                        printf "%s%s\n" "@" $i
+
                     else
                         printf "%s%s\n" "*" $i
                     end

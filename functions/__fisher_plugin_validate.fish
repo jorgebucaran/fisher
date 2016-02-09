@@ -1,6 +1,9 @@
 function __fisher_plugin_validate -a plugin
     switch "$plugin"
-        case . /\* ./\* ../\*
+        case ..\*
+            return 1
+
+        case . /\* ./\*
             if test ! -e $plugin
                 return 1
             end
@@ -30,6 +33,7 @@ function __fisher_plugin_validate -a plugin
                     s|^bb[:/]+|https://bitbucket.org/|
                     s|^omf[:/]+|https://github.com/oh-my-fish/|
                     s|^($id+)/($id+)\$|https://github.com/\1/\2|
+                    s|^(gist\.github\.com.*)|https://\1|
                     s|^http(s?)[:/]*|http\1://|
                     s|https://github((.com)?/)?|https://github.com/|
                     s|/*(\.git/*)*\$||g" \

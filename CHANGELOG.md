@@ -1,9 +1,16 @@
 # Change Log
 
-## [0.7.0][0.7.0] - 2016-02-?
-git checkout -b daenney-all-the-commands master
+## [0.7.0][v070] - 2016-02-11
 
-* Use `command(1)` when calling non-builtins. Closes #79.
+* Welcome aboard @daenney, the newest Fisherman organization member. If you want to be part of the organization just let [me](https://github.com/bucaran) or @daenney know.
+
+* Add the ability to install plugins from Gists. You can distribute a very simple, one-single function plugin in the form of a Gist. Your users can install it using `fisher install url` and Fisherman will query the Gist using the GitHub API to get a list of the Gist files and use the name of the first identified `*.fish` file to name the plugin in your system. Since there is no formal way to _name_ a Gist, and you may prefer to keep the "description" field for the actual description and not a name, Fisherman supports only one `fish` file per Gist. Closes #75.
+
+* Use `command(1)` when calling non-builtins. Thanks @daenney. Closes #79.
+
+* Add `__fisher_plugin_can_enable` to detect installing a prompt that is not the current one. Closes #78.
+
+* Remove the ability to install a plugin in a parent directory using `..` or `../` or even worse, `../../` as well as other combinations that navigate to a parent directory. I find the use case odd at best, and more dangerous that useful. If you want to install a local plugin use the full path or a relative path, always top down. `fisher install .` or `fisher install my/plugin` or `fisher install /Users/$USER/path/to/plugin`. Closes #81.
 
 ## [0.6.0][v060] - 2016-02-07
 

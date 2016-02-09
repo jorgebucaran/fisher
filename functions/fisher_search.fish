@@ -71,8 +71,8 @@ function fisher_search -d "Search Plugins"
                 return
 
             case \*
-                printf "fisher: '%s' is not a valid option.\n" $1 >& 2
-                fisher_search -h >& 2
+                printf "fisher: '%s' is not a valid option.\n" $1 > /dev/stderr
+                fisher_search -h > /dev/stderr
                 return 1
         end
     end
