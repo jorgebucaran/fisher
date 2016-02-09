@@ -7,10 +7,10 @@ function __fisher_key_bindings_disable -a plugin user_key_bindings
         > $fisher_key_bindings.tmp \
         < $fisher_key_bindings
 
-    mv -f $fisher_key_bindings.tmp $fisher_key_bindings
+    command mv -f $fisher_key_bindings.tmp $fisher_key_bindings
 
     if test ! -s $fisher_key_bindings
         sed -i.tmp '/__fisher_key_bindings/d' $user_key_bindings
-        rm -f $user_key_bindings.tmp
+        command rm -f $user_key_bindings.tmp
     end
 end

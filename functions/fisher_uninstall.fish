@@ -87,7 +87,7 @@ function fisher_uninstall -d "Uninstall Plugins"
         end
 
         if test "$option" = force
-            rm -rf $path
+            command rm -rf $path
         end
 
         set count (math $count + 1)

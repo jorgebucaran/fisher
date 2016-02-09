@@ -8,6 +8,6 @@ function __fisher_file_remove -a plugin file
 
         sed -E "$pattern" < $file > $file.tmp
 
-        mv $file.tmp $file
+        command mv $file.tmp $file
     end
 end

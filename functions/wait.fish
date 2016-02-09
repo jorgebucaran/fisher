@@ -128,12 +128,12 @@ function wait -d "Run commands and display a spinner"
 
     if test -s $tmp
         if test ! -z "$log"
-            nl -n ln -- $tmp > $log
+            nl -n command ln -- $tmp > $log
         end
 
-        rm -f $tmp
+        command rm -f $tmp
         return 1
     end
 
-    rm -f $tmp
+    command rm -f $tmp
 end
