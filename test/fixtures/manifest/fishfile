@@ -39,3 +39,9 @@ https://github.com/quux/fisher-thud
 # You can install a plugin from a local directory too.
 
 /Users/fisherboy/Projects/fisherman/plugins/chomp
+
+# You can also install a plugin from a gist. There is no formal way to name a gist,
+# so a gist plugin is recommended to export a single fish function. The repository
+# may include other files too, but there should be only *one* fish file.
+
+gisty@https://gist.github.com/xxxx

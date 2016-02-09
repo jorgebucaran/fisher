@@ -24,8 +24,8 @@ function fisher_update -d "Update Plugins/Fisherman"
                 return
 
             case \*
-                printf "fisher: '%s' is not a valid option.\n" $1 >& /dev/stderr
-                fisher_update -h >& /dev/stderr
+                printf "fisher: '%s' is not a valid option.\n" $1 > /dev/stderr
+                fisher_update -h > /dev/stderr
                 return 1
         end
     end
@@ -100,7 +100,9 @@ function fisher_update -d "Update Plugins/Fisherman"
                     end
                 end
 
-                fisher_install --quiet --force -- $name
+                if __fisher_plugin_can_enable "$name" "$path"
+                    fisher_install --quiet --force -- $name
+                end
 
                 set count (math $count + 1)
             end

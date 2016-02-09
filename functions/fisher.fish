@@ -25,8 +25,8 @@ function fisher -d "Fish Plugin Manager"
                     continue
                 end
 
-                printf "fisher: '%s' is not a valid option.\n" $1 >& 2
-                fisher --help >& 2
+                printf "fisher: '%s' is not a valid option.\n" $1 > /dev/stderr
+                fisher --help > /dev/stderr
                 return 1
         end
     end
@@ -44,8 +44,8 @@ function fisher -d "Fish Plugin Manager"
             end
 
             if not functions -q "fisher_$value"
-                printf "fisher: '%s' is not a valid command\n" "$value" >& 2
-                fisher --help >& 2
+                printf "fisher: '%s' is not a valid command\n" "$value" > /dev/stderr
+                fisher --help > /dev/stderr
                 return 1
             end
 

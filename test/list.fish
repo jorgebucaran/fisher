@@ -64,10 +64,12 @@ end
 
 test "$TESTNAME - Get URL from path (__fisher_url_from_path) with fisher --list=url"
     (fisher --list=url) = (
-        for plugin in foo bar baz theme
+        for plugin in foo bar baz theme norf
             switch "$plugin"
                 case theme
                     echo $path/theme
+                case norf
+                    echo $plugin@https://gist.github.com/$plugin
                 case \*
                     echo https://github.com/$plugin/$plugin
             end

@@ -25,8 +25,8 @@ function fisher_uninstall -d "Uninstall Plugins"
                 return
 
             case \*
-                printf "fisher: '%s' is not a valid option.\n" $1 >& /dev/stderr
-                fisher_uninstall -h >& /dev/stderr
+                printf "fisher: '%s' is not a valid option.\n" $1 > /dev/stderr
+                fisher_uninstall -h > /dev/stderr
                 return 1
         end
     end
@@ -77,12 +77,7 @@ function fisher_uninstall -d "Uninstall Plugins"
                 set index (math $index + 1)
         end
 
-        if begin not __fisher_path_is_prompt $path; or test "$name" = "$fisher_prompt"; end
-
-            # You can use --force to remove any plugin from the cache. If prompt A is enabled
-            # you can still uninstall prompt B using --force. This will delete B's repository
-            # from $fisher_cache.
-
+        if __fisher_plugin_can_enable "$name" "$path"
             __fisher_plugin_disable "$name" "$path"
         end
 

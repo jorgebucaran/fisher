@@ -25,8 +25,8 @@ function fisher_install -d "Install Plugins"
                 return
 
             case \*
-                printf "fisher: '%s' is not a valid option.\n" $1 >& /dev/stderr
-                fisher_install -h >& /dev/stderr
+                printf "fisher: '%s' is not a valid option.\n" $1 > /dev/stderr
+                fisher_install -h > /dev/stderr
                 return 1
         end
     end
@@ -47,11 +47,19 @@ function fisher_install -d "Install Plugins"
     end | while read -l item
 
         if not set item (__fisher_plugin_validate $item)
-            printf "fisher: '%s' is not a valid name, path or url.\n" $item > $stderr
+            printf "fisher: '%s' is not a valid name, path or URL.\n" $item > $stderr
             continue
         end
 
         switch "$item"
+            case https://gist.github.com\*
+                if set -l name (wait "__fisher_gist_to_name $item")
+                    printf "%s %s\n" $item $name
+                else
+                    set total (math $total - 1)
+                    printf "fisher: '%s' is not a valid Gist or URL.\n" $item > $stderr
+                end
+
             case \*/\*
                 printf "%s %s\n" $item (printf "%s\n" $item | __fisher_name)
 
@@ -124,7 +132,8 @@ function fisher_install -d "Install Plugins"
 
     if test ! -z "$skipped"
         printf "%s plugin/s skipped (%s)\n" (count $skipped) (
-            printf "%s\n" $skipped | paste -sd ' ' -) > $stdout
+            printf "%s\n" $skipped | paste -sd ' ' -
+            ) > $stdout
     end
 
     if test "$count" -le 0

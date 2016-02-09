@@ -101,6 +101,6 @@ test "$TESTNAME - Match field and get multiple fields #2"
     "foosmith;foo" "foobarson;bar" = (fisher search --name~/^f/ --author --tags)
 end
 
-test "$TESTNAME: Get full index"
+test "$TESTNAME - Get full index"
     (fisher search) = (cat $fisher_cache/.index)
 end

@@ -6,6 +6,18 @@ function __fisher_url_from_path -a path
     if test -L "$path"
         readlink $path
     else
-        git -C "$path" ls-remote --get-url ^ /dev/null
+        set -l url (git -C "$path" ls-remote --get-url ^ /dev/null)
+
+        if test -z "$url"
+            return 1
+        end
+
+        switch "$url"
+            case \*gist.github.com\*
+                printf "%s@%s\n" (basename $path) $url
+
+            case \*
+                printf "%s\n" "$url"
+        end
     end
 end

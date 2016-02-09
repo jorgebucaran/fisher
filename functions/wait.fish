@@ -38,8 +38,8 @@ function wait -d "Run commands and display a spinner"
                 return
 
             case \*
-                printf "wait: '%s' is not a valid option\n" $1 >& 2
-                wait -h >& 2
+                printf "wait: '%s' is not a valid option\n" $1 > /dev/stderr
+                wait -h > /dev/stderr
                 return 1
         end
     end
