@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.7.0][0.7.0] - 2016-02-?
+git checkout -b daenney-all-the-commands master
+
+* Use `command(1)` when calling non-builtins. Closes #79.
+
 ## [0.6.0][v060] - 2016-02-07
 
 * Remove definition of `$fisher_index` from Fisherman's `config.fish`. Mostly due to cosmetic reasons and because I would like to isolate the use of the official URL into `__fisher_index_update` alone. You can still redefine this variable and your setting will be favored over the default of 5 second timeout. In addition, `__fisher_index_update` can also take `timeout` argument that shadows `$fisher_timeout`. This change is to "guarantee" an index update in some critical cases, for example, downloading the index for the first time should wait as needed in order to make sure Fisherman is installed.
@@ -236,16 +241,14 @@
 
 <!--  Links -->
 
+[v100]: https://github.com/fisherman/fisherman/releases/tag/1.0.0
+[v090]: https://github.com/fisherman/fisherman/releases/tag/0.9.0
+[v080]: https://github.com/fisherman/fisherman/releases/tag/0.8.0
+[v070]: https://github.com/fisherman/fisherman/releases/tag/0.7.0
 [v060]: https://github.com/fisherman/fisherman/releases/tag/0.6.0
-
 [v050]: https://github.com/fisherman/fisherman/releases/tag/0.5.0
-
 [v040]: https://github.com/fisherman/fisherman/releases/tag/0.4.0
-
 [v031]: https://github.com/fisherman/fisherman/releases/tag/0.3.1
-
 [v030]: https://github.com/fisherman/fisherman/releases/tag/0.3.0
-
 [v020]: https://github.com/fisherman/fisherman/releases/tag/0.2.0
-
 [v010]: https://github.com/fisherman/fisherman/releases/tag/0.1.0
