@@ -50,8 +50,6 @@ Fisherman runs virtually no initialization code making it as fast as no Fisherma
 
 For documentation and guides [see the wiki][wiki]. For questions and feedback join the Slack [room][slack-link] or browse the [issues][issues].
 
-:anchor:
-
 <!-- Header -->
 
 [travis-link]:      https://travis-ci.org/fisherman/fisherman
