@@ -24,7 +24,7 @@ Using the following variables, you can customize the locations of the cache, ind
     The user configuration directory. This is default location of your user *fishfile*, Fisherman *key_bindings.fish* file and the *cache*, *functions*, *completions*, *conf.d* and *scripts* directories. `$XDG_CONFIG_HOME/fisherman` by default.
 
 * `$fisher_file`:
-    This file keeps a list of what plugins you have installed and are currently enabled. `$fisher_cofig/fishfile` by default. See `fisher help fishfile` for details.
+    This file keeps a list of what plugins you have installed and are currently enabled. `$fisher_config/fishfile` by default. See `fisher help fishfile` for details.
 
 * `$fisher_cache`:
     The cache directory. Plugins are downloaded first here and installed to `$fisher_config/functions` afterwards. The cache is `$fisher_config/cache` by default.
