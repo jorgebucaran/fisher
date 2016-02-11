@@ -1,21 +1,21 @@
 <a name="fisherman"></a>
 
-<p align="center">
+<h3 align="center">
     <br>
     <a href="http://fisherman.sh">
         <img
             alt="Fisherman"
-            width=660px
+            width=650px
             src="https://rawgit.com/fisherman/logo/master/fisherman-black-white.svg">
     </a>
     <br>
     <br>
     <br>
-</p>
+</h3>
 
 [![Build Status][travis-badge]][travis-link]
 [![Fisherman Version][version-badge]][version-link]
-[![Wharf][wharf-badge]][wharf-link]
+[![Slack Room][slack-badge]][slack-link]
 
 <hr>
 
@@ -33,7 +33,7 @@ The following benchmarks were calculated using a 2.4 GHz Intel Core i5 MacBook P
 time -p fish -ic exit
 ```
 
-Fisherman runs virtually no initialization code making it as fast as no Fisherman. Fundle performs well, but still [runs][fundle] cumbersome startup code. Oh My Fish! has the worst performance at `0.21` seconds for a lightweight setup.
+Fisherman runs virtually no initialization code making it as fast as no Fisherman. Oh My Fish! has the worst performance at `0.21` seconds for a lightweight setup.
 
 <p align="center">
     <a href="https://github.com/fisherman/fisherman/wiki/Performance">
@@ -48,7 +48,7 @@ Fisherman runs virtually no initialization code making it as fast as no Fisherma
 
 ## Documentation
 
-For documentation and guides [see the wiki][wiki]. For questions and feedback join the Slack [room][wharf-link] or browse the [issues][issues].
+For documentation and guides [see the wiki][wiki]. For questions and feedback join the Slack [room][slack-link] or browse the [issues][issues].
 
 :anchor:
 
@@ -58,8 +58,8 @@ For documentation and guides [see the wiki][wiki]. For questions and feedback jo
 [travis-badge]:     https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
 [version-badge]:    https://img.shields.io/badge/latest-v0.7.0-00B9FF.svg?style=flat-square
 [version-link]:     https://github.com/fisherman/fisherman/releases
-[wharf-link]:       https://fisherman-wharf.herokuapp.com/
-[wharf-badge]:      https://img.shields.io/badge/slack-join%20the%20chat-00cc99.svg?style=flat-square
+[slack-link]:       https://fisherman-wharf.herokuapp.com/
+[slack-badge]:      https://img.shields.io/badge/slack-join%20the%20chat-00B9FF.svg?style=flat-square
 
 <!-- About -->
 
