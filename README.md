@@ -6,8 +6,7 @@
         <img
             alt="Fisherman"
             width=650px
-            src="https://rawgit.com/fisherman/logo/master/fisherman-black-white.svg">
-    </a>
+            src="https://rawgit.com/fisherman/logo/master/fisherman-black-white.svg"></a>
     <br>
     <br>
     <br>
