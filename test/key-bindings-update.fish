@@ -1,5 +1,5 @@
 # We use key-bindings-update to extract a plugin's declared key bindings and
-# append them to $fisher_key_bindings.
+# append them to $fisher_binds.
 
 set -l path $DIRNAME/fixtures/key-bindings/update
 

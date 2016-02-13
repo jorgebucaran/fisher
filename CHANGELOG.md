@@ -1,5 +1,21 @@
 # Change Log
 
+## [0.8.0][v080] - 2016-02-15
+
+* Add new **debug** mode enabled by setting a new `$fisher_debug` global / universal variable. For advanced logging and color options, install: [`fish_debug`](https://github.com/fishery/debug).
+
+    ```fish
+    fisher install debug
+    ```
+
+This mode makes commands behave verbosely and forces Fisherman to log all kinds of diagnostic information as well as run some simple health checks.
+
+* Several updates to the [website][http://fisherman.sh]. Changed to using the new SVG logo. More appeal using grammar tweaks. Drop some hardly ever used favicons and switch from SourceCodePro to Monaco style monospace fonts that load faster and cause less pollution.
+
+* Renamed core function `wait` to `spin` to reflect usage more accurately and updated its usage across Fisherman accordingly.
+
+* Renamed `$fisher_key_bindings` variable to `$fisher_binds` because it's shorter to type and makes `config.fish` look neater.
+
 ## [0.7.0][v070] - 2016-02-11
 
 * Welcome aboard @daenney, the newest Fisherman organization member. If you want to be part of the organization just let [me](https://github.com/bucaran) or @daenney know.
@@ -28,14 +44,13 @@
 
 * Tweak validate regex to correctly handle plugins that could be named `bb`, `gh`, `gl` or `omf`.
 
-* **wait.fish** Add a single " " space after spinner by default. To remove the white space use a format like `--format="@\r"`.
+* **spin.fish** Add a single " " space after spinner by default. To remove the white space use a format like `--format="@\r"`.
 
 * Supress unwated error message when the cache is empty. Closes #66.
 
 * Add temporary upgrade check to warn users upgrading from < 5.0
 
 * Create empty fishfile during make install.
-
 
 ## [0.5.0][v050] - 2016-02-02
 
@@ -69,7 +84,6 @@
 
   + Improve Install/Uninstall/Update status output. If a plugin fails to install decrease the total. If any plugins are skipped because they are already installed in the case of `fisher install` or available in the cache, but disabled in the case of `fisher uninstall` they are collected into an array and displayed in a new section `n plugin/s skipped (a, b, c)` at the bottom of the report.
 
-
 * **Improve test coverage.**
 
   + Tightly coupled functions were making testing increasingly difficult. Most of the test effort was basically testing whether `git clone` or `git pull`. New separation of concerns makes tests run faster and the difficult install/uninstall algorithms has better coverage now.
@@ -91,7 +105,6 @@
   + Prepend `>` to the currently enabled theme when using `fisher --list[=cache]`. Related #49.
 
   + Prepend `*` to plugin names to indicate they are currently enabled when using `fisher --list[=cache]`. See #49.
-
 
 ## [0.4.0][v040] - 2016-01-11
 
@@ -144,7 +157,6 @@
 
 * :warning: Remove `fisher --cache` and `fisher --validate`. Now, that these options are separated into their own function and they are intentionally private, there is no need for them.
 
-
 ## [0.3.0][v030] - 2016-01-08
 
 > This release contains several breaking changes a few major improvements. The good news is that the API is starting to look more stable and very unlikely to change drastically again in the future.
@@ -157,7 +169,7 @@
 
 * Fix a bug in install, update and uninstall that was displaying an incorrect plugin count if there was at least on failure.
 
-* Fix bug in `fisher install` that causes install to fail even though it succeeds, due to `wait(1)`'s behavior of returning `1` if there is any output to standard error. See #20.
+* Fix bug in `fisher install` that causes install to fail even though it succeeds, due to `spin(1)`'s behavior of returning `1` if there is any output to standard error. See #20.
 
 * Fix bug in `fisher uninstall` that was removing plugins from the cache by mistake.
 
@@ -209,7 +221,6 @@
 
 * Revert #3. The reason `getopts.fish` was in its own file originally is because @bucaran wanted a standalone, dependency free cli parser solution, arguably slightly faster than having Awk read `getopts.awk` for each use. The performance improvement is negligible at best, but `getopts` is also used by every single command and future commands and plugins are very likely to use it as well, so we might as well use the slightly faster version.
 
-
 ## [0.2.0][v020] - 2016-01-05
 
 * Improve README, added links to screencasts, updated documentation with new changes and fixed other typos and composition errors.
@@ -238,13 +249,9 @@
 
 * Refactor and improve tests for `install`, `update` and `uninstall`.
 
-
 ## [0.1.0][v010] - 2016-01-01
 
 * Initial commit.
-
-
-:anchor:
 
 <!--  Links -->
 

@@ -7,13 +7,13 @@ function __fisher_plugin_walk -a plugin path
             case \*/{fish_user_,}key_bindings.fish
                 printf "%s %s %s\n" --bind $file
 
-            case \?\*/uninstall.fish
+            case \*/uninstall.fish
                 printf "%s %s\n" --uninstall $file
 
-            case \?\*/completions/\*.fish
+            case \*/completions/\*.fish
                 printf "%s %s %s\n" --source $file completions/$base
 
-            case \?\*/{conf.d,modules}/\?\* \?\*/\*config.fish \?\*/{before.,}init.fish \*/$plugin.load
+            case \*/{conf.d,modules}/\?\* \*/\*config.fish \*/{before.,}init.fish \*/$plugin.load
                 switch "$base"
                     case \*$plugin\*
                     case \*

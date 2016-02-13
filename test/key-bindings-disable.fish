@@ -5,7 +5,7 @@ function -S setup
     mkdir -p $path
     cp $DIRNAME/fixtures/key-bindings/*.fish $path
 
-    set -g fisher_key_bindings $path/fisher_key_bindings.fish
+    set -g fisher_binds $path/fisher_key_bindings.fish
 
     for plugin in foo bar baz
         __fisher_key_bindings_disable $plugin $path/user_key_bindings.fish >> $path/key_bindings_log

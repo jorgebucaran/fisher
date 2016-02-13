@@ -27,7 +27,7 @@ test "$TESTNAME - Define fishfile in \$fisher_config/fishfile (default)"
 end
 
 test "$TESTNAME - Define key bindings in \$fisher_config/key_bindings.fish (default)"
-    $fisher_key_bindings = $path/key_bindings.fish
+    $fisher_binds = $path/key_bindings.fish
 end
 
 test "$TESTNAME - Add Fisherman config/functions to the head of \$fish_function_path"

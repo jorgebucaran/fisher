@@ -1,13 +1,13 @@
 set -g gist $DIRNAME/fixtures/gist
 
 function -S setup
-    function -S curl -a flags url
-        cat $gist/(basename $url).json
+    function -S spin -a url
+        cat $gist/(basename $url).json ^ /dev/null
     end
 end
 
 function -S teardown
-    functions -e curl
+    functions -e spin
 end
 
 test "$TESTNAME - Fail if URL is an empty string"
@@ -15,6 +15,10 @@ test "$TESTNAME - Fail if URL is an empty string"
         __fisher_gist_to_name ""
         printf $status
         )
+end
+
+test "$TESTNAME - Fail if URL is invalid"
+    -z (__fisher_gist_to_name gist.github.com/bar)
 end
 
 test "$TESTNAME - Retrieve the name of the first *.fish file in the JSON stream"

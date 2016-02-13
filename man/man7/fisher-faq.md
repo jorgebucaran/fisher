@@ -79,7 +79,7 @@ See `$fisher_home/config.fish` for the full code.
 
 Fisherman ameliorates the slow shell start problem using a flat dependency tree instead of loading a directory hierarchy per plugin. This also means that Fisherman performance does not decline depending on the number of plugins installed. See also `Flat Tree` in `fisher help tour`.
 
-### How can I upgrade from an existing Oh My Fish or Wahoo installation?
+### How can I upgrade from an existing Oh My Fish! installation?
 
 Remove the `$OMF_PATH` and `$OMF_CONFIG` variables from your `config.fish`.
 

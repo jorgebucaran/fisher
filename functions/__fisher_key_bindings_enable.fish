@@ -1,5 +1,5 @@
 function __fisher_key_bindings_enable -a plugin user_key_bindings
-    __fisher_key_bindings_update $plugin >> $fisher_key_bindings
+    __fisher_key_bindings_update $plugin >> $fisher_binds
 
     if test ! -s $user_key_bindings
         command mkdir -p (dirname $user_key_bindings)
