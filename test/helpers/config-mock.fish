@@ -13,6 +13,6 @@ function -S __fisher_url_clone -a url path
     cp -rf (echo $url | sed "s|https://github.com/|$plugins/|") $path
 end
 
-function wait
+function spin
     eval $argv
 end

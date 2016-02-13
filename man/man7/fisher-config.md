@@ -9,10 +9,6 @@ This document describes how to use Fisherman configuration variables.
 
 Your fish user configuration, usually located in `$XDG_CONFIG_HOME/fish/config.fish` is updated after installing Fisherman to add the global variables `$fisher_home` and `$fisher_config`.
 
-`$fisher_home` is the directory where Fisherman is downloaded to a
-
-`$fisher_config` is the user configuration directory and the
-
 Using the following variables, you can customize the locations of the cache, index URL, fishfile, create command aliases, etc.
 
 ## VARIABLES
