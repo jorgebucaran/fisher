@@ -4,4 +4,4 @@ before_install:
     - sudo apt-get update
     - sudo apt-get -y install fish
 script:
-    - make && fish -c "fisher install fishtape; fishtape test/*.fish"
+    - make && fish -c "__fisher_index_update; fisher_install fishtape; fishtape test/*.fish"

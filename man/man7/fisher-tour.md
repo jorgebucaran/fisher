@@ -178,7 +178,7 @@ If you are already familiar with other UNIX tools, you'll find Fisherman command
 
 Most commands read the standard input by default when no options are given and produce easy to parse output, making Fisherman commands ideal for plumbing and building upon each other.
 
-Fisherman also ships with a CLI options parser and a background job wait spinner that you can use to implement your own commands CLI. See `getopts(1)` and `wait(1)`.
+Fisherman also ships with a CLI options parser and a job spinner you can use to implement your own CLIs. See `getopts(1)` and `spin(1)`.
 
 ## COMPATIBILITY
 
@@ -203,5 +203,5 @@ fisher help<br>
 fisher help config<br>
 fisher help plugins<br>
 fisher help commands<br>
-wait(1)<br>
+spin(1)<br>
 getopts(1)<br>

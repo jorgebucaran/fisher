@@ -1,1 +1,1 @@
-functions -e __fisher_url_clone wait
+functions -e __fisher_url_clone spin

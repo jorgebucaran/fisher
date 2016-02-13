@@ -52,17 +52,8 @@ fisher install .
 
 Fisherman was created by Jorge Bucaran *j@bucaran.me*.
 
-See AUTHORS file for the complete list of contributors.
+See THANKS file for the complete list of contributors.
 
 ## SEE ALSO
 
 fisher help tour<br>
-fisher help help<br>
-fisher help update<br>
-fisher help search<br>
-fisher help config<br>
-fisher help install<br>
-fisher help plugins<br>
-fisher help commands<br>
-fisher help fishfile<br>
-fisher help uninstall<br>

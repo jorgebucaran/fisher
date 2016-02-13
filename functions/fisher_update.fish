@@ -36,20 +36,16 @@ function fisher_update -d "Update Plugins/Fisherman"
 
             printf "Updating >> Fisherman\n" > $stderr
 
-            if not wait "__fisher_index_update; __fisher_path_update $fisher_home"
+            if not spin "
+                __fisher_index_update 0
+                __fisher_path_update $fisher_home" --error=$stderr
+
+                ###
+                ###
+
                 printf "fisher: Arrr! Could not update Fisherman.\n" > $stderr
-                sed -E 's/.*error: (.*)/\1/' $fisher_cache/.debug > $stderr
                 return 1
             end
-
-            #############################
-            ## Remove before 1.0
-            set -g fisher_file $fisher_config/fishfile
-            if test ! -e $fisher_file
-                touch $fisher_file
-            end
-            ## Remove before 1.0
-            #############################
 
             printf "Aye! Fisherman updated to version %s (%0.fs)\n" (
                 cat $fisher_home/VERSION) (math (date +%s) - $time) > $stderr
@@ -92,10 +88,8 @@ function fisher_update -d "Update Plugins/Fisherman"
                         set index (math $index + 1)
                 end
 
-                if not wait "__fisher_path_update $path" --log=$fisher_cache/.debug
-                    if test ! -L $path
-                        sed -nE 's/.*(error|fatal): (.*)/error: \2/p
-                            ' $fisher_cache/.debug > $stderr
+                if test ! -L $path
+                    if not spin "__fisher_path_update $path" --error=$stderr
                         continue
                     end
                 end

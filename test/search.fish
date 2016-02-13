@@ -8,14 +8,14 @@ function -S setup
 
     __fisher_index_update
 
-    function wait
-        eval $argv
+    function spin -a commands
+        eval "$commands"
     end
 end
 
 function -S teardown
     rm -rf $path
-    functions -e wait
+    functions -e spin
 end
 
 test "$TESTNAME - Get only names from index"

@@ -4,6 +4,8 @@ complete -c fisher -n "__fish_use_subcommand" -s l -l list -d "List plugins enab
 complete -c fisher -n "__fish_use_subcommand" -s h -l help -d "Display help"
 complete -c fisher -n "__fish_use_subcommand" -s v -l version -d "Show version information"
 
+complete -c fisher -a "fisherman" -d "Update Fisherman" -n "__fish_seen_subcommand_from update"
+
 complete -c fisher -a "\t"                              -n "__fish_seen_subcommand_from search"
 complete -c fisher -l "name"    -d "Filter by name"     -n "__fish_seen_subcommand_from search"
 complete -c fisher -l "url"     -d "Filter by url"      -n "__fish_seen_subcommand_from search"
@@ -25,6 +27,10 @@ for option in commands guides
     end
 end
 
+if test ! -e $fisher_cache/.index
+    exit
+end
+
 set -l plugins (
     if test -s $fisher_file
         __fisher_file < $fisher_file | __fisher_name
@@ -32,7 +38,6 @@ set -l plugins (
     )
 
 begin
-
     awk -F '\n' -v RS='' -v OFS=';' '/^ *#/ { next } { print $1, $3 }' $fisher_cache/.index
     __fisher_cache_list
 
@@ -43,7 +48,4 @@ end | sort -ut ';' -k1,1 | while read -l name info
     else
         complete -c fisher -n "__fish_seen_subcommand_from i install" -a "$name" -d "$info"
     end
-
 end
-
-complete -c fisher -n "__fish_seen_subcommand_from update" -a "fisherman" -d "Update Fisherman"

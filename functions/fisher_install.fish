@@ -53,11 +53,11 @@ function fisher_install -d "Install Plugins"
 
         switch "$item"
             case https://gist.github.com\*
-                if set -l name (wait "__fisher_gist_to_name $item")
+                if set -l name (__fisher_gist_to_name $item)
                     printf "%s %s\n" $item $name
                 else
                     set total (math $total - 1)
-                    printf "fisher: '%s' is not a valid Gist or URL.\n" $item > $stderr
+                    printf "fisher: Repository '%s' not found.\n" $item > $stderr
                 end
 
             case \*/\*
@@ -105,14 +105,7 @@ function fisher_install -d "Install Plugins"
             if test -d "$url"
                 command ln -sfF $url $path
 
-            else if not wait "__fisher_url_clone $url $path"
-                printf "fisher: Repository not found: '%s'\n" $url > $stderr
-
-                switch "$url"
-                    case \*oh-my-fish\*
-                        printf "Did you miss a 'plugin-' or 'theme-' prefix?\n" > $stderr
-                end
-
+            else if not spin "__fisher_url_clone $url $path" --error=$stderr
                 continue
             end
         end
@@ -120,7 +113,8 @@ function fisher_install -d "Install Plugins"
         set -l deps (__fisher_deps_install "$path")
 
         if not __fisher_path_make "$path" --quiet
-            printf "fisher: Failed to build '%s'. See '%s/Makefile'.\n" $name $path > $stderr
+            set total (math $total - 1)
+            continue
         end
 
         __fisher_plugin_enable "$name" "$path"

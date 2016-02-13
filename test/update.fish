@@ -6,7 +6,7 @@ function -S setup
     source $DIRNAME/helpers/config-mock.fish $path/config
 
     function __fisher_path_update
-        echo "$argv"
+        echo "$argv[1]"
     end
 
     fisher install foo --quiet
@@ -21,9 +21,9 @@ function -S teardown
 end
 
 test "$TESTNAME - Update plugin path"
-    (cat $path/foo) = "$path/config/cache/foo --log=$path/config/cache/.debug"
+    (cat $path/foo) = "$path/config/cache/foo"
 end
 
-test "$TESTNAME - Update index and Fisherman's home"
+test "$TESTNAME - Update Index and \$fisher_home"
     (cat $path/self) = $fisher_home
 end
