@@ -5,7 +5,7 @@ function -S setup
 
     function fisher_$mock_command
         if not set -q argv[1]
-            echo usage:...
+            echo Usage:...
             return 1
         end
         awk $argv
@@ -17,7 +17,7 @@ function -S teardown
 end
 
 test "$TESTNAME - Evaluate `fisher_' (sub) commands"
-    (fisher $mock_command) = usage:...
+    (fisher $mock_command) = Usage:...
 end
 
 test "$TESTNAME - Commands can read standard input"
@@ -33,7 +33,7 @@ test "$TESTNAME - Handle \$fisher_alias aliases"
 end
 
 test "$TESTNAME - Display usage help"
-    (fisher | sed 1q) = "usage: fisher <command> [<args>] [--list] [--version] [--help]"
+    (fisher | sed 1q) = "Usage: fisher <command> [<args>] [--list] [--version] [--help]"
 end
 
 test "$TESTNAME - Display basic information about using the `help' command by default"

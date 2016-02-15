@@ -78,7 +78,7 @@ function fish
                 set flags $flags $value
 
             case h help
-                printf "usage: $_ [OPTIONS] [-c command] [FILE [ARGUMENTS...]]\n"
+                printf "Usage: $_ [OPTIONS] [-c command] [FILE [ARGUMENTS...]]\n"
                 return
 
             case \*

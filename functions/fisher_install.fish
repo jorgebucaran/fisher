@@ -17,7 +17,7 @@ function fisher_install -d "Install Plugins"
                 set stderr /dev/null
 
             case h
-                printf "usage: fisher install [<plugins>] [--force] [--quiet] [--help]\n\n"
+                printf "Usage: fisher install [<plugins>] [--force] [--quiet] [--help]\n\n"
 
                 printf "    -f --force  Reinstall given plugin/s\n"
                 printf "    -q --quiet  Enable quiet mode\n"
@@ -72,7 +72,7 @@ function fisher_install -d "Install Plugins"
 
                 else
                     set total (math $total - 1)
-                    printf "fisher: '%s' not found.\n" $item > $stderr
+                    printf "fisher: '%s' not found or index out of date.\n" $item > $stderr
                 end
         end
 

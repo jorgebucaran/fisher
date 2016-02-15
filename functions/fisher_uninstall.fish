@@ -17,7 +17,7 @@ function fisher_uninstall -d "Uninstall Plugins"
                 set stderr /dev/null
 
             case h
-                printf "usage: fisher uninstall [<plugins>] [--force] [--quiet] [--help]\n\n"
+                printf "Usage: fisher uninstall [<plugins>] [--force] [--quiet] [--help]\n\n"
 
                 printf "    -f --force  Delete copy from cache\n"
                 printf "    -q --quiet  Enable quiet mode\n"
