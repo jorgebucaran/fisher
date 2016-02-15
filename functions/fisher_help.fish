@@ -33,7 +33,7 @@ function fisher_help -d "Show Help"
                 set option help
 
             case h
-                printf "usage: fisher help [<keyword>] [--all] [--guides] [--help]\n\n"
+                printf "Usage: fisher help [<keyword>] [--all] [--guides] [--help]\n\n"
 
                 printf "              -a --all  List available documentation\n"
                 printf "           -g --guides  List available guides\n"

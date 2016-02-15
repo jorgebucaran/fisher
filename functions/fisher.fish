@@ -59,9 +59,7 @@ function fisher -d "Fish Plugin Manager"
             eval "fisher_$value" (printf "%s\n" "'"$argv"'")
 
         case list
-            if not __fisher_list $value
-                return 1
-            end
+            __fisher_list $value
 
         case version
             sed 's/^/fisher version /;q' $fisher_home/VERSION
@@ -71,7 +69,7 @@ function fisher -d "Fish Plugin Manager"
                 set value commands
             end
 
-            printf "usage: fisher <command> [<args>] [--list] [--version] [--help]\n\n"
+            printf "Usage: fisher <command> [<args>] [--list] [--version] [--help]\n\n"
 
             switch commands
                 case $value

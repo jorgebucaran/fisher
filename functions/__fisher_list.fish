@@ -10,13 +10,19 @@ function __fisher_list -a source
 
         case "" all cache
             set -l enabled (__fisher_list $fisher_file)
+            set -l cache (__fisher_cache_list)
+
+            if test -z "$cache"
+                return 1
+            end
+
             set -l legend " "
 
             if test -z "$enabled"
                 set legend ""
             end
 
-            for i in (__fisher_cache_list)
+            for i in $cache
                 if contains -- $i $enabled
                     if test $i = "$fisher_prompt"
                         printf "%s%s\n" ">" $i
