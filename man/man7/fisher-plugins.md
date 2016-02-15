@@ -71,7 +71,7 @@ cat > wtc.fish
 function wtc -d "Generate a random commit message"
     switch "$argv"
         case -h --help
-            printf "usage: wtc [--help]\n\n"
+            printf "Usage: wtc [--help]\n\n"
             printf "  -h --help  Show usage help\n"
             return
     end

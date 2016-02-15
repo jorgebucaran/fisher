@@ -1,7 +1,7 @@
 function -S setup
     function foo
-        printf "%s\n" "usage: foo [options] ..."
-        printf "%s\n" "options:"
+        printf "%s\n" "Usage foo [options] ..."
+        printf "%s\n" "Options:"
         printf "%s\n" "  --version Show version"
         printf "%s\n" "  -h --help Show help"
     end

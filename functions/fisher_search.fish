@@ -61,7 +61,7 @@ function fisher_search -d "Search Plugins"
                 set quiet 1
 
             case h
-                printf "usage: fisher search [<plugins>] [--and|--or] [--quiet] [--help]\n\n"
+                printf "Usage: fisher search [<plugins>] [--and|--or] [--quiet] [--help]\n\n"
 
                 printf "    *--<field>  Filter by url, name, info, author or tags\n"
                 printf "       -o --or  Join query with OR operator\n"
@@ -135,7 +135,7 @@ function fisher_search -d "Search Plugins"
         author = \$5
     }
 
-    $query { print $fields } " $index | awk -v quiet=$quiet '
+    $query { print $fields } " $index ^ /dev/null | awk -v quiet=$quiet '
 
         !/^ *$/ { hasRecords = 1 } {
             if (quiet) {

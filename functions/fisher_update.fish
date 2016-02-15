@@ -18,7 +18,7 @@ function fisher_update -d "Update Plugins/Fisherman"
                 set stderr /dev/null
 
             case h
-                printf "usage: fisher update [<plugins>] [--quiet] [--help]\n\n"
+                printf "Usage: fisher update [<plugins>] [--quiet] [--help]\n\n"
                 printf "    -q --quiet  Enable quiet mode\n"
                 printf "     -h --help  Show usage help\n"
                 return
