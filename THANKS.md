@@ -8,4 +8,4 @@ The following individuals have contributed to Fisherman. :heart:
 * [Ian](https://github.com/ViViDboarder)
 * [Jorge Bucaran](https://github.com/bucaran)
 * [Kevin Ballard](https://github.com/kballard)
-* [Mizuki Fujiwara](https://github.com/zukif)
+* [Mizuki](https://github.com/zukif)
