@@ -10,7 +10,7 @@ function fisher_help -d "Show Help"
     getopts $argv | while read -l 1 2
         switch "$1"
             case _
-                set option manual
+                set option man
                 set value $2
 
             case a all
@@ -25,7 +25,7 @@ function fisher_help -d "Show Help"
                 set option $option commands
                 set value $2
 
-            case u usage
+            case usage
                 set option usage
                 set value $value $2
 
@@ -35,15 +35,15 @@ function fisher_help -d "Show Help"
             case h
                 printf "Usage: fisher help [<keyword>] [--all] [--guides] [--help]\n\n"
 
-                printf "              -a --all  List available documentation\n"
-                printf "           -g --guides  List available guides\n"
-                printf "    -u --usage[=<cmd>]  Display command usage\n"
-                printf "             -h --help  Show usage help\n"
+                printf "           -a --all  List available documentation\n"
+                printf "        -g --guides  List available guides\n"
+                printf "    --usage[=<cmd>]  Display command usage\n"
+                printf "          -h --help  Show usage help\n"
                 return
 
             case \*
                 printf "fisher: '%s' is not a valid option.\n" $1 > /dev/stderr
-                fisher_help --help > /dev/stderr
+                fisher_help -h > /dev/stderr
                 return 1
         end
     end
@@ -56,7 +56,7 @@ function fisher_help -d "Show Help"
         case help
             man fisher-help
 
-        case manual
+        case man
             set -l value (printf "%s\n" $value | awk '{ print tolower($0) }')
 
             switch "$value"
@@ -68,50 +68,22 @@ function fisher_help -d "Show Help"
             end
 
         case usage
-            if test -z "$value"
-                set -e value
-                sed -E 's/^ *([^ ]+).*/\1/' | while read -l command
-                    if functions -q fisher_$command
-                        set value $command $value
-                    end
-                end
-            end
-
-            for command in $value
-                fisher $command -h
-            end
+            __fisher_help_usage $value
 
         case \*
-            switch "$value"
-                case bare
-                case \*
-                    fisher --help=$option
-                    return
+            if test "$value" != bare
+                fisher --help=$option
+                return
             end
 
-            switch commands
-                case $option
-                    functions -a | grep '^fisher_[^_]*$' | while read -l func
-                        functions $func | awk '
-                            /^$/ { next } {
-                                printf("  %s\t", substr($2, 8))
-                                gsub("\'","")
+            begin
+                if contains -- commands $option
+                    __fisher_help_commands
+                end
 
-                                for (i=4; i<=NF && $i!~/^--.*/; i++) {
-                                    printf("%s ", $i)
-                                }
-
-                                print ""
-                                exit
-                            }'
-                    end | column -ts\t
-            end
-
-            switch guides
-                case $option
-                    sed -nE 's/(fisher-)?(.+)\([0-9]\) -- (.+)/  \2'\t'\3/p' \
-                        {$fisher_home,$fisher_config}/man/man{5,7}/fisher*.md | sort -r
-
-            end | column -ts\t
+                if contains -- guides $option
+                    __fisher_help_guides
+                end
+            end | sed 's/^/  /;s/;/'\t'/' | column -ts\t
     end
 end
