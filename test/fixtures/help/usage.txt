@@ -21,7 +21,7 @@ Usage: fisher install [<plugins>] [--force] [--quiet] [--help]
      -h --help  Show usage help
 Usage: fisher help [<keyword>] [--all] [--guides] [--help]
 
-              -a --all  List available documentation
-           -g --guides  List available guides
-    -u --usage[=<cmd>]  Display command usage
-             -h --help  Show usage help
+           -a --all  List available documentation
+        -g --guides  List available guides
+    --usage[=<cmd>]  Display command usage
+          -h --help  Show usage help

@@ -16,7 +16,7 @@ function -S teardown
     functions -e fisher_$mock_command
 end
 
-test "$TESTNAME - Evaluate `fisher_' (sub) commands"
+test "$TESTNAME - Evaluate fisher_ (sub) commands"
     (fisher $mock_command) = Usage:...
 end
 
@@ -36,7 +36,7 @@ test "$TESTNAME - Display usage help"
     (fisher | sed 1q) = "Usage: fisher <command> [<args>] [--list] [--version] [--help]"
 end
 
-test "$TESTNAME - Display basic information about using the `help' command by default"
+test "$TESTNAME - Display basic information help info about 'help'"
     (fisher | tail -n2 | xargs) = "Use fisher help -g to list guides and other documentation. See fisher help <command or concept> to access a man page."
 end
 
