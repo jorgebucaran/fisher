@@ -6,7 +6,11 @@ function __fisher_url_from_path -a path
     if test -L "$path"
         readlink $path
     else
-        set -l url (git -C "$path" ls-remote --get-url ^ /dev/null)
+        pushd $path
+
+        set -l url (git ls-remote --get-url ^ /dev/null)
+
+        popd
 
         if test -z "$url"
             return 1
