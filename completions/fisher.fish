@@ -1,6 +1,8 @@
+set -l IFS ";"
+
 complete -xc fisher
 
-complete -c fisher -n "__fish_use_subcommand" -s l -l list -d "List plugins enabled|disabled|cache|<file>"
+complete -c fisher -n "__fish_use_subcommand" -s l -l list -d "List plugins [file]"
 complete -c fisher -n "__fish_use_subcommand" -s h -l help -d "Display help"
 complete -c fisher -n "__fish_use_subcommand" -s v -l version -d "Show version information"
 
@@ -13,18 +15,14 @@ complete -c fisher -l "info"    -d "Filter by info"     -n "__fish_seen_subcomma
 complete -c fisher -l "author"  -d "Filter by author"   -n "__fish_seen_subcommand_from search"
 complete -c fisher -l "tags"    -d "Filter by tag/s"    -n "__fish_seen_subcommand_from search"
 
-set -l IFS ";"
+__fisher_help_guides | while read -l guide info
+    complete -c fisher -n "__fish_seen_subcommand_from help" -a $guide -d "$info"
+end
 
-for option in commands guides
-    fisher_help --$option=bare | sed -E 's/^ *([^ ]+) *(.*)/\1;\2/' | while read -l command info
-        if test $option = commands
-            complete -c fisher -n "__fish_use_subcommand" -a $command -d "$info"
-
-            fisher_help --usage=$command | __fisher_complete fisher $command
-        end
-
-        complete -c fisher -n "__fish_seen_subcommand_from help" -a $command -d "$info"
-    end
+__fisher_help_commands | while read -l command info
+    complete -c fisher -n "__fish_use_subcommand" -a $command -d "$info"
+    complete -c fisher -n "__fish_seen_subcommand_from help" -a $command -d "$info"
+    eval fisher_$command -h | __fisher_complete fisher $command
 end
 
 set -l plugins (
@@ -49,5 +47,4 @@ end | sort -ut ';' -k1,1 | while read -l name info
     else
         complete -c fisher -n "__fish_seen_subcommand_from i install" -a "$name" -d "$info"
     end
-
 end
