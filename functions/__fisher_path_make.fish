@@ -1,5 +1,5 @@
 function __fisher_path_make -a path
-    if test ! -s $path/Makefile -o ! -s $path/makefile
+    if test ! -s $path/Makefile -a ! -s $path/makefile
         return
     end
 
