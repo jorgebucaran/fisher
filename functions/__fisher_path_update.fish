@@ -1,4 +1,8 @@
 function __fisher_path_update -a path
-    git -C $path checkout master --quiet ^ /dev/null
-    git -C $path pull --rebase origin master --quiet 
+    pushd $path
+
+    git checkout master --quiet ^ /dev/null
+    git pull --rebase origin master --quiet 
+
+    popd
 end

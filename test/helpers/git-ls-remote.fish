@@ -1,6 +1,6 @@
-function -S git -a 1 file ctx action
-    if test "$ctx" = "ls-remote" -a "$action" = --get-url
-        switch (basename "$file")
+function -S git
+    if contains -- ls-remote $argv
+        switch (basename (pwd))
             case foo
                 echo https://github.com/foo/foo
             case bar
