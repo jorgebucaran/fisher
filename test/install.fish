@@ -35,11 +35,11 @@ test "$TESTNAME - Append installed plugins to fishfile"
         )
 end
 
-test "$TESTNAME - Add plugin key bindings to `key_bindings.fish`"
+test "$TESTNAME - Add plugin key bindings to key_bindings.fish"
     "##foobar## ##foobar##" = (cat $path/config/key_bindings.fish | xargs)
 end
 
-test "$TESTNAME - Add `<plugin>/scripts/` to scripts directory"
+test "$TESTNAME - Add <plugin>/scripts/ to scripts directory"
     -e $path/config/scripts/norf.py
 end
 
