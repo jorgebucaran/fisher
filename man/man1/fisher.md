@@ -4,8 +4,7 @@ fisher(1) -- Fish Plugin Manager
 ## SYNOPSIS
 
 `fisher` *command* [*options*] [`--version`] [`--help`]<br>
-`fisher` `--list=cache|enabled|disabled`<br>
-`fisher` `--file`=*fishfile*<br>
+`fisher` `--list[=bare|url|all|enabled|disabled|theme|file]`<br>
 
 ## DESCRIPTION
 
