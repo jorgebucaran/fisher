@@ -1,4 +1,4 @@
-function __fisher_plugin_disable -a plugin path
+function __fisher_plugin_disable -a plugin path option
     __fisher_plugin_walk "$plugin" "$path" | while read -l class source target name
         switch "$class"
             case --bind
@@ -6,7 +6,7 @@ function __fisher_plugin_disable -a plugin path
                     )/fish/functions/fish_user_key_bindings.fish
 
             case --uninstall
-                __fisher_plugin_uninstall_handler $plugin $source
+                __fisher_plugin_uninstall_handler $plugin $source "$option"
 
             case \*
                 __fisher_plugin_unlink $name $fisher_config/$target
