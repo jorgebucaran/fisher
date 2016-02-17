@@ -1,4 +1,5 @@
 set -l path $DIRNAME/.t-$TESTNAME-(random)
+set -l option "--foobar"
 
 function -S setup
     mkdir -p $path
@@ -15,10 +16,14 @@ function -S teardown
     functions -e emit
 end
 
-test "$TESTNAME - Evaluate uninstaller with plugin name and path as arguments"
-    (__fisher_plugin_uninstall_handler foo $path/uninstall.fish | sed -n 1p) = "source foo $path/uninstall.fish"
+test "$TESTNAME - Evaluate uninstaller with path and \$option as arguments"
+    "source $path $option" = (
+        __fisher_plugin_uninstall_handler foo $path/uninstall.fish $option | sed -n 1p
+        )
 end
 
-test "$TESTNAME - Emit uninstall_<plugin> events with path as argument"
-    (__fisher_plugin_uninstall_handler foo $path/uninstall.fish | sed -n 2p) = "emit uninstall_foo $path/uninstall.fish"
+test "$TESTNAME - Emit uninstall_<plugin> events with path and \$option as argument"
+    "emit uninstall_foo $path $option" = (
+        __fisher_plugin_uninstall_handler foo $path/uninstall.fish $option | sed -n 2p
+        )
 end
