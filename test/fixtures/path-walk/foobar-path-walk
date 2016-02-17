@@ -20,7 +20,6 @@
 -- functions/foobar.pl
 -- functions/foobar.awk
 -- functions/foobar.sed
--- scripts/norf.py
 -- functions/quux.awk
 --man man/man1/foobar.1
 --man man/man2/foobar.2

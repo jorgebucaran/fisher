@@ -37,10 +37,6 @@ test "$TESTNAME - Remove plugin key bindings from key_bindings.fish"
     -z (cat $path/config/key_bindings.fish | xargs)
 end
 
-test "$TESTNAME - Remove plugin scripts from \$fisher_config/scripts"
-    ! -e $path/config/scripts/norf.py
-end
-
 test "$TESTNAME - Remove plugin \$fisher_config/completions"
     ! -e $path/config/completions/foobar.fish
 end

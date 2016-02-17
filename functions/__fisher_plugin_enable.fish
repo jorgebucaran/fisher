@@ -7,7 +7,7 @@ function __fisher_plugin_enable -a plugin path
 
             # While this is true for fish_prompt and fish_right_prompt, a prompt is no
             # different from other plugins and may optionally include other functions,
-            # shared scripts, completions, documentation, etc.
+            # scripts, completions, documentation, etc., which need also be removed.
 
             __fisher_plugin_disable "$fisher_prompt" "$fisher_cache/$fisher_prompt"
         end

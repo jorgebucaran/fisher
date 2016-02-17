@@ -23,7 +23,7 @@ test "$TESTNAME - Local paths are installed as symbolic links"
     -L $path/config/cache/baz
 end
 
-for file in cache completions conf.d functions man scripts fishfile key_bindings.fish
+for file in cache completions conf.d functions man fishfile key_bindings.fish
     test "$TESTNAME - Add plugin $file to \$fisher_config/$file"
         -e $path/config/$file
     end
@@ -37,10 +37,6 @@ end
 
 test "$TESTNAME - Add plugin key bindings to key_bindings.fish"
     "##foobar## ##foobar##" = (cat $path/config/key_bindings.fish | xargs)
-end
-
-test "$TESTNAME - Add <plugin>/scripts/ to scripts directory"
-    -e $path/config/scripts/norf.py
 end
 
 test "$TESTNAME - cache/.index is a copy of the URL in \$fisher_index"

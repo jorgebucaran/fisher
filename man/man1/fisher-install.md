@@ -28,7 +28,7 @@ Shortcuts to other common Git repository hosting services are also available:
 * *gl*/owner/repo `>` https://gitlab.com/owner/repo<br>
 * *omf*/owner/repo `>` https://github.com/oh-my-fish/repo<br>
 
-If a URL is given, the repository is cloned to `$fisher_cache` the first time and any relevant plugin files are copied to `$fisher_config` functions, completions, conf.d, scripts and man directories.
+If a URL is given, the repository is cloned to `$fisher_cache` the first time and any relevant plugin files are copied to `$fisher_config` functions, completions, conf.d and man directories.
 
 If the plugin already exists in `$fisher_cache`, the files are only copied to `$fisher_config`. To update a plugin use `fisher update`.
 
