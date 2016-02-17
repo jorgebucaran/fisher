@@ -97,7 +97,7 @@ function fisher_install -d "Install Plugins"
                 set index (math $index + 1)
         end
 
-        command mkdir -p $fisher_config/{functions,scripts,completions,conf.d,man} $fisher_cache
+        command mkdir -p $fisher_config/{functions,completions,conf.d,man} $fisher_cache
 
         set -l path $fisher_cache/$name
 

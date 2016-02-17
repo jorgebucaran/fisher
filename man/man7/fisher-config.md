@@ -17,7 +17,7 @@ Using the following variables, you can customize the locations of the cache, ind
     The home directory. If you installed Fisherman using the recommended method `curl -sL install.fisherman.sh | fish`, the location will be `$XDG_DATA_HOME/fisherman`. If you clone Fisherman and run `make` yourself, `$fisher_home` will the current working directory.
 
 * `$fisher_config`:
-    The user configuration directory. This is default location of your user *fishfile*, Fisherman *key_bindings.fish* file and the *cache*, *functions*, *completions*, *conf.d* and *scripts* directories. `$XDG_CONFIG_HOME/fisherman` by default.
+    The user configuration directory. This is default location of your user *fishfile*, Fisherman *key_bindings.fish* file and the *cache*, *functions*, *completions* and *conf.d* directories. `$XDG_CONFIG_HOME/fisherman` by default.
 
 * `$fisher_file`:
     This file keeps a list of what plugins you have installed and are currently enabled. `$fisher_config/fishfile` by default. See `fisher help fishfile` for details.

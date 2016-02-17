@@ -27,16 +27,10 @@ function __fisher_plugin_walk -a plugin path
         end
     end
 
-    for prefix in functions scripts ""
-        for file in $path/$prefix/*.{py,rb,php,pl,awk,sed}
-            set -l base (basename $file)
+    for file in $path/{functions/,}*.{py,rb,php,pl,awk,sed}
+        set -l base (basename $file)
 
-            if test -z "$prefix"
-                set prefix functions
-            end
-
-            printf "%s %s %s\n" -- $file $prefix/$base
-        end
+        printf "%s %s %s\n" -- $file functions/$base
     end
 
     for n in (seq 9)

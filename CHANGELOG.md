@@ -1,20 +1,38 @@
 # Change Log
 
-## [0.8.0][v080] - 2016-02-15
+## [0.8.0][v080] - 2016-02-17
 
-* Add new **debug** mode enabled by setting a new `$fisher_debug` global / universal variable. For advanced logging and color options, install: [`fish_debug`](https://github.com/fishery/debug).
+* Welcome aboard @pickfire, our newest Fisherman organization member*!*
+
+* Add a new ***debug*** :bug: mode that can be enabled by setting the new `$fisher_debug` global variable.
 
     ```fish
-    fisher install debug
+    set -g fish_debug # or set -gx fish_debug
     ```
 
-This mode makes commands behave verbosely and forces Fisherman to log all kinds of diagnostic information as well as run some simple health checks.
+    This mode makes commands behave more verbosely and causes Fisherman to log all kinds of diagnostic information.
 
-* Several updates to the [website][http://fisherman.sh]. Changed to using the new SVG logo. More appeal using grammar tweaks. Drop some hardly ever used favicons and switch from SourceCodePro to Monaco style monospace fonts that load faster and cause less pollution.
+    The default behavior is to log everything. To filter a specific set of logs add one or more keywords to the `fish_debug` variable.
 
-* Renamed core function `wait` to `spin` to reflect usage more accurately and updated its usage across Fisherman accordingly.
+    ```fish
+    set -gx fish_debug install uninstall
+    ```
 
-* Renamed `$fisher_key_bindings` variable to `$fisher_binds` because it's shorter to type and makes `config.fish` look neater.
+    The above will cause logs with *only* those keywords to be displayed. In this case, `fisher_install` and `fisher_uninstall`
+
+* **Rewrite** the Fisherman installer with a new and improved look and added a `TRY_ME` mode in which Fisherman is not installed and the installer explains what will be run in the user's machine.
+
+    ![Installing Fisherman](https://cloud.githubusercontent.com/assets/8317250/13040276/5f0e5350-d3ed-11e5-8994-3488f80c6494.gif)
+
+* **Rename** core function `wait` to `spin` to reflect usage more accurately and updated its usage across Fisherman accordingly.
+
+* :warning: **Remove** `scripts` directory in favor of using a `functions` or the root directory for sharing scripts. Using a `scripts` directory does not solve the main problem of sharing scripts with the same name, so this addition was deemed of little value. In the future, a more robust way to avoid name collisions when sharing scripts would be nice to have, but at the moment having a `scripts` directory is not solving this problem but just adding clutter to the configuration. Closes #105.
+
+* **Update** [website](http://fisherman.sh) to use the new SVG logo. Improve wording. Drop some hardly ever used *.favicons* and switch from `SourceCodePro` to `Monaco` style monospace fonts that will load faster as we don't have to include the font sources.
+
+* **Rename** `$fisher_key_bindings` variable to `$fisher_binds` because it's shorter to type and makes `config.fish` look neater.
+
+* **Add** user configuration before sourcing Fisherman configuration. Closes #104.
 
 ## [0.7.0][v070] - 2016-02-11
 
