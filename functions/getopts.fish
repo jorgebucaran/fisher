@@ -1,4 +1,4 @@
-function getopts -d "Parse CLI options"
+function getopts -d "Parse command options"
     if not set -q argv[1]
         return 1
     end
