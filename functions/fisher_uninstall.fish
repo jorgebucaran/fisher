@@ -78,7 +78,7 @@ function fisher_uninstall -d "Uninstall Plugins"
         end
 
         if __fisher_plugin_can_enable "$name" "$path"
-            __fisher_plugin_disable "$name" "$path"
+            __fisher_plugin_disable "$name" "$path" "$option"
         end
 
         if test "$option" = force
