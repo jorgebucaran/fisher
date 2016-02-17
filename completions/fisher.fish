@@ -2,7 +2,7 @@ set -l IFS ";"
 
 complete -xc fisher
 
-complete -c fisher -n "__fish_use_subcommand" -s l -l list -d "List plugins [file]"
+complete -c fisher -n "__fish_use_subcommand" -s l -l list -d "[=<file>] List plugins"
 complete -c fisher -n "__fish_use_subcommand" -s h -l help -d "Display help"
 complete -c fisher -n "__fish_use_subcommand" -s v -l version -d "Show version information"
 
