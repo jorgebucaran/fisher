@@ -20,8 +20,6 @@
 #    ├── fish_right_prompt.fish            Theme/Prompt File       *
 #    ├── fish_user_key_bindings.fish       Bindings File           Fisherman
 #    ├── quux.awk                          Script File             Fisherman OMF
-#    ├── scripts                           Script Files            Fisherman
-#    │   └── norf.py
 #    ├── functions                         Shared Functions        *
 #    │   ├── foobar-baz.fish
 #    │   ├── foobar.awk
@@ -99,7 +97,6 @@
 #    --            foobar/...       functions/foobar.pl
 #    --            foobar/...       functions/foobar.awk
 #    --            foobar/...       functions/foobar.sed
-#    --            foobar/...       scripts/norf.py
 #    --            foobar/...       functions/quux.awk
 #    --man         foobar/...       man/man1/foobar.1
 #    --man         foobar/...       man/man2/foobar.2
