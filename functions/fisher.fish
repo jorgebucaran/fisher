@@ -26,7 +26,7 @@ function fisher -d "Fish Plugin Manager"
                 end
 
                 printf "fisher: '%s' is not a valid option.\n" $1 > /dev/stderr
-                fisher --help > /dev/stderr
+                fisher -h > /dev/stderr
                 return 1
         end
     end
