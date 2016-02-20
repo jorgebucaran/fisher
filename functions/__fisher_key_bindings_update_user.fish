@@ -5,5 +5,6 @@ function __fisher_key_bindings_update_user
         }
 
         $0 !~ "^[ \t]*" src { print }
+        
     ' | fish_indent
 end

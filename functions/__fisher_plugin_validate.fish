@@ -13,7 +13,6 @@ function __fisher_plugin_validate -a plugin
                     printf "%s\n" $plugin
 
                 case \*
-
                     printf "$PWD/%s/%s" (dirname $plugin) (basename $plugin)
 
             end | sed -E 's|[./]*$||; s|/([\./])/+|/|g'

@@ -2,6 +2,8 @@ function __fisher_plugin_enable -a plugin path
     if __fisher_path_is_prompt $path
         if test ! -z "$fisher_prompt"
 
+            debug "Disable current prompt to install '%s'" $plugin
+
             # Why do we need to disable a prompt before installing another? I thought
             # one prompt would override the other?
 
@@ -33,6 +35,8 @@ function __fisher_plugin_enable -a plugin path
     __fisher_plugin_walk "$plugin" "$path" | while read -l class source target __unused
         switch "$class"
             case --bind
+                debug "Enable key bindings in '%s'" $source
+
                 __fisher_key_bindings_enable $plugin (__fisher_xdg --config
                     )/fish/functions/fish_user_key_bindings.fish < $source
 
@@ -58,9 +62,13 @@ function __fisher_plugin_enable -a plugin path
 
     if test -s $fisher_file
         if __fisher_file_contains "$item" --quiet $fisher_file
+            debug "Skip '%s' already in fishfile" $item
+
             return
         end
     end
+
+    debug "Adding '%s' to fishfile" $item
 
     printf "%s\n" $item >> $fisher_file
 end

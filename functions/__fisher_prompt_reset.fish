@@ -1,4 +1,6 @@
 function __fisher_prompt_reset
+    debug "Reset prompt '%s'" "$fisher_prompt"
+
     set -U fisher_prompt
 
     # To reset the prompt, remove any data in fisher_prompt and source any existing
@@ -10,6 +12,8 @@ function __fisher_prompt_reset
 
     for prompt in $argv/functions/fish_prompt.fish
         if test -s $prompt
+            debug "Default prompt '%s'" $prompt
+
             source $prompt
             return
         end
