@@ -53,7 +53,7 @@ For documentation and guides [see the wiki][wiki]. For questions and feedback jo
 
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
-[version-badge]: https://img.shields.io/badge/latest-v0.7.0-00B9FF.svg?style=flat-square
+[version-badge]: https://img.shields.io/badge/latest-v0.8.0-00B9FF.svg?style=flat-square
 [version-link]: https://github.com/fisherman/fisherman/releases
 [slack-link]: https://fisherman-wharf.herokuapp.com/
 [slack-badge]: https://img.shields.io/badge/slack-join%20the%20chat-00B9FF.svg?style=flat-square
