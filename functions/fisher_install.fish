@@ -39,12 +39,12 @@ function fisher_install -d "Install Plugins"
     set -l skipped
 
     if set -q plugins[1]
-
         printf "%s\n" $plugins
     else
         __fisher_file
 
     end | while read -l item
+        debug "Validate '%s'" $item
 
         if not set item (__fisher_plugin_validate $item)
             printf "fisher: '%s' is not a valid name, path or URL.\n" $item > $stderr
@@ -53,6 +53,8 @@ function fisher_install -d "Install Plugins"
 
         switch "$item"
             case https://gist.github.com\*
+                debug "Install a Gist '%s'" $item
+
                 if set -l name (__fisher_gist_to_name $item)
                     printf "%s %s\n" $item $name
                 else
@@ -61,13 +63,19 @@ function fisher_install -d "Install Plugins"
                 end
 
             case \*/\*
+                debug "Install from a URL or path '%s'" $item
+
                 printf "%s %s\n" $item (printf "%s\n" $item | __fisher_name)
 
             case \*
                 if set -l url (fisher_search --url --name=$item --index=$fisher_cache/.index)
+                    debug "Install '%s'" $item
+
                     printf "%s %s\n" $url $item
 
                 else if test -d $fisher_cache/$item
+                    debug "Install from '%s'" \$fisher_cache/$item
+
                     printf "%s %s\n" (__fisher_url_from_path $fisher_cache/$item) $item
 
                 else
@@ -103,10 +111,15 @@ function fisher_install -d "Install Plugins"
 
         if test ! -e $path
             if test -d "$url"
-                command ln -sfF $url $path
+                debug "Link '%s' to the cache" $url
 
-            else if not spin "__fisher_url_clone $url $path" --error=$stderr
-                continue
+                command ln -sfF $url $path
+            else
+                debug "Download '%s'" $url
+
+                if not spin "__fisher_url_clone $url $path" --error=$stderr
+                    continue
+                end
             end
         end
 
@@ -135,8 +148,12 @@ function fisher_install -d "Install Plugins"
         return 1
     end
 
+    debug "Pre-reset completions and key bindings"
+
     __fisher_complete_reset
     __fisher_key_bindings_reset
+
+    debug "Post-reset completions and key bindings"
 
     printf "Aye! %d plugin/s installed in %0.fs\n" $count $time > $stdout
 end
