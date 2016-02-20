@@ -8,11 +8,11 @@ getopts(1) -- Parse CLI options
 
 ## DESCRIPTION
 
-`Getopts` is a command line parser implemented in `awk(1)`, designed to process command line arguments in the easiest way possible.
+**Getopts** is a command line options parser for fish.
 
 ## USAGE
 
-The best way to understand how `getopts` work is by studying a simple example.
+The best way to understand how getopts work is by studying a basic example.
 
 ```
 getopts -ab1 --foo=bar baz
@@ -29,7 +29,7 @@ _    baz
 
 The items on the left represent the option flags or *keys* associated with the CLI. The items on the right are the option *values*. The underscore `_` character is the default *key* for arguments without a key.
 
-Use `read(1)` to process the generated stream and `switch(1)` to match patterns:
+Use read(1) to process the generated stream and switch(1) to match patterns:
 
 ```
 getopts -ab1 --foo=bar baz | while read -l key option
@@ -42,13 +42,9 @@ getopts -ab1 --foo=bar baz | while read -l key option
 end
 ```
 
-## OPTIONS
-
-None.
-
 ## EXAMPLES
 
-The following is a mock of `fish(1)` CLI missing the implementation:
+The following is a mock of fish(1) CLI.
 
 ```
 function fish
@@ -91,13 +87,9 @@ function fish
 end
 ```
 
-## BUGS
-
-* getopts does *not* read the standard input. Use getopts to collect options and the standard input to process a stream of data relevant to your program.
+## NOTES
 
 * A double dash, `--`, marks the end of options. Arguments after this sequence are placed in the default underscore key, `_`.
-
-* The getopts described in this document is *not* equivalent to the getopts *builtin* found in other shells.
 
 ## AUTHORS
 
