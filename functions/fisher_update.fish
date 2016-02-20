@@ -34,18 +34,21 @@ function fisher_update -d "Update Plugins/Fisherman"
         case self
             set -l time (date +%s)
 
+            debug "Update Fisherman"
+
             printf "Updating >> Fisherman\n" > $stderr
 
             if not spin "
                 __fisher_index_update 0
                 __fisher_path_update $fisher_home" --error=$stderr
 
-                ###
-                ###
+                debug "Update Fisherman fail"
 
                 printf "fisher: Arrr! Could not update Fisherman.\n" > $stderr
                 return 1
             end
+
+            debug "Update Fisherman complete"
 
             printf "Aye! Fisherman updated to version %s (%0.fs)\n" (
                 cat $fisher_home/VERSION) (math (date +%s) - $time) > $stderr
@@ -63,6 +66,8 @@ function fisher_update -d "Update Plugins/Fisherman"
                 __fisher_file
 
             end | while read -l item path
+
+                debug "Validate '%s'" $item
 
                 if not set item (__fisher_plugin_validate $item)
                     printf "fisher: '%s' is not a valid name, path or url.\n" $item > $stderr
@@ -89,12 +94,16 @@ function fisher_update -d "Update Plugins/Fisherman"
                 end
 
                 if test ! -L $path
+                    debug "Update plugin '%s'" "$name"
+
                     if not spin "__fisher_path_update $path" --error=$stderr
                         continue
                     end
                 end
 
                 if __fisher_plugin_can_enable "$name" "$path"
+                    debug "Install to enable '%s'" "$name"
+
                     fisher_install --quiet --force -- $name
                 end
 
