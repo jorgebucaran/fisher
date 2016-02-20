@@ -1,24 +1,22 @@
 # Change Log
 
-## [0.8.0][v080] - 2016-02-17
+## [0.8.0][v080] - 2016-02-20
 
 * Welcome aboard @pickfire, our newest Fisherman organization member*!*
 
-* Add a new ***debug*** :bug: mode that can be enabled by setting the new `$fisher_debug` global variable.
+* Add instrumentation using [debug](https://github.com/fishery/debug). To enable log display add to your `config.fish` or set at the commandline:
 
     ```fish
     set -g fish_debug # or set -gx fish_debug
     ```
 
-    This mode makes commands behave more verbosely and causes Fisherman to log all kinds of diagnostic information.
-
     The default behavior is to log everything. To filter a specific set of logs add one or more keywords to the `fish_debug` variable.
 
     ```fish
-    set -gx fish_debug install uninstall
+    set -gx fish_debug fisher_{install,uninstall}
     ```
 
-    The above will cause logs with *only* those keywords to be displayed. In this case, `fisher_install` and `fisher_uninstall`
+    The above will show logs for `fisher_install` and `fisher_uninstsall` only. To see what other options are available, see the [documentation](https://github.com/fishery/debug).
 
 * **Rewrite** the Fisherman installer with a new and improved look and added a `TRY_ME` mode in which Fisherman is not installed and the installer explains what will be run in the user's machine.
 
