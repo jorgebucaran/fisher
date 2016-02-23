@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.9.0][v090] - Not released yet
+
+* The Quickstart Guide is now available in [Chinese](https://github.com/fisherman/fisherman/wiki/快速上手指南), [Russian](https://github.com/fisherman/fisherman/wiki/Краткое-Руководство) and [Korean](https://github.com/fisherman/fisherman/wiki/빠르게-살펴보기). Thanks to @pickfire, @denji, @dfdgsdfg. You folks are awesome!
+
+* Fisherman can update plugins with a dirty working tree by recording changes in the stash and re-reapplying them again after the git-pull update strategy completes.
+
+* Add more instrumentation and fix bugs caused by `debug` calls inside plumbing functions such as `__fisher_index_update` which are used by Spin.
+
 ## [0.8.0][v080] - 2016-02-20
 
 * Welcome aboard @pickfire, our newest Fisherman organization member*!*
