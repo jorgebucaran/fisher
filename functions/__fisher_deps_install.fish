@@ -1,6 +1,4 @@
 function __fisher_deps_install -a path
-    debug "Install dependencies in '%s'" "$path"
-
     for file in $path/{fishfile,bundle}
         if test -s $file
             fisher_install < $file | sed -En 's/^.+([0-9]+) plugin\/s.*/\1/p'
