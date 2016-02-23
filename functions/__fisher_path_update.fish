@@ -1,10 +1,10 @@
 function __fisher_path_update -a path
     pushd $path
 
-    debug "Update repository '%s'" "$path"
-
-    git checkout master --quiet ^ /dev/null
+    git checkout master --quiet
+    git stash --quiet
     git pull --rebase origin master --quiet
+    git stash apply --quiet
 
     popd
 end
