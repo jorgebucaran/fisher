@@ -34,23 +34,27 @@ function fisher_update -d "Update Plugins/Fisherman"
         case self
             set -l time (date +%s)
 
-            debug "Update Fisherman"
+            debug "Update Fisherman %s" $fisher_home
+            debug "Update Index %s" $fisher_index
 
-            printf "Updating >> Fisherman\n" > $stderr
+            printf "Updating >> Index\n" > $stderr
 
-            if not spin "
-                __fisher_index_update 0
-                __fisher_path_update $fisher_home" --error=$stderr
+            if not spin "__fisher_index_update 0" --error=$stderr
+                debug "Update Index fail"
 
+                printf "fisher: I could not update the index. Trying to update Fisherman...\n" > $stderr
+            end
+
+            if not spin "__fisher_path_update $fisher_home" --error=$stderr
                 debug "Update Fisherman fail"
 
-                printf "fisher: Arrr! Could not update Fisherman.\n" > $stderr
+                printf "fisher: Sorry, but I couldn't update Fisherman.\n\n" > $stderr
                 return 1
             end
 
-            debug "Update Fisherman complete"
+            debug "Update Fisherman success"
 
-            printf "Aye! Fisherman updated to version %s (%0.fs)\n" (
+            printf "Aye! Fisherman up to date with version %s (%0.fs)\n" (
                 cat $fisher_home/VERSION) (math (date +%s) - $time) > $stderr
 
         case \*
@@ -94,15 +98,18 @@ function fisher_update -d "Update Plugins/Fisherman"
                 end
 
                 if test ! -L $path
-                    debug "Update plugin '%s'" "$name"
+                    debug "Update plugin '%s' start" "$name"
 
                     if not spin "__fisher_path_update $path" --error=$stderr
+                        debug "Update path fail '%s'" "$path"
                         continue
                     end
                 end
 
+                debug "Update plugin success '%s'" "$name"
+
                 if __fisher_plugin_can_enable "$name" "$path"
-                    debug "Install to enable '%s'" "$name"
+                    debug "Enable plugin '%s'" "$name"
 
                     fisher_install --quiet --force -- $name
                 end
