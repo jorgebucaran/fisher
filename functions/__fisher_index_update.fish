@@ -7,8 +7,6 @@ function __fisher_index_update -a timeout
         end
     end
 
-    debug "Update index with timeout '%.1f'" $timeout
-
     set -l url $fisher_index
     set -l index $fisher_cache/.index.tmp
 
@@ -18,13 +16,9 @@ function __fisher_index_update -a timeout
     end
 
     if not curl --max-time $timeout -sS "$url" > $index
-        debug "Update index fail"
-
         command rm -f $index
         return 1
     end
-
-    debug "Update index complete"
 
     command mv -f $index $fisher_cache/.index
 end
