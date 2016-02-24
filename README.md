@@ -1,6 +1,10 @@
+[![Build Status][travis-badge]][travis-link]
+[![Fisherman Version][version-badge]][version-link]
+[![Slack Room][slack-badge]][slack-link]
+
 <a name="fisherman"></a>
 
-<h3 align="center">
+<h1 align="center">
     <br>
     <a href="http://fisherman.sh">
         <img
@@ -9,12 +13,6 @@
             src="https://rawgit.com/fisherman/logo/master/fisherman-black-white.svg"></a>
     <br>
     <br>
-</h3>
-
-<h1>
-[![Build Status][travis-badge]][travis-link]
-[![Fisherman Version][version-badge]][version-link]
-[![Slack Room][slack-badge]][slack-link]
 </h1>
 
 **Fisherman** is a blazing fast, modern plugin manager for [Fish](http://fishshell.com/).
