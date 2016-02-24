@@ -4,17 +4,15 @@
 
 <a name="fisherman"></a>
 
-<h3 align="center">
+<h1 align="center">
     <br>
-    <a href="http://fisherman.sh">
-    <img
+    <a href="http://fisherman.sh"><img
         alt="Fisherman"
         width=650px
-        src="https://rawgit.com/fisherman/logo/master/fisherman-black-white.svg">
-    </a>
+        src="https://rawgit.com/fisherman/logo/master/fisherman-black-white.svg"></a>
     <br>
     <br>
-</h3>
+</h1>
 
 ```fish
 curl -sL get.fisherman.sh | fish
