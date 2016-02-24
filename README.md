@@ -18,38 +18,36 @@
 
 <hr>
 
-**Fisherman** is a blazing [fast](#performance), modern plugin manager for [Fish](http://fishshell.com/).
+**Fisherman** is a blazing fast, modern plugin manager for [Fish](http://fishshell.com/).
 
-Features include a flat tree dependency model, external self-managed index, cache mechanism, full test coverage and compatibility with Tackle, Oh My Fish! and Wahoo themes and plugins.
+Features include a flat tree dependency model, a cache system, full test coverage and [more].
 
-&nbsp; :point_right: [**Get Started**][quickstart]
+&nbsp; ▸ &nbsp; **[Get Started]**<br>
+&nbsp; ▸ &nbsp; **[Find Plugins]**
+
 
 ## Performance
 
-The following benchmarks were calculated using a 2.4 GHz Intel Core i5 MacBook Pro running on Flash Storage. See [Performance][performance] to learn more.
+Fisherman runs virtually no initialization code making it as fast as no Fisherman.
 
 ```fish
 time -p fish -ic exit
 ```
 
-Fisherman runs virtually no initialization code making it as fast as no Fisherman. Oh My Fish! has the worst performance at `0.21` seconds for a lightweight setup.
-
 <p align="center">
     <a href="https://github.com/fisherman/fisherman/wiki/Performance">
         <img
             alt="Performance"
-            width=65%
+            width=45%
             src="https://cloud.githubusercontent.com/assets/8317250/12769643/c6e2db4e-ca5c-11e5-9f4e-7d90cd072063.png">
-        <br>
-        <sup><sup>SEE MORE</sup></sup>
     </a>
 </p>
 
+See [here][performance] for the gory details.
+
 ## Documentation
 
-For documentation and guides [see the wiki][wiki]. For questions and feedback join the Slack [room][slack-link] or browse the [issues][issues].
-
-<!-- Header -->
+For documentation and guides see the [wiki]. For questions and feedback join the Slack [room][slack-link] or browse the [issues].
 
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
@@ -58,17 +56,12 @@ For documentation and guides [see the wiki][wiki]. For questions and feedback jo
 [slack-link]: https://fisherman-wharf.herokuapp.com/
 [slack-badge]: https://img.shields.io/badge/slack-join%20the%20chat-00B9FF.svg?style=flat-square
 
-<!-- About -->
-
 [fish]: https://github.com/fish-shell/fish-shell
-[quickstart]: https://github.com/fisherman/fisherman/wiki/Quickstart-Guide
+[Get Started]: https://github.com/fisherman/fisherman/wiki/Quickstart-Guide
+[Find Plugins]: http://fisherman.sh/#search
 
-<!-- Performance -->
-
-[fundle]: https://github.com/tuvistavie/fundle/blob/master/functions/fundle.fish#L232
 [performance]: https://github.com/fisherman/fisherman/wiki/Performance
-
-<!-- Documentation -->
 
 [wiki]: https://github.com/fisherman/fisherman/wiki
 [issues]: http://github.com/fisherman/fisherman/issues
+[more]: https://github.com/fisherman/fisherman/issues/69#issuecomment-179661994
