@@ -16,37 +16,16 @@
     <br>
 </h1>
 
-
-
-**Fisherman** is a blazing fast, modern plugin manager for [Fish](http://fishshell.com/).
-
-
-&nbsp; ▸ &nbsp; **[Quickstart]**<br>
-&nbsp; ▸ &nbsp; **[Plugins]**<br>
-&nbsp; ▸ &nbsp; **[Help]**<br>
-
-
-## Install
-
 ```fish
 curl -sL get.fisherman.sh | fish
 ```
 
-## Speed
+**Fisherman** is a blazing fast, modern plugin manager for [fish].
 
-Fisherman runs virtually no initialization code making it as fast as no Fisherman.
-
-<p align="center">
-    <a href="https://github.com/fisherman/fisherman/wiki/Performance">
-    <img
-        width=560px
-        alt="Performance"
-        src="https://cloud.githubusercontent.com/assets/8317250/13278821/b43c29f8-db16-11e5-837d-42f19d1dd19d.png">
-    <br>
-    <sup><sup>DETAILS</sup></sup>
-    </a>
-</p>
-
+&nbsp; ▸ &nbsp; **[Quickstart]**<br>
+&nbsp; ▸ &nbsp; **[Plugins]**<br>
+&nbsp; ▸ &nbsp; **[Speed]**<br>
+&nbsp; ▸ &nbsp; **[Help]**<br>
 
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
@@ -55,10 +34,12 @@ Fisherman runs virtually no initialization code making it as fast as no Fisherma
 [slack-link]: https://fisherman-wharf.herokuapp.com/
 [slack-badge]: https://img.shields.io/badge/slack-join%20the%20chat-00B9FF.svg?style=flat-square
 
-[fish]: https://github.com/fish-shell/fish-shell
 [Quickstart]: https://github.com/fisherman/fisherman/wiki/Quickstart-Guide
 [Plugins]: http://fisherman.sh/#search
-
 [Help]: https://github.com/fisherman/fisherman/wiki
+[Speed]: https://github.com/fisherman/fisherman/wiki/Speed
+
+[fish]: https://github.com/fish-shell/fish-shell
+
 [issues]: http://github.com/fisherman/fisherman/issues
 [more]: https://github.com/fisherman/fisherman/issues/69#issuecomment-179661994
