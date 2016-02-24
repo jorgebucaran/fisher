@@ -69,7 +69,7 @@ function fisher -d "Fish Plugin Manager"
                 set value commands
             end
 
-            printf "Usage: fisher <command> [<args>] [--list] [--version] [--help]\n\n"
+            printf "Usage: fisher <command> [<args>] [--list] [--version]\n\n"
 
             switch commands
                 case $value
