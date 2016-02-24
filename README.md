@@ -9,14 +9,13 @@
             src="https://rawgit.com/fisherman/logo/master/fisherman-black-white.svg"></a>
     <br>
     <br>
-    <br>
 </h3>
 
+<h1>
 [![Build Status][travis-badge]][travis-link]
 [![Fisherman Version][version-badge]][version-link]
 [![Slack Room][slack-badge]][slack-link]
-
-<hr>
+</h1>
 
 **Fisherman** is a blazing fast, modern plugin manager for [Fish](http://fishshell.com/).
 
@@ -26,7 +25,7 @@ Features include a flat tree dependency model, a cache system, full test coverag
 &nbsp; ▸ &nbsp; **[Find Plugins]**
 
 
-## Performance
+### Performance
 
 Fisherman runs virtually no initialization code making it as fast as no Fisherman.
 
@@ -40,10 +39,12 @@ time -p fish -ic exit
             alt="Performance"
             width=45%
             src="https://cloud.githubusercontent.com/assets/8317250/12769643/c6e2db4e-ca5c-11e5-9f4e-7d90cd072063.png">
+        <br>
+        <sup><sup>DETAILS</sup></sup>
     </a>
 </p>
 
-See [here][performance] for the gory details.
+
 
 ## Documentation
 
@@ -59,8 +60,6 @@ For documentation and guides see the [wiki]. For questions and feedback join the
 [fish]: https://github.com/fish-shell/fish-shell
 [Get Started]: https://github.com/fisherman/fisherman/wiki/Quickstart-Guide
 [Find Plugins]: http://fisherman.sh/#search
-
-[performance]: https://github.com/fisherman/fisherman/wiki/Performance
 
 [wiki]: https://github.com/fisherman/fisherman/wiki
 [issues]: http://github.com/fisherman/fisherman/issues
