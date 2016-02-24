@@ -22,7 +22,7 @@
 
 
 &nbsp; ▸ &nbsp; **[Quickstart]**<br>
-&nbsp; ▸ &nbsp; **[Plugins]** :package:<br>
+&nbsp; ▸ &nbsp; **[Plugins]**<br>
 &nbsp; ▸ &nbsp; **[Help]**<br>
 
 
