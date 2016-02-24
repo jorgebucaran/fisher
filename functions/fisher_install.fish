@@ -44,7 +44,7 @@ function fisher_install -d "Install Plugins"
         __fisher_file
 
     end | while read -l item
-        debug "Validate '%s'" $item
+        debug "Validate %s" $item
 
         if not set item (__fisher_plugin_validate $item)
             printf "fisher: '%s' is not a valid name, path or URL.\n" $item > $stderr
@@ -53,7 +53,7 @@ function fisher_install -d "Install Plugins"
 
         switch "$item"
             case https://gist.github.com\*
-                debug "Install a Gist '%s'" $item
+                debug "Install gist %s" $item
 
                 if set -l name (__fisher_gist_to_name $item)
                     printf "%s %s\n" $item $name
@@ -63,18 +63,18 @@ function fisher_install -d "Install Plugins"
                 end
 
             case \*/\*
-                debug "Install from a URL or path '%s'" $item
+                debug "Install URL %s" $item
 
                 printf "%s %s\n" $item (printf "%s\n" $item | __fisher_name)
 
             case \*
                 if set -l url (fisher_search --url --name=$item --index=$fisher_cache/.index)
-                    debug "Install '%s'" $item
+                    debug "Install %s" $item
 
                     printf "%s %s\n" $url $item
 
                 else if test -d $fisher_cache/$item
-                    debug "Install from '%s'" \$fisher_cache/$item
+                    debug "Install %s" \$fisher_cache/$item
 
                     printf "%s %s\n" (__fisher_url_from_path $fisher_cache/$item) $item
 
