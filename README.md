@@ -31,14 +31,12 @@ Fisherman runs virtually no initialization code making it as fast as no Fisherma
 time -p fish -ic exit
 ```
 
-<p align="center">
+<h3 align="left">
     <a href="https://github.com/fisherman/fisherman/wiki/Performance">
         <img
+            width=600px
             alt="Performance"
-            width=45%
-            src="https://cloud.githubusercontent.com/assets/8317250/12769643/c6e2db4e-ca5c-11e5-9f4e-7d90cd072063.png">
-        <br>
-        <sup><sup>DETAILS</sup></sup>
+            src="https://cloud.githubusercontent.com/assets/8317250/13278596/f9e958b0-db14-11e5-97e4-8cbce3d25cd3.png">
     </a>
 </p>
 
