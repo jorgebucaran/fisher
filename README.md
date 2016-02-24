@@ -7,17 +7,16 @@
 <h1 align="center">
     <br>
     <a href="http://fisherman.sh">
-        <img
-            alt="Fisherman"
-            width=650px
-            src="https://rawgit.com/fisherman/logo/master/fisherman-black-white.svg"></a>
+    <img
+        alt="Fisherman"
+        width=650px
+        src="https://rawgit.com/fisherman/logo/master/fisherman-black-white.svg">
+    </a>
     <br>
     <br>
 </h1>
 
 **Fisherman** is a blazing fast, modern plugin manager for [Fish](http://fishshell.com/).
-
-Features include a flat tree dependency model, a cache system, full test coverage and [more].
 
 &nbsp; ▸ &nbsp; **[Get Started]**<br>
 &nbsp; ▸ &nbsp; **[Find Plugins]**
@@ -34,7 +33,7 @@ time -p fish -ic exit
 <h3 align="center">
     <a href="https://github.com/fisherman/fisherman/wiki/Performance">
         <img
-            width=600px
+            width=560px
             alt="Performance"
             src="https://cloud.githubusercontent.com/assets/8317250/13278821/b43c29f8-db16-11e5-837d-42f19d1dd19d.png">
     </a>
