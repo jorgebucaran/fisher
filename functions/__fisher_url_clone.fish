@@ -1,3 +1,3 @@
 function __fisher_url_clone -a url path
-    git clone -q --depth 1 $url $path
+    env GIT_ASKPASS=/bin/echo git clone -q --depth 1 $url $path
 end
