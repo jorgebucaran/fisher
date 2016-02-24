@@ -16,34 +16,42 @@
     <br>
 </h1>
 
+
+
 **Fisherman** is a blazing fast, modern plugin manager for [Fish](http://fishshell.com/).
 
+
 &nbsp; ▸ &nbsp; **[Get Started]**<br>
-&nbsp; ▸ &nbsp; **[Find Plugins]**
+&nbsp; ▸ &nbsp; **[Find Plugins]** :mag_right:
 
 
-### Performance
+## Install
+
+```fish
+curl -sL get.fisherman.sh | fish
+```
+
+
+## Help
+
+For documentation and tutorials see the [wiki]. For questions and feedback join the Slack [room][slack-link] or browse the [issues].
+
+
+## Speed
 
 Fisherman runs virtually no initialization code making it as fast as no Fisherman.
 
-```fish
-time -p fish -ic exit
-```
-
-<h3 align="center">
+<p align="center">
     <a href="https://github.com/fisherman/fisherman/wiki/Performance">
-        <img
-            width=560px
-            alt="Performance"
-            src="https://cloud.githubusercontent.com/assets/8317250/13278821/b43c29f8-db16-11e5-837d-42f19d1dd19d.png">
+    <img
+        width=560px
+        alt="Performance"
+        src="https://cloud.githubusercontent.com/assets/8317250/13278821/b43c29f8-db16-11e5-837d-42f19d1dd19d.png">
+    <br>
+    <sup><sup>DETAILS</sup></sup>
     </a>
 </p>
 
-
-
-## Documentation
-
-For documentation and guides see the [wiki]. For questions and feedback join the Slack [room][slack-link] or browse the [issues].
 
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
