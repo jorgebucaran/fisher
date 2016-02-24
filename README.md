@@ -36,7 +36,7 @@ time -p fish -ic exit
         <img
             width=600px
             alt="Performance"
-            src="https://cloud.githubusercontent.com/assets/8317250/13278710/dc83f98c-db15-11e5-802e-9e525cebbe2f.png">
+            src="https://cloud.githubusercontent.com/assets/8317250/13278821/b43c29f8-db16-11e5-837d-42f19d1dd19d.png">
     </a>
 </p>
 
