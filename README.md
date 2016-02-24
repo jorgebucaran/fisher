@@ -4,7 +4,7 @@
 
 <a name="fisherman"></a>
 
-<h1 align="center">
+<h3 align="center">
     <br>
     <a href="http://fisherman.sh">
     <img
@@ -14,7 +14,7 @@
     </a>
     <br>
     <br>
-</h1>
+</h3>
 
 ```fish
 curl -sL get.fisherman.sh | fish
