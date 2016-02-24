@@ -123,7 +123,13 @@ function fisher_install -d "Install Plugins"
             end
         end
 
+        debug "Resolve dependencies %s" "$path"
+
         set -l deps (__fisher_deps_install "$path")
+
+        if test "$deps" -gt 0
+            debug "Install dependencies success"
+        end
 
         if not __fisher_path_make "$path" --quiet
             set total (math $total - 1)
