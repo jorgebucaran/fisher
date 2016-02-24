@@ -21,8 +21,9 @@
 **Fisherman** is a blazing fast, modern plugin manager for [Fish](http://fishshell.com/).
 
 
-&nbsp; ▸ &nbsp; **[Get Started]**<br>
-&nbsp; ▸ &nbsp; **[Find Plugins]** :mag_right:
+&nbsp; ▸ &nbsp; **[Quickstart]**<br>
+&nbsp; ▸ &nbsp; **[Plugins]** :package:<br>
+&nbsp; ▸ &nbsp; **[Help]**<br>
 
 
 ## Install
@@ -30,12 +31,6 @@
 ```fish
 curl -sL get.fisherman.sh | fish
 ```
-
-
-## Help
-
-For documentation and tutorials see the [wiki]. For questions and feedback join the Slack [room][slack-link] or browse the [issues].
-
 
 ## Speed
 
@@ -61,9 +56,9 @@ Fisherman runs virtually no initialization code making it as fast as no Fisherma
 [slack-badge]: https://img.shields.io/badge/slack-join%20the%20chat-00B9FF.svg?style=flat-square
 
 [fish]: https://github.com/fish-shell/fish-shell
-[Get Started]: https://github.com/fisherman/fisherman/wiki/Quickstart-Guide
-[Find Plugins]: http://fisherman.sh/#search
+[Quickstart]: https://github.com/fisherman/fisherman/wiki/Quickstart-Guide
+[Plugins]: http://fisherman.sh/#search
 
-[wiki]: https://github.com/fisherman/fisherman/wiki
+[Help]: https://github.com/fisherman/fisherman/wiki
 [issues]: http://github.com/fisherman/fisherman/issues
 [more]: https://github.com/fisherman/fisherman/issues/69#issuecomment-179661994
