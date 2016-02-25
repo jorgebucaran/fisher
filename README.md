@@ -8,7 +8,7 @@
     <br>
     <a href="http://fisherman.sh"><img
         alt="Fisherman"
-        width=650px
+        width=700px
         src="https://rawgit.com/fisherman/logo/master/fisherman-black-white.svg"></a>
     <br>
     <br>

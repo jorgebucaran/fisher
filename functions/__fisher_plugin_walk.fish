@@ -1,11 +1,11 @@
 function __fisher_plugin_walk -a plugin path
-    debug "Walk tree in '%s'" "$path"
+    debug "Walk %s" "$path"
 
     for file in $path/{*,{conf.d,modules}/*,functions/**}.{fish,load} $path/completions/*.fish
         set -l name (basename $file .fish)
         set -l base $name.fish
 
-        debug "File '%s'" $file
+        debug "File %s" $file
 
         switch $file
             case \*/{fish_user_,}key_bindings.fish
