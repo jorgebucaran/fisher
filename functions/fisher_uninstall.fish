@@ -18,10 +18,9 @@ function fisher_uninstall -d "Uninstall Plugins"
 
             case h
                 printf "Usage: fisher uninstall [<plugins>] [--force] [--quiet] [--help]\n\n"
-
-                printf "    -f --force  Delete copy from cache\n"
-                printf "    -q --quiet  Enable quiet mode\n"
-                printf "     -h --help  Show usage help\n"
+                printf "    -f --force     Delete copy from cache\n"
+                printf "    -q --quiet     Enable quiet mode\n"
+                printf "    -h --help      Show usage help\n"
                 return
 
             case \*

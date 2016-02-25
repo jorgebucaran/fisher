@@ -1,27 +1,27 @@
 Usage: fisher update [<plugins>] [--quiet] [--help]
 
-    -q --quiet  Enable quiet mode
-     -h --help  Show usage help
+    -q --quiet     Enable quiet mode
+    -h --help      Show usage help
 Usage: fisher uninstall [<plugins>] [--force] [--quiet] [--help]
 
-    -f --force  Delete copy from cache
-    -q --quiet  Enable quiet mode
-     -h --help  Show usage help
+    -f --force     Delete copy from cache
+    -q --quiet     Enable quiet mode
+    -h --help      Show usage help
 Usage: fisher search [<plugins>] [--and|--or] [--quiet] [--help]
 
-    *--<field>  Filter by url, name, info, author or tags
-       -o --or  Join query with OR operator
-      -a --and  Join query with AND operator
-    -q --quiet  Enable quiet mode
-     -h --help  Show usage help
+    --<field> x    Filter by url, name, info, author or tags
+    -a --and       Join query with AND operator
+    -o --or        Join query with OR operator
+    -q --quiet     Enable quiet mode
+    -h --help      Show usage help
 Usage: fisher install [<plugins>] [--force] [--quiet] [--help]
 
-    -f --force  Reinstall given plugin/s
-    -q --quiet  Enable quiet mode
-     -h --help  Show usage help
+    -f --force     Reinstall given plugin/s
+    -q --quiet     Enable quiet mode
+    -h --help      Show usage help
 Usage: fisher help [<keyword>] [--all] [--guides] [--help]
 
-           -a --all  List available documentation
-        -g --guides  List available guides
+    -a --all       List available documentation
+    -g --guides    List available guides
+    -h --help      Show usage help
     --usage[=<cmd>]  Display command usage
-          -h --help  Show usage help
