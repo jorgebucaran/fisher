@@ -29,16 +29,12 @@ function fisher_help -d "Show Help"
                 set option usage
                 set value $value $2
 
-            case help
-                set option help
-
             case h
                 printf "Usage: fisher help [<keyword>] [--all] [--guides] [--help]\n\n"
-
-                printf "           -a --all  List available documentation\n"
-                printf "        -g --guides  List available guides\n"
+                printf "    -a --all       List available documentation\n"
+                printf "    -g --guides    List available guides\n"
+                printf "    -h --help      Show usage help\n"
                 printf "    --usage[=<cmd>]  Display command usage\n"
-                printf "          -h --help  Show usage help\n"
                 return
 
             case \*
@@ -53,9 +49,6 @@ function fisher_help -d "Show Help"
     end
 
     switch "$option"
-        case help
-            man fisher-help
-
         case man
             set -l value (printf "%s\n" $value | awk '{ print tolower($0) }')
 
