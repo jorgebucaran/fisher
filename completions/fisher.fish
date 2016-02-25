@@ -32,12 +32,7 @@ set -l plugins (
     )
 
 begin
-    awk -F '\n' -v RS='' -v OFS=';' '
-
-        /^ *#/ { next } { print $1, $3 }
-
-    ' $fisher_cache/.index ^ /dev/null
-
+    awk -F '\n' -v RS='' -v OFS=';' ' { print $1, $3 } ' $fisher_cache/.index ^ /dev/null
     __fisher_cache_list
 
 end | sort -ut ';' -k1,1 | while read -l name info
