@@ -6,7 +6,7 @@ function __fisher_file_remove -a plugin file
             set pattern "/^$pattern\$/d"
         end
 
-        debug "Remove '%s' from fishfile '%s'" "$plugin" "$file"
+        debug "Fishfile remove %s" "$plugin"
 
         sed -E "$pattern" < $file > $file.tmp
 
