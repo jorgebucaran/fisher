@@ -1,4 +1,4 @@
-SHELL:=/bin/bash -O nullglob
+SHELL:=/usr/bin/env bash -O nullglob
 
 XDG_CONFIG_HOME ?= $$HOME/.config
 FISH_CONFIG := $(XDG_CONFIG_HOME)/fish/config.fish
