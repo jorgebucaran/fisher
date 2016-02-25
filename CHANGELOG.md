@@ -6,6 +6,8 @@
 
 * Update plugins with a dirty working tree by recording changes in the stash and re-reapplying them again after the git-pull update strategy completes.
 
+* Improve `__fisher_name` name resolution from paths or URLs more accurately. Now correctly process names paths such as `fisher-plugin-*`, `fisher-theme-*` and other permutations.
+
 * Make `__fisher_key_bindings_undo` smarter by supporting more complex `bind` expressions, such as those inside conditional statements. Close #121.
 
 * The Quickstart Guide is now available in [Chinese](https://github.com/fisherman/fisherman/wiki/快速上手指南), [Russian](https://github.com/fisherman/fisherman/wiki/Краткое-Руководство) and [Korean](https://github.com/fisherman/fisherman/wiki/빠르게-살펴보기). Thanks to @pickfire, @denji, @dfdgsdfg. You folks are awesome!
