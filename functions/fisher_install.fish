@@ -18,10 +18,9 @@ function fisher_install -d "Install Plugins"
 
             case h
                 printf "Usage: fisher install [<plugins>] [--force] [--quiet] [--help]\n\n"
-
-                printf "    -f --force  Reinstall given plugin/s\n"
-                printf "    -q --quiet  Enable quiet mode\n"
-                printf "     -h --help  Show usage help\n"
+                printf "    -f --force     Reinstall given plugin/s\n"
+                printf "    -q --quiet     Enable quiet mode\n"
+                printf "    -h --help      Show usage help\n"
                 return
 
             case \*

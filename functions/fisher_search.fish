@@ -62,12 +62,11 @@ function fisher_search -d "Search Plugins"
 
             case h
                 printf "Usage: fisher search [<plugins>] [--and|--or] [--quiet] [--help]\n\n"
-
-                printf "    *--<field>  Filter by url, name, info, author or tags\n"
-                printf "       -o --or  Join query with OR operator\n"
-                printf "      -a --and  Join query with AND operator\n"
-                printf "    -q --quiet  Enable quiet mode\n"
-                printf "     -h --help  Show usage help\n"
+                printf "    --<field> x    Filter by url, name, info, author or tags\n"
+                printf "    -a --and       Join query with AND operator\n"
+                printf "    -o --or        Join query with OR operator\n"
+                printf "    -q --quiet     Enable quiet mode\n"
+                printf "    -h --help      Show usage help\n"
                 return
 
             case \*
