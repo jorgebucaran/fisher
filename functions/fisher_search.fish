@@ -4,6 +4,7 @@ function fisher_search -d "Search Plugins"
     set -l index
     set -l join "||"
     set -l quiet 0
+    set -l stdout /dev/stdout
 
     getopts $argv | while read -l 1 2 3
         switch "$1"
@@ -59,6 +60,7 @@ function fisher_search -d "Search Plugins"
 
             case q quiet
                 set quiet 1
+                set stdout /dev/null
 
             case h
                 printf "Usage: fisher search [<plugins>] [--and|--or] [--quiet] [--help]\n\n"
@@ -86,10 +88,14 @@ function fisher_search -d "Search Plugins"
         end
 
         if test $fisher_last_update -gt $fisher_update_interval -o ! -f $index
-            debug "Update index"
+            debug "Update index start"
 
             if spin "__fisher_index_update" --error=/dev/null
+                debug "Update index success"
+
                 __fisher_complete_reset
+            else
+                debug "Update index fail"
             end
         end
 
@@ -99,15 +105,14 @@ function fisher_search -d "Search Plugins"
     set -e fields[-1]
     set -e query[-1]
 
+    set -l options -v OFS=';'
+
     if test -z "$fields[1]"
         set fields '$0'
+        set options -v OFS='\n' -v ORS='\n'
     end
 
-    awk -F'\n' -v RS='' -v OFS=';' (
-        if test "$fields" = '$0'
-            printf "%s\nORS=%s" -v '\\n\\n'
-        end
-        ) "
+    awk -v FS='\n' -v RS='' $options "
 
     function tags(tag, _list) {
         if (!tag) {
@@ -126,9 +131,12 @@ function fisher_search -d "Search Plugins"
         return 0
     }
 
-    /^ *#/ { next } {
+    {
         delete tag_list
-        if (\$4) split(\$4, tag_list, \" \")
+
+        if (\$4) {
+            split(\$4, tag_list, \" \")
+        }
 
         name   = \$1
         url    = \$2
@@ -136,25 +144,16 @@ function fisher_search -d "Search Plugins"
         author = \$5
     }
 
-    $query { print $fields } " $index ^ /dev/null | awk -v quiet=$quiet '
-
-        !/^ *$/ { hasRecords = 1 } {
-            if (quiet) {
-                exit !hasRecords
-            } else {
-                records[NR] = $0
-            }
+    $query {
+        if (has_records) {
+            print \"\"
         }
+        
+        print $fields
+        has_records = 1
+    }
 
-        END {
-            for (i = 1; i <= NR; i++) {
-                if (i == NR && records[i] ~ /^ *$/) {
-                    break
-                }
-                print records[i]
-            }
+    END { exit !has_records }
 
-            exit !hasRecords
-        }
-    '
+    " $index > $stdout  ^ /dev/null
 end
