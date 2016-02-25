@@ -38,7 +38,6 @@ function fisher_uninstall -d "Uninstall Plugins"
     set -l skipped
 
     if set -q plugins[1]
-
         printf "%s\n" $plugins
     else
         __fisher_file
