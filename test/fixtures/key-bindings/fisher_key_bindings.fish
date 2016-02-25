@@ -1,6 +1,6 @@
 ##foo##
-echo bind foo
+bind foo
 ##foo##
 ##bar##
-echo bind bar
+bind bar
 ##bar##

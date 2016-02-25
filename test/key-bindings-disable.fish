@@ -7,6 +7,10 @@ function -S setup
 
     set -g fisher_binds $path/fisher_key_bindings.fish
 
+    function bind
+        printf "%s\n" "bind $argv"
+    end
+
     for plugin in foo bar baz
         __fisher_key_bindings_disable $plugin $path/user_key_bindings.fish >> $path/key_bindings_log
     end
@@ -14,6 +18,7 @@ end
 
 function -S teardown
     rm -rf $path
+    functions -e bind
 end
 
 test "$TESTNAME - Remove bindings from fisher key bindings file"
