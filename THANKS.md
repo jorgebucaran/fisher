@@ -12,3 +12,5 @@ The following individuals have contributed to Fisherman. :heart:
 * [Jorge Bucaran](https://github.com/bucaran)
 * [Kevin Ballard](https://github.com/kballard)
 * [Mizuki](https://github.com/zukif)
+* [Patrick Callahan](https://github.com/therealpxc)
+* [Seunggi Kim](https://github.com/dfdgsdfg)
