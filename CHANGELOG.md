@@ -2,7 +2,7 @@
 
 ## [0.9.0][v090] - Not released yet
 
-* Update plugins with merge conflicts by fetching HEAD and applying a hard reset as a last resort. This strategy is only executed on the `master` branch, other branches are not affected. If branch `my-feature` is checked out at the time of the update, Fisherman first saves the branch name, checks out master, updates and checks out `my-feature` again after the operation is complete.
+* Update plugins with merge conflicts by fetching HEAD and applying a hard reset as a last resort. This strategy is only executed on the `master` branch, other branches are not affected. If branch `my-feature` is checked out at the time of the update, Fisherman first saves the branch name, checks out master, updates and checks out `my-feature` again after the operation is complete. Close #122.
 
 * Update plugins with a dirty working tree by recording changes in the stash and re-reapplying them again after the git-pull update strategy completes.
 
