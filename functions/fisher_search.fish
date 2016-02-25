@@ -3,7 +3,6 @@ function fisher_search -d "Search Plugins"
     set -l query
     set -l index
     set -l join "||"
-    set -l quiet 0
     set -l stdout /dev/stdout
 
     getopts $argv | while read -l 1 2 3
@@ -59,7 +58,6 @@ function fisher_search -d "Search Plugins"
                 set index $2
 
             case q quiet
-                set quiet 1
                 set stdout /dev/null
 
             case h
@@ -84,7 +82,7 @@ function fisher_search -d "Search Plugins"
         set fisher_last_update (math (date +%s) - "0$fisher_last_update")
 
         if not set -q fisher_update_interval
-            set -g fisher_update_interval 10
+            set -g fisher_update_interval 20
         end
 
         if test $fisher_last_update -gt $fisher_update_interval -o ! -f $index
@@ -105,11 +103,11 @@ function fisher_search -d "Search Plugins"
     set -e fields[-1]
     set -e query[-1]
 
-    set -l options -v OFS=';'
+    set -l options -v OFS=';' -v bare=1
 
     if test -z "$fields[1]"
-        set fields '$0'
-        set options -v OFS='\n' -v ORS='\n'
+        set fields '$1,$2,$3,$4,$5'
+        set options -v OFS='\n'
     end
 
     awk -v FS='\n' -v RS='' $options "
@@ -138,22 +136,22 @@ function fisher_search -d "Search Plugins"
             split(\$4, tag_list, \" \")
         }
 
-        name   = \$1
-        url    = \$2
-        info   = \$3
+        name = \$1
+        url = \$2
+        info = \$3
         author = \$5
     }
 
     $query {
-        if (has_records) {
+        if (has_records && !bare) {
             print \"\"
         }
-        
+
         print $fields
         has_records = 1
     }
 
     END { exit !has_records }
 
-    " $index > $stdout  ^ /dev/null
+    " $index > $stdout ^ /dev/null
 end
