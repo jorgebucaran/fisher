@@ -2,9 +2,13 @@
 
 ## [0.9.0][v090] - Not released yet
 
-* The Quickstart Guide is now available in [Chinese](https://github.com/fisherman/fisherman/wiki/快速上手指南), [Russian](https://github.com/fisherman/fisherman/wiki/Краткое-Руководство) and [Korean](https://github.com/fisherman/fisherman/wiki/빠르게-살펴보기). Thanks to @pickfire, @denji, @dfdgsdfg. You folks are awesome!
+* Update plugins with merge conflicts by fetching HEAD and applying a hard reset as a last resort. This strategy is only executed on the `master` branch, other branches are not affected. If branch `my-feature` is checked out at the time of the update, Fisherman first saves the branch name, checks out master, updates and checks out `my-feature` again after the operation is complete.
 
-* Fisherman can update plugins with a dirty working tree by recording changes in the stash and re-reapplying them again after the git-pull update strategy completes.
+* Update plugins with a dirty working tree by recording changes in the stash and re-reapplying them again after the git-pull update strategy completes.
+
+* Make `__fisher_key_bindings_undo` smarter by supporting more complex `bind` expressions, such as those inside conditional statements. Close #121.
+
+* The Quickstart Guide is now available in [Chinese](https://github.com/fisherman/fisherman/wiki/快速上手指南), [Russian](https://github.com/fisherman/fisherman/wiki/Краткое-Руководство) and [Korean](https://github.com/fisherman/fisherman/wiki/빠르게-살펴보기). Thanks to @pickfire, @denji, @dfdgsdfg. You folks are awesome!
 
 * Add more instrumentation and fix bugs caused by `debug` calls inside plumbing functions such as `__fisher_index_update` which are used by Spin.
 
