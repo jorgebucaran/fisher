@@ -3,10 +3,15 @@ function fisher_search -d "Search Plugins"
     set -l query
     set -l index
     set -l join "||"
+    set -l format
+    set -l option
     set -l stdout /dev/stdout
 
     getopts $argv | while read -l 1 2 3
         switch "$1"
+            case fmt format
+                set format "$2"
+
             case _
                 switch "$2"
                     case \*/\*
@@ -51,6 +56,9 @@ function fisher_search -d "Search Plugins"
             case o or
                 set join "||"
 
+            case no-color
+                set option no-color
+
             case query
                 set query $query $2
 
@@ -61,10 +69,13 @@ function fisher_search -d "Search Plugins"
                 set stdout /dev/null
 
             case h
-                printf "Usage: fisher search [<plugins>] [--and|--or] [--quiet] [--help]\n\n"
-                printf "    --<field> x    Filter by url, name, info, author or tags\n"
+                printf "Usage: fisher search [<plugins>] [--format=<format>] [--and|--or]\n"
+                printf "                     [--no-color] [--quiet] [--help]\n\n"
+
                 printf "    -a --and       Join query with AND operator\n"
                 printf "    -o --or        Join query with OR operator\n"
+                printf "       --no-color  Turn off color display\n"
+                printf "       --format=<format>  Use format to display results\n"
                 printf "    -q --quiet     Enable quiet mode\n"
                 printf "    -h --help      Show usage help\n"
                 return
@@ -82,7 +93,7 @@ function fisher_search -d "Search Plugins"
         set fisher_last_update (math (date +%s) - "0$fisher_last_update")
 
         if not set -q fisher_update_interval
-            set -g fisher_update_interval 20
+            set -g fisher_update_interval 500000
         end
 
         if test $fisher_last_update -gt $fisher_update_interval -o ! -f $index
@@ -103,14 +114,109 @@ function fisher_search -d "Search Plugins"
     set -e fields[-1]
     set -e query[-1]
 
-    set -l options -v OFS=';' -v bare=1
+    set -l options -v OFS=';' -v compact=1
 
     if test -z "$fields[1]"
-        set fields '$1,$2,$3,$4,$5'
         set options -v OFS='\n'
+
+        if test -z "$format"
+            if test -z "$fish_search_format"
+                set format default
+            else
+                set format "$fish_search_format"
+            end
+        end
+
+        set -l name_color (set_color $fish_color_command)
+        set -l url_color (set_color $fish_color_cwd -u)
+        set -l tag_color (set_color $fish_color_cwd)
+        set -l weak_color (set_color white)
+        set -l author_color (set_color -u)
+        set -l normal (set_color $fish_color_normal)
+
+        if contains -- no-color $option
+            set name_color
+            set url_color
+            set tag_color
+            set weak_color
+            set author_color
+            set normal
+        end
+
+        set legend
+        set local (fisher -l | awk '
+
+            !/^@/ {
+                if (append) {
+                    printf("|")
+                }
+
+                printf("%s", substr($0, 2))
+
+                append++
+            }
+        '
+        )
+
+        if test ! -z "$local"
+            set legend "  "
+        end
+
+        set fields 'if ("'"$local"'" && $1~/'"$local"'/) {'
+
+        switch "$format"
+            case default oneline
+                set fields $fields '
+                    printf("* '"$weak_color"'%-18s'"$normal"' %s\n", $1, $3)
+                } else {
+                    printf("'"$legend$name_color"'%-18s'"$normal"' %s\n", $1, $3)
+                }
+                '
+                set options $options -v compact=1
+
+            case longline
+                set fields $fields '
+                    printf("%-40s * '"$weak_color"'%-18s'"$normal"' %s\n", humanize_url($2), $1, $3)
+                } else {
+                    printf("'"$tag_color"'%-40s'"$normal"' '"$legend$name_color"'%-18s'"$normal"' %s\n", humanize_url($2), $1, $3)
+                }
+                '
+                set options $options -v compact=1
+
+            case short
+                set fields $fields '
+                    printf("'"$weak_color"'*%s by %s\n%s'"$normal"'\n%s\n", $1, $5, $3, humanize_url($2))
+                } else {
+                    printf("'"$name_color"'%s'"$normal"' by '"$author_color"'%s'"$normal"'\n%s\n'"$url_color"'%s'"$normal"'\n", $1, $5, $3, humanize_url($2))
+                }
+                '
+
+            case verbose
+                set fields $fields '
+                    printf("'"$weak_color"'*%s by %s\n%s'"$normal"'\n%s\n%s\n", $1, $5, $3, $4, humanize_url($2))
+                } else {
+                    printf("'"$name_color"'%s'"$normal"' by '"$author_color"'%s'"$normal"'\n%s\n'"$tag_color"'%s'"$normal"'\n'"$url_color"'%s'"$normal"'\n", $1, $5, $3, $4, humanize_url($2))
+                }
+                '
+
+            case raw
+                set fields print
+
+        end
+    else
+        if test "$fields" = author
+            set options $options -v unique=1
+        end
+
+        set fields print $fields
     end
 
     awk -v FS='\n' -v RS='' $options "
+
+    function humanize_url(url) {
+        gsub(\"(https?://)?(www.)?|/\$\", \"\", url)
+        return url
+    }
 
     function tags(tag, _list) {
         if (!tag) {
@@ -143,11 +249,15 @@ function fisher_search -d "Search Plugins"
     }
 
     $query {
-        if (has_records && !bare) {
+        if (has_records && !compact) {
             print \"\"
         }
 
-        print $fields
+        if (!shit[\$5] || !unique) {
+            shit[\$5] = 1
+            $fields
+        }
+
         has_records = 1
     }
 
