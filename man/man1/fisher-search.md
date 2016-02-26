@@ -6,6 +6,7 @@ fisher-search(1) -- Search Plugin Index
 fisher `search` [*plugins* ...]<br>
 fisher `search` [`--name|--url|--info|--tag|--author`]<br>
 fisher `search` [`--query`=*field*[`&&`,`||`]*field*...]<br>
+fisher `search` [`--format`=*oneline*|*short*|*verbose*|*longline*] [--no-color]<br>
 fisher `search` [`--and`] [`--or`] [`--quiet`] [`--help`]<br>
 
 ## USAGE
@@ -41,6 +42,12 @@ See *Index* in `fisher help tour` for more information about the index.
 * `--<field>[~/regex/]`:
     Same as `--<field>[=regex]`, but using Regular Expressions instead of exact matching. Use `!~` to negate the query.
 
+* `--format=oneline|short|verbose|longline`:
+    Use the given format to display search results.
+
+* `--no-color`:
+    Turn off color display.
+
 * `-a --and`:
     Join the query with a logical AND operator.
 
@@ -54,17 +61,6 @@ See *Index* in `fisher help tour` for more information about the index.
     Show help.
 
 ## OUTPUT
-
-Search prints the result records in their original format by default.
-
-```fish
-fisher search shark
-shark
-https://github.com/bucaran/shark
-Sparkline Generator
-chart tool graph sparkline
-bucaran
-```
 
 To allow for easier parsing, Search will print results records in the same line when using one or more of the following options: `--name`, `--url`, `--info`, `--tags`, `--author`.
 
@@ -84,16 +80,16 @@ The result set above consists of single line per record, and each record consist
 fisher search --name | column
 ```
 
-* Display plugins by URL, sans *https://github.com/* and format into multiple columns.
+* Display plugins by URL, remove *https://github.com/* and format into multiple columns.
 
 ```fish
-fisher search --field=url | sed 's|https://github.com/||' | column
+fisher search --url | sed 's|https://github.com/||' | column
 ```
 
 * Display remote plugins, i.e, those in the index, but *not* in the cache.
 
 ```fis
-fisher_search --and --name!=(fisher --list=bare)
+fisher search --and --name!=(fisher --list=bare)
 ```
 
 * Search all plugins whose name does not start with the letter `s`.
