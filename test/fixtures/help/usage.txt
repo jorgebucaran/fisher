@@ -7,11 +7,13 @@ Usage: fisher uninstall [<plugins>] [--force] [--quiet] [--help]
     -f --force     Delete copy from cache
     -q --quiet     Enable quiet mode
     -h --help      Show usage help
-Usage: fisher search [<plugins>] [--and|--or] [--quiet] [--help]
+Usage: fisher search [<plugins>] [--format=<format>] [--and|--or]
+                     [--no-color] [--quiet] [--help]
 
-    --<field> x    Filter by url, name, info, author or tags
     -a --and       Join query with AND operator
     -o --or        Join query with OR operator
+       --no-color  Turn off color display
+       --format=<format>  Use format to display results
     -q --quiet     Enable quiet mode
     -h --help      Show usage help
 Usage: fisher install [<plugins>] [--force] [--quiet] [--help]
@@ -21,7 +23,7 @@ Usage: fisher install [<plugins>] [--force] [--quiet] [--help]
     -h --help      Show usage help
 Usage: fisher help [<keyword>] [--all] [--guides] [--help]
 
-    -a --all       List available documentation
-    -g --guides    List available guides
-    -h --help      Show usage help
+    -a --all         List available documentation
+    -g --guides      List available guides
+    -h --help        Show usage help
     --usage[=<cmd>]  Display command usage

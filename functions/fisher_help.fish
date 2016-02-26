@@ -31,9 +31,9 @@ function fisher_help -d "Show Help"
 
             case h
                 printf "Usage: fisher help [<keyword>] [--all] [--guides] [--help]\n\n"
-                printf "    -a --all       List available documentation\n"
-                printf "    -g --guides    List available guides\n"
-                printf "    -h --help      Show usage help\n"
+                printf "    -a --all         List available documentation\n"
+                printf "    -g --guides      List available guides\n"
+                printf "    -h --help        Show usage help\n"
                 printf "    --usage[=<cmd>]  Display command usage\n"
                 return
 
