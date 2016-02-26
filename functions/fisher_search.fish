@@ -120,10 +120,10 @@ function fisher_search -d "Search Plugins"
         set options -v OFS='\n'
 
         if test -z "$format"
-            if test -z "$fish_search_format"
+            if test -z "$fisher_search_format"
                 set format default
             else
-                set format "$fish_search_format"
+                set format "$fisher_search_format"
             end
         end
 
