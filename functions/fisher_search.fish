@@ -93,7 +93,7 @@ function fisher_search -d "Search Plugins"
         set fisher_last_update (math (date +%s) - "0$fisher_last_update")
 
         if not set -q fisher_update_interval
-            set -g fisher_update_interval 500000
+            set -g fisher_update_interval 50
         end
 
         if test $fisher_last_update -gt $fisher_update_interval -o ! -f $index
