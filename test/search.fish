@@ -42,7 +42,7 @@ test "$TESTNAME - Get only authors from index"
 end
 
 test "$TESTNAME - Get full record"
-    "foo" "https://github.com/foo" "about foo" "foo" "foosmith" = (fisher search --name=foo)
+    "foo" "https://github.com/foo" "about foo" "foo" "foosmith" = (fisher search --format=raw --name=foo --no-color)
 end
 
 test "$TESTNAME - Match name and get name"
@@ -102,5 +102,5 @@ test "$TESTNAME - Match field and get multiple fields #2"
 end
 
 test "$TESTNAME - Get full index"
-    (fisher search) = (cat $fisher_cache/.index)
+    (fisher search --format=raw) = (cat $fisher_cache/.index)
 end
