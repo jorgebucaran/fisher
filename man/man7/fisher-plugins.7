@@ -42,14 +42,14 @@ my_plugin
 |\-\- fish_right_prompt\.fish
 |\-\- my_plugin\.config\.fish
 |\-\- functions
-|   |\-\- my_plugin_helper\.fish
+|   `\-\- my_plugin_helper\.fish
 |\-\- conf\.d
-|   |\-\- *\.fish
+|   `\-\- *\.fish
 |\-\- completions
-|   |\-\- my_plugin\.fish
-|\-\- man
-    |\-\- man1
-        |\-\- my_plugin\.1
+|   `\-\- my_plugin\.fish
+`\-\- man
+    `\-\- man1
+        `\-\- my_plugin\.1
 .
 .fi
 .
@@ -74,7 +74,7 @@ CTRL^D
 .IP "" 0
 .
 .P
-Plugins may also define completions using \fBcomplete(1)\fR and provide documentation in the form of \fBman(1)\fR pages\.
+Plugins may also define completions using \fBcomplete\fR(1) and provide documentation in the form of \fBman\fR(1) pages\.
 .
 .SH "EXAMPLE"
 This section walks you through creating \fIwtc\fR, a stand\-alone plugin based in \fIgithub\.com/ngerakines/commitment\fR random commit message generator\.
@@ -144,7 +144,7 @@ end
 .IP "" 0
 .
 .TP
-Add basic documentation\. Fisherman uses standard manual pages for displaying help information\. There are utilities that can help you generate man pages from other text formats, such as Markdown\. One example is \fBronn(1)\fR\. For this example, type will do:
+Add basic documentation\. Fisherman uses standard manual pages for displaying help information\. There are utilities that can help you generate man pages from other text formats, such as Markdown\. One example is \fBronn\fR(1)\. For this example, type will do:
 
 .
 .IP "" 4
@@ -206,16 +206,13 @@ wtc
 .IP "" 0
 .
 .SH "SEE ALSO"
-man(1)
+\fBman\fR(1), \fBcomplete\fR(1)
 .
 .br
-complete(1)
+\fBfisher help commands\fR
 .
 .br
-fisher help commands
-.
-.br
-fisher help fishfile
+\fBfisher help fishfile\fR
 .
 .br
 

@@ -20,16 +20,12 @@ fisher `search` *query*<br>
 
 Search plugins in the Fisherman index.
 
-The index file consists of records separated by blank lines `'\n\n'` and each record consists of fields separated by a single line `'\n'`.
+The index file consists of records plugin name and info. `*` is shown if plugin is installed.
 
 For example:
 
 ```
-name
-url
-info
-tag1 tag2 tag3 ...
-author
+  name         info
 ```
 
 See *Index* in `fisher help tour` for more information about the index.
@@ -88,7 +84,7 @@ fisher search --url | sed 's|https://github.com/||' | column
 
 * Display remote plugins, i.e, those in the index, but *not* in the cache.
 
-```fis
+```fish
 fisher search --and --name!=(fisher --list=bare)
 ```
 
@@ -100,5 +96,5 @@ fisher search --name!~/^s/
 
 ## SEE ALSO
 
-fisher(1)<br>
-fisher help plugins<br>
+`fisher`(1)<br>
+`fisher help plugins`<br>

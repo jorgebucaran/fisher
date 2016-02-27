@@ -3,13 +3,13 @@ fisher-tour(7) -- Fisherman Tour
 
 ## DESCRIPTION
 
-Fisherman is a blazing fast, modern plugin manager for `fish(1)`.
+Fisherman is a blazing fast, modern plugin manager for `fish`(1).
 
-Fisherman runs virtually no initialization code, making it as fast as no Fisherman. The cache mechanism lets you query the index offline and enable or disable plugins as you wish.
+Fisherman runs virtually no initialization code, making it **as fast as no Fisherman**. The cache mechanism lets you query the index offline and enable or disable plugins as you wish.
 
 Other features include dependency management, excellent test coverage, plugin search capabilities and full compatibility with Tackle, Oh My Fish! and Wahoo themes and plugins.
 
-This document describes Fisherman features and their implementation details. For usage and command help  see `fisher(1)`.
+This document describes Fisherman features and their implementation details. For usage and command help  see `fisher`(1).
 
 ## FLAT TREE
 
@@ -39,7 +39,7 @@ With this in mind, it's possible to improve the slow shell start problem using a
 
 The overhead of juggling multiple path hierarchies in a per-plugin basis yields no benefits as everything is shared inside the same scope.
 
-Loading a path simply means adding the desired location to the `$fish_function_path` array. See also `functions(1)`.
+Loading a path simply means adding the desired location to the `$fish_function_path` array. See also `functions`(1).
 
 Here is a snapshot of an example Fisherman configuration path with a single plugin and prompt:
 
@@ -47,16 +47,17 @@ Here is a snapshot of an example Fisherman configuration path with a single plug
 $fisher_config
 |-- cache/
 |-- conf.d/
-|-- |-- my_plugin.config.fish
+|   `-- <my_plugin>.config.fish
+|-- fishfile
 |-- functions/
-|   |-- my_plugin.fish
+|   |-- <my_plugin>.fish
 |   |-- fish_prompt.fish
-|   |-- fish_right_prompt.fish
+|   `-- fish_right_prompt.fish
 |-- completions/
-|   |-- my_plugin.fish
-|-- man/
-    |-- man1/
-        |-- my_plugin.1
+|   `-- <my_plugin>.fish
+`-- man/
+    `-- man1/
+        `-- <my_plugin>.1
 ```
 
 If you are already familiar in the way Fish handles your user configuration, you will find the above structure similar to `$XDG_CONFIG_HOME/fish`. See `Initialization Files` in `help fish` to learn more about fish configuration.
@@ -170,7 +171,7 @@ Fisherman allows a high level of configuration using `$fisher_*` variables. You 
 
 You can also extend Fisherman by adding new commands and ship them as plugins. Fisherman automatically adds completions to *commands* based in the function *description* and usage help if provided. See `fisher help help` and `fisher help commands`.
 
-To add completions to standalone utility plugins, use `complete(1)`.
+To add completions to standalone utility plugins, use `complete`(1).
 
 ### CLI
 
@@ -178,13 +179,13 @@ If you are already familiar with other UNIX tools, you'll find Fisherman command
 
 Most commands read the standard input by default when no options are given and produce easy to parse output, making Fisherman commands ideal for plumbing and building upon each other.
 
-Fisherman also ships with a CLI options parser and a job spinner you can use to implement your own CLIs. See `getopts(1)` and `spin(1)`.
+Fisherman also ships with a CLI options parser and a job spinner you can use to implement your own CLIs. See `getopts`(1) and `spin`(1).
 
 ## COMPATIBILITY
 
 Fisherman supports Oh My Fish! themes and plugins, but some features are turned off by default for performance reasons.
 
-Oh My Fish! evaluates every *.fish* file inside the root directory for every plugin installed during shell start. This is necessary in order to load any existing `init` event functions and immediately invoke them using fish `emit(1)`.
+Oh My Fish! evaluates every *.fish* file inside the root directory for every plugin installed during shell start. This is necessary in order to load any existing `init` event functions and immediately invoke them using fish `emit`(1).
 
 Since it is not possible to determine whether a file defines an initialization event without evaluating its contents first, Oh My Fish! sources all `*.fish` files and then emits events for each plugin.
 
@@ -198,10 +199,8 @@ This plugin also adds definitions for some of Oh My Fish! Core Library functions
 
 ## SEE ALSO
 
-fisher(1)<br>
-fisher help<br>
-fisher help config<br>
-fisher help plugins<br>
-fisher help commands<br>
-spin(1)<br>
-getopts(1)<br>
+`fisher`(1), `spin`(1), `getopts`(1)<br>
+`fisher help`<br>
+`fisher help config`<br>
+`fisher help plugins`<br>
+`fisher help commands`<br>
