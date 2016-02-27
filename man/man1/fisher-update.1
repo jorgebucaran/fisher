@@ -62,7 +62,7 @@ fisher update
 .IP "" 0
 .
 .IP "\(bu" 4
-Update all the plugins in the cache\.
+Update all the plugins in the cache \fIconcurrently\fR\.
 .
 .IP "" 0
 .
@@ -70,17 +70,17 @@ Update all the plugins in the cache\.
 .
 .nf
 
-fisher \-\-list | fisher update \-
+fisher \-\-list | cut \-c 2\- | xargs \-n1 \-P0 fish \-c \'fisher update\'
 .
 .fi
 .
 .IP "" 0
 .
 .SH "SEE ALSO"
-fisher(1)
+\fBfisher\fR(1)
 .
 .br
-fisher help plugins
+\fBfisher help plugins\fR
 .
 .br
 

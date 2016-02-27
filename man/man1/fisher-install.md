@@ -56,14 +56,14 @@ my_plugin
 |-- README.md
 |-- my_plugin.fish
 |-- functions
-|   |-- my_plugin_helper.fish
+|   `-- my_plugin_helper.fish
 |-- completions
-|   |-- my_plugin.fish
+|   `-- my_plugin.fish
 |-- test
-|   |-- my_plugin.fish
-|-- man
-    |-- man1
-        |-- my_plugin.1
+|   `-- my_plugin.fish
+`-- man
+    `-- man1
+        `-- my_plugin.1
 ```
 
 And here is the directory tree of `$fisher_config/` after running `fisher install my_plugin`:
@@ -71,16 +71,16 @@ And here is the directory tree of `$fisher_config/` after running `fisher instal
 ```
 $fisher_config
 |-- functions
-    |-- my_plugin.fish
-    |-- my_plugin_helper.fish
+|   |-- my_plugin.fish
+|   `-- my_plugin_helper.fish
 |-- completions
-    |-- my_plugin.fish
+|   `-- my_plugin.fish
 |-- man
-    |-- man1
-        |-- my_plugin.1
-|-- cache
+|   `-- man1
+|       `-- my_plugin.1
+`-- cache
     |-- my_other_plugin
-    |-- my_plugin/...
+    `-- my_plugin/...
 ```
 
 In addition, any `init.fish` and `*.config.fish` files, are copied to `$fisher_config/conf.d` and evaluated during the start of the shell.
@@ -91,13 +91,13 @@ To prevent name collisions, `init.fish` files are renamed to `my_plugin.init.fis
 
 * Install plugins from multiple sources.
 
-```fisher
+```fish
 fisher install fishtape simnalamburt/shellder ~/plugins/my_plugin
 ```
 
 ## SEE ALSO
 
-fisher(1)<br>
-fisher help config<br>
-fisher help update<br>
-fisher help uninstall<br>
+`fisher`(1)<br>
+`fisher help config`<br>
+`fisher help update`<br>
+`fisher help uninstall`<br>
