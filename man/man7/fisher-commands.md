@@ -59,7 +59,6 @@ end
 
 ## SEE ALSO
 
-fisher(1)<br>
-fisher help tour<br>
-funcsave(1)<br>
-fisher help plugins<br>
+`fisher`(1), `funcsave`(1)<br>
+`fisher help tour`<br>
+`fisher help plugins`<br>

@@ -26,7 +26,7 @@ Using the following variables, you can customize the locations of the cache, ind
     The cache directory. Plugins are downloaded first here and installed to `$fisher_config/functions` afterwards. The cache is `$fisher_config/cache` by default.
 
 * `$fisher_index`:
-    The URL to the index database. To use a different index set this to a file or URL. Redirect URLs are currently not supported due to security and performance concerns. The underlying request and fetch mechanism is based in `curl(1)`.
+    The URL to the index database. To use a different index set this to a file or URL. Redirect URLs are currently not supported due to security and performance concerns. The underlying request and fetch mechanism is based in `curl`(1).
 
 * `$fisher_alias command=alias[,...] [command2=alias[,...]]`:
     Use this variable to define custom aliases for fisher commands. See `Examples` below.
@@ -41,4 +41,4 @@ set fisher_alias install=i,in,inst update=up
 
 ## SEE ALSO
 
-fisher help tour
+`fisher help tour`

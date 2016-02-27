@@ -8,13 +8,13 @@ fisher(1) -- Fish Plugin Manager
 
 ## DESCRIPTION
 
-Fisherman is a blazing fast, modern plugin manager for `fish(1)`.
+Fisherman is a blazing fast, modern plugin manager for `fish`(1).
 
 The following commands are available: *install*, *uninstall*, *update*, *search* and *help*. See `fisher help <command>` for information about each command.
 
 ## OPTIONS
 
-*  `--list[=bare|url|all|enabled|disabled|theme|file]`:
+*  `-l --list[=bare|url|all|enabled|disabled|theme|file]`:
     List local plugins according to a given option. Plugins are prepended with a legend character to indicate their kind. `*` for enabled plugins, `>` for the currently enabled prompt and `|` for symbolic links. To list plugins without the legend use `--list=bare`. Use a dash `-` to read from the standard input.
 
 * `-v --version`:
@@ -51,8 +51,8 @@ fisher install .
 
 Fisherman was created by Jorge Bucaran *j@bucaran.me*.
 
-See THANKS file for the complete list of contributors.
+See THANKS.md file for the complete list of contributors.
 
 ## SEE ALSO
 
-fisher help tour<br>
+`fisher help tour`<br>
