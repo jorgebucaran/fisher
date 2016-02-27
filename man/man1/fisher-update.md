@@ -32,17 +32,17 @@ If a plugin is missing dependencies, they will be installed. If any dependencies
 
 * Update Fisherman
 
-```
+```fish
 fisher update
 ```
 
-* Update all the plugins in the cache.
+* Update all the plugins in the cache *concurrently*.
 
-```
-fisher --list | fisher update -
+```fish
+fisher --list | cut -c 2- | xargs -n1 -P0 fish -c 'fisher update'
 ```
 
 ## SEE ALSO
 
-fisher(1)<br>
-fisher help plugins<br>
+`fisher`(1)<br>
+`fisher help plugins`<br>

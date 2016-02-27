@@ -26,7 +26,7 @@ fisher \fBhelp\fR \fB\-\-usage\fR=[\fIcommand\fR]
 Help displays \fIcommand\fR documentation, usage, guides and tutorials\.
 .
 .P
-Help is based in \fBman(1)\fR pages\. To supply help with your own plugin or command, create one or more man\.1~7 pages and add them to your project under the corresponding man/man% directory\.
+Help is based in \fBman\fR(1) pages\. To supply help with your own plugin or command, create one or more man\.1~7 pages and add them to your project under the corresponding man/man% directory\.
 .
 .IP "" 4
 .
@@ -34,19 +34,19 @@ Help is based in \fBman(1)\fR pages\. To supply help with your own plugin or com
 
 my_plugin
 |\-\- my_plugin\.fish
-|\-\- man
-    |\-\- man1
-        |\-\- my_plugin\.1
+`\-\- man
+    `\-\- man1
+        `\-\- my_plugin\.1
 .
 .fi
 .
 .IP "" 0
 .
 .P
-Help for my_plugin is now available via \fBman(1)\fR\. To add documentation to a \fBfisher\fR command, prepend the keyword \fBfisher\-\fR to the man file, e\.g\., \fBfisher\-my\-command\.1\fR\. This will teach Fisherman how to access the man page using \fBfisher help my\-command\fR\.
+Help for my_plugin is now available via \fBman\fR(1)\. To add documentation to a \fBfisher\fR command, prepend the keyword \fBfisher\-\fR to the man file, e\.g\., \fBfisher\-my\-command\.1\fR\. This will teach Fisherman how to access the man page using \fBfisher help my\-command\fR\.
 .
 .P
-There are utilities that can help you generate man pages from other text formats, such as Markdown\. One example is \fBronn(1)\fR\. For an example without using external utilities, see \fIExample\fR in \fBfisher help plugins\fR\.
+There are utilities that can help you generate man pages from other text formats, such as Markdown\. One example is \fBronn\fR(1)\. For an example without using external utilities, see \fIExample\fR in \fBfisher help plugins\fR\.
 .
 .SH "OPTIONS"
 .
@@ -63,7 +63,7 @@ List guides / tutorials\. Use \fIbare\fR to generate easy to parse output\.
 List commands\. This is the default behavior of \fBfisher help\fR\. Use \fIbare\fR to generate easy to parse output\.
 .
 .TP
-\fB\-u \-\-usage[=*command*]\fR
+\fB\-\-usage[=*command*]\fR
 Display usage help for \fIcommand\fR\. To teach Fisherman how to display help for your command, \fIcommand\fR must implement a \fB\-h\fR flag\.
 .
 .TP
@@ -118,10 +118,4 @@ fisher help \-\-commands=bare | fisher help \-\-usage
 .IP "" 0
 .
 .SH "SEE ALSO"
-man(1)
-.
-.br
-fisher(1)
-.
-.br
-
+\fBman\fR(1), \fBfisher\fR(1)
