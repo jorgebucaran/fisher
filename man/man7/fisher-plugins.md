@@ -27,14 +27,14 @@ my_plugin
 |-- fish_right_prompt.fish
 |-- my_plugin.config.fish
 |-- functions
-|   |-- my_plugin_helper.fish
+|   `-- my_plugin_helper.fish
 |-- conf.d
-|   |-- *.fish
+|   `-- *.fish
 |-- completions
-|   |-- my_plugin.fish
-|-- man
-    |-- man1
-        |-- my_plugin.1
+|   `-- my_plugin.fish
+`-- man
+    `-- man1
+        `-- my_plugin.1
 ```
 
 ## DEPENDENCIES
@@ -49,7 +49,7 @@ your_plugin
 CTRL^D
 ```
 
-Plugins may also define completions using `complete(1)` and provide documentation in the form of `man(1)` pages.
+Plugins may also define completions using `complete`(1) and provide documentation in the form of `man`(1) pages.
 
 ## EXAMPLE
 
@@ -93,7 +93,7 @@ end
 ^C
 ```
 
-* Add basic documentation. Fisherman uses standard manual pages for displaying help information. There are utilities that can help you generate man pages from other text formats, such as Markdown. One example is `ronn(1)`. For this example, type will do:
+* Add basic documentation. Fisherman uses standard manual pages for displaying help information. There are utilities that can help you generate man pages from other text formats, such as Markdown. One example is `ronn`(1). For this example, type will do:
 
 ```fish
 mkdir -p man/man1
@@ -131,7 +131,6 @@ wtc
 
 ## SEE ALSO
 
-man(1)<br>
-complete(1)<br>
-fisher help commands<br>
-fisher help fishfile<br>
+`man`(1), `complete`(1)<br>
+`fisher help commands`<br>
+`fisher help fishfile`<br>
