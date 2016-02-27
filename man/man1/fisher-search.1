@@ -74,6 +74,14 @@ Display index records where \fIfield\fR equals \fImatch\fR\. \fIfield\fR can be 
 Same as \fB\-\-<field>[=regex]\fR, but using Regular Expressions instead of exact matching\. Use \fB!~\fR to negate the query\.
 .
 .TP
+\fB\-\-format=oneline|short|verbose|longline\fR
+Use the given format to display search results\.
+.
+.TP
+\fB\-\-no\-color\fR
+Turn off color display\.
+.
+.TP
 \fB\-a \-\-and\fR
 Join the query with a logical AND operator\.
 .
@@ -90,24 +98,6 @@ Enable quiet mode\.
 Show help\.
 .
 .SH "OUTPUT"
-Search prints the result records in their original format by default\.
-.
-.IP "" 4
-.
-.nf
-
-fisher search shark
-shark
-https://github\.com/bucaran/shark
-Sparkline Generator
-chart tool graph sparkline
-bucaran
-.
-.fi
-.
-.IP "" 0
-.
-.P
 To allow for easier parsing, Search will print results records in the same line when using one or more of the following options: \fB\-\-name\fR, \fB\-\-url\fR, \fB\-\-info\fR, \fB\-\-tags\fR, \fB\-\-author\fR\.
 .
 .IP "" 4
@@ -143,7 +133,7 @@ fisher search \-\-name | column
 .IP "" 0
 .
 .IP "\(bu" 4
-Display plugins by URL, sans \fIhttps://github\.com/\fR and format into multiple columns\.
+Display plugins by URL, remove \fIhttps://github\.com/\fR and format into multiple columns\.
 .
 .IP "" 0
 .
@@ -151,7 +141,7 @@ Display plugins by URL, sans \fIhttps://github\.com/\fR and format into multiple
 .
 .nf
 
-fisher search \-\-field=url | sed \'s|https://github\.com/||\' | column
+fisher search \-\-url | sed \'s|https://github\.com/||\' | column
 .
 .fi
 .
@@ -166,7 +156,7 @@ Display remote plugins, i\.e, those in the index, but \fInot\fR in the cache\.
 .
 .nf
 
-fisher_search \-\-and \-\-name!=(fisher \-\-list=bare)
+fisher search \-\-and \-\-name!=(fisher \-\-list=bare)
 .
 .fi
 .
