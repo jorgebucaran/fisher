@@ -7,16 +7,16 @@
 \fBfisher\-tour\fR \- Fisherman Tour
 .
 .SH "DESCRIPTION"
-Fisherman is a blazing fast, modern plugin manager for \fBfish(1)\fR\.
+Fisherman is a blazing fast, modern plugin manager for \fBfish\fR(1)\.
 .
 .P
-Fisherman runs virtually no initialization code, making it as fast as no Fisherman\. The cache mechanism lets you query the index offline and enable or disable plugins as you wish\.
+Fisherman runs virtually no initialization code, making it \fBas fast as no Fisherman\fR\. The cache mechanism lets you query the index offline and enable or disable plugins as you wish\.
 .
 .P
 Other features include dependency management, excellent test coverage, plugin search capabilities and full compatibility with Tackle, Oh My Fish! and Wahoo themes and plugins\.
 .
 .P
-This document describes Fisherman features and their implementation details\. For usage and command help see \fBfisher(1)\fR\.
+This document describes Fisherman features and their implementation details\. For usage and command help see \fBfisher\fR(1)\.
 .
 .SH "FLAT TREE"
 The configuration directory structure is optimized to help your shell start new sessions as quickly as possible, regardless of the numbers of plugins or prompts enabled at any given time\.
@@ -58,7 +58,7 @@ With this in mind, it\'s possible to improve the slow shell start problem using 
 The overhead of juggling multiple path hierarchies in a per\-plugin basis yields no benefits as everything is shared inside the same scope\.
 .
 .P
-Loading a path simply means adding the desired location to the \fB$fish_function_path\fR array\. See also \fBfunctions(1)\fR\.
+Loading a path simply means adding the desired location to the \fB$fish_function_path\fR array\. See also \fBfunctions\fR(1)\.
 .
 .P
 Here is a snapshot of an example Fisherman configuration path with a single plugin and prompt:
@@ -70,16 +70,17 @@ Here is a snapshot of an example Fisherman configuration path with a single plug
 $fisher_config
 |\-\- cache/
 |\-\- conf\.d/
-|\-\- |\-\- my_plugin\.config\.fish
+|   `\-\- <my_plugin>\.config\.fish
+|\-\- fishfile
 |\-\- functions/
-|   |\-\- my_plugin\.fish
+|   |\-\- <my_plugin>\.fish
 |   |\-\- fish_prompt\.fish
-|   |\-\- fish_right_prompt\.fish
+|   `\-\- fish_right_prompt\.fish
 |\-\- completions/
-|   |\-\- my_plugin\.fish
-|\-\- man/
-    |\-\- man1/
-        |\-\- my_plugin\.1
+|   `\-\- <my_plugin>\.fish
+`\-\- man/
+    `\-\- man1/
+        `\-\- <my_plugin>\.1
 .
 .fi
 .
@@ -284,7 +285,7 @@ Fisherman allows a high level of configuration using \fB$fisher_*\fR variables\.
 You can also extend Fisherman by adding new commands and ship them as plugins\. Fisherman automatically adds completions to \fIcommands\fR based in the function \fIdescription\fR and usage help if provided\. See \fBfisher help help\fR and \fBfisher help commands\fR\.
 .
 .P
-To add completions to standalone utility plugins, use \fBcomplete(1)\fR\.
+To add completions to standalone utility plugins, use \fBcomplete\fR(1)\.
 .
 .SS "CLI"
 If you are already familiar with other UNIX tools, you\'ll find Fisherman commands behave intuitively\.
@@ -293,13 +294,13 @@ If you are already familiar with other UNIX tools, you\'ll find Fisherman comman
 Most commands read the standard input by default when no options are given and produce easy to parse output, making Fisherman commands ideal for plumbing and building upon each other\.
 .
 .P
-Fisherman also ships with a CLI options parser and a background job spinner that you can use to implement your own commands CLI\. See \fBgetopts(1)\fR and \fBspin(1)\fR\.
+Fisherman also ships with a CLI options parser and a job spinner you can use to implement your own CLIs\. See \fBgetopts\fR(1) and \fBspin\fR(1)\.
 .
 .SH "COMPATIBILITY"
 Fisherman supports Oh My Fish! themes and plugins, but some features are turned off by default for performance reasons\.
 .
 .P
-Oh My Fish! evaluates every \fI\.fish\fR file inside the root directory for every plugin installed during shell start\. This is necessary in order to load any existing \fBinit\fR event functions and immediately invoke them using fish \fBemit(1)\fR\.
+Oh My Fish! evaluates every \fI\.fish\fR file inside the root directory for every plugin installed during shell start\. This is necessary in order to load any existing \fBinit\fR event functions and immediately invoke them using fish \fBemit\fR(1)\.
 .
 .P
 Since it is not possible to determine whether a file defines an initialization event without evaluating its contents first, Oh My Fish! sources all \fB*\.fish\fR files and then emits events for each plugin\.
@@ -321,24 +322,19 @@ fisher install legacy
 This plugin also adds definitions for some of Oh My Fish! Core Library functions\.
 .
 .SH "SEE ALSO"
-fisher(1)
+\fBfisher\fR(1), \fBspin\fR(1), \fBgetopts\fR(1)
 .
 .br
-fisher help
+\fBfisher help\fR
 .
 .br
-fisher help config
+\fBfisher help config\fR
 .
 .br
-fisher help plugins
+\fBfisher help plugins\fR
 .
 .br
-fisher help commands
+\fBfisher help commands\fR
 .
 .br
-spin(1)
-.
-.br
-getopts(1)
-.
-.br
+
