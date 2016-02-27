@@ -7,15 +7,15 @@ This document attempts to answer some of Fisherman most frequently asked questio
 
 ### What is Fisherman?
 
-Fisherman is a plugin manager for fish that lets you share and reuse code, prompts and configurations easily.
+Fisherman is a fish plugin manager that lets you share and reuse code, prompts and configurations easily.
 
 ### What do I need to know to use Fisherman?
 
-Nothing. You can continue using your shell as usual. When you are ready to learn more just type `fisher help` or `fisher help tour`.
+Nothing, continue to use fish as usual. Ready to learn more? Type `fisher help` or `fisher help tour`.
 
 ### How do I access the documentation?
 
-Fisherman documentation is based in UNIX `man(1)` pages. For basic usage and command enter `fisher help`. For help about a specific *command*, enter `fisher help <command>`. The following guides are also available:
+Fisherman documentation is based in UNIX `man`(1) pages. For basic usage and command enter `fisher help`. For help about a specific *command*, enter `fisher help <command>`. The following guides are also available:
 
 fisher help `faq`: Fisherman FAQ<br>
 fisher help `tour`: Fisherman Tour<br>
@@ -32,7 +32,7 @@ Plugins may list any number of dependencies to other plugins using a *fishfile*.
 
 ### What is a Fishfile?
 
-A plain text file that lists what plugins you have installed or a plugin's dependencies to other plugins.
+A plain text file consists of a lists of installed plugins or dependencies to other plugins.
 
 Fishfiles let you share plugin configurations across multiple installations, allow plugins to declare dependencies, and prevent information loss in case of system failure. See also `fisher help fishfile`.
 

@@ -3,7 +3,7 @@ fisher-help(1) -- Show Help
 
 ## SYNOPSIS
 
-fisher `help` [*keyword*] [`--all`] [`--guides`] [`--usage`[=*command*]] [`--help`] <br>
+fisher `help` [*keyword*] [`--all`] [`--guides`] [`--usage`[=*command*]] [`--help`]<br>
 
 ## USAGE
 
@@ -15,19 +15,19 @@ fisher `help` `--usage`=[*command*]<br>
 
 Help displays *command* documentation, usage, guides and tutorials.
 
-Help is based in `man(1)` pages. To supply help with your own plugin or command, create one or more man.1~7 pages and add them to your project under the corresponding man/man% directory.
+Help is based in `man`(1) pages. To supply help with your own plugin or command, create one or more man.1~7 pages and add them to your project under the corresponding man/man% directory.
 
 ```
 my_plugin
 |-- my_plugin.fish
-|-- man
-    |-- man1
-        |-- my_plugin.1
+`-- man
+    `-- man1
+        `-- my_plugin.1
 ```
 
-Help for my_plugin is now available via `man(1)`. To add documentation to a `fisher` command, prepend the keyword `fisher-` to the man file, e.g., `fisher-my-command.1`. This will teach Fisherman how to access the man page using `fisher help my-command`.
+Help for my_plugin is now available via `man`(1). To add documentation to a `fisher` command, prepend the keyword `fisher-` to the man file, e.g., `fisher-my-command.1`. This will teach Fisherman how to access the man page using `fisher help my-command`.
 
-There are utilities that can help you generate man pages from other text formats, such as Markdown. One example is `ronn(1)`. For an example without using external utilities, see *Example* in `fisher help plugins`.
+There are utilities that can help you generate man pages from other text formats, such as Markdown. One example is `ronn`(1). For an example without using external utilities, see *Example* in `fisher help plugins`.
 
 ## OPTIONS
 
@@ -40,7 +40,7 @@ There are utilities that can help you generate man pages from other text formats
 * `--commands[=*bare*]`:
     List commands. This is the default behavior of `fisher help`. Use *bare* to generate easy to parse output.
 
-* `-u --usage[=*command*]`:
+* `--usage[=*command*]`:
     Display usage help for *command*. To teach Fisherman how to display help for your command, *command* must implement a `-h` flag.
 
 * `-h --help`:
@@ -68,5 +68,4 @@ fisher help --commands=bare | fisher help --usage
 
 ## SEE ALSO
 
-man(1)<br>
-fisher(1)<br>
+`man`(1), `fisher`(1)

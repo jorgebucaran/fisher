@@ -42,5 +42,5 @@ fisher --list | fisher uninstall --force
 
 ## SEE ALSO
 
-fisher(1)<br>
-fisher help plugins<br>
+`fisher`(1)<br>
+`fisher help plugins`<br>
