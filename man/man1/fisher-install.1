@@ -109,14 +109,14 @@ my_plugin
 |\-\- README\.md
 |\-\- my_plugin\.fish
 |\-\- functions
-|   |\-\- my_plugin_helper\.fish
+|   `\-\- my_plugin_helper\.fish
 |\-\- completions
-|   |\-\- my_plugin\.fish
+|   `\-\- my_plugin\.fish
 |\-\- test
-|   |\-\- my_plugin\.fish
-|\-\- man
-    |\-\- man1
-        |\-\- my_plugin\.1
+|   `\-\- my_plugin\.fish
+`\-\- man
+    `\-\- man1
+        `\-\- my_plugin\.1
 .
 .fi
 .
@@ -131,16 +131,16 @@ And here is the directory tree of \fB$fisher_config/\fR after running \fBfisher 
 
 $fisher_config
 |\-\- functions
-    |\-\- my_plugin\.fish
-    |\-\- my_plugin_helper\.fish
+|   |\-\- my_plugin\.fish
+|   `\-\- my_plugin_helper\.fish
 |\-\- completions
-    |\-\- my_plugin\.fish
+|   `\-\- my_plugin\.fish
 |\-\- man
-    |\-\- man1
-        |\-\- my_plugin\.1
-|\-\- cache
+|   `\-\- man1
+|       `\-\- my_plugin\.1
+`\-\- cache
     |\-\- my_other_plugin
-    |\-\- my_plugin/\.\.\.
+    `\-\- my_plugin/\.\.\.
 .
 .fi
 .
@@ -170,16 +170,16 @@ fisher install fishtape simnalamburt/shellder ~/plugins/my_plugin
 .IP "" 0
 .
 .SH "SEE ALSO"
-fisher(1)
+\fBfisher\fR(1)
 .
 .br
-fisher help config
+\fBfisher help config\fR
 .
 .br
-fisher help update
+\fBfisher help update\fR
 .
 .br
-fisher help uninstall
+\fBfisher help uninstall\fR
 .
 .br
 

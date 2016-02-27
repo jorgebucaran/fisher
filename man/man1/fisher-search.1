@@ -41,7 +41,7 @@ fisher \fBsearch\fR \fIquery\fR
 Search plugins in the Fisherman index\.
 .
 .P
-The index file consists of records separated by blank lines \fB\'\en\en\'\fR and each record consists of fields separated by a single line \fB\'\en\'\fR\.
+The index file consists of records plugin name and info\. \fB*\fR is shown if plugin is installed\.
 .
 .P
 For example:
@@ -50,11 +50,7 @@ For example:
 .
 .nf
 
-name
-url
-info
-tag1 tag2 tag3 \.\.\.
-author
+  name         info
 .
 .fi
 .
@@ -178,10 +174,10 @@ fisher search \-\-name!~/^s/
 .IP "" 0
 .
 .SH "SEE ALSO"
-fisher(1)
+\fBfisher\fR(1)
 .
 .br
-fisher help plugins
+\fBfisher help plugins\fR
 .
 .br
 

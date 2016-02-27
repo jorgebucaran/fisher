@@ -37,5 +37,5 @@ To understand this behavior, it helps to recall the shell's single scope for fun
 
 ## SEE ALSO
 
-fisher(1)<br>
-fisher help config<br>
+`fisher`(1)<br>
+`fisher help config`<br>
