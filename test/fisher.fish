@@ -33,7 +33,7 @@ test "$TESTNAME - Handle \$fisher_alias aliases"
 end
 
 test "$TESTNAME - Display usage help"
-    (fisher | sed 1q) = "Usage: fisher <command> [<args>] [--list] [--version]"
+    (fisher | sed 1q) = "Usage: fisher <command> [<arguments>] [--help] [--version]"
 end
 
 test "$TESTNAME - Display basic information help info about 'help'"

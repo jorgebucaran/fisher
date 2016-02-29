@@ -1,72 +1,105 @@
-fisher-search(1) -- Search Plugin Index
+fisher-search(1) -- Search plugin index
 =======================================
 
 ## SYNOPSIS
 
-fisher `search` [*plugins* ...]<br>
-fisher `search` [`--name|--url|--info|--tag|--author`]<br>
-fisher `search` [`--query`=*field*[`&&`,`||`]*field*...]<br>
-fisher `search` [`--format`=*oneline*|*short*|*verbose*|*longline*] [--no-color]<br>
-fisher `search` [`--and`] [`--or`] [`--quiet`] [`--help`]<br>
+fisher search [*plugins* ...]<br>
+fisher search [--name|--url|--info|--tag|--author]<br>
+fisher search [--and] [--or] [--quiet] [--help]<br>
+fisher search [--long|--full] [--no-color]<br>
+fisher search [--query=*field*[&&,||]*field*...]<br>
 
 ## USAGE
 
-fisher `search` *url*<br>
-fisher `search` *name*<br>
-fisher `search` *owner/repo*<br>
-fisher `search` *query*<br>
+fisher search *url*<br>
+fisher search *name*<br>
+fisher search *owner/repo*<br>
+fisher search *query*<br>
 
 ## DESCRIPTION
 
 Search plugins in the Fisherman index.
 
-The index file consists of records plugin name and info. `*` is shown if plugin is installed.
+```
+fisher search
+  ...
+* debug        Conditional debug logger
+  errno        POSIX error code/string translator
+* fishtape     TAP producing test runner
+  flash        Flash-inspired, thunder prompt
+  fzf          Efficient keybindings for fzf
+  get          Press any key to continue
+  ...
+> shellder     Powerline prompt optimized for speed
+  ...
+```
 
-For example:
+Get detailed information about a plugin.
 
 ```
-  name         info
+fisher search shellder
+> shellder by simnalamburt
+Powerline prompt optimized for speed
+github.com/simnalamburt/shellder
 ```
 
-See *Index* in `fisher help tour` for more information about the index.
+Search plugins using tags.
+
+```
+fisher search --tag={git,test}
+  ...
+* fishtape           TAP producing test runner
+  git-branch-name    Get the name of the current Git branch
+  git-is-repo        Test if the current directory is a Git repo
+  git-is-dirty       Test if there are changes not staged for commit
+  git-is-stashed     Test if there are changes in the stash
+  ...
+```
+
+The legend consists of:
+
+`*` Indicate the plugin is currently installed<br>
+`>` Indicate the plugin is a prompt<br>
+`@` Indicate the plugin is a symbolic link<br>
 
 ## OPTIONS
 
-* `--<field>[=match]`:
-    Display index records where *field* equals *match*. *field* can be any of `name`, `url`, `info`, `tag/s` or `author`. If *match* is not given, display only the given *field* from every record in the index. Use `!=` to negate the query.
+* --*field*[=*match*]:
+    Display index records where *field* equals *match*. *field* can be any of name, url, info, tag/s or author. If *match* is not given, display only the given *field* from every record in the index. Use != to negate the query.
 
-* `--<field>[~/regex/]`:
-    Same as `--<field>[=regex]`, but using Regular Expressions instead of exact matching. Use `!~` to negate the query.
+* --*field*[~/regex/]:
+    Same as --*field*[=*match*], but using Regular Expressions. Use !~ to negate the query.
 
-* `--format=oneline|short|verbose|longline`:
-    Use the given format to display search results.
+* --long:
+    Display results in long format.
 
-* `--no-color`:
+* --full:
+    Display results in full format.
+
+* --no-color:
     Turn off color display.
 
-* `-a --and`:
+* -a, --and:
     Join the query with a logical AND operator.
 
-* `-o --or`:
+* -o, --or:
     Join the query with a logical OR operator. This is the default operator.
 
-* `-q --quiet`:
+* -q, --quiet:
     Enable quiet mode.
 
-* `-h --help`:
+* -h, --help:
     Show help.
 
-## OUTPUT
+## RESULTS
 
-To allow for easier parsing, Search will print results records in the same line when using one or more of the following options: `--name`, `--url`, `--info`, `--tags`, `--author`.
+Search prints results records in the same line, when using one or more of the following options: --name, --url, --info, --tags, --author. This allows you to parse search results easily.
 
 ```fish
 fisher search shark --name --url --author
 
 shark;https://github.com/fishery/shark;bucaran
 ```
-
-The result set above consists of single line per record, and each record consists of one or more of the specified fields separated by semicolons `';'`.
 
 ## EXAMPLES
 
@@ -88,13 +121,8 @@ fisher search --url | sed 's|https://github.com/||' | column
 fisher search --and --name!=(fisher --list=bare)
 ```
 
-* Search all plugins whose name does not start with the letter `s`.
+* Search all plugins whose name does not start with the letter s.
 
 ```fish
 fisher search --name!~/^s/
 ```
-
-## SEE ALSO
-
-`fisher`(1)<br>
-`fisher help plugins`<br>

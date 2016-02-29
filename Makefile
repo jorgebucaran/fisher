@@ -10,9 +10,8 @@ FISHER_FILE := $(FISHER_CONFIG)/fishfile
 
 MAN := $(FISHER_HOME)/man
 MAN1 := $(wildcard $(MAN)/man1/*.md)
-MAN5 := $(wildcard $(MAN)/man5/*.md)
 MAN7 := $(wildcard $(MAN)/man7/*.md)
-DOCS := $(MAN1:%.md=%.1) $(MAN5:%.md=%.5) $(MAN7:%.md=%.7)
+DOCS := $(MAN1:%.md=%.1) $(MAN7:%.md=%.7)
 
 INDEX := $(FISHER_CACHE)/.index
 VERSION = `cat $(FISHER_HOME)/VERSION`
@@ -58,7 +57,7 @@ $(FISHER_CACHE):
 $(FISHER_FILE):
 	touch $@
 
-%.1 %.5 %.7: %.md
+%.1 %.7: %.md
 	-@if type ronn 2>/dev/null 1>&2; then \
 		ronn --manual=fisherman --roff $? 1>&2 2> /dev/null;\
 	fi;\

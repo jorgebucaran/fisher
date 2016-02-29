@@ -6,7 +6,7 @@ function -S setup
     echo "function foo; end" > $path/foo.fish
     source $path/foo.fish
 
-    __fisher_plugin_unlink foo $path/foo.fish
+    __fisher_plugin_unlink $path/foo.fish foo
 end
 
 function -S teardown

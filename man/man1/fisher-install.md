@@ -1,55 +1,56 @@
-fisher-install(1) -- Install Plugins
+fisher-install(1) -- Install plugins
 ====================================
 
 ## SYNOPSIS
 
-fisher `install` [*plugins* ...] [`--force`] [`--quiet`] [`--help`]
+fisher install [*plugins* ...] [--force] [--quiet] [--help]
 
 ## USAGE
 
-fisher `install` *url* ...<br>
-fisher `install` *name* ...<br>
-fisher `install` *path*  ...<br>
-fisher `install` *owner/repo* ...<br>
+fisher install *url*<br>
+fisher install *name*<br>
+fisher install *path* <br>
+fisher install *owner/repo*<br>
+fisher install *function*<br>
 
 ## DESCRIPTION
 
-Install one or more plugins, by name, URL or a local path. If no arguments are given, read the standard input.
+Install one or more plugins, by name, URL, path or function name. If no arguments are given, read the standard input.
 
-In addition, all of the following `owner/repo` variations are accepted:
+In addition, all of the following owner/repo variations are accepted:
 
-* owner/repo `>` https://github.com/owner/repo<br>
-* *github*/owner/repo `>` https://github.com/owner/repo<br>
-* *gh*/owner/repo `>` https://github.com/owner/repo<br>
+* owner/repo *https://github.com/owner/repo*
+* github/owner/repo *https://github.com/owner/repo*
+* gh/owner/repo *https://github.com/owner/repo*
 
 Shortcuts to other common Git repository hosting services are also available:
 
-* *bb*/owner/repo `>` https://bitbucket.org/owner/repo<br>
-* *gl*/owner/repo `>` https://gitlab.com/owner/repo<br>
-* *omf*/owner/repo `>` https://github.com/oh-my-fish/repo<br>
+* bb/owner/repo *https://bitbucket.org/owner/repo*
+* gl/owner/repo *https://gitlab.com/owner/repo*
+* omf/owner/repo *https://github.com/oh-my-fish/repo*
 
-If a URL is given, the repository is cloned to `$fisher_cache` the first time and any relevant plugin files are copied to `$fisher_config` functions, completions, conf.d and man directories.
+If a URL is given, the repository is cloned to $fisher_cache the first time and any relevant plugin files are copied to $fisher_config functions, completions, conf.d and man directories.
 
-If the plugin already exists in `$fisher_cache`, the files are only copied to `$fisher_config`. To update a plugin use `fisher update`.
+If the plugin already exists in $fisher_cache, the files are only copied to $fisher_config. To update a plugin use fisher update.
 
-If the plugin declares dependencies, these will be installed too. If any of the dependencies are already enabled or downloaded to the cache, they will not be updated to prevent version issues. See *Plugins* in `fisher help fishfile`.
+If the plugin declares dependencies, these will be installed too. If any of the dependencies are already enabled or downloaded to the cache, they will not be updated to prevent version issues.
 
-If a plugin includes either a `fish_prompt.fish` or `fish_right_prompt.fish`, both files are first removed from `$fisher_config/functions` and then the new ones are copied.
+If a plugin includes either a fish_prompt.fish or fish_right_prompt.fish, both files are first removed from $fisher_config/functions and then the new ones are copied.
 
 ## OPTIONS
 
-* `-f` `--force`:
-    Reinstall given plugin/s. If the plugin is already in the cache, it will be installed from the cache.
+* -f, --force:
+    Reinstall given plugin/s.
 
-* `-q` `--quiet`:
+* -q, --quiet:
     Enable quiet mode.
 
-* `-h` `--help`:
+* -h, --help:
     Show usage help.
 
-## EXAMPLES
+## DIRECTORY TREE
 
-Here is the directory tree of *my_plugin*:
+The directory tree in *my_plugin*
 
 ```
 my_plugin
@@ -66,7 +67,7 @@ my_plugin
         `-- my_plugin.1
 ```
 
-And here is the directory tree of `$fisher_config/` after running `fisher install my_plugin`:
+The directory tree in $fisher_config after running fisher install my_plugin:
 
 ```
 $fisher_config
@@ -83,9 +84,9 @@ $fisher_config
     `-- my_plugin/...
 ```
 
-In addition, any `init.fish` and `*.config.fish` files, are copied to `$fisher_config/conf.d` and evaluated during the start of the shell.
+## SNIPPETS
 
-To prevent name collisions, `init.fish` files are renamed to `my_plugin.init.fish`.
+Snippets are plugins that run code at the start of the shell. Snippets must be placed inside a sub directory named conf.d.
 
 ## EXAMPLES
 
@@ -97,7 +98,4 @@ fisher install fishtape simnalamburt/shellder ~/plugins/my_plugin
 
 ## SEE ALSO
 
-`fisher`(1)<br>
-`fisher help config`<br>
-`fisher help update`<br>
-`fisher help uninstall`<br>
+fisher help uninstall<br>
