@@ -1,5 +1,19 @@
 # Change Log
 
+## [1.0.0][v100] - 2016-03-01
+
+* Deprecate fisher --list in favor of a new command fisher list. The behavior is roughly the same. See fisher help list for usage. tl;dr: Use list to query the local system / cache and search to query the index.
+
+  ![](https://cloud.githubusercontent.com/assets/8317250/13388099/8973fbe0-df00-11e5-95c8-4bbb0e7172ae.gif)
+
+* Teach fisher_plugin_walk about fish_postexec, fish_command_not_found and fish_preexec event emitters and erase them during uninstall if they were defined in a snippet.
+
+* Fisherman now recognizes the following aliases by default: *i* for install, *u* for update, *l* for list, *s* for search and *h* for help.
+
+* Large documentation rewrite. Better, simpler, more concise and more consistent.
+
+* Fisherman now detects if users have modified their fish prompt using fish_config and if so, uninstalls $fisher_prompt.
+
 ## [0.9.0][v090] - 2016-02-25
 
 * Welcome aboard @jethrokuan, the newest Fisherman organization member.
@@ -143,6 +157,8 @@
 * **Other**
 
   + Now fisher_list can list plugins from the _cache_, a _fishfile/bundle_ and plugins that are _installed/enabled_ or _disabled_. This removes fisher_file and combines it with fisher_list. This also removes fisher -f and replaces it with fisher -l <file> or fisher --list=<file>.
+
+    > fisher --list was replaced by fisher list
 
   + Rename fisher_parse_help to fisher_complete and have the function create the completions automatically. This allows you to complete your commands with parseable usage help faster. The original design was fine, but this change improves auto-complete performance so it was preferred.
 

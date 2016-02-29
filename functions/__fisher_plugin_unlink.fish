@@ -1,7 +1,9 @@
-function __fisher_plugin_unlink -a name file
-    debug "Unlink '%s'" $file
+function __fisher_plugin_unlink -a file name
+    debug "Unlink %s" $file
     command rm -f $file
-    
-    debug "Erase function '%s'" $name
-    functions -e $name
+
+    if test ! -z "$name"
+        debug "Erase %s" $name
+        functions -e $name
+    end
 end

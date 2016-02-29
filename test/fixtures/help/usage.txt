@@ -4,18 +4,24 @@ Usage: fisher update [<plugins>] [--quiet] [--help]
     -h --help      Show usage help
 Usage: fisher uninstall [<plugins>] [--force] [--quiet] [--help]
 
-    -f --force     Delete copy from cache
+    -f --force     Delete copy from the cache
     -q --quiet     Enable quiet mode
     -h --help      Show usage help
-Usage: fisher search [<plugins>] [--format=<format>] [--and|--or]
-                     [--no-color] [--quiet] [--help]
+Usage: fisher search [<plugins>] [--long] [--full] [--no-color]
+                     [--quiet] [--help]
 
-    -a --and       Join query with AND operator
-    -o --or        Join query with OR operator
-       --no-color  Turn off color display
-       --format=<format>  Use format to display results
-    -q --quiet     Enable quiet mode
-    -h --help      Show usage help
+       --long         Display results in long format
+       --full         Display results in full format
+    -C --no-color     Turn off color display
+    -q --quiet        Enable quiet mode
+    -h --help         Show usage help
+Usage: fisher list [<file>] [--enabled] [--disabled] [--bare] [--link] 
+
+    -b --bare         List plugin without decorators
+    -l --link         List plugins that are symbolic links
+       --enabled      List plugins that are enabled
+       --disabled     List plugins that are disabled
+    -h --help         Show usage help
 Usage: fisher install [<plugins>] [--force] [--quiet] [--help]
 
     -f --force     Reinstall given plugin/s
@@ -23,7 +29,6 @@ Usage: fisher install [<plugins>] [--force] [--quiet] [--help]
     -h --help      Show usage help
 Usage: fisher help [<keyword>] [--all] [--guides] [--help]
 
-    -a --all         List available documentation
-    -g --guides      List available guides
-    -h --help        Show usage help
-    --usage[=<cmd>]  Display command usage
+    -a --all        List all the documentation
+    -g --guides     List available guides
+    -h --help       Show usage help

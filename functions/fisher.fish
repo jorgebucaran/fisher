@@ -1,4 +1,4 @@
-function fisher -d "Fish Plugin Manager"
+function fisher -d "Fish plugin manager"
     set -l value
     set -l option help
 
@@ -13,18 +13,10 @@ function fisher -d "Fish Plugin Manager"
                 set option help
                 set value $value $2
 
-            case l list
-                set option list
-                set value $2
-
             case v version
                 set option version
 
             case \*
-                if test ! -z "$option"
-                    continue
-                end
-
                 printf "fisher: '%s' is not a valid option.\n" $1 > /dev/stderr
                 fisher -h > /dev/stderr
                 return 1
@@ -33,14 +25,26 @@ function fisher -d "Fish Plugin Manager"
 
     switch "$option"
         case command
-            printf "%s\n" $fisher_alias | sed 's/[=,]/ /g' | while read -la alias
-                if set -q alias[2]
-                    switch "$value"
-                        case $alias[2..-1]
-                            set value $alias[1]
-                            break
+            switch "$version"
+                case 2.1.\* 2.0.0
+                    if test ! -z "$fisher_alias"
+                        printf "fisher: fish 2.2.0 or above is required to use aliases."
                     end
-                end
+
+                case \*
+                    if test -z "$fisher_alias"
+                        set fisher_alias install=i update=u search=s list=l help=h
+                    end
+
+                    printf "%s\n" $fisher_alias | sed 's/[=,]/ /g' | while read -la alias
+                        if set -q alias[2]
+                            switch "$value"
+                                case $alias[2..-1]
+                                    set value $alias[1]
+                                    break
+                            end
+                        end
+                    end
             end
 
             if not functions -q "fisher_$value"
@@ -58,18 +62,15 @@ function fisher -d "Fish Plugin Manager"
 
             eval "fisher_$value" (printf "%s\n" "'"$argv"'")
 
-        case list
-            __fisher_list $value
-
         case version
-            sed 's/^/fisher version /;q' $fisher_home/VERSION
+            sed 's/^/fisher version /' $fisher_home/VERSION
 
         case help
             if test -z "$value"
                 set value commands
             end
 
-            printf "Usage: fisher <command> [<args>] [--list] [--version]\n\n"
+            printf "Usage: fisher <command> [<arguments>] [--help] [--version]\n\n"
 
             switch commands
                 case $value

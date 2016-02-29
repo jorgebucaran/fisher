@@ -4,38 +4,57 @@
 .TH "FISHER" "1" "February 2016" "" "fisherman"
 .
 .SH "NAME"
-\fBfisher\fR \- Fish Plugin Manager
+\fBfisher\fR \- Fish plugin manager
 .
 .SH "SYNOPSIS"
-\fBfisher\fR \fIcommand\fR [\fIoptions\fR] [\fB\-\-version\fR] [\fB\-\-help\fR]
-.
-.br
-\fBfisher\fR \fB\-\-list[=bare|url|all|enabled|disabled|theme|file]\fR
+fisher \fIcommand\fR [\fIarguments\fR] [\-\-version] [\-\-help]
 .
 .br
 .
 .SH "DESCRIPTION"
-Fisherman is a blazing fast, modern plugin manager for \fBfish\fR(1)\.
+Fisherman is a plugin manager for fish\.
 .
 .P
-The following commands are available: \fIinstall\fR, \fIuninstall\fR, \fIupdate\fR, \fIsearch\fR and \fIhelp\fR\. See \fBfisher help <command>\fR for information about each command\.
+The Fisherman CLI consists of the following commands: \fIinstall\fR, \fIupdate\fR, \fIuninstall\fR, \fIlist\fR, \fIsearch\fR and \fIhelp\fR\.
+.
+.SH "USAGE"
+Run a command\.
+.
+.IP "" 4
+.
+.nf
+
+fisher <command> [<arguments>]
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Get help about a command\.
+.
+.IP "" 4
+.
+.nf
+
+fisher help <command>
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Fisherman knows the following aliases by default: \fIi\fR for install, \fIu\fR for update, \fIl\fR for list, \fIs\fR for search and \fIh\fR for help\.
 .
 .SH "OPTIONS"
 .
 .TP
-\fB\-l \-\-list[=bare|url|all|enabled|disabled|theme|file]\fR
-List local plugins according to a given option\. Plugins are prepended with a legend character to indicate their kind\. \fB*\fR for enabled plugins, \fB>\fR for the currently enabled prompt and \fB|\fR for symbolic links\. To list plugins without the legend use \fB\-\-list=bare\fR\. Use a dash \fB\-\fR to read from the standard input\.
-.
-.TP
 \fB\-v \-\-version\fR
-Show version information\. Fisherman\'s current version can be found in the VERSION file at the root of the project\. The version scheme is based in \fBSemantic Versioning\fR and uses Git annotated tags to track each release\.
+Show version information\. Fisherman follows \fBSemantic Versioning\fR and uses Git annotated tags to track releases\.
 .
 .TP
 \fB\-h \-\-help\fR
 Show usage help\.
-.
-.SH "CUSTOM COMMANDS"
-A Fisherman command is a regular function that can be invoked using the \fBfisher\fR command\. By convention, any function like \fBfisher_<my_command>\fR is recognized as a Fisherman command\. You can create plugins that add new commands this way\. See \fBfisher help commands\fR and \fBfisher help plugins\fR for more information\.
 .
 .SH "EXAMPLES"
 .
@@ -55,7 +74,7 @@ fisher install fishtape shark get
 .IP "" 0
 .
 .IP "\(bu" 4
-Install plugins from a \fIfishfile\fR or bundle\.
+Install a plugin as a symbolic link\.
 .
 .IP "" 0
 .
@@ -63,14 +82,14 @@ Install plugins from a \fIfishfile\fR or bundle\.
 .
 .nf
 
-fisher \-\-list=path/to/bundle | fisher install
+fisher install \./path/to/plugin
 .
 .fi
 .
 .IP "" 0
 .
 .IP "\(bu" 4
-Install a plugin if inside a plugin project\.
+Update Fisherman to the latest version\.
 .
 .IP "" 0
 .
@@ -78,20 +97,212 @@ Install a plugin if inside a plugin project\.
 .
 .nf
 
-fisher install \.
+fisher update
 .
 .fi
 .
 .IP "" 0
 .
-.SH "AUTHORS"
-Fisherman was created by Jorge Bucaran \fIj@bucaran\.me\fR\.
+.IP "\(bu" 4
+Search the Fisherman index\.
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
+fisher search
+.
+.fi
+.
+.IP "" 0
+.
+.IP "\(bu" 4
+Show all the documentation\.
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
+fisher help \-\-all
+.
+.fi
+.
+.IP "" 0
+.
+.SH "CONCEPTS"
+.
+.SS "FLAT TREE"
+Fisherman merges the directory trees of all the plugins it installs into a single flat tree\. Since the flat tree is loaded only once at the start of the shell, Fisherman performs equally well, regardless of the number of plugins installed\.
 .
 .P
-See THANKS\.md file for the complete list of contributors\.
+The following illustrates an example Fisherman configuration path with a single plugin and prompt\.
+.
+.IP "" 4
+.
+.nf
+
+$fisher_config
+|\-\- cache/
+|\-\- conf\.d/
+|   `\-\- my_plugin\.config\.fish
+|\-\- fishfile
+|\-\- functions/
+|   |\-\- my_plugin\.fish
+|   |\-\- fish_prompt\.fish
+|   `\-\- fish_right_prompt\.fish
+|\-\- completions/
+|   `\-\- my_plugin\.fish
+`\-\- man/
+    `\-\- man1/
+        `\-\- my_plugin\.1
+.
+.fi
+.
+.IP "" 0
+.
+.SS "PLUGINS"
+To install plugins, type fisher install and press \fItab\fR once to list all the available plugins\. Similarly, use fisher update / uninstall and press \fItab\fR to see what plugins you can update or uninstall\.
+.
+.P
+To search plugins use fisher search \fIname\fR\. You can by a specific field using fisher search \-\-\fIfield\fR=\fImatch\fR\.
+.
+.IP "" 4
+.
+.nf
+
+fisher search \-\-tag={*keywords*}
+.
+.fi
+.
+.IP "" 0
+.
+.P
+or
+.
+.IP "" 4
+.
+.nf
+
+fisher search \-\-name=*name*
+.
+.fi
+.
+.IP "" 0
+.
+.P
+See fisher help search for advanced options\.
+.
+.P
+To learn how to create plugins enter fisher help tutorial\.
+.
+.SS "INDEX"
+The index is a plain text database that lists Fisherman official plugins\.
+.
+.P
+The index is a list of records, each consisting of the following fields: \fIname\fR, \fIurl\fR, \fIinfo\fR, one or more \fItags\fR and \fIauthor\fR\.
+.
+.P
+Fields are separated by a new line \fB\en\fR\. Tags are separated by one \fIspace\fR\.
+.
+.IP "" 4
+.
+.nf
+
+z
+https://github\.com/fishery/fish\-z
+Pure\-fish z directory jumping
+z search cd jump
+jethrokuan
+.
+.fi
+.
+.IP "" 0
+.
+.P
+If you have a plugin you would like to submit to the index, use the submit plugin\.
+.
+.IP "" 4
+.
+.nf
+
+fisher install submit
+fisher submit my_plugin
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Otherwise, submit the plugin manually by creating a pull request in the index repository \fIhttps://github\.com/fisherman/fisher\-index\fR\.
+.
+.IP "" 4
+.
+.nf
+
+git clone https://github\.com/fisherman/fisher\-index
+cd index
+echo "$name\en$url\en$info\en$tags\en$author\en\en" >> index
+git push origin master
+.
+.fi
+.
+.IP "" 0
+.
+.SS "FISHFILE"
+Fisherman keeps track of a special file known as \fIfishfile\fR to know what plugins are currently enabled\.
+.
+.IP "" 4
+.
+.nf
+
+# My Fishfile
+gitio
+fishtape
+shark
+get
+shellder
+.
+.fi
+.
+.IP "" 0
+.
+.P
+This file is automatically updated as you install and uninstall plugins\.
+.
+.SS "VARIABLES"
+.
+.TP
+$fisher_home
+The home directory\. If you installed Fisherman using the recommended method \fBcurl \-sL install\.fisherman\.sh | fish\fR, the location ought to be \fIXDG_DATA_HOME/fisherman\fR\. If you clone Fisherman and run make yourself, the current working directory is used by default\.
+.
+.TP
+$fisher_config
+The configuration directory\. This is default location of the \fIfishfile\fR, \fIkey_bindings\.fish\fR, \fIcache\fR, \fIfunctions\fR, \fIcompletions\fR and \fIconf\.d\fR directories\. The default location is \fIXDG_CONFIG_HOME/fisherman\fR\.
+.
+.TP
+$fisher_file
+See FISHFILE above\.
+.
+.TP
+$fisher_cache
+The cache directory\. Plugins are downloaded to this location\.
+.
+.TP
+$fisher_alias \fIcommand\fR=\fIalias\fR[,\fIalias2\fR] \.\.\.
+Use this variable to customize Fisherman command aliases\.
+.
+.SH "AUTHORS"
+Fisherman was created by Jorge Bucaran :: @bucaran :: \fIj@bucaran\.me\fR\.
+.
+.P
+See THANKS\.md file for a complete list of contributors\.
 .
 .SH "SEE ALSO"
-\fBfisher help tour\fR
+fisher help tutorial
 .
 .br
 

@@ -1,4 +1,4 @@
-function fisher_uninstall -d "Uninstall Plugins"
+function fisher_uninstall -d "Uninstall plugins"
     set -l plugins
     set -l option
     set -l stdout /dev/stdout
@@ -18,7 +18,7 @@ function fisher_uninstall -d "Uninstall Plugins"
 
             case h
                 printf "Usage: fisher uninstall [<plugins>] [--force] [--quiet] [--help]\n\n"
-                printf "    -f --force     Delete copy from cache\n"
+                printf "    -f --force     Delete copy from the cache\n"
                 printf "    -q --quiet     Enable quiet mode\n"
                 printf "    -h --help      Show usage help\n"
                 return
@@ -35,6 +35,8 @@ function fisher_uninstall -d "Uninstall Plugins"
     set -l index 1
     set -l total (count $plugins)
     set -l skipped
+    
+    set -l IFS \t
 
     if set -q plugins[1]
         printf "%s\n" $plugins
@@ -42,13 +44,16 @@ function fisher_uninstall -d "Uninstall Plugins"
         __fisher_file
 
     end | while read -l item path
-
-        debug "Validate '%s'" $item
+        debug "Validate %s" $item
+        debug "Shit %s" $path
 
         if not set item (__fisher_plugin_validate $item)
-            printf "fisher: '%s' is not a valid name, path or url.\n" $item > $stderr
+            debug "Validate fail %s" $item
+            printf "fisher: '%s' is not a valid name, path or URL.\n" $item > $stderr
             continue
         end
+
+        debug "Validate pass %s" $item
 
         if not set path (__fisher_path_from_plugin $item)
             set total (math $total - 1)
@@ -58,9 +63,9 @@ function fisher_uninstall -d "Uninstall Plugins"
 
         set -l name (printf "%s\n" $path | __fisher_name)
 
-        debug "Uninstall '%s' in '%s'" "$name" "$path"
+        debug "Uninstall %s" "$name"
 
-        if not contains -- $name (__fisher_list $fisher_file)
+        if not contains -- $name (fisher_list $fisher_file)
             if test -z "$option"
                 set total (math $total - 1)
                 set skipped $skipped $name
@@ -80,14 +85,14 @@ function fisher_uninstall -d "Uninstall Plugins"
         end
 
         if __fisher_plugin_can_enable "$name" "$path"
-            debug "Plugin disable '%s' w/ option '%s'" "$name" "$option"
-
+            debug "Plugin disable %s w/ option %s" "$name" "$option"
             __fisher_plugin_disable "$name" "$path" "$option"
+        else
+            debug "Plugin can't dissable %s" "$name"
         end
 
         if test "$option" = force
             debug "Remove path '%s'" "$path"
-
             command rm -rf $path
         end
 
@@ -107,12 +112,12 @@ function fisher_uninstall -d "Uninstall Plugins"
         return 1
     end
 
-    debug "Pre-reset completions and key bindings"
+    debug "Reset completions and key bindings start"
 
     __fisher_complete_reset
     __fisher_key_bindings_reset
 
-    debug "Post-reset completions and key bindings"
+    debug "Reset completions and key bindings done"
 
     printf "Aye! %d plugin/s uninstalled in %0.fs\n" $count $time > $stdout
 end

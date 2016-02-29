@@ -4,21 +4,21 @@
 .TH "FISHER\-HELP" "1" "February 2016" "" "fisherman"
 .
 .SH "NAME"
-\fBfisher\-help\fR \- Show Help
+\fBfisher\-help\fR \- Show help about Fisherman
 .
 .SH "SYNOPSIS"
-fisher \fBhelp\fR [\fIkeyword\fR] [\fB\-\-all\fR] [\fB\-\-guides\fR] [\fB\-\-usage\fR[=\fIcommand\fR]] [\fB\-\-help\fR]
+fisher help [\fIkeyword\fR] [\-\-all] [\-\-guides] [\-\-usage[=\fIcommand\fR]] [\-\-help]
 .
 .br
 .
 .SH "USAGE"
-fisher \fBhelp\fR \fIcommand\fR
+fisher help \fIcommand\fR
 .
 .br
-fisher \fBhelp\fR \fIguide\fR
+fisher help \fIguide\fR
 .
 .br
-fisher \fBhelp\fR \fB\-\-usage\fR=[\fIcommand\fR]
+fisher help \-\-usage=[\fIcommand\fR]
 .
 .br
 .
@@ -26,7 +26,7 @@ fisher \fBhelp\fR \fB\-\-usage\fR=[\fIcommand\fR]
 Help displays \fIcommand\fR documentation, usage, guides and tutorials\.
 .
 .P
-Help is based in \fBman\fR(1) pages\. To supply help with your own plugin or command, create one or more man\.1~7 pages and add them to your project under the corresponding man/man% directory\.
+Help is based in man(1) pages\. To supply help with your own plugin or command, create one or more man\.1~7 pages and add them to your project under the corresponding man/man% directory\.
 .
 .IP "" 4
 .
@@ -43,37 +43,37 @@ my_plugin
 .IP "" 0
 .
 .P
-Help for my_plugin is now available via \fBman\fR(1)\. To add documentation to a \fBfisher\fR command, prepend the keyword \fBfisher\-\fR to the man file, e\.g\., \fBfisher\-my\-command\.1\fR\. This will teach Fisherman how to access the man page using \fBfisher help my\-command\fR\.
+Help for my_plugin is available via man(1)\. To add documentation to a fisher command, prepend the keyword fisher\- to the man file, e\.g\., fisher\-my\-command\.1\. This will teach Fisherman how to access the man page using fisher help my\-command\.
 .
 .P
-There are utilities that can help you generate man pages from other text formats, such as Markdown\. One example is \fBronn\fR(1)\. For an example without using external utilities, see \fIExample\fR in \fBfisher help plugins\fR\.
+There are utilities that can help you generate man pages from other text formats, such as Markdown\. For example pandoc(1) or ronn(1)\.
 .
 .SH "OPTIONS"
 .
 .TP
-\fB\-a \-\-all\fR
+\-a, \-\-all
 List all available commands and guides\.
 .
 .TP
-\fB\-g \-\-guides[=*bare*]\fR
+\-g, \-\-guides[=\fIbare\fR]
 List guides / tutorials\. Use \fIbare\fR to generate easy to parse output\.
 .
 .TP
-\fB\-\-commands[=*bare*]\fR
-List commands\. This is the default behavior of \fBfisher help\fR\. Use \fIbare\fR to generate easy to parse output\.
+\-\-commands[=\fIbare\fR]
+List commands\. This is the default behavior of fisher help\. Use \fIbare\fR to generate easy to parse output\.
 .
 .TP
-\fB\-\-usage[=*command*]\fR
-Display usage help for \fIcommand\fR\. To teach Fisherman how to display help for your command, \fIcommand\fR must implement a \fB\-h\fR flag\.
+\-\-usage[=\fIcommand\fR]
+Display usage help for \fIcommand\fR\. To teach Fisherman how to display help for your command, \fIcommand\fR must implement a \-h flag\.
 .
 .TP
-\fB\-h \-\-help\fR
+\-h, \-\-help
 Show usage help\.
 .
 .SH "EXAMPLES"
 .
 .IP "\(bu" 4
-Show all the available documentation\.
+Show all the existing documentation\.
 .
 .IP "" 0
 .
@@ -81,14 +81,14 @@ Show all the available documentation\.
 .
 .nf
 
-fisher help \-a
+fisher help \-\-all
 .
 .fi
 .
 .IP "" 0
 .
 .IP "\(bu" 4
-Show documentation about help\.
+Show help about help\.
 .
 .IP "" 0
 .
@@ -103,7 +103,7 @@ fisher help help
 .IP "" 0
 .
 .IP "\(bu" 4
-Show usage help for all Fisherman commands\.
+Show usage help for all available commands\.
 .
 .IP "" 0
 .
@@ -118,4 +118,4 @@ fisher help \-\-commands=bare | fisher help \-\-usage
 .IP "" 0
 .
 .SH "SEE ALSO"
-\fBman\fR(1), \fBfisher\fR(1)
+man(1), fisher(1)

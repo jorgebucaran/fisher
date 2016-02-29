@@ -11,7 +11,7 @@ function __fisher_plugin_disable -a plugin path option
                 __fisher_plugin_uninstall_handler $plugin $source "$option"
 
             case \*
-                __fisher_plugin_unlink $name $fisher_config/$target
+                __fisher_plugin_unlink $fisher_config/$target $name
         end
     end
 
@@ -20,7 +20,7 @@ function __fisher_plugin_disable -a plugin path option
     end
 
     if test -s $fisher_file
-        debug "Remove '%s' from fishfile" "$plugin"
+        debug "Remove from fishfile %s" "$plugin"
 
         __fisher_file_remove (
             if not fisher_search --name=$plugin --name --index=$fisher_cache/.index
