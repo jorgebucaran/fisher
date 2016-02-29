@@ -2,18 +2,10 @@ set -l IFS ";"
 
 complete -xc fisher
 
-complete -c fisher -n "__fish_use_subcommand" -s l -l list -d "[=<file>] List plugins"
-complete -c fisher -n "__fish_use_subcommand" -s h -l help -d "Display help"
+complete -c fisher -n "__fish_use_subcommand" -s h -l help -d "Show usage help"
 complete -c fisher -n "__fish_use_subcommand" -s v -l version -d "Show version information"
 
 complete -c fisher -a "fisherman" -d "Update Fisherman" -n "__fish_seen_subcommand_from update"
-
-complete -c fisher -a "\t"                              -n "__fish_seen_subcommand_from search"
-complete -c fisher -l "name"    -d "Filter by name"     -n "__fish_seen_subcommand_from search"
-complete -c fisher -l "url"     -d "Filter by url"      -n "__fish_seen_subcommand_from search"
-complete -c fisher -l "info"    -d "Filter by info"     -n "__fish_seen_subcommand_from search"
-complete -c fisher -l "author"  -d "Filter by author"   -n "__fish_seen_subcommand_from search"
-complete -c fisher -l "tags"    -d "Filter by tag/s"    -n "__fish_seen_subcommand_from search"
 
 __fisher_help_guides | while read -l guide info
     complete -c fisher -n "__fish_seen_subcommand_from help" -a $guide -d "$info"

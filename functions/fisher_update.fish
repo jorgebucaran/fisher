@@ -1,4 +1,4 @@
-function fisher_update -d "Update Plugins/Fisherman"
+function fisher_update -d "Update plugins"
     set -l plugins
     set -l option self
     set -l stdout /dev/stdout
@@ -64,6 +64,8 @@ function fisher_update -d "Update Plugins/Fisherman"
             set -l total (count $plugins)
             set -l skipped
 
+            set -l IFS \t
+
             if set -q plugins[1]
                 printf "%s\n" $plugins
             else
@@ -74,7 +76,7 @@ function fisher_update -d "Update Plugins/Fisherman"
                 debug "Validate '%s'" $item
 
                 if not set item (__fisher_plugin_validate $item)
-                    printf "fisher: '%s' is not a valid name, path or url.\n" $item > $stderr
+                    printf "fisher: '%s' is not a valid name, path or URL.\n" $item > $stderr
                     continue
                 end
 

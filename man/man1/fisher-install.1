@@ -4,48 +4,42 @@
 .TH "FISHER\-INSTALL" "1" "February 2016" "" "fisherman"
 .
 .SH "NAME"
-\fBfisher\-install\fR \- Install Plugins
+\fBfisher\-install\fR \- Install plugins
 .
 .SH "SYNOPSIS"
-fisher \fBinstall\fR [\fIplugins\fR \.\.\.] [\fB\-\-force\fR] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
+fisher install [\fIplugins\fR \.\.\.] [\-\-force] [\-\-quiet] [\-\-help]
 .
 .SH "USAGE"
-fisher \fBinstall\fR \fIurl\fR \.\.\.
+fisher install \fIurl\fR
 .
 .br
-fisher \fBinstall\fR \fIname\fR \.\.\.
+fisher install \fIname\fR
 .
 .br
-fisher \fBinstall\fR \fIpath\fR \.\.\.
+fisher install \fIpath\fR
 .
 .br
-fisher \fBinstall\fR \fIowner/repo\fR \.\.\.
+fisher install \fIowner/repo\fR
+.
+.br
+fisher install \fIfunction\fR
 .
 .br
 .
 .SH "DESCRIPTION"
-Install one or more plugins, by name, URL or a local path\. If no arguments are given, read the standard input\.
+Install one or more plugins, by name, URL, path or function name\. If no arguments are given, read the standard input\.
 .
 .P
-In addition, all of the following \fBowner/repo\fR variations are accepted:
+In addition, all of the following owner/repo variations are accepted:
 .
 .IP "\(bu" 4
-owner/repo \fB>\fR https://github\.com/owner/repo
-.
-.br
-
+owner/repo \fIhttps://github\.com/owner/repo\fR
 .
 .IP "\(bu" 4
-\fIgithub\fR/owner/repo \fB>\fR https://github\.com/owner/repo
-.
-.br
-
+github/owner/repo \fIhttps://github\.com/owner/repo\fR
 .
 .IP "\(bu" 4
-\fIgh\fR/owner/repo \fB>\fR https://github\.com/owner/repo
-.
-.br
-
+gh/owner/repo \fIhttps://github\.com/owner/repo\fR
 .
 .IP "" 0
 .
@@ -53,53 +47,44 @@ owner/repo \fB>\fR https://github\.com/owner/repo
 Shortcuts to other common Git repository hosting services are also available:
 .
 .IP "\(bu" 4
-\fIbb\fR/owner/repo \fB>\fR https://bitbucket\.org/owner/repo
-.
-.br
-
+bb/owner/repo \fIhttps://bitbucket\.org/owner/repo\fR
 .
 .IP "\(bu" 4
-\fIgl\fR/owner/repo \fB>\fR https://gitlab\.com/owner/repo
-.
-.br
-
+gl/owner/repo \fIhttps://gitlab\.com/owner/repo\fR
 .
 .IP "\(bu" 4
-\fIomf\fR/owner/repo \fB>\fR https://github\.com/oh\-my\-fish/repo
-.
-.br
-
+omf/owner/repo \fIhttps://github\.com/oh\-my\-fish/repo\fR
 .
 .IP "" 0
 .
 .P
-If a URL is given, the repository is cloned to \fB$fisher_cache\fR the first time and any relevant plugin files are copied to \fB$fisher_config\fR functions, completions, conf\.d and man directories\.
+If a URL is given, the repository is cloned to $fisher_cache the first time and any relevant plugin files are copied to $fisher_config functions, completions, conf\.d and man directories\.
 .
 .P
-If the plugin already exists in \fB$fisher_cache\fR, the files are only copied to \fB$fisher_config\fR\. To update a plugin use \fBfisher update\fR\.
+If the plugin already exists in $fisher_cache, the files are only copied to $fisher_config\. To update a plugin use fisher update\.
 .
 .P
-If the plugin declares dependencies, these will be installed too\. If any of the dependencies are already enabled or downloaded to the cache, they will not be updated to prevent version issues\. See \fIPlugins\fR in \fBfisher help fishfile\fR\.
+If the plugin declares dependencies, these will be installed too\. If any of the dependencies are already enabled or downloaded to the cache, they will not be updated to prevent version issues\.
 .
 .P
-If a plugin includes either a \fBfish_prompt\.fish\fR or \fBfish_right_prompt\.fish\fR, both files are first removed from \fB$fisher_config/functions\fR and then the new ones are copied\.
+If a plugin includes either a fish_prompt\.fish or fish_right_prompt\.fish, both files are first removed from $fisher_config/functions and then the new ones are copied\.
 .
 .SH "OPTIONS"
 .
 .TP
-\fB\-f\fR \fB\-\-force\fR
-Reinstall given plugin/s\. If the plugin is already in the cache, it will be installed from the cache\.
+\-f, \-\-force
+Reinstall given plugin/s\.
 .
 .TP
-\fB\-q\fR \fB\-\-quiet\fR
+\-q, \-\-quiet
 Enable quiet mode\.
 .
 .TP
-\fB\-h\fR \fB\-\-help\fR
+\-h, \-\-help
 Show usage help\.
 .
-.SH "EXAMPLES"
-Here is the directory tree of \fImy_plugin\fR:
+.SH "DIRECTORY TREE"
+The directory tree in \fImy_plugin\fR
 .
 .IP "" 4
 .
@@ -123,7 +108,7 @@ my_plugin
 .IP "" 0
 .
 .P
-And here is the directory tree of \fB$fisher_config/\fR after running \fBfisher install my_plugin\fR:
+The directory tree in $fisher_config after running fisher install my_plugin:
 .
 .IP "" 4
 .
@@ -146,11 +131,8 @@ $fisher_config
 .
 .IP "" 0
 .
-.P
-In addition, any \fBinit\.fish\fR and \fB*\.config\.fish\fR files, are copied to \fB$fisher_config/conf\.d\fR and evaluated during the start of the shell\.
-.
-.P
-To prevent name collisions, \fBinit\.fish\fR files are renamed to \fBmy_plugin\.init\.fish\fR\.
+.SH "SNIPPETS"
+Snippets are plugins that run code at the start of the shell\. Snippets must be placed inside a sub directory named conf\.d\.
 .
 .SH "EXAMPLES"
 .
@@ -170,16 +152,7 @@ fisher install fishtape simnalamburt/shellder ~/plugins/my_plugin
 .IP "" 0
 .
 .SH "SEE ALSO"
-\fBfisher\fR(1)
-.
-.br
-\fBfisher help config\fR
-.
-.br
-\fBfisher help update\fR
-.
-.br
-\fBfisher help uninstall\fR
+fisher help uninstall
 .
 .br
 

@@ -1,4 +1,4 @@
-function fisher_install -d "Install Plugins"
+function fisher_install -d "Install plugins"
     set -l plugins
     set -l option
     set -l stdout /dev/stdout
@@ -37,6 +37,8 @@ function fisher_install -d "Install Plugins"
     set -l total (count $plugins)
     set -l skipped
 
+    set -l IFS \t
+
     if set -q plugins[1]
         printf "%s\n" $plugins
     else
@@ -46,16 +48,19 @@ function fisher_install -d "Install Plugins"
         debug "Validate %s" $item
 
         if not set item (__fisher_plugin_validate $item)
+            debug "Validate fail %s" $item
             printf "fisher: '%s' is not a valid name, path or URL.\n" $item > $stderr
             continue
         end
+
+        debug "Validate pass %s" $item
 
         switch "$item"
             case https://gist.github.com\*
                 debug "Install gist %s" $item
 
                 if set -l name (__fisher_gist_to_name $item)
-                    printf "%s %s\n" $item $name
+                    printf "%s\t%s\n" $item $name
                 else
                     set total (math $total - 1)
                     printf "fisher: Repository '%s' not found.\n" $item > $stderr
@@ -64,18 +69,18 @@ function fisher_install -d "Install Plugins"
             case \*/\*
                 debug "Install URL %s" $item
 
-                printf "%s %s\n" $item (printf "%s\n" $item | __fisher_name)
+                printf "%s\t%s\n" "$item" (printf "%s\n" "$item" | __fisher_name)
 
             case \*
                 if set -l url (fisher_search --url --name=$item --index=$fisher_cache/.index)
                     debug "Install %s" $item
 
-                    printf "%s %s\n" $url $item
+                    printf "%s\t%s\n" $url $item
 
                 else if test -d $fisher_cache/$item
                     debug "Install %s" \$fisher_cache/$item
 
-                    printf "%s %s\n" (__fisher_url_from_path $fisher_cache/$item) $item
+                    printf "%s\t%s\n" (__fisher_url_from_path $fisher_cache/$item) $item
 
                 else
                     set total (math $total - 1)
@@ -85,7 +90,7 @@ function fisher_install -d "Install Plugins"
 
     end | while read -l url name
 
-        if contains -- $name (__fisher_list $fisher_file)
+        if contains -- $name (fisher_list $fisher_file)
             if test -z "$option"
                 set total (math $total - 1)
                 set skipped $skipped $name
@@ -110,11 +115,11 @@ function fisher_install -d "Install Plugins"
 
         if test ! -e $path
             if test -d "$url"
-                debug "Link '%s' to the cache" $url
+                debug "Link %s" $url
 
                 command ln -sfF $url $path
             else
-                debug "Download '%s'" $url
+                debug "Download %s" $url
 
                 if not spin "__fisher_url_clone $url $path" --error=$stderr
                     continue

@@ -4,97 +4,152 @@
 .TH "FISHER\-SEARCH" "1" "February 2016" "" "fisherman"
 .
 .SH "NAME"
-\fBfisher\-search\fR \- Search Plugin Index
+\fBfisher\-search\fR \- Search plugin index
 .
 .SH "SYNOPSIS"
-fisher \fBsearch\fR [\fIplugins\fR \.\.\.]
+fisher search [\fIplugins\fR \.\.\.]
 .
 .br
-fisher \fBsearch\fR [\fB\-\-name|\-\-url|\-\-info|\-\-tag|\-\-author\fR]
+fisher search [\-\-name|\-\-url|\-\-info|\-\-tag|\-\-author]
 .
 .br
-fisher \fBsearch\fR [\fB\-\-query\fR=\fIfield\fR[\fB&&\fR,\fB||\fR]\fIfield\fR\.\.\.]
+fisher search [\-\-and] [\-\-or] [\-\-quiet] [\-\-help]
 .
 .br
-fisher \fBsearch\fR [\fB\-\-format\fR=\fIoneline\fR|\fIshort\fR|\fIverbose\fR|\fIlongline\fR] [\-\-no\-color]
+fisher search [\-\-long|\-\-full] [\-\-no\-color]
 .
 .br
-fisher \fBsearch\fR [\fB\-\-and\fR] [\fB\-\-or\fR] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
+fisher search [\-\-query=\fIfield\fR[&&,||]\fIfield\fR\.\.\.]
 .
 .br
 .
 .SH "USAGE"
-fisher \fBsearch\fR \fIurl\fR
+fisher search \fIurl\fR
 .
 .br
-fisher \fBsearch\fR \fIname\fR
+fisher search \fIname\fR
 .
 .br
-fisher \fBsearch\fR \fIowner/repo\fR
+fisher search \fIowner/repo\fR
 .
 .br
-fisher \fBsearch\fR \fIquery\fR
+fisher search \fIquery\fR
 .
 .br
 .
 .SH "DESCRIPTION"
 Search plugins in the Fisherman index\.
 .
-.P
-The index file consists of records plugin name and info\. \fB*\fR is shown if plugin is installed\.
-.
-.P
-For example:
-.
 .IP "" 4
 .
 .nf
 
-  name         info
+fisher search
+  \.\.\.
+* debug        Conditional debug logger
+  errno        POSIX error code/string translator
+* fishtape     TAP producing test runner
+  flash        Flash\-inspired, thunder prompt
+  fzf          Efficient keybindings for fzf
+  get          Press any key to continue
+  \.\.\.
+> shellder     Powerline prompt optimized for speed
+  \.\.\.
 .
 .fi
 .
 .IP "" 0
 .
 .P
-See \fIIndex\fR in \fBfisher help tour\fR for more information about the index\.
+Get detailed information about a plugin\.
+.
+.IP "" 4
+.
+.nf
+
+fisher search shellder
+> shellder by simnalamburt
+Powerline prompt optimized for speed
+github\.com/simnalamburt/shellder
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Search plugins using tags\.
+.
+.IP "" 4
+.
+.nf
+
+fisher search \-\-tag={git,test}
+  \.\.\.
+* fishtape           TAP producing test runner
+  git\-branch\-name    Get the name of the current Git branch
+  git\-is\-repo        Test if the current directory is a Git repo
+  git\-is\-dirty       Test if there are changes not staged for commit
+  git\-is\-stashed     Test if there are changes in the stash
+  \.\.\.
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The legend consists of:
+.
+.P
+\fB*\fR Indicate the plugin is currently installed
+.
+.br
+\fB>\fR Indicate the plugin is a prompt
+.
+.br
+\fB@\fR Indicate the plugin is a symbolic link
+.
+.br
 .
 .SH "OPTIONS"
 .
 .TP
-\fB\-\-<field>[=match]\fR
-Display index records where \fIfield\fR equals \fImatch\fR\. \fIfield\fR can be any of \fBname\fR, \fBurl\fR, \fBinfo\fR, \fBtag/s\fR or \fBauthor\fR\. If \fImatch\fR is not given, display only the given \fIfield\fR from every record in the index\. Use \fB!=\fR to negate the query\.
+\-\-\fIfield\fR[=\fImatch\fR]
+Display index records where \fIfield\fR equals \fImatch\fR\. \fIfield\fR can be any of name, url, info, tag/s or author\. If \fImatch\fR is not given, display only the given \fIfield\fR from every record in the index\. Use != to negate the query\.
 .
 .TP
-\fB\-\-<field>[~/regex/]\fR
-Same as \fB\-\-<field>[=regex]\fR, but using Regular Expressions instead of exact matching\. Use \fB!~\fR to negate the query\.
+\-\-\fIfield\fR[~/regex/]
+Same as \-\-\fIfield\fR[=\fImatch\fR], but using Regular Expressions\. Use !~ to negate the query\.
 .
 .TP
-\fB\-\-format=oneline|short|verbose|longline\fR
-Use the given format to display search results\.
+\-\-long
+Display results in long format\.
 .
 .TP
-\fB\-\-no\-color\fR
+\-\-full
+Display results in full format\.
+.
+.TP
+\-\-no\-color
 Turn off color display\.
 .
 .TP
-\fB\-a \-\-and\fR
+\-a, \-\-and
 Join the query with a logical AND operator\.
 .
 .TP
-\fB\-o \-\-or\fR
+\-o, \-\-or
 Join the query with a logical OR operator\. This is the default operator\.
 .
 .TP
-\fB\-q \-\-quiet\fR
+\-q, \-\-quiet
 Enable quiet mode\.
 .
 .TP
-\fB\-h \-\-help\fR
+\-h, \-\-help
 Show help\.
 .
-.SH "OUTPUT"
-To allow for easier parsing, Search will print results records in the same line when using one or more of the following options: \fB\-\-name\fR, \fB\-\-url\fR, \fB\-\-info\fR, \fB\-\-tags\fR, \fB\-\-author\fR\.
+.SH "RESULTS"
+Search prints results records in the same line, when using one or more of the following options: \-\-name, \-\-url, \-\-info, \-\-tags, \-\-author\. This allows you to parse search results easily\.
 .
 .IP "" 4
 .
@@ -107,9 +162,6 @@ shark;https://github\.com/fishery/shark;bucaran
 .fi
 .
 .IP "" 0
-.
-.P
-The result set above consists of single line per record, and each record consists of one or more of the specified fields separated by semicolons \fB\';\'\fR\.
 .
 .SH "EXAMPLES"
 .
@@ -159,7 +211,7 @@ fisher search \-\-and \-\-name!=(fisher \-\-list=bare)
 .IP "" 0
 .
 .IP "\(bu" 4
-Search all plugins whose name does not start with the letter \fBs\fR\.
+Search all plugins whose name does not start with the letter s\.
 .
 .IP "" 0
 .
@@ -172,12 +224,4 @@ fisher search \-\-name!~/^s/
 .fi
 .
 .IP "" 0
-.
-.SH "SEE ALSO"
-\fBfisher\fR(1)
-.
-.br
-\fBfisher help plugins\fR
-.
-.br
 

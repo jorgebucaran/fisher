@@ -1,10 +1,11 @@
-function getopts -d "Parse command options"
+function getopts -d "Parse command line options"
     if not set -q argv[1]
         return 1
     end
 
     printf "%s\n" $argv | sed -E '
-        s/^-([A-Za-z]+)/- \1 /; s/^--([A-Za-z0-9_-]+)(!?)=?(.*)/-- \1 \3 \2 /' | awk '
+        s/^-([A-Za-z]+)/- \1 /
+        s/^--([A-Za-z0-9_-]+)(!?)=?(.*)/-- \1 \3 \2 /' | awk '
 
         function out(k,v) { if (!seen[k v]++) print k (v == "" ? "" : " "v) }
         function pop()    { return len <= 0 ? "_" : opt[len--] }

@@ -21,11 +21,17 @@ function __fisher_plugin_walk -a plugin path
                 switch "$base"
                     case \*$plugin\*
                     case \*
-                        debug "Rename '%s' to '%s'" $plugin $plugin.$base
+                        debug "Move %s to %s" $plugin $plugin.$base
                         set base $plugin.$base
                 end
 
-                printf "%s %s %s\n" --source $file conf.d/$base
+                switch "$name"
+                    case fish_postexec fish_preexec fish_command_not_found
+                    case \*
+                        set name
+                end
+
+                printf "%s %s %s %s\n" --source $file conf.d/$base $name
 
             case \*
                 printf "%s %s %s %s\n" --source $file functions/$base $name
@@ -35,14 +41,14 @@ function __fisher_plugin_walk -a plugin path
     for file in $path/{functions/,}*.{py,rb,php,pl,awk,sed}
         set -l base (basename $file)
 
-        debug "Script file '%s'" $file
+        debug "Script %s" $file
 
         printf "%s %s %s\n" -- $file functions/$base
     end
 
     for n in (seq 9)
         for file in $path/man/man$n/*.$n
-            debug "Manual page '%s'" $file
+            debug "Man %s" $file
 
             printf "%s %s %s\n" --man $file man/man$n/(basename $file)
         end

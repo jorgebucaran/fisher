@@ -4,50 +4,47 @@
 .TH "FISHER\-UPDATE" "1" "February 2016" "" "fisherman"
 .
 .SH "NAME"
-\fBfisher\-update\fR \- Update Fisherman and Plugins
+\fBfisher\-update\fR \- Update plugins
 .
 .SH "SYNOPSIS"
-fisher \fBupdate\fR [\fIplugins\fR \.\.\.] [\fB\-\-quiet\fR] [\fB\-\-help\fR]
+fisher update [\fIplugins\fR \.\.\.] [\-\-quiet] [\-\-help]
 .
 .br
 .
 .SH "USAGE"
-fisher \fBupdate\fR \fIurl\fR \.\.\.
+fisher update \fIurl\fR \.\.\.
 .
 .br
-fisher \fBupdate\fR \fIname\fR \.\.\.
+fisher update \fIname\fR \.\.\.
 .
 .br
-fisher \fBupdate\fR \fIpath\fR \.\.\.
+fisher update \fIpath\fR \.\.\.
 .
 .br
-fisher \fBupdate\fR \fIowner/repo\fR \.\.\.
+fisher update \fIowner/repo\fR \.\.\.
 .
 .br
 .
 .SH "DESCRIPTION"
-Update one or more plugins, by name, URL or a local path\. If no arguments are given, update Fisherman to the latest release\. If you try to update a plugin that is currently disabled, but present in the cache, it will be updated and then enabled\. Use a dash \fB\-\fR to read from the standard input\.
+Update one or more plugins, by name, URL or path\. If no arguments are given, update Fisherman to the latest release\. If you try to update a plugin that is currently disabled, but exists in the cache, it will be updated and then enabled\. Use a dash \fB\-\fR to read from the standard input\.
 .
 .P
-One exception to the process described above is updating a prompt which is not the current one\. In this case the repository is updated, but it will not be activated as that is probably not what the user wants\.
-.
-.P
-If a plugin is missing dependencies, they will be installed\. If any dependencies are already installed they will not be updated\. See \fBPlugins\fR in \fBfisher help fishfile\fR\.
+If a plugin is missing dependencies, they will be installed\. If any dependencies are already installed they will not be updated\.
 .
 .SH "OPTIONS"
 .
 .TP
-\fB\-q \-\-quiet\fR
+\-q, \-\-quiet
 Enable quiet mode\.
 .
 .TP
-\fB\-h \-\-help\fR
+\-h, \-\-help
 Show usage help\.
 .
 .SH "EXAMPLES"
 .
 .IP "\(bu" 4
-Update Fisherman
+Update Fisherman\.
 .
 .IP "" 0
 .
@@ -62,7 +59,7 @@ fisher update
 .IP "" 0
 .
 .IP "\(bu" 4
-Update all the plugins in the cache \fIconcurrently\fR\.
+Update all the plugins in the cache\.
 .
 .IP "" 0
 .
@@ -70,17 +67,24 @@ Update all the plugins in the cache \fIconcurrently\fR\.
 .
 .nf
 
-fisher \-\-list | cut \-c 2\- | xargs \-n1 \-P0 fish \-c \'fisher update\'
+fisher list | fisher update \-
 .
 .fi
 .
 .IP "" 0
 .
-.SH "SEE ALSO"
-\fBfisher\fR(1)
+.IP "\(bu" 4
+Update all the plugins in the cache concurrently\.
 .
-.br
-\fBfisher help plugins\fR
+.IP "" 0
 .
-.br
+.IP "" 4
+.
+.nf
+
+fisher list \-\-bare | xargs \-n1 \-P0 fish \-c "fisher update \-"
+.
+.fi
+.
+.IP "" 0
 

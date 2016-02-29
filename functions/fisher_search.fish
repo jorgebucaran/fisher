@@ -1,4 +1,4 @@
-function fisher_search -d "Search Plugins"
+function fisher_search -d "Search plugin index"
     set -l fields
     set -l query
     set -l index
@@ -9,9 +9,6 @@ function fisher_search -d "Search Plugins"
 
     getopts $argv | while read -l 1 2 3
         switch "$1"
-            case fmt format
-                set format "$2"
-
             case _
                 switch "$2"
                     case \*/\*
@@ -50,13 +47,19 @@ function fisher_search -d "Search Plugins"
                     set query $query "$3 tags(\"$2\")" $join
                 end
 
+            case long
+                set format long
+
+            case full
+                set format full
+
             case a and
                 set join "&&"
 
             case o or
                 set join "||"
 
-            case no-color
+            case C no-color
                 set option no-color
 
             case query
@@ -69,15 +72,14 @@ function fisher_search -d "Search Plugins"
                 set stdout /dev/null
 
             case h
-                printf "Usage: fisher search [<plugins>] [--format=<format>] [--and|--or]\n"
-                printf "                     [--no-color] [--quiet] [--help]\n\n"
+                printf "Usage: fisher search [<plugins>] [--long] [--full] [--no-color]\n"
+                printf "                     [--quiet] [--help]\n\n"
 
-                printf "    -a --and       Join query with AND operator\n"
-                printf "    -o --or        Join query with OR operator\n"
-                printf "       --no-color  Turn off color display\n"
-                printf "       --format=<format>  Use format to display results\n"
-                printf "    -q --quiet     Enable quiet mode\n"
-                printf "    -h --help      Show usage help\n"
+                printf "       --long         Display results in long format\n"
+                printf "       --full         Display results in full format\n"
+                printf "    -C --no-color     Turn off color display\n"
+                printf "    -q --quiet        Enable quiet mode\n"
+                printf "    -h --help         Show usage help\n"
                 return
 
             case \*
@@ -144,14 +146,14 @@ function fisher_search -d "Search Plugins"
         end
 
         set legend
-        set local (fisher -l | awk '
+        set local (fisher_list | awk '
 
             !/^@/ {
                 if (append) {
                     printf("|")
                 }
 
-                printf("%s", substr($0, 2))
+                printf("%s", substr($0, 3))
 
                 append++
             }
@@ -162,46 +164,42 @@ function fisher_search -d "Search Plugins"
             set legend "  "
         end
 
-        set fields 'if ("'"$local"'" && $1~/'"$local"'/) {'
+        set fields '
+            legend="*"
+
+            if ($1 == "'"$fisher_prompt"'") {
+                legend = ">"
+            }
+
+            if ("'"$local"'" && $1~/'"$local"'/) {
+        '
 
         switch "$format"
-            case default oneline
+            case default
                 set fields $fields '
-                    printf("* '"$weak_color"'%-18s'"$normal"' %s\n", $1, $3)
+                    printf("%s '"$weak_color"'%-18s'"$normal"' %s\n", legend, $1, $3)
                 } else {
                     printf("'"$legend$name_color"'%-18s'"$normal"' %s\n", $1, $3)
                 }
                 '
                 set options $options -v compact=1
 
-            case longline
+            case long
                 set fields $fields '
-                    printf("%-40s * '"$weak_color"'%-18s'"$normal"' %s\n", humanize_url($2), $1, $3)
+                    printf("%-40s %s '"$weak_color"'%-18s'"$normal"' %s\n", humanize_url($2), legend, $1, $3)
                 } else {
                     printf("'"$tag_color"'%-40s'"$normal"' '"$legend$name_color"'%-18s'"$normal"' %s\n", humanize_url($2), $1, $3)
                 }
                 '
                 set options $options -v compact=1
 
-            case short
+            case full
                 set fields $fields '
-                    printf("'"$weak_color"'*%s by %s\n%s'"$normal"'\n%s\n", $1, $5, $3, humanize_url($2))
+                    printf("'"$weak_color"'%s %s by %s\n%s'"$normal"'\n%s\n", legend, $1, $5, $3, humanize_url($2))
                 } else {
                     printf("'"$name_color"'%s'"$normal"' by '"$author_color"'%s'"$normal"'\n%s\n'"$url_color"'%s'"$normal"'\n", $1, $5, $3, humanize_url($2))
                 }
                 '
-
-            case verbose
-                set fields $fields '
-                    printf("'"$weak_color"'*%s by %s\n%s'"$normal"'\n%s\n%s\n", $1, $5, $3, $4, humanize_url($2))
-                } else {
-                    printf("'"$name_color"'%s'"$normal"' by '"$author_color"'%s'"$normal"'\n%s\n'"$tag_color"'%s'"$normal"'\n'"$url_color"'%s'"$normal"'\n", $1, $5, $3, $4, humanize_url($2))
-                }
-                '
-
-            case raw
-                set fields print
-
         end
     else
         if test "$fields" = author
