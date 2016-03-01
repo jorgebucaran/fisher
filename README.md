@@ -28,7 +28,7 @@ curl -sL get.fisherman.sh | fish
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
 
-[version-badge]: https://img.shields.io/badge/latest-v0.9.0-00B9FF.svg?style=flat-square
+[version-badge]: https://img.shields.io/badge/latest-v1.0.0-00B9FF.svg?style=flat-square
 [version-link]: https://github.com/fisherman/fisherman/releases
 
 [slack-link]: https://fisherman-wharf.herokuapp.com/
