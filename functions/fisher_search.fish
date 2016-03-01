@@ -74,12 +74,11 @@ function fisher_search -d "Search plugin index"
             case h
                 printf "Usage: fisher search [<plugins>] [--long] [--full] [--no-color]\n"
                 printf "                     [--quiet] [--help]\n\n"
-
-                printf "       --long         Display results in long format\n"
-                printf "       --full         Display results in full format\n"
-                printf "    -C --no-color     Turn off color display\n"
-                printf "    -q --quiet        Enable quiet mode\n"
-                printf "    -h --help         Show usage help\n"
+                printf "       --long       Display results in long format\n"
+                printf "       --full       Display results in full format\n"
+                printf "    -C --no-color   Turn off color display\n"
+                printf "    -q --quiet      Enable quiet mode\n"
+                printf "    -h --help       Show usage help\n"
                 return
 
             case \*
