@@ -13,14 +13,18 @@ function fisher_update -d "Update plugins"
                     set plugins $plugins $2
                 end
 
+            case a all
+                set option all
+
             case q quiet
                 set stdout /dev/null
                 set stderr /dev/null
 
             case h
-                printf "Usage: fisher update [<plugins>] [--quiet] [--help]\n\n"
-                printf "    -q --quiet     Enable quiet mode\n"
-                printf "    -h --help      Show usage help\n"
+                printf "Usage: fisher update [<plugins>] [--all] [--quiet] [--help]\n\n"
+                printf "    -a --all      Update everything\n"
+                printf "    -q --quiet    Enable quiet mode\n"
+                printf "    -h --help     Show usage help\n"
                 return
 
             case \*
@@ -30,29 +34,37 @@ function fisher_update -d "Update plugins"
         end
     end
 
+    set -l indicator "▸"
+
     switch "$option"
+        case all
+            fisher_list --enabled | fisher_update -
+            fisher_update
+
         case self
             set -l time (date +%s)
 
-            debug "Update Fisherman %s" $fisher_home
-            debug "Update Index %s" $fisher_index
+            debug "Update %s" $fisher_index
+            debug "Update %s" $fisher_home
 
-            printf "Updating >> Index\n" > $stderr
+            printf "$indicator Updating Index\n" > $stderr
 
-            if not spin "__fisher_index_update 0" --error=$stderr
+            if not spin "__fisher_index_update 0" --error=$stderr -f "  @\r"
                 debug "Update Index fail"
 
-                printf "fisher: I could not update the index. Trying to update Fisherman...\n" > $stderr
+                printf "fisher: I could not update the index.\n" > $stderr
             end
 
-            if not spin "__fisher_path_update $fisher_home" --error=$stderr
+            printf "$indicator Updating Fisherman\n" > $stderr
+
+            if not spin "__fisher_path_update $fisher_home" --error=$stderr  -f "  @\r"
                 debug "Update Fisherman fail"
 
                 printf "fisher: Sorry, but I couldn't update Fisherman.\n\n" > $stderr
                 return 1
             end
 
-            debug "Update Fisherman success"
+            debug "Update Fisherman ok"
 
             printf "Aye! Fisherman up to date with version %s (%0.fs)\n" (
                 cat $fisher_home/VERSION) (math (date +%s) - $time) > $stderr
@@ -70,15 +82,18 @@ function fisher_update -d "Update plugins"
                 printf "%s\n" $plugins
             else
                 __fisher_file
-
+                
             end | while read -l item path
 
-                debug "Validate '%s'" $item
+                debug "Validate %s" $item
 
                 if not set item (__fisher_plugin_validate $item)
+                    debug "Validate fail %s" $item
                     printf "fisher: '%s' is not a valid name, path or URL.\n" $item > $stderr
                     continue
                 end
+
+                debug "Validate ok %s" $item
 
                 if not set path (__fisher_path_from_plugin $item)
                     set total (math $total - 1)
@@ -88,30 +103,30 @@ function fisher_update -d "Update plugins"
 
                 set -l name (printf "%s\n" $path | __fisher_name)
 
-                printf "Updating " > $stderr
+                printf "$indicator Updating " > $stderr
 
                 switch $total
                     case 0 1
-                        printf ">> %s\n" $name > $stderr
+                        printf "%s\n" $name > $stderr
 
                     case \*
-                        printf "(%s of %s) >> %s\n" $index $total $name > $stderr
+                        printf "(%s of %s) %s\n" $index $total $name > $stderr
                         set index (math $index + 1)
                 end
 
                 if test ! -L $path
-                    debug "Update plugin '%s' start" "$name"
+                    debug "Update start %s" "$name"
 
-                    if not spin "__fisher_path_update $path" --error=$stderr
-                        debug "Update path fail '%s'" "$path"
+                    if not spin "__fisher_path_update $path" --error=$stderr -f "  @\r"
+                        debug "Update fail %s" "$path"
                         continue
                     end
                 end
 
-                debug "Update plugin success '%s'" "$name"
+                debug "Update ok %s" "$name"
 
                 if __fisher_plugin_can_enable "$name" "$path"
-                    debug "Enable plugin '%s'" "$name"
+                    debug "Enable %s" "$name"
 
                     fisher_install --quiet --force -- $name
                 end
@@ -126,6 +141,6 @@ function fisher_update -d "Update plugins"
                 return 1
             end
 
-            printf "Aye! %d plugin/s updated in %0.fs\n" $count $time > $stdout
+            printf "%d plugin/s updated in %0.fs\n" $count $time > $stdout
     end
 end

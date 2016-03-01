@@ -1,34 +1,35 @@
-Usage: fisher update [<plugins>] [--quiet] [--help]
+Usage: fisher update [<plugins>] [--all] [--quiet] [--help]
 
-    -q --quiet     Enable quiet mode
-    -h --help      Show usage help
+    -a --all      Update everything
+    -q --quiet    Enable quiet mode
+    -h --help     Show usage help
 Usage: fisher uninstall [<plugins>] [--force] [--quiet] [--help]
 
-    -f --force     Delete copy from the cache
-    -q --quiet     Enable quiet mode
-    -h --help      Show usage help
+    -f --force    Delete copy from the cache
+    -q --quiet    Enable quiet mode
+    -h --help     Show usage help
 Usage: fisher search [<plugins>] [--long] [--full] [--no-color]
                      [--quiet] [--help]
 
-       --long         Display results in long format
-       --full         Display results in full format
-    -C --no-color     Turn off color display
-    -q --quiet        Enable quiet mode
-    -h --help         Show usage help
+       --long        Display results in long format
+       --full        Display results in full format
+    -C --no-color    Turn off color display
+    -q --quiet       Enable quiet mode
+    -h --help        Show usage help
 Usage: fisher list [<file>] [--enabled] [--disabled] [--bare] [--link] 
 
-    -b --bare         List plugin without decorators
-    -l --link         List plugins that are symbolic links
-       --enabled      List plugins that are enabled
-       --disabled     List plugins that are disabled
-    -h --help         Show usage help
+    -b --bare        List plugin without decorators
+    -l --link        List plugins that are symbolic links
+       --enabled     List plugins that are enabled
+       --disabled    List plugins that are disabled
+    -h --help        Show usage help
 Usage: fisher install [<plugins>] [--force] [--quiet] [--help]
 
-    -f --force     Reinstall given plugin/s
-    -q --quiet     Enable quiet mode
-    -h --help      Show usage help
+    -f --force    Reinstall given plugin/s
+    -q --quiet    Enable quiet mode
+    -h --help     Show usage help
 Usage: fisher help [<keyword>] [--all] [--guides] [--help]
 
-    -a --all        List all the documentation
-    -g --guides     List available guides
-    -h --help       Show usage help
+    -a --all       List all the documentation
+    -g --guides    List available guides
+    -h --help      Show usage help

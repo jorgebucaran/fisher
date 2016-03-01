@@ -5,7 +5,7 @@ function __fisher_file
         }
 
         !/^[ \t]*(#.*)*$/ {
-            gsub("^[@*>]|#.*", "")
+            gsub("^[@*>]?[ \t]*?|#.*", "")
 
             if (! seen[$1]++) {
                 printf("%s\n", $1)
