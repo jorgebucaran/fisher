@@ -67,7 +67,6 @@ function fisher_install -d "Install plugins"
                 if set -l name (__fisher_gist_to_name $item)
                     printf "%s\t%s\n" $item $name
                 else
-                    set total (math $total - 1)
                     printf "fisher: Repository '%s' not found.\n" $item > $stderr
                 end
 
@@ -83,7 +82,7 @@ function fisher_install -d "Install plugins"
 
                 else
                     if test ! -s $fisher_cache/.index
-                        printf "$indicator Updating Index %s\n" $name > $stderr
+                        printf "$indicator Updating the index %s\n" $name > $stderr
 
                         if spin "__fisher_index_update" --error=/dev/null -f "  @\r" > /dev/null
                             debug "Update index ok"
@@ -100,7 +99,6 @@ function fisher_install -d "Install plugins"
                         set -l path (__fisher_function_to_plugin $item)
                         printf "%s\t%s" "$path" $item
                     else
-                        set total (math $total - 1)
                         printf "fisher: '%s' not found or index out of date.\n" $item > $stderr
                     end
                 end
@@ -109,7 +107,6 @@ function fisher_install -d "Install plugins"
     end | while read -l url name
         if contains -- $name (fisher_list $fisher_file)
             if test -z "$option"
-                set total (math $total - 1)
                 set skipped $skipped $name
                 continue
             end
@@ -151,7 +148,6 @@ function fisher_install -d "Install plugins"
         end
 
         if not __fisher_path_make "$path" --quiet
-            set total (math $total - 1)
             continue
         end
 

@@ -47,7 +47,7 @@ function fisher_update -d "Update plugins"
             debug "Update %s" $fisher_index
             debug "Update %s" $fisher_home
 
-            printf "$indicator Updating Index\n" > $stderr
+            printf "$indicator Updating the index\n" > $stderr
 
             if not spin "__fisher_index_update 0" --error=$stderr -f "  @\r"
                 debug "Update Index fail"
@@ -82,7 +82,7 @@ function fisher_update -d "Update plugins"
                 printf "%s\n" $plugins
             else
                 __fisher_file
-                
+
             end | while read -l item path
 
                 debug "Validate %s" $item
@@ -96,7 +96,6 @@ function fisher_update -d "Update plugins"
                 debug "Validate ok %s" $item
 
                 if not set path (__fisher_path_from_plugin $item)
-                    set total (math $total - 1)
                     printf "fisher: '%s' not found.\n" $item > $stderr
                     continue
                 end
