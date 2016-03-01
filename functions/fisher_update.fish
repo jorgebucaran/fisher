@@ -47,7 +47,7 @@ function fisher_update -d "Update plugins"
             debug "Update %s" $fisher_index
             debug "Update %s" $fisher_home
 
-            printf "$indicator Updating the index\n" > $stderr
+            printf "$indicator Updating the Index\n" > $stderr
 
             if not spin "__fisher_index_update 0" --error=$stderr -f "  @\r"
                 debug "Update Index fail"
