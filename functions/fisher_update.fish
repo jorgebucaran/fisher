@@ -38,7 +38,7 @@ function fisher_update -d "Update plugins"
 
     switch "$option"
         case all
-            fisher_list --enabled | fisher_update -
+            fisher_update (fisher_list --enabled)
             fisher_update
 
         case self
