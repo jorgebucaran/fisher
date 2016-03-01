@@ -82,13 +82,6 @@ function fisher_install -d "Install plugins"
                     printf "%s\t%s\n" (__fisher_url_from_path $fisher_cache/$item) $item
 
                 else
-                    if functions -q "$item"
-                        if set -l path (__fisher_function_to_plugin $item)
-                            printf "%s\t%s" "$path" $item
-                            continue
-                        end
-                    end
-
                     if test ! -s $fisher_cache/.index
                         printf "$indicator Updating Index %s\n" $name > $stderr
 
@@ -102,6 +95,10 @@ function fisher_install -d "Install plugins"
                     if set -l url (fisher_search --url --name=$item --index=$fisher_cache/.index)
                         debug "Index %s" $item
                         printf "%s\t%s\n" $url $item
+
+                    else if functions -q "$item"
+                        set -l path (__fisher_function_to_plugin $item)
+                        printf "%s\t%s" "$path" $item
                     else
                         set total (math $total - 1)
                         printf "fisher: '%s' not found or index out of date.\n" $item > $stderr
