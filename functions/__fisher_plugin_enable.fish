@@ -1,18 +1,9 @@
 function __fisher_plugin_enable -a plugin path
-    debug "Plugin enable %s" "$plugin"
+    debug "Enable %s" "$plugin"
 
     if __fisher_path_is_prompt $path
         if test ! -z "$fisher_prompt"
-
-            debug "Disable current prompt to install '%s'" $plugin
-
-            # Why do we need to disable a prompt before installing another? I thought
-            # one prompt would override the other?
-
-            # While this is true for fish_prompt and fish_right_prompt, a prompt is no
-            # different from other plugins and may optionally include other functions,
-            # scripts, completions, documentation, etc., which need also be removed.
-
+            debug "Enable prompt %s" $plugin
             __fisher_plugin_disable "$fisher_prompt" "$fisher_cache/$fisher_prompt"
         end
 
@@ -22,22 +13,13 @@ function __fisher_plugin_enable -a plugin path
     set -l link -f
 
     if test -L $path
-
-        # The path will be a soft link if the user tried to install a plugin from
-        # any directory in the local system, including plugins registered in the
-        # index. In this case we want to create soft links from <path> (which is
-        # also a soft link) as we walk the plugin's directory.
-
-        # The advantage of creating soft links from local projects is that it
-        # allows rapid prototyping / debugging of new or existing plugins.
-
         set link -sfF
     end
 
     __fisher_plugin_walk "$plugin" "$path" | while read -l class source target __unused
         switch "$class"
             case --bind
-                debug "Enable key bindings %s" $source
+                debug "Bind %s" $source
 
                 __fisher_key_bindings_enable $plugin (__fisher_xdg --config
                     )/fish/functions/fish_user_key_bindings.fish < $source
@@ -64,12 +46,12 @@ function __fisher_plugin_enable -a plugin path
 
     if test -s $fisher_file
         if __fisher_file_contains "$item" --quiet $fisher_file
-            debug "Fishfile skip %s" "$item"
+            debug "File skip %s" "$item"
             return
         end
     end
 
-    debug "Fishfile add %s" "$item"
+    debug "File add %s" "$item"
 
     printf "%s\n" $item >> $fisher_file
 end

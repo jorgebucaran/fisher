@@ -12,15 +12,19 @@ function fisher_uninstall -d "Uninstall plugins"
             case f force
                 set option force
 
+                if test ! -z "$2"
+                    set plugins $plugins $2
+                end
+
             case q quiet
                 set stdout /dev/null
                 set stderr /dev/null
 
             case h
                 printf "Usage: fisher uninstall [<plugins>] [--force] [--quiet] [--help]\n\n"
-                printf "    -f --force     Delete copy from the cache\n"
-                printf "    -q --quiet     Enable quiet mode\n"
-                printf "    -h --help      Show usage help\n"
+                printf "    -f --force    Delete copy from the cache\n"
+                printf "    -q --quiet    Enable quiet mode\n"
+                printf "    -h --help     Show usage help\n"
                 return
 
             case \*
@@ -35,17 +39,17 @@ function fisher_uninstall -d "Uninstall plugins"
     set -l index 1
     set -l total (count $plugins)
     set -l skipped
-    
+    set -l indicator "▸"
+
     set -l IFS \t
 
     if set -q plugins[1]
         printf "%s\n" $plugins
     else
         __fisher_file
-
+        
     end | while read -l item path
         debug "Validate %s" $item
-        debug "Shit %s" $path
 
         if not set item (__fisher_plugin_validate $item)
             debug "Validate fail %s" $item
@@ -53,7 +57,7 @@ function fisher_uninstall -d "Uninstall plugins"
             continue
         end
 
-        debug "Validate pass %s" $item
+        debug "Validate ok %s" $item
 
         if not set path (__fisher_path_from_plugin $item)
             set total (math $total - 1)
@@ -73,26 +77,26 @@ function fisher_uninstall -d "Uninstall plugins"
             end
         end
 
-        printf "Uninstalling " > $stderr
+        printf "$indicator Uninstalling " > $stderr
 
         switch $total
             case 0 1
-                printf ">> %s\n" $name > $stderr
+                printf "%s\n" $name > $stderr
 
             case \*
-                printf "(%s of %s) >> %s\n" $index $total $name > $stderr
+                printf "(%s of %s) %s\n" $index $total $name > $stderr
                 set index (math $index + 1)
         end
 
         if __fisher_plugin_can_enable "$name" "$path"
-            debug "Plugin disable %s w/ option %s" "$name" "$option"
+            debug "Disable %s[:%s]" "$name" "$option"
             __fisher_plugin_disable "$name" "$path" "$option"
         else
-            debug "Plugin can't dissable %s" "$name"
+            debug "Disable skip %s" "$name"
         end
 
         if test "$option" = force
-            debug "Remove path '%s'" "$path"
+            debug "Delete %s" "$path"
             command rm -rf $path
         end
 
@@ -117,7 +121,7 @@ function fisher_uninstall -d "Uninstall plugins"
     __fisher_complete_reset
     __fisher_key_bindings_reset
 
-    debug "Reset completions and key bindings done"
+    debug "Reset completions and key bindings ok"
 
-    printf "Aye! %d plugin/s uninstalled in %0.fs\n" $count $time > $stdout
+    printf "%d plugin/s uninstalled in %0.fs\n" $count $time > $stdout
 end

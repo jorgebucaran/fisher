@@ -7,12 +7,12 @@ function __fisher_path_update -a path
         return 1
     end
 
-    git checkout master --quiet
+    git checkout master --quiet ^ /dev/null
 
     git stash --quiet ^ /dev/null
 
     if not git pull --rebase origin master --quiet ^ /dev/null
-        git rebase --abort
+        git rebase --abort --quiet
         git fetch origin master --quiet
         git reset --hard FETCH_HEAD --quiet
         git clean -d --force --quiet
