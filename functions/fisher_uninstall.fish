@@ -47,7 +47,7 @@ function fisher_uninstall -d "Uninstall plugins"
         printf "%s\n" $plugins
     else
         __fisher_file
-        
+
     end | while read -l item path
         debug "Validate %s" $item
 
@@ -60,7 +60,6 @@ function fisher_uninstall -d "Uninstall plugins"
         debug "Validate ok %s" $item
 
         if not set path (__fisher_path_from_plugin $item)
-            set total (math $total - 1)
             printf "fisher: '%s' not found\n" $item > $stderr
             continue
         end
@@ -71,7 +70,6 @@ function fisher_uninstall -d "Uninstall plugins"
 
         if not contains -- $name (fisher_list $fisher_file)
             if test -z "$option"
-                set total (math $total - 1)
                 set skipped $skipped $name
                 continue
             end
