@@ -12,15 +12,19 @@ function fisher_install -d "Install plugins"
             case f force
                 set option force
 
+                if test ! -z "$2"
+                    set plugins $plugins $2
+                end
+
             case q quiet
                 set stdout /dev/null
                 set stderr /dev/null
 
             case h
                 printf "Usage: fisher install [<plugins>] [--force] [--quiet] [--help]\n\n"
-                printf "    -f --force     Reinstall given plugin/s\n"
-                printf "    -q --quiet     Enable quiet mode\n"
-                printf "    -h --help      Show usage help\n"
+                printf "    -f --force    Reinstall given plugin/s\n"
+                printf "    -q --quiet    Enable quiet mode\n"
+                printf "    -h --help     Show usage help\n"
                 return
 
             case \*
@@ -36,6 +40,7 @@ function fisher_install -d "Install plugins"
     set -l index 1
     set -l total (count $plugins)
     set -l skipped
+    set -l indicator "▸"
 
     set -l IFS \t
 
@@ -53,11 +58,11 @@ function fisher_install -d "Install plugins"
             continue
         end
 
-        debug "Validate pass %s" $item
+        debug "Validate ok %s" $item
 
         switch "$item"
             case https://gist.github.com\*
-                debug "Install gist %s" $item
+                debug "Gist %s" $item
 
                 if set -l name (__fisher_gist_to_name $item)
                     printf "%s\t%s\n" $item $name
@@ -67,29 +72,44 @@ function fisher_install -d "Install plugins"
                 end
 
             case \*/\*
-                debug "Install URL %s" $item
+                debug "URL or path %s" $item
 
                 printf "%s\t%s\n" "$item" (printf "%s\n" "$item" | __fisher_name)
 
             case \*
-                if set -l url (fisher_search --url --name=$item --index=$fisher_cache/.index)
-                    debug "Install %s" $item
-
-                    printf "%s\t%s\n" $url $item
-
-                else if test -d $fisher_cache/$item
-                    debug "Install %s" \$fisher_cache/$item
-
+                if test -d $fisher_cache/$item
+                    debug "Cache %s" \$fisher_cache/$item
                     printf "%s\t%s\n" (__fisher_url_from_path $fisher_cache/$item) $item
 
                 else
-                    set total (math $total - 1)
-                    printf "fisher: '%s' not found or index out of date.\n" $item > $stderr
+                    if functions -q "$item"
+                        if set -l path (__fisher_function_to_plugin $item)
+                            printf "%s\t%s" "$path" $item
+                            continue
+                        end
+                    end
+
+                    if test ! -s $fisher_cache/.index
+                        printf "$indicator Updating Index %s\n" $name > $stderr
+
+                        if spin "__fisher_index_update" --error=/dev/null -f "  @\r" > /dev/null
+                            debug "Update index ok"
+                        else
+                            debug "Update index fail"
+                        end
+                    end
+
+                    if set -l url (fisher_search --url --name=$item --index=$fisher_cache/.index)
+                        debug "Index %s" $item
+                        printf "%s\t%s\n" $url $item
+                    else
+                        set total (math $total - 1)
+                        printf "fisher: '%s' not found or index out of date.\n" $item > $stderr
+                    end
                 end
         end
 
     end | while read -l url name
-
         if contains -- $name (fisher_list $fisher_file)
             if test -z "$option"
                 set total (math $total - 1)
@@ -98,14 +118,14 @@ function fisher_install -d "Install plugins"
             end
         end
 
-        printf "Installing " > $stderr
+        printf "$indicator Installing " > $stderr
 
         switch $total
             case 0 1
-                printf ">> %s\n" $name > $stderr
+                printf "%s\n" $name > $stderr
 
             case \*
-                printf "(%s of %s) >> %s\n" $index $total $name > $stderr
+                printf "(%s of %s) %s\n" $index $total $name > $stderr
                 set index (math $index + 1)
         end
 
@@ -119,9 +139,9 @@ function fisher_install -d "Install plugins"
 
                 command ln -sfF $url $path
             else
-                debug "Download %s" $url
+                debug "Clone %s" $url
 
-                if not spin "__fisher_url_clone $url $path" --error=$stderr
+                if not spin "__fisher_url_clone $url $path" --error=$stderr -f "  @\r"
                     continue
                 end
             end
@@ -130,7 +150,7 @@ function fisher_install -d "Install plugins"
         set -l deps (__fisher_deps_install "$path")
 
         if test "$deps" -gt 0
-            debug "Install dependencies success"
+            debug "Install deps ok"
         end
 
         if not __fisher_path_make "$path" --quiet
@@ -146,9 +166,8 @@ function fisher_install -d "Install plugins"
     set time (math (date +%s) - $time)
 
     if test ! -z "$skipped"
-        printf "%s plugin/s skipped (%s)\n" (count $skipped) (
-            printf "%s\n" $skipped | paste -sd ' ' -
-            ) > $stdout
+        printf "%s plugin/s skipped (%s)\n" (
+            count $skipped) (printf "%s\n" $skipped | paste -sd ' ' -) > $stdout
     end
 
     if test "$count" -le 0
@@ -156,12 +175,12 @@ function fisher_install -d "Install plugins"
         return 1
     end
 
-    debug "Pre-reset completions and key bindings"
+    debug "Reset completions and key bindings start"
 
     __fisher_complete_reset
     __fisher_key_bindings_reset
 
-    debug "Post-reset completions and key bindings"
+    debug "Reset completions and key bindings ok"
 
-    printf "Aye! %d plugin/s installed in %0.fs\n" $count $time > $stdout
+    printf "%d plugin/s installed in %0.fs\n" $count $time > $stdout
 end

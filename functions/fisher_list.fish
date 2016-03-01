@@ -54,11 +54,11 @@ function fisher_list -a key -d "List installed plugins"
 
         case -h
             printf "Usage: fisher list [<file>] [--enabled] [--disabled] [--bare] [--link] \n\n"
-            printf "    -b --bare         List plugin without decorators\n"
-            printf "    -l --link         List plugins that are symbolic links\n"
-            printf "       --enabled      List plugins that are enabled\n"
-            printf "       --disabled     List plugins that are disabled\n"
-            printf "    -h --help         Show usage help\n"
+            printf "    -b --bare        List plugin without decorators\n"
+            printf "    -l --link        List plugins that are symbolic links\n"
+            printf "       --enabled     List plugins that are enabled\n"
+            printf "       --disabled    List plugins that are disabled\n"
+            printf "    -h --help        Show usage help\n"
             return
 
         case \*

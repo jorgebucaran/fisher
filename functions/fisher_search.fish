@@ -47,7 +47,7 @@ function fisher_search -d "Search plugin index"
                     set query $query "$3 tags(\"$2\")" $join
                 end
 
-            case long
+            case long longline
                 set format long
 
             case full
@@ -75,11 +75,11 @@ function fisher_search -d "Search plugin index"
                 printf "Usage: fisher search [<plugins>] [--long] [--full] [--no-color]\n"
                 printf "                     [--quiet] [--help]\n\n"
 
-                printf "       --long         Display results in long format\n"
-                printf "       --full         Display results in full format\n"
-                printf "    -C --no-color     Turn off color display\n"
-                printf "    -q --quiet        Enable quiet mode\n"
-                printf "    -h --help         Show usage help\n"
+                printf "       --long        Display results in long format\n"
+                printf "       --full        Display results in full format\n"
+                printf "    -C --no-color    Turn off color display\n"
+                printf "    -q --quiet       Enable quiet mode\n"
+                printf "    -h --help        Show usage help\n"
                 return
 
             case \*
@@ -101,9 +101,8 @@ function fisher_search -d "Search plugin index"
         if test $fisher_last_update -gt $fisher_update_interval -o ! -f $index
             debug "Update index start"
 
-            if spin "__fisher_index_update" --error=/dev/null
-                debug "Update index success"
-
+            if spin "__fisher_index_update" --error=/dev/null -f "  @\r" > /dev/null
+                debug "Update index ok"
                 __fisher_complete_reset
             else
                 debug "Update index fail"
@@ -129,25 +128,24 @@ function fisher_search -d "Search plugin index"
             end
         end
 
-        set -l name_color (set_color $fish_color_command)
-        set -l url_color (set_color $fish_color_cwd -u)
-        set -l tag_color (set_color $fish_color_cwd)
-        set -l weak_color (set_color white)
-        set -l author_color (set_color -u)
-        set -l normal (set_color $fish_color_normal)
+        set -l color_name (set_color $fish_color_command)
+        set -l color_url (set_color $fish_color_cwd -u)
+        set -l color_tag (set_color $fish_color_cwd)
+        set -l color_weak (set_color white)
+        set -l color_author (set_color -u)
+        set -l color_normal (set_color $fish_color_normal)
 
         if contains -- no-color $option
-            set name_color
-            set url_color
-            set tag_color
-            set weak_color
-            set author_color
-            set normal
+            set color_name
+            set color_url
+            set color_tag
+            set color_weak
+            set color_author
+            set color_normal
         end
 
         set legend
         set local (fisher_list | awk '
-
             !/^@/ {
                 if (append) {
                     printf("|")
@@ -166,6 +164,7 @@ function fisher_search -d "Search plugin index"
 
         set fields '
             legend="*"
+            len = length($3)
 
             if ($1 == "'"$fisher_prompt"'") {
                 legend = ">"
@@ -177,27 +176,27 @@ function fisher_search -d "Search plugin index"
         switch "$format"
             case default
                 set fields $fields '
-                    printf("%s '"$weak_color"'%-18s'"$normal"' %s\n", legend, $1, $3)
+                    printf("%s '"$color_weak"'%-18s'"$color_normal"' %s\n", legend, $1, normalize($3, len + 24))
                 } else {
-                    printf("'"$legend$name_color"'%-18s'"$normal"' %s\n", $1, $3)
+                    printf("'"$legend$color_name"'%-18s'"$color_normal"' %s\n", $1, normalize($3, len + 24))
                 }
                 '
                 set options $options -v compact=1
 
             case long
                 set fields $fields '
-                    printf("%-40s %s '"$weak_color"'%-18s'"$normal"' %s\n", humanize_url($2), legend, $1, $3)
+                    printf("%-40s %s '"$color_weak"'%-18s'"$color_normal"' %s\n", humanize_url($2), legend, $1, normalize($3, len + 66))
                 } else {
-                    printf("'"$tag_color"'%-40s'"$normal"' '"$legend$name_color"'%-18s'"$normal"' %s\n", humanize_url($2), $1, $3)
+                    printf("'"$color_tag"'%-40s'"$color_normal"' '"$legend$color_name"'%-18s'"$color_normal"' %s\n", humanize_url($2), $1, normalize($3, len + 66))
                 }
                 '
                 set options $options -v compact=1
 
             case full
                 set fields $fields '
-                    printf("'"$weak_color"'%s %s by %s\n%s'"$normal"'\n%s\n", legend, $1, $5, $3, humanize_url($2))
+                    printf("'"$color_weak"'%s %s by %s\n%s'"$color_normal"'\n%s\n", legend, $1, $5, $3, humanize_url($2))
                 } else {
-                    printf("'"$name_color"'%s'"$normal"' by '"$author_color"'%s'"$normal"'\n%s\n'"$url_color"'%s'"$normal"'\n", $1, $5, $3, humanize_url($2))
+                    printf("'"$color_name"'%s'"$color_normal"' by '"$color_author"'%s'"$color_normal"'\n%s\n'"$color_url"'%s'"$color_normal"'\n", $1, $5, $3, humanize_url($2))
                 }
                 '
         end
@@ -209,7 +208,18 @@ function fisher_search -d "Search plugin index"
         set fields print $fields
     end
 
+    set -l cols (tput cols)
+
     awk -v FS='\n' -v RS='' $options "
+
+    function normalize(s, len) {
+        x = len - $cols
+        if (len >= $cols) {
+            return substr(s, 1, length(s) - x)\"...\"
+        } else {
+            return s
+        }
+    }
 
     function humanize_url(url) {
         gsub(\"(https?://)?(www.)?|/\$\", \"\", url)
@@ -251,8 +261,8 @@ function fisher_search -d "Search plugin index"
             print \"\"
         }
 
-        if (!shit[\$5] || !unique) {
-            shit[\$5] = 1
+        if (!unique_author[\$5] || !unique) {
+            unique_author[\$5] = 1
             $fields
         }
 

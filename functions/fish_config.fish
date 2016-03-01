@@ -8,11 +8,7 @@ function fish_config -d "Launch fish's web based configuration" -a tab
     set -l file $config/fish/functions/fish_prompt.fish
     set -l sum_before (cksum $file ^ /dev/null | awk '{ print $1 + $2 }')
 
-    debug "fish_config start"
-
     eval $__fish_datadir/tools/web_config/webconfig.py $tab
-
-    debug "fish_config end"
 
     if test ! -z "$fisher_prompt"
         set -l sum_after (cksum $file ^ /dev/null | awk '{ print $1 + $2 }')

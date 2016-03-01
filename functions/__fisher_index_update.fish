@@ -8,6 +8,11 @@ function __fisher_index_update -a timeout
     end
 
     set -l url $fisher_index
+
+    if test ! -d $fisher_cache
+        mkdir -p $fisher_cache
+    end
+
     set -l index $fisher_cache/.index.tmp
 
     if test -z "$url"
