@@ -10,9 +10,22 @@
 
 * Fisherman now recognizes the following aliases by default: *i* for install, *u* for update, *l* for list, *s* for search and *h* for help.
 
-* Large documentation rewrite. Better, simpler, more concise and more consistent.
+* Rewrite documentation to be simpler and more consistent.
+
+* Fisherman can install "functions" now. If you have created a function interactively, you can run fisher install `name of the function` and a directory will be created in `$PWD/name of the function` and installed as usual.
+
+  ![](https://cloud.githubusercontent.com/assets/8317250/13421665/14e73e12-dfd3-11e5-98a5-88b269ebddd7.gif)
 
 * Fisherman now detects if users have modified their fish prompt using fish_config and if so, uninstalls $fisher_prompt.
+
+* Search results now truncate plugin descriptions based in the width of the terminal screen.
+
+  ![](https://cloud.githubusercontent.com/assets/8317250/13421733/8885c65e-dfd3-11e5-84f0-e70065b55f70.gif)
+
+* Install/Update/Uninstall CLI was retouched.
+
+  ![cli](https://cloud.githubusercontent.com/assets/8317250/13421788/d3d873c2-dfd3-11e5-9a74-24483d29b6ff.gif)
+
 
 ## [0.9.0][v090] - 2016-02-25
 
