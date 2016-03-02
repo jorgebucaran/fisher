@@ -14,15 +14,19 @@
     <br>
 </h1>
 
+
+**Fisherman** is a blazing fast, modern plugin manager for [fish].
+
+
+&nbsp; ▸ &nbsp; **[Get Started]**<br>
+&nbsp; ▸ &nbsp; **[Plugins]**<br>
+
 ```fish
 curl -sL get.fisherman.sh | fish
 ```
 
-**Fisherman** is a blazing fast, modern plugin manager for [fish].
+[![play]][play-link]
 
-&nbsp; ▸ &nbsp; **[Why?]**<br>
-&nbsp; ▸ &nbsp; **[Get Started]**<br>
-&nbsp; ▸ &nbsp; **[Plugins]**<br>
 
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
@@ -33,7 +37,8 @@ curl -sL get.fisherman.sh | fish
 [slack-link]: https://fisherman-wharf.herokuapp.com/
 [slack-badge]: https://img.shields.io/badge/slack-join%20the%20chat-00B9FF.svg?style=flat-square
 
-[Why?]: https://github.com/fisherman/fisherman/issues/69#issuecomment-179661994
+[play]: https://cloud.githubusercontent.com/assets/8317250/13458315/dfcac4b4-e0af-11e5-8ee5-df31d1cdf409.png
+[play-link]: http://fisherman.sh/#demo
 
 [Get Started]: https://github.com/fisherman/fisherman/wiki
 [Plugins]: http://fisherman.sh/#search
