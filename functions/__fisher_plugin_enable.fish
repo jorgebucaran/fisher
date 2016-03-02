@@ -33,6 +33,7 @@ function __fisher_plugin_enable -a plugin path
                 __fisher_plugin_link $link $source $fisher_config/$target
 
                 if test "$class" = --source
+                    debug "Source %s" "$fisher_config/$target"
                     __fisher_plugin_source $plugin $fisher_config/$target
                 end
         end
