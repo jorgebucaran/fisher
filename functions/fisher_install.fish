@@ -82,8 +82,6 @@ function fisher_install -d "Install plugins"
 
                 else
                     if test ! -s $fisher_cache/.index
-                        printf "$indicator Updating the Index %s\n" $name > $stderr
-
                         if spin "__fisher_index_update" --error=/dev/null -f "  @\r" > /dev/null
                             debug "Update index ok"
                         else
