@@ -44,18 +44,14 @@ function fisher_update -d "Update plugins"
         case self
             set -l time (date +%s)
 
+            printf "$indicator Updating Fisherman\n" > $stderr
+
             debug "Update %s" $fisher_index
             debug "Update %s" $fisher_home
 
-            printf "$indicator Updating the Index\n" > $stderr
-
             if not spin "__fisher_index_update 0" --error=$stderr -f "  @\r"
                 debug "Update Index fail"
-
-                printf "fisher: I could not update the index.\n" > $stderr
             end
-
-            printf "$indicator Updating Fisherman\n" > $stderr
 
             if not spin "__fisher_path_update $fisher_home" --error=$stderr  -f "  @\r"
                 debug "Update Fisherman fail"
