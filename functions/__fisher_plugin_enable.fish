@@ -3,7 +3,7 @@ function __fisher_plugin_enable -a plugin path
 
     if __fisher_path_is_prompt $path
         if test ! -z "$fisher_prompt"
-            debug "Enable prompt %s" $plugin
+            debug "Disable prompt %s" $fisher_prompt
             __fisher_plugin_disable "$fisher_prompt" "$fisher_cache/$fisher_prompt"
         end
 
@@ -16,7 +16,7 @@ function __fisher_plugin_enable -a plugin path
         set link -sfF
     end
 
-    __fisher_plugin_walk "$plugin" "$path" | while read -l class source target __unused
+    __fisher_plugin_walk "$plugin" "$path" | while read -l class source target name
         switch "$class"
             case --bind
                 debug "Bind %s" $source
@@ -35,6 +35,11 @@ function __fisher_plugin_enable -a plugin path
                 if test "$class" = --source
                     debug "Source %s" "$fisher_config/$target"
                     __fisher_plugin_source $plugin $fisher_config/$target
+
+                    if test "$name" = set_color_custom
+                        __fisher_config_color_save
+                        set_color_custom
+                    end
                 end
         end
     end
