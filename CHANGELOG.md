@@ -1,5 +1,17 @@
 # Change Log
 
+
+## [1.2.0][v120] - Not released yet
+
+* Introduce set_color_custom function that prompts can define to customize *fish_color_* variables. The user current color palette is saved to $fisher_config/fish_colors and restored when the prompt is disabled #144.
+
+## [1.1.0][v110] - 2016-03-02
+
+* Fix regression causing update to fail in some plugins. aa8a98a
+* Be more secretive about index updates. c0c7f6a
+* Move debug from __fisher_plugin_source to before call. 8fd8dc0
+* Add ascii cast. c4c9577
+
 ## [1.0.0][v100] - 2016-03-01
 
 * Deprecate fisher --list in favor of a new command fisher list. The behavior is roughly the same. See fisher help list for usage. tl;dr: Use list to query the local system / cache and search to query the index.
@@ -336,6 +348,8 @@
 
 <!--  Links -->
 
+[v120]: https://github.com/fisherman/fisherman/releases/tag/1.2.0
+[v110]: https://github.com/fisherman/fisherman/releases/tag/1.1.0
 [v100]: https://github.com/fisherman/fisherman/releases/tag/1.0.0
 [v090]: https://github.com/fisherman/fisherman/releases/tag/0.9.0
 [v080]: https://github.com/fisherman/fisherman/releases/tag/0.8.0
