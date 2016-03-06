@@ -5,6 +5,10 @@
 
 * Introduce set_color_custom function that prompts can define to customize *fish_color_* variables. The user current color palette is saved to $fisher_config/fish_colors and restored when the prompt is disabled #144.
 
+* Fix bug where fisher_path_is_prompt was not picking up prompts that define its functions inside a functions directory. #155.
+
+* Add test stubs for missing test cases. We'll get around those eventually.
+
 ## [1.1.0][v110] - 2016-03-02
 
 * Fix regression causing update to fail in some plugins. aa8a98a
