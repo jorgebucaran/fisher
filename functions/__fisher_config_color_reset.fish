@@ -25,29 +25,31 @@ function __fisher_config_color_reset
         return
     end
 
+    set -l IFS \n
+
     read -laz fish_colors < $fisher_config/fish_colors
 
-    set -U fish_color_normal            $fish_colors[1]
-    set -U fish_color_command           $fish_colors[2]
-    set -U fish_color_param             $fish_colors[3]
-    set -U fish_color_redirection       $fish_colors[4]
-    set -U fish_color_comment           $fish_colors[5]
-    set -U fish_color_error             $fish_colors[6]
-    set -U fish_color_escape            $fish_colors[7]
-    set -U fish_color_operator          $fish_colors[8]
-    set -U fish_color_quote             $fish_colors[9]
-    set -U fish_color_autosuggestion    $fish_colors[10]
-    set -U fish_color_valid_path        $fish_colors[11]
-    set -U fish_color_cwd               $fish_colors[12]
-    set -U fish_color_cwd_root          $fish_colors[13]
-    set -U fish_color_match             $fish_colors[14]
-    set -U fish_color_search_match      $fish_colors[15]
-    set -U fish_color_selection         $fish_colors[16]
-    set -U fish_pager_color_prefix      $fish_colors[17]
-    set -U fish_pager_color_completion  $fish_colors[18]
-    set -U fish_pager_color_description $fish_colors[19]
-    set -U fish_pager_color_progress    $fish_colors[20]
-    set -U fish_color_history_current   $fish_colors[21]
+    set -U fish_color_normal            (echo $fish_colors[1] | tr " " \n)
+    set -U fish_color_command           (echo $fish_colors[2] | tr " " \n)
+    set -U fish_color_param             (echo $fish_colors[3] | tr " " \n)
+    set -U fish_color_redirection       (echo $fish_colors[4] | tr " " \n)
+    set -U fish_color_comment           (echo $fish_colors[5] | tr " " \n)
+    set -U fish_color_error             (echo $fish_colors[6] | tr " " \n)
+    set -U fish_color_escape            (echo $fish_colors[7] | tr " " \n)
+    set -U fish_color_operator          (echo $fish_colors[8] | tr " " \n)
+    set -U fish_color_quote             (echo $fish_colors[9] | tr " " \n)
+    set -U fish_color_autosuggestion    (echo $fish_colors[10] | tr " " \n)
+    set -U fish_color_valid_path        (echo $fish_colors[11] | tr " " \n)
+    set -U fish_color_cwd               (echo $fish_colors[12] | tr " " \n)
+    set -U fish_color_cwd_root          (echo $fish_colors[13] | tr " " \n)
+    set -U fish_color_match             (echo $fish_colors[14] | tr " " \n)
+    set -U fish_color_search_match      (echo $fish_colors[15] | tr " " \n)
+    set -U fish_color_selection         (echo $fish_colors[16] | tr " " \n)
+    set -U fish_pager_color_prefix      (echo $fish_colors[17] | tr " " \n)
+    set -U fish_pager_color_completion  (echo $fish_colors[18] | tr " " \n)
+    set -U fish_pager_color_description (echo $fish_colors[19] | tr " " \n)
+    set -U fish_pager_color_progress    (echo $fish_colors[20] | tr " " \n)
+    set -U fish_color_history_current   (echo $fish_colors[21] | tr " " \n)
 
     rm -f $fisher_config/fish_colors
 end
