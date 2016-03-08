@@ -1,6 +1,6 @@
 # Change Log
 
-## [1.2.0][v120] - Not released yet
+## [1.2.0][v120] - 2016-03-08
 
 * Introduce set_color_custom function that prompts can define to customize *fish_color_* variables. The current color palette is saved to $fisher_config/fish_colors and restored when the prompt is disabled / uninstalled #144.
 
