@@ -1,5 +1,11 @@
 function __fisher_file
     awk -v FS=\t '
+        /^[ \t]*package / {
+            gsub("^[ \t]*package ", "https://github.com/oh-my-fish/plugin-")
+            printf("%s\n", $0)
+            next
+        }
+        
         /@http/ {
             gsub("@.*$", "", $1)
         }

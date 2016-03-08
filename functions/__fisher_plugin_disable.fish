@@ -14,7 +14,7 @@ function __fisher_plugin_disable -a plugin path option
                 __fisher_plugin_unlink $fisher_config/$target $name
 
                 if test "$name" = set_color_custom
-                    __fisher_config_color_reset
+                    __fisher_config_color_reset "$fisher_config/fish_colors"
                 end
         end
     end
