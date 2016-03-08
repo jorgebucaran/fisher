@@ -129,8 +129,8 @@ function fisher_search -d "Search plugin index"
         end
 
         set -l color_name (set_color $fish_color_command)
-        set -l color_url (set_color $fish_color_cwd -u)
-        set -l color_tag (set_color $fish_color_cwd)
+        set -l color_url (set_color $fish_color_quote -u)
+        set -l color_tag (set_color $fish_color_quote)
         set -l color_weak (set_color white)
         set -l color_author (set_color -u)
         set -l color_normal (set_color $fish_color_normal)

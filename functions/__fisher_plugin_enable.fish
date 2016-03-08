@@ -37,7 +37,8 @@ function __fisher_plugin_enable -a plugin path
                     __fisher_plugin_source $plugin $fisher_config/$target
 
                     if test "$name" = set_color_custom
-                        __fisher_config_color_save
+                        debug "Colors"
+                        __fisher_config_color_save "$fisher_config/fish_colors"
                         set_color_custom
                     end
                 end

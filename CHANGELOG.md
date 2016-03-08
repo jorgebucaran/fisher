@@ -1,13 +1,12 @@
 # Change Log
 
-
 ## [1.2.0][v120] - Not released yet
 
-* Introduce set_color_custom function that prompts can define to customize *fish_color_* variables. The user current color palette is saved to $fisher_config/fish_colors and restored when the prompt is disabled #144.
+* Introduce set_color_custom function that prompts can define to customize *fish_color_* variables. The current color palette is saved to $fisher_config/fish_colors and restored when the prompt is disabled / uninstalled #144.
 
-* Fix bug where fisher_path_is_prompt was not picking up prompts that define its functions inside a functions directory. #155.
+* Fix a bug where fisher_path_is_prompt was not picking up prompts that define functions inside a functions directory. #155.
 
-* Add test stubs for missing test cases. We'll get around those eventually.
+* Add support to read oh-my-fish bundle file package declarations.
 
 ## [1.1.0][v110] - 2016-03-02
 
