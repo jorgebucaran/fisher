@@ -12,7 +12,7 @@
 
 * Fix regression causing update to fail in some plugins. aa8a98a
 * Be more secretive about index updates. c0c7f6a
-* Move debug from __fisher_plugin_source to before call. 8fd8dc0
+* Move debug from fisher_plugin_source to before call. 8fd8dc0
 * Add ascii cast. c4c9577
 
 ## [1.0.0][v100] - 2016-03-01
