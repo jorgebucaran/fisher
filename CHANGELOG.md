@@ -1,6 +1,6 @@
 # Change Log
 
-## [1.2.0][v120] - TBA
+## [1.3.0][v130] - 2016-03-09
 
 * Merge tutorial and CLI documentation into one document.
 
@@ -359,6 +359,7 @@
 
 <!--  Links -->
 
+[v130]: https://github.com/fisherman/fisherman/releases/tag/1.3.0
 [v120]: https://github.com/fisherman/fisherman/releases/tag/1.2.0
 [v110]: https://github.com/fisherman/fisherman/releases/tag/1.1.0
 [v100]: https://github.com/fisherman/fisherman/releases/tag/1.0.0
