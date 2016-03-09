@@ -28,5 +28,7 @@ for i in $sections
 end
 
 test "$TESTNAME - Display usage help for every command"
-    (cat $DIRNAME/fixtures/help/usage.txt) = (fisher help --commands=bare | fisher help --usage)
+    (cat $DIRNAME/fixtures/help/usage.txt) = (
+        __fisher_help_commands | cut -f1 -d \; | fisher help --usage
+        )
 end

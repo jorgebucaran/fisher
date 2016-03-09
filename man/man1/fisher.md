@@ -3,7 +3,7 @@ fisher(1) -- Fish plugin manager
 
 ## SYNOPSIS
 
-fisher *command* [*arguments*] [--version] [--help]<br>
+fisher *command* [*options*] [--version] [--help]<br>
 
 ## DESCRIPTION
 
@@ -16,7 +16,7 @@ The CLI consists of the following commands: *install*, *update*, *uninstall*, *l
 Run a command.
 
 ```
-fisher <command> [<arguments>]
+fisher <command> [<options>]
 ```
 
 Get help about a command.
@@ -25,7 +25,7 @@ Get help about a command.
 fisher help <command>
 ```
 
-Fisherman knows the following too: *i* for install, *u* for update, *l* for list, *s* for search and *h* for help.
+Fisherman knows the following aliases: *i* for install, *u* for update, *l* for list, *s* for search and *h* for help.
 
 ## OPTIONS
 
@@ -36,12 +36,6 @@ Fisherman knows the following too: *i* for install, *u* for update, *l* for list
     Show usage help.
 
 ## EXAMPLES
-
-Update Fisherman.
-
-```fish
-fisher update
-```
 
 Install plugins.
 
@@ -65,6 +59,12 @@ Install a plugin from a Gist URL.
 
 ```fish
 fisher install gist.github.com/owner/1f40e1c6e0551b2666b2
+```
+
+Update Fisherman.
+
+```fish
+fisher update
 ```
 
 Update plugins.
@@ -266,8 +266,8 @@ This file is automatically updated as you install and uninstall plugins.
 * $fisher_cache:
     The cache directory. Plugins are downloaded to this location.
 
-* $fisher_alias *command*=*alias*[,*alias2*] ...:
-    Use this variable to customize Fisherman command aliases.
+* $fisher_alias *command*=*alias* ...:
+    Use this variable to create aliases of Fisherman commands.
 
 
 ## PLUGINS

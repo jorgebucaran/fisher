@@ -36,15 +36,9 @@ curl -sL get.fisherman.sh | fish
 
 The Fisherman CLI consists of the following commands: *install*, *update*, *uninstall*, *list*, *search* and *help*.
 
-Fisherman knows the following aliases too: *i* for install, *u* for update, *l* for list, *s* for search and *h* for help.
+Fisherman knows the following aliases: *i* for install, *u* for update, *l* for list, *s* for search and *h* for help.
 
 ### Examples
-
-* Update Fisherman.
-
-```fish
-fisher update
-```
 
 * Install plugins.
 
@@ -68,6 +62,12 @@ fisher install owner/repo
 
 ```fish
 fisher install gist.github.com/owner/1f40e1c6e0551b2666b2
+```
+
+* Update Fisherman.
+
+```fish
+fisher update
 ```
 
 * Update plugins.
@@ -270,8 +270,8 @@ This file is automatically updated as you install and uninstall plugins.
 * $fisher_cache<br>
     The cache directory. Plugins are downloaded to this location.
 
-* $fisher_alias *command*=*alias*[,*alias2*] ...<br>
-    Use this variable to customize Fisherman command aliases.
+* $fisher_alias *command*=*alias* ...<br>
+    Use this variable to create aliases of Fisherman commands.
 
 ## Plugins
 
