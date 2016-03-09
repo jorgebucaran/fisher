@@ -13,14 +13,6 @@ function fisher_help -d "Show help"
                 set option man
                 set value $2
 
-            case a all
-                set option guides commands
-                set value $2
-
-            case g guides
-                set option $option guides
-                set value $2
-
             case commands
                 set option $option commands
                 set value $2
@@ -30,10 +22,7 @@ function fisher_help -d "Show help"
                 set value $value $2
 
             case h
-                printf "Usage: fisher help [<keyword>] [--all] [--guides] [--help]\n\n"
-                printf "    -a --all       List all the documentation\n"
-                printf "    -g --guides    List available guides\n"
-                printf "    -h --help      Show usage help\n"
+                printf "Usage: fisher help [<keyword>] [--help]\n"
                 return
 
             case \*
@@ -68,14 +57,8 @@ function fisher_help -d "Show help"
                 return
             end
 
-            begin
-                if contains -- commands $option
-                    __fisher_help_commands
-                end
-
-                if contains -- guides $option
-                    __fisher_help_guides
-                end
-            end | sed 's/^/  /;s/;/'\t'/' | column -ts\t
+            if contains -- commands $option
+                __fisher_help_commands
+            end  | sed 's/^/  /;s/;/'\t'/' | column -ts\t
     end
 end

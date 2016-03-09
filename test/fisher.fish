@@ -37,7 +37,7 @@ test "$TESTNAME - Display usage help"
 end
 
 test "$TESTNAME - Display basic information help info about 'help'"
-    (fisher | tail -n2 | xargs) = "Use fisher help -g to list guides and other documentation. See fisher help <command or concept> to access a man page."
+    (fisher | tail -n2 | xargs) = "Use fisher help <command> to access a man page."
 end
 
 test "$TESTNAME - Display basic information about available commands"
