@@ -13,16 +13,12 @@ function fisher_help -d "Show help"
                 set option man
                 set value $2
 
-            case commands
-                set option $option commands
-                set value $2
-
             case usage
                 set option usage
                 set value $value $2
 
             case h
-                printf "Usage: fisher help [<keyword>] [--help]\n"
+                printf "Usage: fisher help [<keyword>]\n"
                 return
 
             case \*
@@ -30,10 +26,6 @@ function fisher_help -d "Show help"
                 fisher_help -h > /dev/stderr
                 return 1
         end
-    end
-
-    if not set -q option[1]
-        set option commands
     end
 
     switch "$option"
@@ -50,15 +42,5 @@ function fisher_help -d "Show help"
 
         case usage
             __fisher_help_usage $value
-
-        case \*
-            if test "$value" != bare
-                fisher --help=$option
-                return
-            end
-
-            if contains -- commands $option
-                __fisher_help_commands
-            end  | sed 's/^/  /;s/;/'\t'/' | column -ts\t
     end
 end

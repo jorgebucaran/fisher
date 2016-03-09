@@ -7,7 +7,7 @@
 \fBfisher\fR \- Fish plugin manager
 .
 .SH "SYNOPSIS"
-fisher \fIcommand\fR [\fIarguments\fR] [\-\-version] [\-\-help]
+fisher \fIcommand\fR [\fIoptions\fR] [\-\-version] [\-\-help]
 .
 .br
 .
@@ -24,7 +24,7 @@ Run a command\.
 .
 .nf
 
-fisher <command> [<arguments>]
+fisher <command> [<options>]
 .
 .fi
 .
@@ -44,7 +44,7 @@ fisher help <command>
 .IP "" 0
 .
 .P
-Fisherman knows the following too: \fIi\fR for install, \fIu\fR for update, \fIl\fR for list, \fIs\fR for search and \fIh\fR for help\.
+Fisherman knows the following aliases: \fIi\fR for install, \fIu\fR for update, \fIl\fR for list, \fIs\fR for search and \fIh\fR for help\.
 .
 .SH "OPTIONS"
 .
@@ -57,19 +57,6 @@ Show version information\. Fisherman follows Semantic Versioning and uses Git an
 Show usage help\.
 .
 .SH "EXAMPLES"
-Update Fisherman\.
-.
-.IP "" 4
-.
-.nf
-
-fisher update
-.
-.fi
-.
-.IP "" 0
-.
-.P
 Install plugins\.
 .
 .IP "" 4
@@ -116,6 +103,19 @@ Install a plugin from a Gist URL\.
 .nf
 
 fisher install gist\.github\.com/owner/1f40e1c6e0551b2666b2
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Update Fisherman\.
+.
+.IP "" 4
+.
+.nf
+
+fisher update
 .
 .fi
 .
@@ -447,8 +447,8 @@ $fisher_cache
 The cache directory\. Plugins are downloaded to this location\.
 .
 .TP
-$fisher_alias \fIcommand\fR=\fIalias\fR[,\fIalias2\fR] \.\.\.
-Use this variable to customize Fisherman command aliases\.
+$fisher_alias \fIcommand\fR=\fIalias\fR \.\.\.
+Use this variable to create aliases of Fisherman commands\.
 .
 .SH "PLUGINS"
 Plugins can be utilities, prompts, commands or snippets\.
