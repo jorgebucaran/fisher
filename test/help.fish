@@ -17,14 +17,6 @@ function -S teardown
     rm -rf $path
 end
 
-test "$TESTNAME - Show both available guides and command with help --all"
-    ! -z (fisher help --all | grep -E 'Available Commands:$|Other Documentation:$' | xargs)
-end
-
-test "$TESTNAME - Show available guides/tutorials with --guides"
-    ! -z (fisher help --guides | grep -E 'Other Documentation:$' | xargs)
-end
-
 test "$TESTNAME - Show usage help with --usage=command"
     (fisher help --usage=help) = (fisher help -h)
 end

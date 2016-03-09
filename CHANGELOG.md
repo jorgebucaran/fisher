@@ -1,5 +1,13 @@
 # Change Log
 
+## [1.2.0][v120] - TBA
+
+* Merge tutorial and CLI documentation into one document.
+
+* Update README with new simplified documentation.
+
+* Tweak fisher help menu to highlight command aliases.
+
 ## [1.2.0][v120] - 2016-03-08
 
 * Introduce set_color_custom function that prompts can define to customize *fish_color_* variables. The current color palette is saved to $fisher_config/fish_colors and restored when the prompt is disabled / uninstalled #144.
