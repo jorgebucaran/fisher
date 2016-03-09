@@ -25,26 +25,14 @@ function fisher -d "Fish plugin manager"
 
     switch "$option"
         case command
-            switch "$version"
-                case 2.1.\* 2.0.0
-                    if test ! -z "$fisher_alias"
-                        printf "fisher: fish 2.2.0 or above is required to use aliases."
-                    end
+            set -l IFS =
+            set -l default_alias install=i update=u search=s list=l help=h new=n
 
-                case \*
-                    if test -z "$fisher_alias"
-                        set -g fisher_alias install=i update=u search=s list=l help=h
-                    end
-
-                    printf "%s\n" $fisher_alias | sed 's/[=,]/ /g' | while read -la alias
-                        if set -q alias[2]
-                            switch "$value"
-                                case $alias[2..-1]
-                                    set value $alias[1]
-                                    break
-                            end
-                        end
-                    end
+            printf "%s\n" $fisher_alias $default_alias | while read -l command alias
+                if test "$value" = "$alias"
+                    set value "$command"
+                    break
+                end
             end
 
             if not functions -q "fisher_$value"
@@ -66,21 +54,27 @@ function fisher -d "Fish plugin manager"
             sed 's/^/fisher version /' $fisher_home/VERSION
 
         case help
-            printf "Usage: fisher <command> [<arguments>] [--help] [--version]\n\n"
+            printf "Usage: fisher <command> [<options>] [--help] [--version]\n\n"
 
             set -l color (set_color $fish_color_command -u)
             set -l color_normal (set_color normal)
 
-            printf "Available Commands:\n"
+            printf "Commands:\n"
 
-            fisher_help --commands=bare | sed -E "
-                s/  (h)/  $color\1$color_normal/
-                s/  (i)/  $color\1$color_normal/
-                s/  (l)/  $color\1$color_normal/
-                s/  (s)/  $color\1$color_normal/
-                s/  (u)p/  $color\1$color_normal"p"/
-                "
+            __fisher_help_commands | sed "
 
-            printf "\nUse fisher help <command> to access a man page.\n"
+                s/^/    /
+                s/;/"\t"  /
+
+            " | column -ts\t | sed -E "
+                s/^    (h)(elp)/    $color\1$color_normal\2/
+                s/^    (i)(nstall)/    $color\1$color_normal\2/
+                s/^    (s)(earch)/    $color\1$color_normal\2/
+                s/^    (u)(pdate)/    $color\1$color_normal\2/
+                s/^    (l)(ist)/    $color\1$color_normal\2/
+                s/^    (n)(ew)/    $color\1$color_normal\2/
+            "
+
+            printf "\nUse fisher help <command> to get help.\n"
     end
 end

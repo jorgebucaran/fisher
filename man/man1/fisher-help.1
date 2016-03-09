@@ -1,24 +1,18 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "FISHER\-HELP" "1" "February 2016" "" "fisherman"
+.TH "FISHER\-HELP" "1" "March 2016" "" "fisherman"
 .
 .SH "NAME"
 \fBfisher\-help\fR \- Show help about Fisherman
 .
 .SH "SYNOPSIS"
-fisher help [\fIkeyword\fR] [\-\-all] [\-\-guides] [\-\-usage[=\fIcommand\fR]] [\-\-help]
+fisher help [\fIcommand\fR] [\-\-help]
 .
 .br
 .
 .SH "USAGE"
 fisher help \fIcommand\fR
-.
-.br
-fisher help \fIguide\fR
-.
-.br
-fisher help \-\-usage=[\fIcommand\fR]
 .
 .br
 .
@@ -51,71 +45,8 @@ There are utilities that can help you generate man pages from other text formats
 .SH "OPTIONS"
 .
 .TP
-\-a, \-\-all
-List all available commands and guides\.
-.
-.TP
-\-g, \-\-guides[=\fIbare\fR]
-List guides / tutorials\. Use \fIbare\fR to generate easy to parse output\.
-.
-.TP
-\-\-commands[=\fIbare\fR]
-List commands\. This is the default behavior of fisher help\. Use \fIbare\fR to generate easy to parse output\.
-.
-.TP
-\-\-usage[=\fIcommand\fR]
-Display usage help for \fIcommand\fR\. To teach Fisherman how to display help for your command, \fIcommand\fR must implement a \-h flag\.
-.
-.TP
 \-h, \-\-help
 Show usage help\.
-.
-.SH "EXAMPLES"
-.
-.IP "\(bu" 4
-Show all the existing documentation\.
-.
-.IP "" 0
-.
-.IP "" 4
-.
-.nf
-
-fisher help \-\-all
-.
-.fi
-.
-.IP "" 0
-.
-.IP "\(bu" 4
-Show help about help\.
-.
-.IP "" 0
-.
-.IP "" 4
-.
-.nf
-
-fisher help help
-.
-.fi
-.
-.IP "" 0
-.
-.IP "\(bu" 4
-Show usage help for all available commands\.
-.
-.IP "" 0
-.
-.IP "" 4
-.
-.nf
-
-fisher help \-\-commands=bare | fisher help \-\-usage
-.
-.fi
-.
-.IP "" 0
 .
 .SH "SEE ALSO"
 man(1), fisher(1)

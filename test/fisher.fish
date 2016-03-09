@@ -1,7 +1,7 @@
 set -l mock_command awk
 
 function -S setup
-    set -g fisher_alias "$mock_command=A,B"
+    set -g fisher_alias "$mock_command=A"
 
     function fisher_$mock_command
         if not set -q argv[1]
@@ -29,17 +29,20 @@ test "$TESTNAME - Display version information"
 end
 
 test "$TESTNAME - Handle \$fisher_alias aliases"
-    (fisher A; fisher B) = (fisher $mock_command; fisher $mock_command)
+    (fisher A) = (
+        fisher $mock_command
+        fisher $mock_command
+        )
 end
 
 test "$TESTNAME - Display usage help"
-    (fisher | sed 1q) = "Usage: fisher <command> [<arguments>] [--help] [--version]"
+    (fisher | sed 1q) = "Usage: fisher <command> [<options>] [--help] [--version]"
 end
 
 test "$TESTNAME - Display basic information help info about 'help'"
-    (fisher | tail -n2 | xargs) = "Use fisher help <command> to access a man page."
+    (fisher | tail -n2 | xargs) = "Use fisher help <command> to get help."
 end
 
 test "$TESTNAME - Display basic information about available commands"
-    (fisher | sed -E 's/ +//' | grep "^$mock_command\$")
+    (fisher | sed -E 's/^[ ]+//' | grep "^$mock_command")
 end
