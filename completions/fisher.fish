@@ -1,15 +1,10 @@
 set -l IFS ";"
 
 complete -xc fisher
-
+complete -c fisher -a "fisherman" -d "Update Fisherman" -n "__fish_seen_subcommand_from update"
+complete -c fisher -a "tutorial" -d "An introduction to Fisherman" -n "__fish_seen_subcommand_from help"
 complete -c fisher -n "__fish_use_subcommand" -s h -l help -d "Show usage help"
 complete -c fisher -n "__fish_use_subcommand" -s v -l version -d "Show version information"
-
-complete -c fisher -a "fisherman" -d "Update Fisherman" -n "__fish_seen_subcommand_from update"
-
-__fisher_help_guides | while read -l guide info
-    complete -c fisher -n "__fish_seen_subcommand_from help" -a $guide -d "$info"
-end
 
 __fisher_help_commands | while read -l command info
     complete -c fisher -n "__fish_use_subcommand" -a $command -d "$info"

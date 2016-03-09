@@ -28,8 +28,4 @@ Usage: fisher install [<plugins>] [--force] [--quiet] [--help]
     -f --force    Reinstall given plugin/s
     -q --quiet    Enable quiet mode
     -h --help     Show usage help
-Usage: fisher help [<keyword>] [--all] [--guides] [--help]
-
-    -a --all       List all the documentation
-    -g --guides    List available guides
-    -h --help      Show usage help
+Usage: fisher help [<keyword>] [--help]

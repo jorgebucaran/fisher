@@ -33,7 +33,7 @@ function fisher -d "Fish plugin manager"
 
                 case \*
                     if test -z "$fisher_alias"
-                        set fisher_alias install=i update=u search=s list=l help=h
+                        set -g fisher_alias install=i update=u search=s list=l help=h
                     end
 
                     printf "%s\n" $fisher_alias | sed 's/[=,]/ /g' | while read -la alias
@@ -66,27 +66,21 @@ function fisher -d "Fish plugin manager"
             sed 's/^/fisher version /' $fisher_home/VERSION
 
         case help
-            if test -z "$value"
-                set value commands
-            end
-
             printf "Usage: fisher <command> [<arguments>] [--help] [--version]\n\n"
 
-            switch commands
-                case $value
-                    printf "Available Commands:\n"
-                    fisher_help --commands=bare
-                    echo
-            end
+            set -l color (set_color $fish_color_command -u)
+            set -l color_normal (set_color normal)
 
-            switch guides
-                case $value
-                    printf "Other Documentation:\n"
-                    fisher_help --guides=bare
-                    echo
-            end
+            printf "Available Commands:\n"
 
-            printf "Use 'fisher help -g' to list guides and other documentation.\n"
-            printf "See 'fisher help <command or concept>' to access a man page.\n"
+            fisher_help --commands=bare | sed -E "
+                s/  (h)/  $color\1$color_normal/
+                s/  (i)/  $color\1$color_normal/
+                s/  (l)/  $color\1$color_normal/
+                s/  (s)/  $color\1$color_normal/
+                s/  (u)p/  $color\1$color_normal"p"/
+                "
+
+            printf "\nUse fisher help <command> to access a man page.\n"
     end
 end
