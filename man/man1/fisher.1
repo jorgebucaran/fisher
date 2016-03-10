@@ -15,7 +15,7 @@ fisher \fIcommand\fR [\fIoptions\fR] [\-\-version] [\-\-help]
 Fisherman is a plugin manager for fish\.
 .
 .P
-The CLI consists of the following commands: \fIinstall\fR, \fIupdate\fR, \fIuninstall\fR, \fIlist\fR, \fIsearch\fR and \fIhelp\fR\.
+The Fisherman CLI consists of: \fIinstall\fR, \fIupdate\fR, \fIuninstall\fR, \fIlist\fR, \fIsearch\fR and \fIhelp\fR and the following aliases: \fIi\fR for install, \fIu\fR for update, \fIl\fR for list, \fIs\fR for search and \fIh\fR for help\.
 .
 .SH "USAGE"
 Run a command\.
@@ -42,9 +42,6 @@ fisher help <command>
 .fi
 .
 .IP "" 0
-.
-.P
-Fisherman knows the following aliases: \fIi\fR for install, \fIu\fR for update, \fIl\fR for list, \fIs\fR for search and \fIh\fR for help\.
 .
 .SH "OPTIONS"
 .
@@ -195,20 +192,6 @@ fisher list
 .IP "" 0
 .
 .P
-The legend consists of:
-.
-.P
-\fB*\fR The plugin is currently enabled
-.
-.br
-\fB>\fR The plugin is a prompt
-.
-.br
-\fB@\fR The plugin is a symbolic link
-.
-.br
-.
-.P
 Search the index\.
 .
 .IP "" 4
@@ -266,6 +249,20 @@ fisher search \-\-tag={git,test}
 .fi
 .
 .IP "" 0
+.
+.P
+The legend consists of:
+.
+.P
+\fB*\fR The plugin is currently enabled
+.
+.br
+\fB>\fR The plugin is a prompt
+.
+.br
+\fB@\fR The plugin is a symbolic link
+.
+.br
 .
 .SH "PLUMBING"
 Fisherman commands are pipe aware\. Plumb one with another to create complex functionality\.
@@ -338,7 +335,7 @@ The following illustrates an example Fisherman configuration path with a single 
 $fisher_config
 |\-\- cache/
 |\-\- conf\.d/
-|   `\-\- my_plugin\.config\.fish
+|   `\-\- my_plugin\.fish
 |\-\- fishfile
 |\-\- functions/
 |   |\-\- my_plugin\.fish
@@ -454,7 +451,7 @@ Use this variable to create aliases of Fisherman commands\.
 Plugins can be utilities, prompts, commands or snippets\.
 .
 .SS "UTILITIES"
-Utilities are plugins that define one or more functions which are mean to be used in the CLI directly by the user\.
+Utilities are plugins that define one or more functions\.
 .
 .P
 This example walks you through creating \fIwtc\fR, a plugin based in \fIgithub/ngerakines/commitment\fR random commit message generator\.
@@ -491,6 +488,7 @@ function wtc \-d "Generate a random commit message"
     end
     curl \-s whatthecommit\.com/index\.txt
 end
+functions wtc > wtc\.fish
 .
 .fi
 .
@@ -535,8 +533,7 @@ To submit wtc to the official index\.
 .
 .nf
 
-fisher install submit
-fisher submit
+fisher submit wtc "Random commit message generator" "commit random fun" https://github\.com/owner/wtc
 .
 .fi
 .
@@ -556,9 +553,6 @@ fisher install wtc
 .IP "" 0
 .
 .P
-See \fBfisher help submit\fR for more submit options\.
-.
-.P
 Create a completions directory and add a completions file\.
 .
 .IP "" 4
@@ -566,16 +560,24 @@ Create a completions directory and add a completions file\.
 .nf
 
 mkdir completions
-cat > completions/wtc\.fish
+$EDITOR completions/wtc\.fish
+.
+.fi
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
 complete \-\-command wtc \-\-short h \-\-long help \-\-description "Show usage help"
-^
 .
 .fi
 .
 .IP "" 0
 .
 .P
-Alternatively, use \fB__fisher_complete\fR to create completions from wtc usage output\.
+Or use \fB__fisher_complete\fR to create completions from wtc usage output\.
 .
 .IP "" 4
 .
@@ -601,7 +603,15 @@ To create a man page manually\.
 .nf
 
 mkdir \-p man/man1
-cat > man/man1/wtc\.1
+$EDITOR man/man1/wtc\.1
+.
+.fi
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
 
  \.TH man 1 "Today" "1\.0" "wtc man page"
  \.SH NAME
@@ -612,7 +622,6 @@ cat > man/man1/wtc\.1
  \-h, \-\-help: Display help information\.
  \.SH SEE ALSO
  https://github\.com/ngerakines/commitment
-^C
 .
 .fi
 .
@@ -622,7 +631,7 @@ cat > man/man1/wtc\.1
 A plugin can list dependencies to other plugins using a \fIfishfile\fR\.
 .
 .P
-Create a new file in the root of your project and add the name or URL of your desired dependencies\.
+Create a new file in the root of your project and add the name or URL of your dependencies\.
 .
 .IP "" 4
 .
