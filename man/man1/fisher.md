@@ -9,7 +9,7 @@ fisher *command* [*options*] [--version] [--help]<br>
 
 Fisherman is a plugin manager for fish.
 
-The CLI consists of the following commands: *install*, *update*, *uninstall*, *list*, *search* and *help*.
+The Fisherman CLI consists of: *install*, *update*, *uninstall*, *list*, *search* and *help* and the following aliases: *i* for install, *u* for update, *l* for list, *s* for search and *h* for help.
 
 ## USAGE
 
@@ -24,8 +24,6 @@ Get help about a command.
 ```
 fisher help <command>
 ```
-
-Fisherman knows the following aliases: *i* for install, *u* for update, *l* for list, *s* for search and *h* for help.
 
 ## OPTIONS
 
@@ -106,12 +104,6 @@ fisher list
 @ wipe
 ```
 
-The legend consists of:
-
-`*` The plugin is currently enabled<br>
-`>` The plugin is a prompt<br>
-`@` The plugin is a symbolic link<br>
-
 Search the index.
 
 ```
@@ -149,6 +141,12 @@ fisher search --tag={git,test}
   git-is-stashed     Test if there are changes in the stash
   ...
 ```
+
+The legend consists of:
+
+`*` The plugin is currently enabled<br>
+`>` The plugin is a prompt<br>
+`@` The plugin is a symbolic link<br>
 
 ## PLUMBING
 
@@ -192,7 +190,7 @@ The following illustrates an example Fisherman configuration path with a single 
 $fisher_config
 |-- cache/
 |-- conf.d/
-|   `-- my_plugin.config.fish
+|   `-- my_plugin.fish
 |-- fishfile
 |-- functions/
 |   |-- my_plugin.fish
@@ -276,7 +274,7 @@ Plugins can be utilities, prompts, commands or snippets.
 
 ### UTILITIES
 
-Utilities are plugins that define one or more functions which are mean to be used in the CLI directly by the user.
+Utilities are plugins that define one or more functions.
 
 This example walks you through creating *wtc*, a plugin based in *github/ngerakines/commitment* random commit message generator.
 
@@ -301,6 +299,7 @@ function wtc -d "Generate a random commit message"
     end
     curl -s whatthecommit.com/index.txt
 end
+functions wtc > wtc.fish
 ```
 
 Install the plugin.
@@ -326,8 +325,7 @@ git push origin master
 To submit wtc to the official index.
 
 ```fish
-fisher install submit
-fisher submit
+fisher submit wtc "Random commit message generator" "commit random fun" https://github.com/owner/wtc
 ```
 
 This will create a PR in the Fisherman index repository. Once the PR is approved, Fisherman users will be able to install wtc if they have the latest index.
@@ -336,20 +334,20 @@ This will create a PR in the Fisherman index repository. Once the PR is approved
 fisher install wtc
 ```
 
-See `fisher help submit` for more submit options.
-
 #### COMPLETIONS
 
 Create a completions directory and add a completions file.
 
 ```fish
 mkdir completions
-cat > completions/wtc.fish
-complete --command wtc --short h --long help --description "Show usage help"
-^
+$EDITOR completions/wtc.fish
 ```
 
-Alternatively, use `__fisher_complete` to create completions from wtc usage output.
+```fish
+complete --command wtc --short h --long help --description "Show usage help"
+```
+
+Or use `__fisher_complete` to create completions from wtc usage output.
 
 ```
 wtc --help | __fisher_complete wtc
@@ -363,10 +361,12 @@ There are utilities that can help you generate man pages from various text forma
 
 To create a man page manually.
 
-```fish
+```
 mkdir -p man/man1
-cat > man/man1/wtc.1
+$EDITOR man/man1/wtc.1
+```
 
+```
  .TH man 1 "Today" "1.0" "wtc man page"
  .SH NAME
  wtc \- Generate a random commit message
@@ -376,14 +376,13 @@ cat > man/man1/wtc.1
  -h, --help: Display help information.
  .SH SEE ALSO
  https://github.com/ngerakines/commitment
-^C
 ```
 
 #### DEPENDENCIES
 
 A plugin can list dependencies to other plugins using a *fishfile*.
 
-Create a new file in the root of your project and add the name or URL of your desired dependencies.
+Create a new file in the root of your project and add the name or URL of your dependencies.
 
 ```fish
 cat > fishfile

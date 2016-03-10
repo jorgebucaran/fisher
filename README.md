@@ -24,7 +24,7 @@ curl -sL get.fisherman.sh | fish
 
 <sub>If you don't have Fish, you need to install it too. Install instructions can be found <a href="https://github.com/fisherman/fisherman/wiki/Installing-Fish">here</a>.</sub>
 
-## Setup
+## Install
 
 Download Fisherman using Git and setup your system automatically. See [other] install options.
 
@@ -34,15 +34,13 @@ curl -sL get.fisherman.sh | fish
 
 ## CLI
 
-The Fisherman CLI consists of the following commands: *install*, *update*, *uninstall*, *list*, *search* and *help*.
-
-Fisherman knows the following aliases: *i* for install, *u* for update, *l* for list, *s* for search and *h* for help.
+The Fisherman CLI consists of: *install*, *update*, *uninstall*, *list*, *search* and *help* and the following aliases: *i* for install, *u* for update, *l* for list, *s* for search and *h* for help.
 
 ### Examples
 
 * Install plugins.
 
-```fish
+```
 fisher install fishtape shark get
 ```
 
@@ -66,19 +64,19 @@ fisher install gist.github.com/owner/1f40e1c6e0551b2666b2
 
 * Update Fisherman.
 
-```fish
+```
 fisher update
 ```
 
 * Update plugins.
 
-```fish
+```
 fisher update shark get
 ```
 
 * Uninstall plugins.
 
-```fish
+```
 fisher uninstall fishtape debug
 ```
 
@@ -98,7 +96,7 @@ fisher help
 
 The list command displays all the plugins you have installed. The search command queries the index to show what's available to install.
 
-* List installed plugins.
+List installed plugins.
 
 ```
 fisher list
@@ -109,14 +107,7 @@ fisher list
 @ wipe
 ```
 
-The legend consists of:
-
-* `*` The plugin is currently enabled
-* `>` The plugin is a prompt
-* `@` The plugin is a symbolic link
-
-
-* Search the index.
+Search the index.
 
 ```
 fisher search
@@ -132,7 +123,7 @@ fisher search
   ...
 ```
 
-* Get detailed information about a plugin.
+Get detailed information about a plugin.
 
 ```
 fisher search shellder
@@ -141,7 +132,7 @@ Powerline prompt optimized for speed
 github.com/simnalamburt/shellder
 ```
 
-* Search plugins using tags.
+Search plugins using tags.
 
 ```
 fisher search --tag={git,test}
@@ -153,6 +144,13 @@ fisher search --tag={git,test}
   git-is-stashed     Test if there are changes in the stash
   ...
 ```
+
+The legend consists of:
+
+* `*` The plugin is currently enabled
+* `>` The plugin is a prompt
+* `@` The plugin is a symbolic link
+
 
 ## Plumbing
 
@@ -178,7 +176,7 @@ fisher list | fisher uninstall --force
 
 ## Dotfiles
 
-When you install a plugin, Fisherman updates a file known as *fishfile* to track what plugins are currently enabled.
+When you install a plugin, Fisherman updates a file known as the *fishfile* to track what plugins are currently enabled.
 
 * Customize the location of the fishfile.
 
@@ -194,19 +192,19 @@ The following illustrates an example Fisherman configuration path with a single 
 
 ```
 $fisher_config
-|-- cache/
-|-- conf.d/
-|   `-- my_plugin.config.fish
-|-- fishfile
-|-- functions/
-|   |-- my_plugin.fish
-|   |-- fish_prompt.fish
-|   `-- fish_right_prompt.fish
-|-- completions/
-|   `-- my_plugin.fish
-`-- man/
-    `-- man1/
-        `-- my_plugin.1
+├── cache
+├── completions
+│   └── my_plugin.fish
+├── conf.d
+│   └── my_plugin.fish
+├── fishfile
+├── functions
+│   ├── fish_prompt.fish
+│   ├── fish_right_prompt.fish
+│   └── my_plugin.fish
+└── man
+    └── man1
+        └── my_plugin.1
 ```
 
 ## Index
@@ -214,8 +212,6 @@ $fisher_config
 The index is a plain text database that lists Fisherman official plugins.
 
 The index is a list of records, each consisting of the following fields: *name*, *url*, *info*, one or more *tags* and *author*.
-
-Fields are separated by a new line `\n`. Tags are separated by one *space*.
 
 ```
 z
@@ -232,7 +228,7 @@ fisher install submit
 fisher submit my_plugin
 ```
 
-Otherwise, submit the plugin manually by creating a pull request in the index repository *https://github.com/fisherman/fisher-index*.
+Otherwise, submit the plugin manually by creating a pull request in the [index](https://github.com/fisherman/fisher-index) repository.
 
 ```
 git clone https://github.com/fisherman/fisher-index
@@ -241,36 +237,21 @@ echo "$name\n$url\n$info\n$tags\n$author\n\n" >> index
 git push origin master
 ```
 
-## Fishfile
-
-Fisherman keeps track of a special file known as *fishfile* to know what plugins are currently enabled.
-
-```
-# My Fishfile
-gitio
-fishtape
-shark
-get
-shellder
-```
-
-This file is automatically updated as you install and uninstall plugins.
-
 ## Variables
 
-* $fisher_home<br>
-    The home directory. If you installed Fisherman using the recommended method `curl -sL install.fisherman.sh | fish`, the location ought to be *XDG_DATA_HOME/fisherman*. If you clone Fisherman and run make yourself, the current working directory is used by default.
+* *$fisher_home*<br>
+    The home directory. If you installed Fisherman using the recommended method curl -sL install.fisherman.sh | fish, the location ought to be *XDG_DATA_HOME/fisherman*. If you clone Fisherman and run make yourself, the current working directory is used by default.
 
-* $fisher_config<br>
+* *$fisher_config*<br>
     The configuration directory. This is default location of the *fishfile*, *key_bindings.fish*, *cache*, *functions*, *completions* and *conf.d* directories. The default location is *XDG_CONFIG_HOME/fisherman*.
 
-* $fisher_file<br>
+* *$fisher_file*<br>
     See FISHFILE above.
 
-* $fisher_cache<br>
+* *$fisher_cache*<br>
     The cache directory. Plugins are downloaded to this location.
 
-* $fisher_alias *command*=*alias* ...<br>
+* *$fisher_alias* *command*=*alias* ...<br>
     Use this variable to create aliases of Fisherman commands.
 
 ## Plugins
@@ -279,7 +260,7 @@ Plugins can be utilities, prompts, commands or snippets.
 
 ### Utilities
 
-Utilities are plugins that define one or more functions which are mean to be used in the CLI directly by the user.
+Utilities are plugins that define one or more functions.
 
 This example walks you through creating *wtc*, a plugin based in [ngerakines/commitment](https://github/ngerakines/commitment) random commit message generator.
 
@@ -304,6 +285,7 @@ function wtc -d "Generate a random commit message"
     end
     curl -s whatthecommit.com/index.txt
 end
+functions wtc > wtc.fish
 ```
 
 * Install the plugin.
@@ -329,8 +311,7 @@ git push origin master
 To submit wtc to the official index.
 
 ```fish
-fisher install submit
-fisher submit
+fisher submit wtc "Random commit message generator" "commit random fun" https://github.com/owner/wtc
 ```
 
 This will create a PR in the Fisherman index repository. Once the PR is approved, Fisherman users will be able to install wtc if they have the latest index.
@@ -339,20 +320,20 @@ This will create a PR in the Fisherman index repository. Once the PR is approved
 fisher install wtc
 ```
 
-See `fisher help submit` for more submit options.
-
 ### Completions
 
 Create a completions directory and add a completions file.
 
 ```fish
 mkdir completions
-cat > completions/wtc.fish
-complete --command wtc --short h --long help --description "Show usage help"
-^
+$EDITOR completions/wtc.fish
 ```
 
-Alternatively, use `__fisher_complete` to create completions from wtc usage output.
+```fish
+complete --command wtc --short h --long help --description "Show usage help"
+```
+
+Or use `__fisher_complete` to create completions from wtc usage output.
 
 ```
 wtc --help | __fisher_complete wtc
@@ -366,27 +347,28 @@ There are utilities that can help you generate man pages from various text forma
 
 To create a man page manually.
 
-```fish
+```
 mkdir -p man/man1
-cat > man/man1/wtc.1
+$EDITOR man/man1/wtc.1
+```
 
- .TH man 1 "Today" "1.0" "wtc man page"
- .SH NAME
- wtc \- Generate a random commit message
- .SH SYNOPSIS
- wtc [--help]
- .SH OPTIONS
- -h, --help: Display help information.
- .SH SEE ALSO
- https://github.com/ngerakines/commitment
-^C
+```
+.TH man 1 "Today" "1.0" "wtc man page"
+.SH NAME
+wtc \- Generate a random commit message
+.SH SYNOPSIS
+wtc [--help]
+.SH OPTIONS
+-h, --help: Display help information.
+.SH SEE ALSO
+https://github.com/ngerakines/commitment
 ```
 
 ### Dependencies
 
 A plugin can list dependencies to other plugins using a *fishfile*.
 
-Create a new file in the root of your project and add the name or URL of your desired dependencies.
+Create a new file in the root of your project and add the name or URL of your dependencies.
 
 ```fish
 cat > fishfile
@@ -494,11 +476,14 @@ The following example implements the fish_postexec hook to display the runtime o
 ```fish
 mkdir -p runtime/conf.d
 cd runtime
-cat > conf.d/fish_postexec.fish
+$EDITOR conf.d/fish_postexec.fish
+```
+
+```
 function fish_postexec --on-event fish_postexec
     printf "%sms\n" $CMD_DURATION > /dev/stderr
 end
-^D
+
 fisher install ./postexec
 ```
 
