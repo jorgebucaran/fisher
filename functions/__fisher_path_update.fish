@@ -11,7 +11,7 @@ function __fisher_path_update -a path
     git checkout master --quiet ^ /dev/null
 
     if not git pull --quiet --rebase origin master
-        git rebase  --quiet --abort
+        git rebase  --abort > /dev/null
         git fetch   --quiet origin master
         git reset   --quiet --hard FETCH_HEAD
         git clean   --quiet -d --force
