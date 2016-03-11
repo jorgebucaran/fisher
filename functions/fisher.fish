@@ -56,7 +56,7 @@ function fisher -d "Fish plugin manager"
         case help
             printf "Usage: fisher <command> [<options>] [--help] [--version]\n\n"
 
-            set -l color (set_color $fish_color_command -u)
+            set -l color (set_color -u)
             set -l color_normal (set_color normal)
 
             printf "Commands:\n"
