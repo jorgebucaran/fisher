@@ -256,7 +256,14 @@ git push origin master
 
 ## Plugins
 
-Plugins can be utilities, prompts, commands or snippets.
+Plugins can be utilities, prompts, commands or snippets. To create a plugin from a template, install the new command.
+
+```
+fisher install new
+fisher new plugin < meta.yml
+```
+
+See the documentation of new for details.
 
 ### Utilities
 

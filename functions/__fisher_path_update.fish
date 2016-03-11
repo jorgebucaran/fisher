@@ -7,21 +7,21 @@ function __fisher_path_update -a path
         return 1
     end
 
-    git stash --quiet ^ /dev/null
+    git stash           --quiet ^ /dev/null
     git checkout master --quiet ^ /dev/null
 
-    if not git pull --rebase origin master --quiet
-        git rebase --abort --quiet
-        git fetch origin master --quiet
-        git reset --hard FETCH_HEAD --quiet
-        git clean -d --force --quiet
+    if not git pull --quiet --rebase origin master
+        git rebase  --quiet --abort
+        git fetch   --quiet origin master
+        git reset   --quiet --hard FETCH_HEAD
+        git clean   --quiet -d --force
     end ^ /dev/null
 
     if test ! -z "$branch"
-        git checkout "$branch" --quiet
+        git checkout "$branch" --quiet ^ /dev/null
     end
 
     git stash apply --quiet ^ /dev/null
-    
+
     popd
 end

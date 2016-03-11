@@ -11,7 +11,7 @@ getopts *options* ...<br>
 
 ## USAGE
 
-Study the output of the following example
+Study the output of getopts in the following example
 
 ```
 getopts -ab1 --foo=bar baz
@@ -24,9 +24,7 @@ foo  bar
 _    baz
 ```
 
-The items on the left are the option flags. The items on the right are the option values. The underscore `_` character is the default *key* for bare arguments.
-
-Use read(1) to process the generated stream and switch(1) to match patterns
+The items on the left are the command option *keys*. The items on the right are the option *values*. The underscore `_` character is the default key for bare arguments.
 
 ```
 getopts -ab1 --foo=bar baz | while read -l key option

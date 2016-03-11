@@ -448,7 +448,21 @@ $fisher_alias \fIcommand\fR=\fIalias\fR \.\.\.
 Use this variable to create aliases of Fisherman commands\.
 .
 .SH "PLUGINS"
-Plugins can be utilities, prompts, commands or snippets\.
+Plugins can be utilities, prompts, commands or snippets\. To create a plugin from a template, install the new command\.
+.
+.IP "" 4
+.
+.nf
+
+fisher install new
+fisher new plugin < meta\.yml
+.
+.fi
+.
+.IP "" 0
+.
+.P
+See the documentation of new for details\.
 .
 .SS "UTILITIES"
 Utilities are plugins that define one or more functions\.
