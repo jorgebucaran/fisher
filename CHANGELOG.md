@@ -1,6 +1,6 @@
 # Change Log
 
-## [1.3.0][v130] - 2016-03-11
+## [1.3.1][v131] - 2016-03-12
 
 * Fix bug in fisher_config_color_reset not declaring path variable.
 * Silence Git checkout standard error to prevent update failures in some edge cases.
