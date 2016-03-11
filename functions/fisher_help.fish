@@ -1,4 +1,4 @@
-function fisher_help -d "Show help"
+function fisher_help -d "Show command help"
     if not set -q argv[1]
         man fisher
         return

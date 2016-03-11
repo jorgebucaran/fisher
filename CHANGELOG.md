@@ -1,11 +1,17 @@
 # Change Log
 
+## [1.3.0][v130] - 2016-03-11
+
+* Fix bug in fisher_config_color_reset not declaring path variable.
+* Silence Git checkout standard error to prevent update failures in some edge cases.
+* Revise and correct errors in the documentation and README.
+* Add more instrumentation to fisher_plugin_disable.
+* Minor doc updates.
+
 ## [1.3.0][v130] - 2016-03-09
 
 * Merge tutorial and CLI documentation into one document.
-
 * Update README with new simplified documentation.
-
 * Tweak fisher help menu to highlight command aliases.
 
 ## [1.2.0][v120] - 2016-03-08
@@ -359,6 +365,7 @@
 
 <!--  Links -->
 
+[v131]: https://github.com/fisherman/fisherman/releases/tag/1.3.1
 [v130]: https://github.com/fisherman/fisherman/releases/tag/1.3.0
 [v120]: https://github.com/fisherman/fisherman/releases/tag/1.2.0
 [v110]: https://github.com/fisherman/fisherman/releases/tag/1.1.0

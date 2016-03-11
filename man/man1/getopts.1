@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "GETOPTS" "1" "February 2016" "" "fisherman"
+.TH "GETOPTS" "1" "March 2016" "" "fisherman"
 .
 .SH "NAME"
 \fBgetopts\fR \- Command line options parser
@@ -15,7 +15,7 @@ getopts \fIoptions\fR \.\.\.
 \fBGetopts\fR is a command line options parser for fish\.
 .
 .SH "USAGE"
-Study the output of the following example
+Study the output of getopts in the following example
 .
 .IP "" 4
 .
@@ -41,10 +41,7 @@ _    baz
 .IP "" 0
 .
 .P
-The items on the left are the option flags\. The items on the right are the option values\. The underscore \fB_\fR character is the default \fIkey\fR for bare arguments\.
-.
-.P
-Use read(1) to process the generated stream and switch(1) to match patterns
+The items on the left are the command option \fIkeys\fR\. The items on the right are the option \fIvalues\fR\. The underscore \fB_\fR character is the default key for bare arguments\.
 .
 .IP "" 4
 .

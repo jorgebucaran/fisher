@@ -24,12 +24,19 @@ function __fisher_plugin_disable -a plugin path option
     end
 
     if test -s $fisher_file
-        debug "File remove %s" "$plugin"
+        set -l key
 
-        __fisher_file_remove (
-            if not fisher_search --name=$plugin --name --index=$fisher_cache/.index
-                __fisher_url_from_path $path
-            end
-            ) $fisher_file > /dev/null
+        if not set key (fisher_search --name=$plugin --name --index=$fisher_cache/.index)
+            debug "Path $path"
+            set key (__fisher_url_from_path $path)
+        end
+
+        debug "fishfile remove %s start" "$key"
+        
+        if set key (__fisher_file_remove "$key" "$fisher_file")
+            debug "fishfile remove %s ok" "$key"
+        else
+            debug "fishfile remove %s fail" "$key"
+        end
     end
 end
