@@ -5,9 +5,9 @@ function -S setup
 
     source $DIRNAME/helpers/config-mock.fish $path/config
 
-    fisher install foo bar --quiet
-    fisher install https://github.com/foobar --quiet
-    fisher install $DIRNAME/fixtures/plugins/baz --quiet
+    fisher install foo bar --quiet --no-color
+    fisher install https://github.com/foobar --quiet --no-color
+    fisher install $DIRNAME/fixtures/plugins/baz --quiet --no-color
 end
 
 function -S teardown

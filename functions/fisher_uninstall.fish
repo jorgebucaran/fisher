@@ -68,7 +68,7 @@ function fisher_uninstall -d "Uninstall plugins"
 
         debug "Uninstall %s" "$name"
 
-        if not contains -- $name (fisher_list $fisher_file)
+        if not contains -- $name (fisher_list --enabled)
             if test -z "$option"
                 set skipped $skipped $name
                 continue

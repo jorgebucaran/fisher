@@ -3,6 +3,8 @@ function fisher_install -d "Install plugins"
     set -l option
     set -l stdout /dev/stdout
     set -l stderr /dev/stderr
+    set -l color (set_color $fish_color_match)
+    set -l color_normal (set_color normal)
 
     getopts $argv | while read -l 1 2
         switch "$1"
@@ -16,15 +18,20 @@ function fisher_install -d "Install plugins"
                     set plugins $plugins $2
                 end
 
+            case C no-color
+                set color
+                set color_normal
+
             case q quiet
                 set stdout /dev/null
                 set stderr /dev/null
 
             case h
                 printf "Usage: fisher install [<plugins>] [--force] [--quiet] [--help]\n\n"
-                printf "    -f --force    Reinstall given plugin/s\n"
-                printf "    -q --quiet    Enable quiet mode\n"
-                printf "    -h --help     Show usage help\n"
+                printf "    -f --force     Reinstall given plugin/s\n"
+                printf "    -q --quiet     Enable quiet mode\n"
+                printf "    -C --no-color  Turn off color display\n"
+                printf "    -h --help      Show usage help\n"
                 return
 
             case \*
@@ -64,7 +71,7 @@ function fisher_install -d "Install plugins"
             case https://gist.github.com\*
                 debug "Gist %s" $item
 
-                if set -l name (__fisher_gist_to_name $item)
+                if set -l name (__fisher_gist_to_name $item )
                     printf "%s\t%s\n" $item $name
                 else
                     printf "fisher: Repository '%s' not found.\n" $item > $stderr
@@ -103,7 +110,7 @@ function fisher_install -d "Install plugins"
         end
 
     end | while read -l url name
-        if contains -- $name (fisher_list $fisher_file)
+        if contains -- $name (fisher_list --enabled)
             if test -z "$option"
                 set skipped $skipped $name
                 continue
@@ -133,7 +140,7 @@ function fisher_install -d "Install plugins"
             else
                 debug "Clone %s" $url
 
-                if not spin "__fisher_url_clone $url $path" --error=$stderr -f "  @\r"
+                if not spin "__fisher_url_clone $url $path" --error=$stderr -f "  $color@\r$color_normal"
                     continue
                 end
             end

@@ -5,7 +5,7 @@ function -S setup
 
     source $DIRNAME/helpers/config-mock.fish $path/config
 
-    fisher install foo bar foobar --quiet
+    fisher install foo bar foobar --quiet --no-color
     fisher uninstall foo --quiet
     fisher uninstall foobar --quiet --force
 end
