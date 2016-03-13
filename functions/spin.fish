@@ -1,3 +1,3 @@
-function spin -d "Run fisher install spin to update this function." -a commands
+function spin -a commands
     fish -c "$commands" ^ /dev/null
 end

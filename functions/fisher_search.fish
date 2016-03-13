@@ -6,6 +6,8 @@ function fisher_search -d "Search plugin index"
     set -l format
     set -l option
     set -l stdout /dev/stdout
+    set -l color (set_color $fish_color_match)
+    set -l color_normal (set_color normal)
 
     getopts $argv | while read -l 1 2 3
         switch "$1"
@@ -60,6 +62,8 @@ function fisher_search -d "Search plugin index"
                 set join "||"
 
             case C no-color
+                set color
+                set color_normal
                 set option no-color
 
             case query
@@ -101,7 +105,7 @@ function fisher_search -d "Search plugin index"
         if test $fisher_last_update -gt $fisher_update_interval -o ! -f $index
             debug "Update index start"
 
-            if spin "__fisher_index_update" --error=/dev/null -f "  @\r" > /dev/null
+            if spin "__fisher_index_update" --error=/dev/null -f "  $color@$color_normal\r" > /dev/null
                 debug "Update index ok"
                 __fisher_complete_reset
             else

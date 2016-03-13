@@ -1,10 +1,12 @@
 function fisher_list -a key -d "List installed plugins"
-    switch "$key"
-        case -b --bare
-            __fisher_cache_list
+    set -l enabled
 
+    if test -s "$fisher_file"
+        set enabled (__fisher_list < $fisher_file)
+    end
+
+    switch "$key"
         case ""
-            set -l enabled (fisher_list $fisher_file)
             set -l cache (__fisher_cache_list)
 
             if test -z "$cache"
@@ -38,11 +40,9 @@ function fisher_list -a key -d "List installed plugins"
             find $fisher_cache/* -maxdepth 0 -type l ^ /dev/null | sed 's|.*/||'
 
         case --enabled
-            fisher_list $fisher_file
+            printf "%s\n" $enabled
 
         case --disabled
-            set -l enabled (fisher_list $fisher_file)
-
             for name in (__fisher_cache_list)
                 if not contains -- $name $enabled
                     printf "%s\n" $name
@@ -50,20 +50,14 @@ function fisher_list -a key -d "List installed plugins"
             end
 
         case -
-            __fisher_file | __fisher_name
+            __fisher_list
 
         case -h
-            printf "Usage: fisher list [<file>] [--enabled] [--disabled] [--bare] [--link] \n\n"
-            printf "    -b --bare        List plugin without decorators\n"
+            printf "Usage: fisher list [--enabled] [--disabled] [--link]\n\n"
             printf "    -l --link        List plugins that are symbolic links\n"
             printf "       --enabled     List plugins that are enabled\n"
             printf "       --disabled    List plugins that are disabled\n"
             printf "    -h --help        Show usage help\n"
             return
-
-        case \*
-            if test -s "$key"
-                fisher_list - < $key
-            end
     end
 end

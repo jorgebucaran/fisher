@@ -35,7 +35,7 @@ test "$TESTNAME - Append * to active plugins"
 end
 
 test "$TESTNAME - Add one space indentation to disabled plugins to align with > and *"
-    (fisher list | sed '/^[\*>].*/d') = "  norf"
+    (fisher list  | sed '/^[\*>].*/d') = "  norf"
 end
 
 test "$TESTNAME - Do not add indentation when no plugins are enabled"
@@ -46,25 +46,6 @@ test "$TESTNAME - Do not add indentation when no plugins are enabled"
         )
 end
 
-test "$TESTNAME - Wrap fisher list=bare with __fisher_cache_list"
-    (fisher list --bare) = (__fisher_cache_list)
-end
-
-# test "$TESTNAME - Get URL from path (__fisher_url_from_path) with fisher list=url"
-#     (fisher list --url) = (
-#         for plugin in foo bar baz theme norf
-#             switch "$plugin"
-#                 case theme
-#                     echo $path/theme
-#                 case norf
-#                     echo $plugin@https://gist.github.com/$plugin
-#                 case \*
-#                     echo https://github.com/$plugin/$plugin
-#             end
-#         end
-#         )
-# end
-
 test "$TESTNAME - Show active / enabled plugins/prompts with fisher list=enabled"
     foo bar baz theme = (fisher list --enabled)
 end
@@ -73,14 +54,6 @@ test "$TESTNAME - Show disabled/inactive plugins/prompts with fisher list=disabl
     (fisher list --disabled) = norf
 end
 
-# test "$TESTNAME - Shadow fisher list=theme to fisher list=prompt"
-#     (fisher list=theme) = (fisher list=prompt)
-# end
-#
-# test "$TESTNAME - Return the contents of \$fisher_prompt fisher list=theme|prompt"
-#     (fisher list=prompt) = theme
-# end
-
 test "$TESTNAME - Parse a fishfile and display plugins with fisher list=<file>"
-    foo bar baz theme = (fisher list $fisher_file)
+    foo bar baz theme = (fisher list - < $fisher_file)
 end
