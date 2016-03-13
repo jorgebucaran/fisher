@@ -54,85 +54,116 @@ Show version information\. Fisherman follows Semantic Versioning and uses Git an
 Show usage help\.
 .
 .SH "EXAMPLES"
+.
+.IP "\(bu" 4
 Install plugins\.
 .
+.IP "" 0
+.
 .IP "" 4
 .
 .nf
 
-fisher install fishtape shark get
+fisher i fishtape shark get bobthefish
 .
 .fi
 .
 .IP "" 0
 .
-.P
+.IP "\(bu" 4
+Install Oh My Fish! plugins\.
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
+fisher i omf/plugin\-{percol,jump,fasd}
+.
+.fi
+.
+.IP "" 0
+.
+.IP "\(bu" 4
 Install a plugin from a local directory\.
 .
-.IP "" 4
-.
-.nf
-
-fisher install \./path/to/plugin
-.
-.fi
-.
 .IP "" 0
-.
-.P
-Install a plugin from a URL\.
 .
 .IP "" 4
 .
 .nf
 
-fisher install owner/repo
+fisher i \./path/to/plugin
 .
 .fi
 .
 .IP "" 0
 .
-.P
-Install a plugin from a Gist URL\.
+.IP "\(bu" 4
+Install a plugin from various URLs\.
+.
+.IP "" 0
 .
 .IP "" 4
 .
 .nf
 
-fisher install gist\.github\.com/owner/1f40e1c6e0551b2666b2
+fisher i https://github\.com/some/plugin another/plugin bb:one/more
 .
 .fi
 .
 .IP "" 0
 .
-.P
-Update Fisherman\.
+.IP "\(bu" 4
+Install a plugin from a Gist\.
+.
+.IP "" 0
 .
 .IP "" 4
 .
 .nf
 
-fisher update
+fisher i gist\.github\.com/owner/1f40e1c6e0551b2666b2
 .
 .fi
 .
 .IP "" 0
 .
-.P
+.IP "\(bu" 4
+Update everything\.
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
+fisher u
+.
+.fi
+.
+.IP "" 0
+.
+.IP "\(bu" 4
 Update plugins\.
 .
+.IP "" 0
+.
 .IP "" 4
 .
 .nf
 
-fisher update shark get
+fisher u shark get
 .
 .fi
 .
 .IP "" 0
 .
-.P
+.IP "\(bu" 4
 Uninstall plugins\.
+.
+.IP "" 0
 .
 .IP "" 4
 .
@@ -144,27 +175,16 @@ fisher uninstall fishtape debug
 .
 .IP "" 0
 .
-.P
-Uninstall plugins and remove them from the cache\.
-.
-.IP "" 4
-.
-.nf
-
-fisher uninstall fishtape debug \-f
-.
-.fi
+.IP "\(bu" 4
+Get help\.
 .
 .IP "" 0
 .
-.P
-Show all the documentation\.
-.
 .IP "" 4
 .
 .nf
 
-fisher help \-\-all
+fisher h
 .
 .fi
 .
@@ -215,23 +235,26 @@ fisher search
 .IP "" 0
 .
 .P
-Get detailed information about a plugin\.
+Query the index using regular expressions\.
 .
 .IP "" 4
 .
 .nf
 
-fisher search shellder
-> shellder by simnalamburt
-Powerline prompt optimized for speed
-github\.com/simnalamburt/shellder
+fisher search \-\-name~/git\-is/
+git\-is\-dirty       Test if there are changes not staged for commit
+git\-is\-empty       Test if a repository is empty
+git\-is\-repo        Test if the current directory is a Git repo
+git\-is\-staged      Test if there are changes staged for commit
+git\-is\-stashed     Test if there are changes in the stash
+git\-is\-touched     Test if there are changes in the working tree
 .
 .fi
 .
 .IP "" 0
 .
 .P
-Search plugins using tags\.
+Search using tags\.
 .
 .IP "" 4
 .
@@ -239,11 +262,14 @@ Search plugins using tags\.
 
 fisher search \-\-tag={git,test}
   \.\.\.
-* fishtape           TAP producing test runner
+  * fishtape         TAP producing test runner
   git\-branch\-name    Get the name of the current Git branch
-  git\-is\-repo        Test if the current directory is a Git repo
   git\-is\-dirty       Test if there are changes not staged for commit
+  git\-is\-empty       Test if a repository is empty
+  git\-is\-repo        Test if the current directory is a Git repo
+  git\-is\-staged      Test if there are changes staged for commit
   git\-is\-stashed     Test if there are changes in the stash
+  git\-is\-touched     Test if there are changes in the working tree
   \.\.\.
 .
 .fi
@@ -253,35 +279,35 @@ fisher search \-\-tag={git,test}
 .P
 The legend consists of:
 .
-.P
-\fB*\fR The plugin is currently enabled
+.IP "\(bu" 4
+\fB*\fR The plugin is enabled
 .
-.br
+.IP "\(bu" 4
 \fB>\fR The plugin is a prompt
 .
-.br
+.IP "\(bu" 4
 \fB@\fR The plugin is a symbolic link
 .
-.br
+.IP "" 0
 .
 .SH "PLUMBING"
 Fisherman commands are pipe aware\. Plumb one with another to create complex functionality\.
 .
 .P
-Update all the plugins in the cache\.
+Update plugins installed as symbolic links\.
 .
 .IP "" 4
 .
 .nf
 
-fisher list | fisher update \-
+fisher list \-\-link | fisher update \-
 .
 .fi
 .
 .IP "" 0
 .
 .P
-Enable all the plugins that are currently disabled\.
+Enable all the plugins currently disabled\.
 .
 .IP "" 4
 .
@@ -307,10 +333,12 @@ fisher list | fisher uninstall \-\-force
 .IP "" 0
 .
 .SH "DOTFILES"
-When you install a plugin, Fisherman updates a file known as \fIfishfile\fR to track what plugins are currently enabled\.
+When you install a plugin, Fisherman updates the \fIfishfile\fR to track what plugins are currently enabled\.
 .
-.P
-To customize its location:
+.IP "\(bu" 4
+Customize the location of the fishfile\.
+.
+.IP "" 0
 .
 .IP "" 4
 .
@@ -355,10 +383,7 @@ $fisher_config
 The index is a plain text database that lists Fisherman official plugins\.
 .
 .P
-The index is a list of records, each consisting of the following fields: \fIname\fR, \fIurl\fR, \fIinfo\fR, one or more \fItags\fR and \fIauthor\fR\.
-.
-.P
-Fields are separated by a new line \fB\en\fR\. Tags are separated by one \fIspace\fR\.
+The index lists records, each consisting the fields: \fIname\fR, \fIurl\fR, \fIinfo\fR, one or more \fItags\fR and \fIauthor\fR\.
 .
 .IP "" 4
 .
@@ -375,65 +400,31 @@ jethrokuan
 .IP "" 0
 .
 .P
-If you have a plugin to submit to the index, use the \fIsubmit\fR plugin\.
+If you have a plugin you would like to submit to the index, use the submit plugin\.
 .
 .IP "" 4
 .
 .nf
 
 fisher install submit
-fisher submit my_plugin
+fisher submit my_plugin description tags url
 .
 .fi
 .
 .IP "" 0
 .
 .P
-Otherwise, submit the plugin manually by creating a pull request in the index repository \fIhttps://github\.com/fisherman/fisher\-index\fR\.
-.
-.IP "" 4
-.
-.nf
-
-git clone https://github\.com/fisherman/fisher\-index
-cd index
-echo "$name\en$url\en$info\en$tags\en$author\en\en" >> index
-git push origin master
-.
-.fi
-.
-.IP "" 0
-.
-.SH "FISHFILE"
-Fisherman keeps track of a special file known as \fIfishfile\fR to know what plugins are currently enabled\.
-.
-.IP "" 4
-.
-.nf
-
-# My Fishfile
-gitio
-fishtape
-shark
-get
-shellder
-.
-.fi
-.
-.IP "" 0
-.
-.P
-This file is automatically updated as you install and uninstall plugins\.
+Or, submit the plugin manually by creating a pull request in the index \fIhttps://github\.com/fisherman/fisher\-index\fR repository\.
 .
 .SH "VARIABLES"
 .
 .TP
-$fisher_home
-The home directory\. If you installed Fisherman using the recommended method \fBcurl \-sL install\.fisherman\.sh | fish\fR, the location ought to be \fIXDG_DATA_HOME/fisherman\fR\. If you clone Fisherman and run make yourself, the current working directory is used by default\.
+\fB$fisher_home\fR
+The home directory\. If you installed Fisherman using the recommended method, the location ought to be \fIXDG_DATA_HOME/fisherman\fR\.
 .
 .TP
 $fisher_config
-The configuration directory\. This is default location of the \fIfishfile\fR, \fIkey_bindings\.fish\fR, \fIcache\fR, \fIfunctions\fR, \fIcompletions\fR and \fIconf\.d\fR directories\. The default location is \fIXDG_CONFIG_HOME/fisherman\fR\.
+The configuration directory\. This is default location of your \fIfishfile\fR, \fIkey_bindings\.fish\fR, \fIcache\fR, \fIfunctions\fR, \fIcompletions\fR and \fIconf\.d\fR directories\. \fIXDG_CONFIG_HOME/fisherman\fR by default\.
 .
 .TP
 $fisher_file
@@ -468,10 +459,7 @@ See the documentation of new for details\.
 Utilities are plugins that define one or more functions\.
 .
 .P
-This example walks you through creating \fIwtc\fR, a plugin based in \fIgithub/ngerakines/commitment\fR random commit message generator\.
-.
-.P
-Create a directory and initialize a Git repository\.
+Below is a plugin based in ngerakines/commitment \fIhttps://github/ngerakines/commitment\fR random commit message generator\.
 .
 .IP "" 4
 .
@@ -479,19 +467,6 @@ Create a directory and initialize a Git repository\.
 
 mkdir wtc
 cd wtc
-git init
-git remote add origin https://github\.com/<you>/wtc
-.
-.fi
-.
-.IP "" 0
-.
-.P
-Add the wtc function\.
-.
-.IP "" 4
-.
-.nf
 
 function wtc \-d "Generate a random commit message"
     switch "$argv"
@@ -503,38 +478,21 @@ function wtc \-d "Generate a random commit message"
     curl \-s whatthecommit\.com/index\.txt
 end
 functions wtc > wtc\.fish
+
+fisher install \.
 .
 .fi
 .
 .IP "" 0
 .
-.P
-Install the plugin\.
-.
 .IP "" 4
 .
 .nf
 
-fisher install \.
 wtc
 (\e /)
 (O\.o)
 (> <) Bunny approves these changes\.
-.
-.fi
-.
-.IP "" 0
-.
-.P
-Commit changes and push to your remote origin when you are done\.
-.
-.IP "" 4
-.
-.nf
-
-git add \-\-all
-git commit \-m "What the commit?"
-git push origin master
 .
 .fi
 .
@@ -567,101 +525,24 @@ fisher install wtc
 .IP "" 0
 .
 .P
-Create a completions directory and add a completions file\.
-.
-.IP "" 4
-.
-.nf
-
-mkdir completions
-$EDITOR completions/wtc\.fish
-.
-.fi
-.
-.IP "" 0
-.
-.IP "" 4
-.
-.nf
-
-complete \-\-command wtc \-\-short h \-\-long help \-\-description "Show usage help"
-.
-.fi
-.
-.IP "" 0
-.
-.P
-Or use \fB__fisher_complete\fR to create completions from wtc usage output\.
-.
-.IP "" 4
-.
-.nf
-
-wtc \-\-help | __fisher_complete wtc
-.
-.fi
-.
-.IP "" 0
-.
-.P
-Create a man/man1 directory and add a man(1) page for wtc\.
-.
-.P
-There are utilities that can help you generate man pages from various text formats\. For example, pandoc(1) and ronn(1)\.
-.
-.P
-To create a man page manually\.
-.
-.IP "" 4
-.
-.nf
-
-mkdir \-p man/man1
-$EDITOR man/man1/wtc\.1
-.
-.fi
-.
-.IP "" 0
-.
-.IP "" 4
-.
-.nf
-
- \.TH man 1 "Today" "1\.0" "wtc man page"
- \.SH NAME
- wtc \e\- Generate a random commit message
- \.SH SYNOPSIS
- wtc [\-\-help]
- \.SH OPTIONS
- \-h, \-\-help: Display help information\.
- \.SH SEE ALSO
- https://github\.com/ngerakines/commitment
-.
-.fi
-.
-.IP "" 0
-.
-.P
 A plugin can list dependencies to other plugins using a \fIfishfile\fR\.
 .
 .P
-Create a new file in the root of your project and add the name or URL of your dependencies\.
+Create a \fIfishfile\fR in the root of your project and add the name or URL of your dependencies\.
 .
 .IP "" 4
 .
 .nf
 
-cat > fishfile
 my_plugin
 https://github\.com/owner/another_plugin
-^D
 .
 .fi
 .
 .IP "" 0
 .
 .SS "PROMPTS"
-Prompts, also known as themes, are plugins that modify the appearance of the shell prompt and modify fish syntax colors\.
+Prompts, or themes, are plugins that modify the appearance of the shell prompt and colors\.
 .
 .P
 Create a \fBfish_prompt\fR function\.
@@ -703,8 +584,10 @@ Save the functions to a directory and install the prompt as a plugin\.
 
 mkdir my_prompt
 cd my_prompt
+
 functions fish_prompt > fish_prompt\.fish
 functions fish_right_prompt > fish_right_prompt\.fish
+
 fisher install \.
 .
 .fi
@@ -719,30 +602,32 @@ Customize the colors fish uses for syntax highlighting\.
 .nf
 
 function set_color_custom
-    set \-U fish_color_normal                #\.\.\.
-    set \-U fish_color_command               #\.\.\.
-    set \-U fish_color_param                 #\.\.\.
-    set \-U fish_color_redirection           #\.\.\.
-    set \-U fish_color_comment               #\.\.\.
-    set \-U fish_color_error                 #\.\.\.
-    set \-U fish_color_escape                #\.\.\.
-    set \-U fish_color_operator              #\.\.\.
-    set \-U fish_color_end                   #\.\.\.
-    set \-U fish_color_quote                 #\.\.\.
-    set \-U fish_color_autosuggestion        #\.\.\.
-    set \-U fish_color_valid_path            #\.\.\.
-    set \-U fish_color_cwd                   #\.\.\.
-    set \-U fish_color_cwd_root              #\.\.\.
-    set \-U fish_color_match                 #\.\.\.
-    set \-U fish_color_search_match          #\.\.\.
-    set \-U fish_color_selection             #\.\.\.
-    set \-U fish_pager_color_prefix          #\.\.\.
-    set \-U fish_pager_color_completion      #\.\.\.
-    set \-U fish_pager_color_description     #\.\.\.
-    set \-U fish_pager_color_progress        #\.\.\.
-    set \-U fish_color_history_current       #\.\.\.
+    # set \-U fish_color_normal
+    # set \-U fish_color_command
+    # set \-U fish_color_param
+    # set \-U fish_color_redirection
+    # set \-U fish_color_comment
+    # set \-U fish_color_error
+    # set \-U fish_color_escape
+    # set \-U fish_color_operator
+    # set \-U fish_color_end
+    # set \-U fish_color_quote
+    # set \-U fish_color_autosuggestion
+    # set \-U fish_color_valid_path
+    # set \-U fish_color_cwd
+    # set \-U fish_color_cwd_root
+    # set \-U fish_color_match
+    # set \-U fish_color_search_match
+    # set \-U fish_color_selection
+    # set \-U fish_pager_color_prefix
+    # set \-U fish_pager_color_completion
+    # set \-U fish_pager_color_description
+    # set \-U fish_pager_color_progress
+    # set \-U fish_color_history_current
 end
+
 functions set_color_custom > set_color_custom\.fish
+
 fisher update \.
 .
 .fi
@@ -794,40 +679,11 @@ fisher install fisher_time
 .
 .IP "" 0
 .
-.P
-This creates a new directory fisher_time in the current working directory and installs the plugin\.
-.
-.P
-The following example implements a command to format plugin information into columns\.
-.
-.IP "" 4
-.
-.nf
-
-function fisher_info \-d "Display information about plugins"
-    switch "$argv"
-        case \-h \-\-help
-            printf "Usage: fisher info <name or URL> [\.\.\.]\en\en"
-            printf "    \-h \-\-help  Show usage help\en"
-            return
-    end
-
-    for item in $argv
-        fisher search $item \-\-name \-\-info
-    end | sed \-E \'s/;/: /\' | column
-end
-
-fisher install fisher_info
-.
-.fi
-.
-.IP "" 0
-.
 .SS "SNIPPETS"
 Snippets are plugins that run code at the start of the shell\. Snippets must be placed inside a sub directory named conf\.d\.
 .
 .P
-The following example implements the fish_postexec hook to display the runtime of the last command in milliseconds\.
+The following example implements a fish_postexec hook to display the duration of the last command in milliseconds\.
 .
 .IP "" 4
 .
@@ -835,11 +691,20 @@ The following example implements the fish_postexec hook to display the runtime o
 
 mkdir \-p runtime/conf\.d
 cd runtime
-cat > conf\.d/fish_postexec\.fish
+$EDITOR conf\.d/fish_postexec\.fish
+.
+.fi
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
 function fish_postexec \-\-on\-event fish_postexec
     printf "%sms\en" $CMD_DURATION > /dev/stderr
 end
-^D
+
 fisher install \./postexec
 .
 .fi
@@ -851,9 +716,3 @@ Fisherman was created by Jorge Bucaran :: @bucaran :: \fIj@bucaran\.me\fR\.
 .
 .P
 See THANKS\.md file for a complete list of contributors\.
-.
-.SH "SEE ALSO"
-fisher help tutorial
-.
-.br
-

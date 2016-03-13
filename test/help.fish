@@ -26,9 +26,3 @@ for i in $sections
         (fisher help foo | xargs) = foo
     end
 end
-
-test "$TESTNAME - Display usage help for every command"
-    (cat $DIRNAME/fixtures/help/usage.txt) = (
-        __fisher_help_commands | cut -f1 -d \; | fisher help --usage
-        )
-end
