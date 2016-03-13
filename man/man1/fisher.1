@@ -419,7 +419,7 @@ Or, submit the plugin manually by creating a pull request in the index \fIhttps:
 .SH "VARIABLES"
 .
 .TP
-\fB$fisher_home\fR
+$fisher_home
 The home directory\. If you installed Fisherman using the recommended method, the location ought to be \fIXDG_DATA_HOME/fisherman\fR\.
 .
 .TP
@@ -554,6 +554,15 @@ Create a \fBfish_prompt\fR function\.
 function fish_prompt
     printf "%s (%s) >> " (prompt_pwd) Fisherman
 end
+.
+.fi
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
 ~ (Fisherman) >> type here
 .
 .fi
