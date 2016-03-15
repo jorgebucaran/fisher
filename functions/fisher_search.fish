@@ -132,10 +132,10 @@ function fisher_search -d "Search plugin index"
             end
         end
 
-        set -l color_name (set_color $fish_color_command)
+        set -l color_name (set_color $fish_color_command -o)
         set -l color_url (set_color $fish_color_quote -u)
         set -l color_tag (set_color $fish_color_quote)
-        set -l color_weak (set_color white)
+        set -l color_weak (set_color white -o)
         set -l color_author (set_color -u)
         set -l color_normal (set_color $fish_color_normal)
 
@@ -180,18 +180,18 @@ function fisher_search -d "Search plugin index"
         switch "$format"
             case default
                 set fields $fields '
-                    printf("%s '"$color_weak"'%-18s'"$color_normal"' %s\n", legend, $1, normalize($3, len + 24))
+                    printf("%s '"$color_weak"'%-22s'"$color_normal"' %s\n", legend, $1, normalize($3, len + 24))
                 } else {
-                    printf("'"$legend$color_name"'%-18s'"$color_normal"' %s\n", $1, normalize($3, len + 24))
+                    printf("'"$legend$color_name"'%-22s'"$color_normal"' %s\n", $1, normalize($3, len + 24))
                 }
                 '
                 set options $options -v compact=1
 
             case long
                 set fields $fields '
-                    printf("%-40s %s '"$color_weak"'%-18s'"$color_normal"' %s\n", humanize_url($2), legend, $1, normalize($3, len + 66))
+                    printf("%-40s %s '"$color_weak"'%-22s'"$color_normal"' %s\n", humanize_url($2), legend, $1, normalize($3, len + 66))
                 } else {
-                    printf("'"$color_tag"'%-40s'"$color_normal"' '"$legend$color_name"'%-18s'"$color_normal"' %s\n", humanize_url($2), $1, normalize($3, len + 66))
+                    printf("'"$color_tag"'%-40s'"$color_normal"' '"$legend$color_name"'%-22s'"$color_normal"' %s\n", humanize_url($2), $1, normalize($3, len + 66))
                 }
                 '
                 set options $options -v compact=1
