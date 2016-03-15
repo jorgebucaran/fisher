@@ -53,7 +53,7 @@ function fisher_update -d "Update plugins"
             printf "fisher: I couldn't update Fisherman.\n\n" > $stderr
             return 1
         end
-        
+
         debug "Update Fisherman ok"
 
         printf "Aye! Fisherman %s updated (%0.fs)\n" (
@@ -106,7 +106,11 @@ function fisher_update -d "Update plugins"
         end
     end
 
-    while jobs | grep . -q
+    while true
+        set -l has_jobs (jobs)
+        if test -z "$has_jobs"
+            break
+        end
     end
 
     for plugin in $fisher_updated_plugins
