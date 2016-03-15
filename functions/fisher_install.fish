@@ -89,7 +89,7 @@ function fisher_install -d "Install plugins"
 
                 else
                     if test ! -s $fisher_cache/.index
-                        if spin "__fisher_index_update" --error=/dev/null -f "  @\r" > /dev/null
+                        if spin "__fisher_index_update" --error=/dev/null > /dev/null
                             debug "Update index ok"
                         else
                             debug "Update index fail"
@@ -101,10 +101,14 @@ function fisher_install -d "Install plugins"
                         printf "%s\t%s\n" $url $item
 
                     else if functions -q "$item"
-                        set -l path (__fisher_function_to_plugin $item)
-                        printf "%s\t%s" "$path" $item
+                        set -l path
+                        if set path (__fisher_function_to_plugin $item)
+                            printf "%s\t%s" "$path" $item
+                        else
+                            printf "fisher: '%s' is a directory in %s.\n" $item $PWD > $stderr
+                        end
                     else
-                        printf "fisher: '%s' not found or index out of date.\n" $item > $stderr
+                        printf "fisher: I couldn't find '%s' in the index.\n" $item > $stderr
                     end
                 end
         end
