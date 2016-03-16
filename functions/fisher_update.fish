@@ -1,5 +1,6 @@
 function fisher_update -d "Update plugins"
     set -l items
+    set -l plugins
     set -l stdout /dev/stdout
     set -l stderr /dev/stderr
     set -l indicator "▸"
@@ -121,15 +122,15 @@ function fisher_update -d "Update plugins"
                 __fisher_plugin_enable "$plugin" "$path"
             end
         end
+
+        if test -z "$fisher_updated_plugins"
+            printf "No plugins were updated.\n" > $stdout
+            set -e fisher_updated_plugins
+            return 1
+        end
     end
 
     set time (math (date +%s) - $time)
-
-    if test -z "$fisher_updated_plugins"
-        printf "No plugins were updated.\n" > $stdout
-        set -e fisher_updated_plugins
-        return 1
-    end
 
     printf "%d plugin/s updated in %0.fs\n" (count $fisher_updated_plugins) $time > $stdout
     set -e fisher_updated_plugins
