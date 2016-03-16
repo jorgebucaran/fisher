@@ -1,7 +1,7 @@
 function fisher_list -a key -d "List installed plugins"
     set -l enabled
 
-    if test -s "$fisher_file"
+    if test -f "$fisher_file"
         set enabled (__fisher_list < $fisher_file)
     end
 
@@ -40,7 +40,9 @@ function fisher_list -a key -d "List installed plugins"
             find $fisher_cache/* -maxdepth 0 -type l ^ /dev/null | sed 's|.*/||'
 
         case --enabled
-            printf "%s\n" $enabled
+            if test ! -z "$enabled"
+                printf "%s\n" $enabled
+            end
 
         case --disabled
             for name in (__fisher_cache_list)
