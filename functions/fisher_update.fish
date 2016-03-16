@@ -87,37 +87,39 @@ function fisher_update -d "Update plugins"
     set -l total (count $plugins)
     set -U fisher_updated_plugins
 
-    printf "Updating plugins...\n" $name > $stderr
+    if set -q plugins[1]
+        printf "Updating plugins...\n" $name > $stderr
 
-    for path in $plugins
-        set -l name (printf "%s\n" $path | __fisher_name)
+        for path in $plugins
+            set -l name (printf "%s\n" $path | __fisher_name)
 
-        if test ! -L $path
-            debug "Update start %s" "$name"
-            fish -ic "
-                spin '
-                    if __fisher_path_update $path
-                        set fisher_updated_plugins \$fisher_updated_plugins $name
-                        printf \"%s\n\" \"$indicator $name\"
-                    end
+            if test ! -L $path
+                debug "Update start %s" "$name"
+                fish -ic "
+                    spin '
+                        if __fisher_path_update $path
+                            set fisher_updated_plugins \$fisher_updated_plugins $name
+                            printf \"%s\n\" \"$indicator $name\"
+                        end
 
-                ' -f \"  $color@$color_normal\r\"
-            " &
+                    ' -f \"  $color@$color_normal\r\"
+                " &
+            end
         end
-    end
 
-    while true
-        set -l has_jobs (jobs)
-        if test -z "$has_jobs"
-            break
+        while true
+            set -l has_jobs (jobs)
+            if test -z "$has_jobs"
+                break
+            end
         end
-    end
 
-    for plugin in $fisher_updated_plugins
-        set -l path (__fisher_path_from_plugin)
-        if __fisher_plugin_can_enable "$plugin" "$path"
-            debug "Enable %s" "$plugin"
-            __fisher_plugin_enable "$plugin" "$path"
+        for plugin in $fisher_updated_plugins
+            set -l path (__fisher_path_from_plugin)
+            if __fisher_plugin_can_enable "$plugin" "$path"
+                debug "Enable %s" "$plugin"
+                __fisher_plugin_enable "$plugin" "$path"
+            end
         end
     end
 
