@@ -21,7 +21,6 @@ function __fisher_plugin_walk -a plugin path
                 switch "$base"
                     case \*$plugin\*
                     case \*
-                        debug "Move %s to %s" $plugin $plugin.$base
                         set base $plugin.$base
                 end
 
@@ -39,11 +38,18 @@ function __fisher_plugin_walk -a plugin path
     end
 
     for file in $path/{functions/,}*.{py,rb,php,pl,awk,sed}
-        set -l base (basename $file)
+        set -l prefix functions
+        set -l load_files (find $path -depth 1 -type f -name "*.load" ^ /dev/null)
 
-        debug "Script %s" $file
+        if test ! -z "$load_files"
+            set prefix conf.d
+        end
 
-        printf "%s %s %s\n" -- $file functions/$base
+        set -l target $prefix/(basename $file)
+
+        debug "Script %s" $target
+
+        printf "%s %s %s\n" -- $file $target
     end
 
     for n in (seq 9)
