@@ -13,7 +13,7 @@ function -S setup
             set count (math $count + 1)
         end
 
-        echo "Aye! $count plugin/s installed."
+        echo "$count plugin/s installed."
     end
 end
 
