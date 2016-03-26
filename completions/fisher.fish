@@ -6,6 +6,11 @@ complete -c fisher -a "tutorial" -d "An introduction to Fisherman" -n "__fish_se
 complete -c fisher -n "__fish_use_subcommand" -s h -l help -d "Show usage help"
 complete -c fisher -n "__fish_use_subcommand" -s v -l version -d "Show version information"
 
+complete -c fisher -a "plugin" -d "Plugin template" -n "__fish_seen_subcommand_from new"
+complete -c fisher -a "command" -d "Fisherman command template" -n "__fish_seen_subcommand_from new"
+complete -c fisher -a "prompt" -d "Prompt/Theme template" -n "__fish_seen_subcommand_from new"
+complete -c fisher -a "snippet" -d "Snippet template" -n "__fish_seen_subcommand_from new"
+
 __fisher_help_commands | while read -l command info
     complete -c fisher -n "__fish_use_subcommand" -a $command -d "$info"
     complete -c fisher -n "__fish_seen_subcommand_from help" -a $command -d "$info"
