@@ -1,12 +1,22 @@
 # Change Log
 
-## [1.4.0][v140] - 2016-03-14
+## [1.4.0][v140] - Not released yet.
 
-* :zap: Fisherman updates plugins in parallel now. Performance will vary, but chances are you will perceive 3 to 10 times faster updates.
+* Welcome aboard @orangecms.
 
-![para](https://cloud.githubusercontent.com/assets/8317250/13730493/5b704bec-e994-11e5-81b9-d3af2c0f9821.gif)
+* Fisherman is now [available](https://aur.archlinux.org/packages/fisherman-git/) in the Arch User Repository.
 
-* Deprecate fisher list file in favor of fisher list - < file
+* Fix load order during installation. Now snippets can safely invoke functions defined in the plugin function directory. Thanks @orangecms. #170.
+
+* Fisherman updates plugins in **⌁ parallel** now. Performance will vary, but chances are you will perceive 3 to 10 times faster updates.
+
+  ![para](https://cloud.githubusercontent.com/assets/8317250/13730493/5b704bec-e994-11e5-81b9-d3af2c0f9821.gif)
+
+* Deprecate fisher list file in favor of
+
+  ```
+  fisher list - < file
+  ```
 
 * Revise documentation.
 
@@ -68,7 +78,7 @@
 
 ## [0.9.0][v090] - 2016-02-25
 
-* Welcome aboard @jethrokuan, the newest Fisherman organization member.
+* Welcome aboard @jethrokuan.
 
 * The Quickstart Guide is now available in [Chinese](https://github.com/fisherman/fisherman/wiki/快速上手指南), [Russian](https://github.com/fisherman/fisherman/wiki/Краткое-Руководство) and [Korean](https://github.com/fisherman/fisherman/wiki/빠르게-살펴보기). Thanks @pickfire, @denji, @dfdgsdfg.
 
@@ -104,7 +114,7 @@
 
 ## [0.8.0][v080] - 2016-02-20
 
-* Welcome aboard @pickfire, the newest Fisherman organization member.
+* Welcome aboard @pickfire.
 
 * Add instrumentation using [debug](https://github.com/fishery/debug). To enable log display add to your config.fish or set at the commandline:
 
@@ -136,7 +146,7 @@
 
 ## [0.7.0][v070] - 2016-02-11
 
-* Welcome aboard @daenney, the newest Fisherman organization member. If you want to be part of the organization just let [me](https://github.com/bucaran) or @daenney know.
+* Welcome aboard @daenney. If you want to be part of the organization just let [me](https://github.com/bucaran) or @daenney know.
 
 * Add the ability to install plugins from Gists. You can distribute a very simple, one-single function plugin in the form of a Gist. Your users can install it using fisher install url and Fisherman will query the Gist using the GitHub API to get a list of the Gist files and use the name of the first identified *.fish* file to name the plugin in your system. Since there is no formal way to _name_ a Gist, and you may prefer to keep the "description" field for the actual description and not a name, Fisherman supports only one fish file per Gist. #75.
 
@@ -375,6 +385,7 @@
 
 <!--  Links -->
 
+[v140]: https://github.com/fisherman/fisherman/releases/tag/1.4.0
 [v131]: https://github.com/fisherman/fisherman/releases/tag/1.3.1
 [v130]: https://github.com/fisherman/fisherman/releases/tag/1.3.0
 [v120]: https://github.com/fisherman/fisherman/releases/tag/1.2.0
