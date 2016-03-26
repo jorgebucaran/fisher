@@ -39,12 +39,6 @@ function __fisher_plugin_walk -a plugin path
 
     for file in $path/{functions/,}*.{py,rb,php,pl,awk,sed}
         set -l prefix functions
-        set -l load_files (find $path -depth 1 -type f -name "*.load" ^ /dev/null)
-
-        if test ! -z "$load_files"
-            set prefix conf.d
-        end
-
         set -l target $prefix/(basename $file)
 
         debug "Script %s" $target
