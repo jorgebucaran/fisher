@@ -1,3 +1,5 @@
+--source functions/foobar-baz.fish foobar-baz
+--source functions/__foobar.fish __foobar
 --source conf.d/foobar.before.init.fish
 --source conf.d/foobar.config.fish
 --source functions/fish_greeting.fish fish_greeting
@@ -10,17 +12,15 @@
 --uninstall
 --source conf.d/foobar.conf.fish
 --source conf.d/foobar.mod.fish
---source functions/foobar-baz.fish foobar-baz
---source functions/__foobar.fish __foobar
 --source conf.d/foobar.load.fish
 --source completions/foobar.fish
--- functions/foobar.py
--- functions/foobar.rb
--- functions/foobar.php
--- functions/foobar.pl
--- functions/foobar.awk
--- functions/foobar.sed
--- functions/quux.awk
+-- conf.d/foobar.py
+-- conf.d/foobar.rb
+-- conf.d/foobar.php
+-- conf.d/foobar.pl
+-- conf.d/foobar.awk
+-- conf.d/quux.awk
+-- conf.d/foobar.sed
 --man man/man1/foobar.1
 --man man/man2/foobar.2
 --man man/man3/foobar.3
