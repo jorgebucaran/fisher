@@ -19,7 +19,6 @@ If you are looking for ways to help, browse [open issues] or send us a PR if you
 1. Create a plugin from a template with [new].
 2. Submit a plugin to the index with [submit].
 
-
 ## Translations
 
 If you would like to translate the documentation, start with the [README].
