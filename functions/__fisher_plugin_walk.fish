@@ -1,7 +1,7 @@
 function __fisher_plugin_walk -a plugin path
     debug "Walk %s" "$path"
 
-    for file in $path/{*,{conf.d,modules}/*,functions/**}.{fish,load} $path/completions/*.fish
+    for file in $path/{functions/**,*,{conf.d,modules}/*}.{fish,load} $path/completions/*.fish
         set -l name (basename $file .fish)
         set -l base $name.fish
 
