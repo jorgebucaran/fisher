@@ -4,8 +4,6 @@ function fisher_update -d "Update plugins"
     set -l stdout /dev/stdout
     set -l stderr /dev/stderr
     set -l indicator "▸"
-    set -l color (set_color $fish_color_match)
-    set -l color_normal (set_color normal)
 
     getopts $argv | while read -l 1 2
         switch "$1"
@@ -39,16 +37,17 @@ function fisher_update -d "Update plugins"
 
     else if test -z "$items"
         set -l time (date +%s)
+        set -l previous_version (cat $fisher_home/VERSION)
 
         printf "$indicator Updating Fisherman\n" > $stderr
         debug "Update %s" $fisher_cache/.index
         debug "Update %s" $fisher_home
 
-        if not spin "__fisher_index_update 0" --error=$stderr -f "  $color@$color_normal\r"
+        if not spin "__fisher_index_update 0" --error=$stderr
             debug "Update Index fail"
         end
 
-        if not spin "__fisher_path_update $fisher_home" --error=$stderr -f "  $color@$color_normal\r"
+        if not spin "__fisher_path_update $fisher_home" --error=$stderr
             debug "Update Fisherman fail"
 
             printf "fisher: I couldn't update Fisherman.\n\n" > $stderr
@@ -57,9 +56,15 @@ function fisher_update -d "Update plugins"
 
         debug "Update Fisherman ok"
 
-        printf "Aye! Fisherman %s updated (%0.fs)\n" (
-            cat $fisher_home/VERSION) (math (date +%s) - $time) > $stderr
+        set -l new_version (cat $fisher_home/VERSION)
 
+        if test "$new_version" != "$previous_version"
+            printf "Aye! Fisherman updated from %s to %s (%0.fs)\n" \
+                "$previous_version" "$new_version" (math (date +%s) - $time) > $stderr
+         else
+            printf "Aye! Fisherman is up to date\n" $time > $stderr
+        end
+        
         set items (fisher_list --enabled)
     end
 
@@ -89,7 +94,9 @@ function fisher_update -d "Update plugins"
     set -U fisher_updated_plugins
 
     if set -q plugins[1]
-        printf "Updating plugins...\n" $name > $stderr
+        if test "$total" -gt 0
+            printf "$indicator Updating %d plugin/s...\n" $total > $stderr
+        end
 
         for path in $plugins
             set -l name (printf "%s\n" $path | __fisher_name)
@@ -98,12 +105,14 @@ function fisher_update -d "Update plugins"
                 debug "Update start %s" "$name"
                 fish -ic "
                     spin '
-                        if __fisher_path_update $path
+                        if set -l ahead (__fisher_path_update $path)
                             set fisher_updated_plugins \$fisher_updated_plugins $name
-                            printf \"%s\n\" \"$indicator $name\"
+                            printf \"  %-22s    %-10s\n\" \"$name\" \"\$ahead new commit/s\"
+                        else
+                            printf \"  %-22s    %-10s\n\" \"$name\" \"Up to date\"
                         end
 
-                    ' -f \"  $color@$color_normal\r\"
+                    '
                 " &
             end
         end
@@ -116,7 +125,8 @@ function fisher_update -d "Update plugins"
         end
 
         for plugin in $fisher_updated_plugins
-            set -l path (__fisher_path_from_plugin)
+            set -l path (__fisher_path_from_plugin "$plugin")
+
             if __fisher_plugin_can_enable "$plugin" "$path"
                 debug "Enable %s" "$plugin"
                 __fisher_plugin_enable "$plugin" "$path"
