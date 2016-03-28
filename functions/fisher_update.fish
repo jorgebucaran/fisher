@@ -39,18 +39,17 @@ function fisher_update -d "Update plugins"
         set -l time (date +%s)
         set -l previous_version (cat $fisher_home/VERSION)
 
-        printf "$indicator Updating Fisherman" > $stderr
         debug "Update %s" $fisher_cache/.index
         debug "Update %s" $fisher_home
 
         if not spin "__fisher_index_update 0" --error=$stderr
-            debug "Update index fail"
+            debug "Update Index fail"
         end
 
         if not spin "__fisher_path_update $fisher_home" --error=$stderr
             debug "Update Fisherman fail"
 
-            printf "\nfisher: I couldn't update Fisherman.\n\n" > $stderr
+            printf "fisher: I couldn't update Fisherman.\n\n" > $stderr
             return 1
         end
 
@@ -59,10 +58,10 @@ function fisher_update -d "Update plugins"
         set -l new_version (cat $fisher_home/VERSION)
 
         if test "$new_version" != "$previous_version"
-            printf "        Updated from %s to %s in %0.fs\n" \
+            printf "$indicator Aye! Fisherman updated from %s to %s (%0.fs)\n" \
                 "$previous_version" "$new_version" (math (date +%s) - $time) > $stderr
          else
-            printf "        Up to date\n" $time > $stderr
+            printf "$indicator Aye! Fisherman is up to date\n" $time > $stderr
         end
 
         set items (fisher_list --enabled)
@@ -95,7 +94,7 @@ function fisher_update -d "Update plugins"
 
     if set -q plugins[1]
         if test "$total" -gt 0
-            printf "$indicator Updating %d plugin/s...\n" $total > $stderr
+            printf "$indicator Updating %d plugin/s\n" $total > $stderr
         end
 
         for path in $plugins
@@ -134,7 +133,7 @@ function fisher_update -d "Update plugins"
         end
 
         if test -z "$fisher_updated_plugins"
-            printf "No plugins were updated\n" > $stdout
+            printf "No plugins were updated.\n" > $stdout
             set -e fisher_updated_plugins
             return 1
         end
