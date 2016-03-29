@@ -135,7 +135,7 @@ function fisher_update -d "Update plugins"
         if test -z "$fisher_updated_plugins"
             printf "No plugins were updated.\n" > $stdout
             set -e fisher_updated_plugins
-            return 1
+            return
         end
     end
 

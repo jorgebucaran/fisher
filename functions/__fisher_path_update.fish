@@ -6,12 +6,12 @@ function __fisher_path_update -a path
     set -l commits (
         git rev-list --left-right --count "master..FETCH_HEAD" ^ /dev/null | cut -d\t -f2)
 
-    git reset --quiet --hard FETCH_HEAD
+    git reset --quiet --hard FETCH_HEAD ^ /dev/null
     git clean -qdfx
 
     popd
 
-    if test "$commits" -eq 0 -o -z "$commits"
+    if test -z "$commits" -o "$commits" -eq 0
         return 1
     end
 
