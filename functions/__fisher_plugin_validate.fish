@@ -38,8 +38,7 @@ function __fisher_plugin_validate -a plugin
                 return 1
             end
 
-            printf "%s\n" "$plugin" \
-                | sed -E "
+            printf "%s\n" "$plugin" | sed -E "
                     s|^gh[:/]+|https://github.com/|
                     s|^gl[:/]+|https://gitlab.com/|
                     s|^bb[:/]+|https://bitbucket.org/|
@@ -48,7 +47,6 @@ function __fisher_plugin_validate -a plugin
                     s|^(gist\.github\.com.*)|https://\1|
                     s|^http(s?)[:/]*|http\1://|
                     s|https://github((.com)?/)?|https://github.com/|
-                    s|/*(\.git/*)*\$||g" \
-                | tr "[A-Z]" "[a-z]"
+                    s|/*(\.git/*)*\$||g" | tr "[A-Z]" "[a-z]"
     end
 end
