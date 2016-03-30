@@ -39,10 +39,6 @@ test "$TESTNAME - Display usage help"
     (fisher | sed 1q) = "Usage: fisher <command> [<options>] [--help] [--version]"
 end
 
-test "$TESTNAME - Display basic information help info about 'help'"
-    (fisher | tail -n2 | xargs) = "Use fisher help <command> to get help."
-end
-
 test "$TESTNAME - Display basic information about available commands"
     (fisher | sed -E 's/^[ ]+//' | grep "^$mock_command")
 end
