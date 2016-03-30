@@ -17,7 +17,7 @@ function fish_config -d "Launch fish's web based configuration" -a tab
         debug "fish_prompt check sum after: %s" $sum_after
 
         if test "$sum_before" != "$sum_after"
-            debug "Uninstall %s" "$fisher_prompt"
+            debug "uninstall %s" "$fisher_prompt"
             fisher_uninstall "$fisher_prompt" -q
         end
     end

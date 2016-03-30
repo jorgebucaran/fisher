@@ -1,11 +1,11 @@
 function __fisher_plugin_walk -a plugin path
-    debug "Walk %s" "$path"
+    debug "walk %s" "$path"
 
     for file in $path/{functions/**,*,{conf.d,modules}/*}.{fish,load} $path/completions/*.fish
         set -l name (basename $file .fish)
         set -l base $name.fish
 
-        debug "File %s" $file
+        debug "file %s" $file
 
         switch $file
             case \*/{fish_user_,}key_bindings.fish
@@ -41,14 +41,14 @@ function __fisher_plugin_walk -a plugin path
         set -l prefix functions
         set -l target $prefix/(basename $file)
 
-        debug "Script %s" $target
+        debug "script %s" $target
 
         printf "%s %s %s\n" -- $file $target
     end
 
     for n in (seq 9)
         for file in $path/man/man$n/*.$n
-            debug "Man %s" $file
+            debug "man$n %s" $file
 
             printf "%s %s %s\n" --man $file man/man$n/(basename $file)
         end

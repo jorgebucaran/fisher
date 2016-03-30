@@ -1,14 +1,18 @@
 # Change Log
 
-## [1.4.0][v140] - Not released yet.
+## [1.4.0][v140] - 2016-03-31
 
-* Welcome aboard @orangecms.
+* :warning: Deprecate --force flag in fisher install.
+
+* Now fisher list does not show plugins that are disabled, but available in the cache. To see these items use fisher list --disabled.
+
+* Welcome aboard @orangecms and @xrain0610.
 
 * Fisherman is now [available](https://aur.archlinux.org/packages/fisherman-git/) in the Arch User Repository.
 
 * Fix load order during installation. Now snippets can safely invoke functions defined in the plugin function directory. Thanks @orangecms. #170.
 
-* Fisherman updates plugins in **⌁ parallel** now. Performance will vary, but chances are you will perceive 3 to 10 times faster updates.
+* Fisherman installs and updates plugins in **⌁ parallel** now. Performance will vary, but chances are you will perceive 3 to 10 times faster updates.
 
   ![para](https://cloud.githubusercontent.com/assets/8317250/13730493/5b704bec-e994-11e5-81b9-d3af2c0f9821.gif)
 
@@ -17,8 +21,6 @@
   ```
   fisher list - < file
   ```
-
-* Revise documentation.
 
 ## [1.3.1][v131] - 2016-03-12
 

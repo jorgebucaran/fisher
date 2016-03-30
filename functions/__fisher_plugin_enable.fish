@@ -1,25 +1,21 @@
 function __fisher_plugin_enable -a plugin path
-    debug "Enable %s" "$plugin"
+    debug "enable %s" "$plugin"
 
     if __fisher_path_is_prompt $path
         if test ! -z "$fisher_prompt"
-            debug "Disable prompt %s" $fisher_prompt
+            debug "disable prompt %s" $fisher_prompt
             __fisher_plugin_disable "$fisher_prompt" "$fisher_cache/$fisher_prompt"
         end
 
         set -U fisher_prompt $plugin
     end
 
-    set -l link -f
-
-    if test -L $path
-        set link -sfF
-    end
+    set -l link -sfF
 
     __fisher_plugin_walk "$plugin" "$path" | while read -l class source target name
         switch "$class"
             case --bind
-                debug "Bind %s" $source
+                debug "bind %s" $source
 
                 __fisher_key_bindings_enable $plugin (__fisher_xdg --config
                     )/fish/functions/fish_user_key_bindings.fish < $source
@@ -33,11 +29,11 @@ function __fisher_plugin_enable -a plugin path
                 __fisher_plugin_link $link $source $fisher_config/$target
 
                 if test "$class" = --source
-                    debug "Source %s" "$fisher_config/$target"
+                    debug "source %s" "$fisher_config/$target"
                     __fisher_plugin_source $plugin $fisher_config/$target
 
                     if test "$name" = set_color_custom
-                        debug "Colors"
+                        debug "color save"
                         __fisher_config_color_save "$fisher_config/fish_colors"
                         set_color_custom
                     end
@@ -53,12 +49,12 @@ function __fisher_plugin_enable -a plugin path
 
     if test -s $fisher_file
         if __fisher_file_contains "$item" --quiet $fisher_file
-            debug "File skip %s" "$item"
+            debug "file skip %s" "$item"
             return
         end
     end
 
-    debug "File add %s" "$item"
+    debug "file add %s" "$item"
 
     printf "%s\n" $item >> $fisher_file
 end

@@ -3,7 +3,7 @@ fisher-install(1) -- Install plugins
 
 ## SYNOPSIS
 
-fisher install [*plugins* ...] [--force] [--quiet] [--help]
+fisher install [*plugins* ...] [--quiet] [--help]
 
 ## USAGE
 
@@ -11,11 +11,10 @@ fisher install *url*<br>
 fisher install *name*<br>
 fisher install *path* <br>
 fisher install *owner/repo*<br>
-fisher install *function*<br>
 
 ## DESCRIPTION
 
-Install one or more plugins, by name, URL, path or function name. If no arguments are given, read the standard input.
+Install one or more plugins. If no arguments are given, read the standard input.
 
 In addition, all of the following owner/repo variations are accepted:
 
@@ -38,9 +37,6 @@ If the plugin declares dependencies, these will be installed too. If any of the 
 If a plugin includes either a fish_prompt.fish or fish_right_prompt.fish, both files are first removed from $fisher_config/functions and then the new ones are copied.
 
 ## OPTIONS
-
-* -f, --force:
-    Reinstall given plugin/s.
 
 * -q, --quiet:
     Enable quiet mode.
@@ -93,7 +89,7 @@ Snippets are plugins that run code at the start of the shell. Snippets must be p
 * Install plugins from multiple sources.
 
 ```fish
-fisher install fishtape simnalamburt/shellder ~/plugins/my_plugin
+fisher install fishtape superman ~/plugins/my_plugin
 ```
 
 ## SEE ALSO

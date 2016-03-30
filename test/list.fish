@@ -9,12 +9,6 @@ function -S setup
     printf "%s\n" foo bar baz theme > $path/fishfile
 
     set -g fisher_cache $path/cache
-
-    # Fisherman uses the Fishfile to keep track of what plugins are currently installed
-    # so we need to create one in order to test all of fisher list=<styles>.
-
-    # See also `list-fishfile.fish`.
-
     set -g fisher_file $path/fishfile
     set -U fisher_prompt theme
 
@@ -26,23 +20,18 @@ function -S teardown
     functions -e git
 end
 
-test "$TESTNAME - Append > to active theme"
-    (fisher list | sed -n '/>.*/p') = "> theme"
+test "$TESTNAME - Append @ to linked theme"
+    (fisher list | sed -n '/@.*/p') = "@ theme"
 end
 
-test "$TESTNAME - Append * to active plugins"
-    (fisher list | sed -n '/\*.*/p' | xargs) = "* bar * baz * foo"
+test "$TESTNAME - Indent plugins to match indent when links or prompts are installed"
+    (fisher list | sed -n '/  .*/p' | xargs) = "foo bar baz"
 end
 
-test "$TESTNAME - Add one space indentation to disabled plugins to align with > and *"
-    (fisher list  | sed '/^[\*>].*/d') = "  norf"
-end
-
-test "$TESTNAME - Do not add indentation when no plugins are enabled"
-    (rm $path/fishfile; fisher list) = (
-        for plugin in foo bar baz norf theme
-            echo $plugin
-        end
+test "$TESTNAME - Do not display disabled plugins"
+    -z (
+        rm $path/fishfile
+        fisher list
         )
 end
 
