@@ -1,4 +1,4 @@
-function fisher_list -a key -d "List installed plugins"
+function fisher_list -a key -d "List installed plugins (l)"
     set -l enabled
 
     if test -f "$fisher_file"
@@ -7,37 +7,31 @@ function fisher_list -a key -d "List installed plugins"
 
     switch "$key"
         case ""
-            set -l cache (__fisher_cache_list)
+            set -l indent
+            set -l links (command find $fisher_cache/* -maxdepth 0 -type l ^ /dev/null | sed 's|.*/||')
 
-            if test -z "$cache"
-                return 1
+            if test ! -z "$fisher_prompt"
+                set indent " "
             end
 
-            set -l indent " "
-
-            if test -z "$enabled"
-                set indent ""
-            end
-
-            for i in $cache
-                if contains -- $i $enabled
-                    if test $i = "$fisher_prompt"
-                        printf "%s%s\n" ">$indent" $i
-
-                    else if test -L $fisher_cache/$i
-
-                        printf "%s%s\n" "@$indent" $i
-
-                    else
-                        printf "%s%s\n" "*$indent" $i
-                    end
-                else
-                    printf "%s%s\n" "$indent$indent" $i
+            for plugin in $links
+                if contains -- "$plugin" $enabled
+                    set indent " "
+                    break
                 end
             end
 
-        case -l --link
-            find $fisher_cache/* -maxdepth 0 -type l ^ /dev/null | sed 's|.*/||'
+            for plugin in $enabled
+                if contains -- "$plugin" $links
+                    printf "%s %s\n" "@" $plugin
+
+                else if test $plugin = "$fisher_prompt"
+                    printf "%s %s\n" ">" $plugin
+
+                else
+                    printf "$indent$indent%s\n" $plugin
+                end
+            end
 
         case --enabled
             if test ! -z "$enabled"
@@ -55,8 +49,7 @@ function fisher_list -a key -d "List installed plugins"
             __fisher_list
 
         case -h
-            printf "Usage: fisher list [--enabled] [--disabled] [--link]\n\n"
-            printf "    -l --link        List plugins that are symbolic links\n"
+            printf "Usage: fisher list [--enabled] [--disabled] [--help]\n\n"
             printf "       --enabled     List plugins that are enabled\n"
             printf "       --disabled    List plugins that are disabled\n"
             printf "    -h --help        Show usage help\n"

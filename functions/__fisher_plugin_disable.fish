@@ -2,7 +2,7 @@ function __fisher_plugin_disable -a plugin path option
     __fisher_plugin_walk "$plugin" "$path" | while read -l class source target name
         switch "$class"
             case --bind
-                debug "Unbind %s" $plugin
+                debug "unbind %s" $plugin
 
                 __fisher_key_bindings_disable $plugin (__fisher_xdg --config
                     )/fish/functions/fish_user_key_bindings.fish
@@ -27,12 +27,11 @@ function __fisher_plugin_disable -a plugin path option
         set -l key
 
         if not set key (fisher_search --name=$plugin --name --index=$fisher_cache/.index)
-            debug "Path $path"
             set key (__fisher_url_from_path $path)
         end
 
         debug "fishfile remove %s start" "$key"
-        
+
         if set key (__fisher_file_remove "$key" "$fisher_file")
             debug "fishfile remove %s ok" "$key"
         else

@@ -30,17 +30,17 @@ fisher search
   fzf          Efficient keybindings for fzf
   get          Press any key to continue
   ...
-> shellder     Powerline prompt optimized for speed
+> superman     Powerline prompt based on Superman
   ...
 ```
 
 Get detailed information about a plugin.
 
 ```
-fisher search shellder
-> shellder by simnalamburt
-Powerline prompt optimized for speed
-github.com/simnalamburt/shellder
+fisher search superman
+> superman by bucaran
+Powerline prompt based on Superman
+github.com/fishery/superman
 ```
 
 Search plugins using tags.

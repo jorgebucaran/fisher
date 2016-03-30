@@ -1,4 +1,4 @@
-fisher(1) -- Fish plugin manager
+fisher(1) -- fish plugin manager
 ================================
 
 ## SYNOPSIS
@@ -9,7 +9,7 @@ fisher *command* [*options*] [--version] [--help]<br>
 
 Fisherman is a plugin manager for fish.
 
-The Fisherman CLI consists of: *install*, *update*, *uninstall*, *list*, *search* and *help* and the following aliases: *i* for install, *u* for update, *l* for list, *s* for search and *h* for help.
+The Fisherman CLI consists of: *install*, *update*, *uninstall*, *list*, *search* and *help* and the following aliases: *i* for install, *u* for update, *l* for list, *s* for search, *r* for uninstall and *h* for help.
 
 ## USAGE
 
@@ -41,7 +41,7 @@ fisher help <command>
 fisher i fishtape shark get bobthefish
 ```
 
-* Install Oh My Fish! plugins.
+* Install oh-my-fish plugins.
 
 ```fish
 fisher i omf/plugin-{percol,jump,fasd}
@@ -59,7 +59,7 @@ fisher i ./path/to/plugin
 fisher i https://github.com/some/plugin another/plugin bb:one/more
 ```
 
-* Install a plugin from a Gist.
+* Install a plugin from a gist.
 
 ```fish
 fisher i gist.github.com/owner/1f40e1c6e0551b2666b2
@@ -98,10 +98,10 @@ List installed plugins.
 ```
 fisher list
   debug
-* fishtape
-> shellder
-* spin
-@ wipe
+  fishtape
+  spin
+> superman
+@ my_aliases
 ```
 
 Search the index.
@@ -116,7 +116,7 @@ fisher search
   fzf          Efficient keybindings for fzf
   get          Press any key to continue
   ...
-> shellder     Powerline prompt optimized for speed
+> superman     Powerline prompt optimized for speed
   ...
 ```
 
@@ -138,19 +138,19 @@ Search using tags.
 fisher search --tag={git,test}
   ...
   * fishtape         TAP producing test runner
-  git-branch-name    Get the name of the current Git branch
-  git-is-dirty       Test if there are changes not staged for commit
-  git-is-empty       Test if a repository is empty
-  git-is-repo        Test if the current directory is a Git repo
-  git-is-staged      Test if there are changes staged for commit
-  git-is-stashed     Test if there are changes in the stash
-  git-is-touched     Test if there are changes in the working tree
+    git-branch-name    Get the name of the current Git branch
+    git-is-dirty       Test if there are changes not staged for commit
+    git-is-empty       Test if a repository is empty
+    git-is-repo        Test if the current directory is a Git repo
+    git-is-staged      Test if there are changes staged for commit
+    git-is-stashed     Test if there are changes in the stash
+    git-is-touched     Test if there are changes in the working tree
   ...
 ```
 
 The legend consists of:
 
-* `*` The plugin is enabled
+* `*` The plugin is installed
 * `>` The plugin is a prompt
 * `@` The plugin is a symbolic link
 
