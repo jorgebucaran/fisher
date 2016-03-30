@@ -12,7 +12,7 @@ function __fisher_key_bindings_enable -a plugin user_key_bindings
         source $user_key_bindings
     end
 
-    debug "Bind %s" "$user_key_bindings"
+    debug "binds %s" "$user_key_bindings"
 
     functions fish_user_key_bindings \
         | __fisher_key_bindings_update_user > $user_key_bindings

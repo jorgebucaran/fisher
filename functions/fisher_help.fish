@@ -1,4 +1,4 @@
-function fisher_help -d "Show command help"
+ function fisher_help -d "Show command help (h)"
     if not set -q argv[1]
         man fisher
         return
@@ -22,7 +22,7 @@ function fisher_help -d "Show command help"
                 return
 
             case \*
-                printf "fisher: '%s' is not a valid option.\n" $1 > /dev/stderr
+                printf "fisher: '%s' is not a valid option\n" $1 > /dev/stderr
                 fisher_help -h > /dev/stderr
                 return 1
         end

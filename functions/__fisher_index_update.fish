@@ -16,7 +16,7 @@ function __fisher_index_update -a timeout
     set -l index $fisher_cache/.index.tmp
 
     if test -z "$url"
-        # Force the server to return the latest copy of the index using a fake query string.
+        # force the server to return the latest copy of the index using a fake query string
         set url https://raw.githubusercontent.com/fisherman/fisher-index/master/index\?(date +%s)
     end
 

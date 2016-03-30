@@ -102,8 +102,8 @@ List installed plugins.
 fisher list
   debug
 * fishtape
-> shellder
 * spin
+> superman
 @ wipe
 ```
 
@@ -119,7 +119,7 @@ fisher search
   fzf          Efficient keybindings for fzf
   get          Press any key to continue
   ...
-> shellder     Powerline prompt optimized for speed
+> superman     Powerline prompt based on Superman
   ...
 ```
 

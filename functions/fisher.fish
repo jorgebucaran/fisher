@@ -1,4 +1,4 @@
-function fisher -d "Fish plugin manager"
+function fisher -d "fish plugin manager"
     set -l value
     set -l option help
 
@@ -17,7 +17,7 @@ function fisher -d "Fish plugin manager"
                 set option version
 
             case \*
-                printf "fisher: '%s' is not a valid option.\n" $1 > /dev/stderr
+                printf "fisher: '%s' is not a valid option\n" $1 > /dev/stderr
                 fisher -h > /dev/stderr
                 return 1
         end
@@ -26,7 +26,7 @@ function fisher -d "Fish plugin manager"
     switch "$option"
         case command
             set -l IFS =
-            set -l default_alias install=i update=u search=s list=l help=h new=n
+            set -l default_alias install=i update=u search=s list=l help=h new=n uninstall=r
 
             printf "%s\n" $fisher_alias $default_alias | while read -l command alias
                 if test "$value" = "$alias"
@@ -62,19 +62,8 @@ function fisher -d "Fish plugin manager"
             printf "Commands:\n"
 
             __fisher_help_commands | sed "
-
                 s/^/    /
                 s/;/"\t"  /
-
-            " | column -ts\t | sed -E "
-                s/^    (h)(elp)/    $color\1$color_normal\2/
-                s/^    (i)(nstall)/    $color\1$color_normal\2/
-                s/^    (s)(earch)/    $color\1$color_normal\2/
-                s/^    (u)(pdate)/    $color\1$color_normal\2/
-                s/^    (l)(ist)/    $color\1$color_normal\2/
-                s/^    (n)(ew)/    $color\1$color_normal\2/
-            "
-
-            printf "\nUse fisher help <command> to get help.\n"
+            " | column -ts\t
     end
 end

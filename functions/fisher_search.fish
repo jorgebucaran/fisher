@@ -1,4 +1,4 @@
-function fisher_search -d "Search plugin index"
+function fisher_search -d "Search plugin index (s)"
     set -l fields
     set -l query
     set -l index
@@ -6,7 +6,7 @@ function fisher_search -d "Search plugin index"
     set -l format
     set -l option
     set -l stdout /dev/stdout
-    set -l color (set_color $fish_color_match)
+    set -l color (set_color $fish_color_quote)
     set -l color_normal (set_color normal)
 
     getopts $argv | while read -l 1 2 3
@@ -87,7 +87,7 @@ function fisher_search -d "Search plugin index"
                 return
 
             case \*
-                printf "fisher: '%s' is not a valid option.\n" $1 > /dev/stderr
+                printf "fisher: '%s' is not a valid option\n" $1 > /dev/stderr
                 fisher_search -h > /dev/stderr
                 return 1
         end
@@ -105,7 +105,7 @@ function fisher_search -d "Search plugin index"
         if test $fisher_last_update -gt $fisher_update_interval -o ! -f $index
             debug "Update index start"
 
-            if spin "__fisher_index_update" --error=/dev/null -f "  $color@$color_normal\r" > /dev/null
+            if spin "__fisher_index_update" --error=/dev/null > /dev/null
                 debug "Update index ok"
                 __fisher_complete_reset
             else
@@ -132,9 +132,9 @@ function fisher_search -d "Search plugin index"
             end
         end
 
-        set -l color_name (set_color $fish_color_command -o)
-        set -l color_url (set_color $fish_color_quote -u)
-        set -l color_tag (set_color $fish_color_quote)
+        set -l color_name (set_color $fish_color_quote)
+        set -l color_url (set_color $fish_color_end -u)
+        set -l color_tag (set_color $fish_color_command)
         set -l color_weak (set_color white -o)
         set -l color_author (set_color -u)
         set -l color_normal (set_color $fish_color_normal)

@@ -6,8 +6,6 @@ function __fisher_file_remove -a plugin file
             set pattern "/^$pattern\$/d"
         end
 
-        debug "File remove %s" "$plugin"
-
         sed -E "$pattern" < $file > $file.tmp
 
         command mv $file.tmp $file

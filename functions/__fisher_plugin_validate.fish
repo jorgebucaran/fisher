@@ -1,4 +1,8 @@
 function __fisher_plugin_validate -a plugin
+    if test -z "$plugin"
+        return 1
+    end
+
     if set -q argv[2]
         printf "%s\n" "$argv"
         return 1
