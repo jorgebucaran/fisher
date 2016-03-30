@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "FISHER\-UPDATE" "1" "February 2016" "" "fisherman"
+.TH "FISHER\-UPDATE" "1" "March 2016" "" "fisherman"
 .
 .SH "NAME"
 \fBfisher\-update\fR \- Update plugins
@@ -26,10 +26,7 @@ fisher update \fIowner/repo\fR \.\.\.
 .br
 .
 .SH "DESCRIPTION"
-Update one or more plugins, by name, URL or path\. If no arguments are given, update Fisherman to the latest release\. If you try to update a plugin that is currently disabled, but exists in the cache, it will be updated and then enabled\. Use a dash \fB\-\fR to read from the standard input\.
-.
-.P
-If a plugin is missing dependencies, they will be installed\. If any dependencies are already installed they will not be updated\.
+Update one or more plugins concurrently\. If no arguments are given, update everything, including Fisherman\. Use a dash \fB\-\fR to read from the standard input\.
 .
 .SH "OPTIONS"
 .
@@ -68,21 +65,6 @@ Update all the plugins in the cache\.
 .nf
 
 fisher list | fisher update \-
-.
-.fi
-.
-.IP "" 0
-.
-.IP "\(bu" 4
-Update all the plugins in the cache concurrently\.
-.
-.IP "" 0
-.
-.IP "" 4
-.
-.nf
-
-fisher list \-\-bare | xargs \-n1 \-P0 fish \-c "fisher update \-"
 .
 .fi
 .

@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "FISHER\-UNINSTALL" "1" "February 2016" "" "fisherman"
+.TH "FISHER\-UNINSTALL" "1" "March 2016" "" "fisherman"
 .
 .SH "NAME"
 \fBfisher\-uninstall\fR \- Uninstall plugins
@@ -29,13 +29,13 @@ fisher uninstall \fIowner/repo\fR
 .br
 .
 .SH "DESCRIPTION"
-Uninstall one or more plugins, by name, URL or path\. If no arguments are given, read the standard input\. This process is the inverse of Install\.
+Uninstall one or more plugins\. If no arguments are given, read the standard input\.
 .
 .P
 Uninstall does not remove any copies of the given plugin in $fisher_cache\. To erase the copy from the cache, use the \-\-force option\.
 .
 .P
-Uninstall does not remove any dependencies installed with other plugins\. This behavior prevents breaking plugins that share the same dependency\.
+Uninstall does not remove any dependencies installed with other plugins\.
 .
 .SH "OPTIONS"
 .
@@ -54,7 +54,7 @@ Show usage help\.
 .SH "EXAMPLES"
 .
 .IP "\(bu" 4
-Uninstall all plugins and flush the cache\.
+Uninstall all plugins flushing the cache\.
 .
 .IP "" 0
 .
@@ -62,7 +62,7 @@ Uninstall all plugins and flush the cache\.
 .
 .nf
 
-fisher \-\-list | fisher uninstall \-\-force
+fisher list | fisher uninstall \-\-force
 .
 .fi
 .
