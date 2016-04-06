@@ -15,6 +15,7 @@
 </h1>
 
 **[Fisherman]** is a blazing fast, modern plugin manager for [fish].
+>**[Fisherman]** 现在提供中文支持,若有疑问,可以中文提交ISSUE,我们会尽快解决,感谢您的支持!
 
 ```fish
 curl -sL get.fisherman.sh | fish
