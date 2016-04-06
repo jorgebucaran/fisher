@@ -24,6 +24,8 @@ curl -sL get.fisherman.sh | fish
 
 <sub>Install instructions for fish can be found <a href="https://github.com/fisherman/fisherman/wiki/Installing-Fish">here</a>.</sub>
 
+<sub>现在提供中文支持,若有疑问,可以中文提交ISSUE,我们会尽快解决,感谢您的支持</sub>
+
 ## Install
 
 Download Fisherman using Git and setup your system automatically. See [other] install options.
