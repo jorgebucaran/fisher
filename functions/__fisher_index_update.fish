@@ -17,7 +17,7 @@ function __fisher_index_update -a timeout
 
     if test -z "$url"
         # force the server to return the latest copy of the index using a fake query string
-        set url https://raw.githubusercontent.com/fisherman/fisher-index/master/index\?(date +%s)
+        set url https://raw.githubusercontent.com/fisherman/index/master/index\?(date +%s)
     end
 
     if not curl --max-time $timeout -sS "$url" > $index
