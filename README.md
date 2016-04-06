@@ -14,6 +14,7 @@
     <br>
 </h1>
 
+**[Fisherman]** 现在提供中文支持,如果你有任何问题,可以以中文提交ISSUE,我们会尽快解决,感谢您的支持!
 **[Fisherman]** is a blazing fast, modern plugin manager for [fish].
 
 ```fish
