@@ -14,7 +14,7 @@
     <br>
 </h1>
 
-**[Fisherman]** is a blazing fast, modern plugin manager for [fish].
+**[Fisherman]** is a blazing fast, parallel plugin manager for [fish].
 
 ```fish
 curl -sL get.fisherman.sh | fish
@@ -28,11 +28,11 @@ curl -sL get.fisherman.sh | fish
 
 ## Install
 
-Download Fisherman using Git and setup your system automatically. See [other] install options.
-
 ```fish
 curl -sL get.fisherman.sh | fish
 ```
+
+<sub>See [other] install options.</sub>
 
 ## CLI
 
