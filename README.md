@@ -229,17 +229,10 @@ z search cd jump
 jethrokuan
 ```
 
-If you have a plugin you would like to submit to the index, use the submit plugin.
+If you have a plugin you would like to submit to the index, send us a PR here [index](https://github.com/fisherman/fisher-index) repository.
 
 ```
-fisher install submit
-fisher submit my_plugin description tags url
-```
-
-Or, submit the plugin manually by creating a pull request in the [index](https://github.com/fisherman/fisher-index) repository.
-
-```
-git clone https://github.com/fisherman/fisher-index
+git clone https://github.com/fisherman/index
 cd index
 echo "$name\n$url\n$info\n$tags\n$author\n\n" >> index
 git push origin master
