@@ -1,6 +1,11 @@
+[![Build Status][travis-badge]][travis-link]
+[![Fisherman Version][version-badge]][version-link]
+[![Slack Room][slack-badge]][slack-link]
+
 <a name="fisherman"></a>
 
 <h1 align="center">
+    <br>
     <br>
     <br>
     <br>
@@ -12,23 +17,14 @@
     <br>
     <br>
     <br>
+    <br>
 </h1>
 
 **[Fisherman]** is a blazing fast, parallel plugin manager for [fish].
 
-```fish
-curl -sL get.fisherman.sh | fish
-```
-
 [![play]][play-link]
 
 <sub>现在提供中文支持,若有疑问,可以中文提交ISSUE,我们会尽快解决,感谢您的支持</sub>
-
-
-
-[![Build Status][travis-badge]][travis-link]
-[![Fisherman Version][version-badge]][version-link]
-[![Slack Room][slack-badge]][slack-link]
 
 
 ## Install
