@@ -11,11 +11,8 @@
     <br>
     <a href="http://fisherman.sh"><img
         alt="Fisherman"
-        width=600px
+        width=750px
         src="https://rawgit.com/fisherman/logo/master/fisherman-black-white.svg"></a>
-    <br>
-    <br>
-    <br>
     <br>
     <br>
 </h1>
