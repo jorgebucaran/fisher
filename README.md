@@ -103,8 +103,8 @@ List installed plugins.
 ```
 fisher list
   debug
-* fishtape
-* spin
+  fishtape
+  spin
 > superman
 @ wipe
 ```
@@ -155,8 +155,8 @@ fisher search --tag={git,test}
 
 The legend consists of:
 
-* `*` The plugin is enabled
 * `>` The plugin is a prompt
+* `*` The plugin is installed
 * `@` The plugin is a symbolic link
 
 
@@ -261,166 +261,6 @@ git push origin master
 
 * $fisher_alias *command*=*alias* ...:
     Use this variable to create aliases of Fisherman commands.
-
-## Plugins
-
-Plugins can be utilities, prompts, commands or snippets. To create a plugin from a template, install the new command.
-
-```
-fisher install new
-fisher new plugin < meta.yml
-```
-
-See the documentation for [new] for details.
-
-### Utilities
-
-Utilities are plugins that define one or more functions.
-
-Below is a plugin based in [ngerakines/commitment](https://github/ngerakines/commitment) random commit message generator.
-
-```fish
-mkdir wtc
-cd wtc
-
-function wtc -d "Generate a random commit message"
-    switch "$argv"
-        case -h --help
-            printf "Usage: wtc [--help]\n\n"
-            printf "  -h --help  Show usage help\n"
-            return
-    end
-    curl -s whatthecommit.com/index.txt
-end
-functions wtc > wtc.fish
-
-fisher install .
-```
-```
-wtc
-(\ /)
-(O.o)
-(> <) Bunny approves these changes.
-```
-
-### Submit
-
-To submit wtc to the official index.
-
-```fish
-fisher submit wtc "Random commit message generator" "commit random fun" https://github.com/owner/wtc
-```
-
-This will create a PR in the Fisherman index repository. Once the PR is approved, Fisherman users will be able to install wtc if they have the latest index.
-
-```fish
-fisher install wtc
-```
-
-### Dependencies
-
-A plugin can list dependencies to other plugins using a *fishfile*.
-
-Create a *fishfile* in the root of your project and add the name or URL of your dependencies.
-
-```
-my_plugin
-https://github.com/owner/another_plugin
-```
-
-### Prompts
-
-Prompts, or themes, are plugins that modify the appearance of the shell prompt and colors.
-
-Create a `fish_prompt` function.
-
-```fish
-function fish_prompt
-    printf "%s (%s) >> " (prompt_pwd) Fisherman
-end
-```
-```
-~ (Fisherman) >> type here
-```
-
-To add a right prompt, create a `fish_right_prompt` function.
-
-```fish
-function fish_right_prompt
-    printf "%s" (date +%H:%M:%S)
-end
-```
-
-Save the functions to a directory and install the prompt as a plugin.
-
-```fish
-mkdir my_prompt
-cd my_prompt
-
-functions fish_prompt > fish_prompt.fish
-functions fish_right_prompt > fish_right_prompt.fish
-
-fisher install .
-```
-
-Customize the colors fish uses for syntax highlighting.
-
-```fish
-function set_color_custom
-    set -U fish_color_normal    normal
-    set -U fish_color_command   yellow
-    set -U fish_color_param     white
-end
-
-functions set_color_custom > set_color_custom.fish
-
-fisher update .
-```
-
-### Commands
-
-Commands are plugins that extend the Fisherman CLI adding new `fisher <commands>`.
-
-Create a function `fisher_<command>`
-
-```fish
-function fisher_time -d "Say hello"
-    printf "It's %s\n" (date +%H:%M)
-end
-```
-
-Test it works
-
-```fish
-fisher time
-It's 6:30
-```
-
-Make it a plugin
-
-```fish
-fisher install fisher_time
-```
-
-### Snippets
-
-Snippets are plugins that run code at the start of the shell. Snippets must be placed inside a sub directory named conf.d.
-
-The following example implements a fish_postexec hook to display the duration of the last command in milliseconds.
-
-```fish
-mkdir -p runtime/conf.d
-cd runtime
-$EDITOR conf.d/fish_postexec.fish
-```
-
-```fish
-function fish_postexec --on-event fish_postexec
-    printf "%sms\n" $CMD_DURATION > /dev/stderr
-end
-
-fisher install ./postexec
-```
 
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
