@@ -34,63 +34,54 @@ curl -sL get.fisherman.sh | fish
 
 ## Usage
 
-The Fisherman CLI consists of: **i**nstall, **u**pdate, uninstall, **l**ist, **s**earch and **h**elp.
-
-### Examples
-
-* Install plugins.
+Install plugins.
 
 ```
 fisher i fishtape shark get bobthefish
 ```
 
-* Install Oh My Fish! plugins.
+Install Oh My Fish! plugins.
 
 ```fish
 fisher i omf/plugin-{percol,jump,fasd}
 ```
 
-* Install a plugin from a local directory.
+Install a plugin from a local directory.
 
 ```fish
 fisher i ./path/to/plugin
 ```
 
-* Install a plugin from various URLs.
+Install a plugin from various URLs.
 
 ```fish
 fisher i https://github.com/some/plugin another/plugin bb:one/more
 ```
 
-* Install a plugin from a Gist.
+Install a plugin from a Gist.
 
 ```fish
 fisher i gist.github.com/owner/1f40e1c6e0551b2666b2
 ```
 
-* Update everything.
+Update everything.
 
 ```
 fisher u
 ```
 
-* Update plugins.
+Update plugins.
 
 ```
 fisher u shark get
 ```
 
-* Uninstall plugins.
+Uninstall plugins.
 
 ```
 fisher uninstall fishtape debug
 ```
 
-* Get help.
-
-```fish
-fisher h
-```
 
 ## List and search
 
