@@ -9,10 +9,12 @@
     <br>
     <br>
     <br>
+    <br>
     <a href="http://fisherman.sh"><img
         alt="Fisherman"
         width=700px
         src="https://rawgit.com/fisherman/logo/master/fisherman-black-white.svg"></a>
+    <br>
     <br>
     <br>
     <br>
@@ -33,9 +35,9 @@
 curl -sL get.fisherman.sh | fish
 ```
 
-<sub>See [other] install options.</sub>
+<blockquote><sub>See [other] install options.</sub></blockquote>
 
-## CLI
+## Usage
 
 The Fisherman CLI consists of: **i**nstall, **u**pdate, uninstall, **l**ist, **s**earch and **h**elp.
 
