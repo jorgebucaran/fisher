@@ -22,8 +22,6 @@ curl -sL get.fisherman.sh | fish
 
 [![play]][play-link]
 
-<sub>Install instructions for fish can be found <a href="https://github.com/fisherman/fisherman/wiki/Installing-Fish">here</a>.</sub>
-
 <sub>现在提供中文支持,若有疑问,可以中文提交ISSUE,我们会尽快解决,感谢您的支持</sub>
 
 ## Install
@@ -36,7 +34,7 @@ curl -sL get.fisherman.sh | fish
 
 ## CLI
 
-The Fisherman CLI consists of: *install*, *update*, *uninstall*, *list*, *search* and *help* and the following aliases: *i* for install, *u* for update, *l* for list, *s* for search and *h* for help.
+The Fisherman CLI consists of: **i**nstall, **u**pdate, uninstall, **l**ist, **s**earch and **h**elp.
 
 ### Examples
 
