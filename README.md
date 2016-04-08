@@ -17,11 +17,7 @@
     <br>
 </h1>
 
-**[Fisherman]** is a blazing fast, parallel plugin manager for [fish].
-
 [![play]][play-link]
-
-<sub>现在提供中文支持,若有疑问,可以中文提交ISSUE,我们会尽快解决,感谢您的支持</sub>
 
 
 ## Install
@@ -29,8 +25,6 @@
 ```fish
 curl -sL get.fisherman.sh | fish
 ```
-
-<sub>See [other] install options.</sub>
 
 ## Usage
 
