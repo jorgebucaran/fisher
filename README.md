@@ -212,7 +212,7 @@ z search cd jump
 jethrokuan
 ```
 
-If you have a plugin you would like to submit to the index, send us a PR here [index](https://github.com/fisherman/fisher-index) repository.
+If you have a plugin you would like to submit to the index, send us a PR here [index](https://github.com/fisherman/index) repository.
 
 ```
 git clone https://github.com/fisherman/index
