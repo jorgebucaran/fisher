@@ -206,7 +206,7 @@ The index lists records, each consisting the fields: *name*, *url*, *info*, one 
 
 ```
 z
-https://github.com/fishery/fish-z
+https://github.com/fishery/z
 Pure-fish z directory jumping
 z search cd jump
 jethrokuan
