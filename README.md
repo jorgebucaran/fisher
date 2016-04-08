@@ -9,12 +9,10 @@
     <br>
     <br>
     <br>
-    <br>
     <a href="http://fisherman.sh"><img
         alt="Fisherman"
-        width=700px
+        width=600px
         src="https://rawgit.com/fisherman/logo/master/fisherman-black-white.svg"></a>
-    <br>
     <br>
     <br>
     <br>
@@ -35,7 +33,7 @@
 curl -sL get.fisherman.sh | fish
 ```
 
-<blockquote><sub>See [other] install options.</sub></blockquote>
+<sub>See [other] install options.</sub>
 
 ## Usage
 
