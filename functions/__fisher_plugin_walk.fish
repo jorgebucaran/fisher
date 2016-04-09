@@ -5,6 +5,10 @@ function __fisher_plugin_walk -a plugin path
         set -l name (basename $file .fish)
         set -l base $name.fish
 
+        if test "$name" = "getopts"
+            continue # See #191
+        end
+
         debug "file %s" $file
 
         switch $file
