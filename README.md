@@ -243,7 +243,7 @@ git push origin master
 [slack-link]: https://fisherman-wharf.herokuapp.com/
 [slack-badge]: https://img.shields.io/badge/slack-join%20the%20chat-00B9FF.svg?style=flat-square
 
-[play]: https://cloud.githubusercontent.com/assets/8317250/13458315/dfcac4b4-e0af-11e5-8ee5-df31d1cdf409.png
+[play]: https://cloud.githubusercontent.com/assets/8317250/14401577/14411b12-fe51-11e5-8d5a-bb054edfc2d4.png
 [play-link]: http://fisherman.sh/#demo
 
 [Get Started]: https://github.com/fisherman/fisherman/wiki
