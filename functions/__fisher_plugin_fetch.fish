@@ -10,6 +10,7 @@ function -S __fisher_plugin_fetch
         end
 
         debug "validate ok %s" "$item"
+        
         if contains -- "$item" $enabled
             if test -z "$option"
                 set skipped $skipped "$item"
