@@ -10,7 +10,6 @@ function -S __fisher_plugin_fetch
         end
 
         debug "validate ok %s" "$item"
-
         if contains -- "$item" $enabled
             if test -z "$option"
                 set skipped $skipped "$item"
@@ -71,7 +70,7 @@ function -S __fisher_plugin_fetch
         printf "%s\n" "$name"
         debug "plugin %s" "$name"
 
-        if test ! -e $path
+        if test ! -e $path -a ! -L $path
             if not set -q __fisher_fetch_status
                 set -g __fisher_fetch_status
                 printf "Installing plugin/s\n" > $stderr
