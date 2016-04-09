@@ -10,7 +10,7 @@ function -S __fisher_plugin_fetch
         end
 
         debug "validate ok %s" "$item"
-        
+
         if contains -- "$item" $enabled
             if test -z "$option"
                 set skipped $skipped "$item"
@@ -71,9 +71,9 @@ function -S __fisher_plugin_fetch
         printf "%s\n" "$name"
         debug "plugin %s" "$name"
 
-        if test ! -e $path
-            if test -L $path
-                set -l realpath (command readlink $path)
+        if test ! -e "$path"
+            if test -L "$path"
+                set -l realpath (command readlink "$path")
                 if __fisher_file_remove "$realpath" "$fisher_file"
                     debug "fishfile remove broken link %s ok" "$realpath"
                 else
