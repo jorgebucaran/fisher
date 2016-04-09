@@ -1,17 +1,20 @@
-[![Build Status][travis-badge]][travis-link]
-[![Fisherman Version][version-badge]][version-link]
-[![Slack Room][slack-badge]][slack-link]
-
 <a name="fisherman"></a>
 [![play]][play-link]
-<h1 align="center">
+<h4 align="center">
+    <br>
     <br>
     <a href="http://fisherman.sh"><img
         alt="Fisherman"
         width=750px
         src="https://rawgit.com/fisherman/logo/master/fisherman-black-white.svg"></a>
     <br>
-</h1>
+    <br>
+    <br>
+</h4>
+
+[![Build Status][travis-badge]][travis-link]
+[![Fisherman Version][version-badge]][version-link]
+[![Slack Room][slack-badge]][slack-link]
 
 ## Install
 
@@ -250,3 +253,6 @@ git push origin master
 [other]: https://github.com/fisherman/fisherman/wiki/Installing-Fisherman#notes
 [Fisherman]: http://fisherman.sh
 [new]: https://github.com/fishery/new
+
+
+:anchor:
