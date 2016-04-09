@@ -5,7 +5,7 @@
     <br>
     <a href="http://fisherman.sh"><img
         alt="Fisherman"
-        width=750px
+        width=800px
         src="https://rawgit.com/fisherman/logo/master/fisherman-black-white.svg"></a>
     <br>
     <br>
@@ -253,6 +253,3 @@ git push origin master
 [other]: https://github.com/fisherman/fisherman/wiki/Installing-Fisherman#notes
 [Fisherman]: http://fisherman.sh
 [new]: https://github.com/fishery/new
-
-
-:anchor:
