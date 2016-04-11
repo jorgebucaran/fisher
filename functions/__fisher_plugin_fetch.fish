@@ -71,7 +71,16 @@ function -S __fisher_plugin_fetch
         printf "%s\n" "$name"
         debug "plugin %s" "$name"
 
-        if test ! -e $path
+        if test ! -e "$path"
+            if test -L "$path"
+                set -l realpath (command readlink "$path")
+                if __fisher_file_remove "$realpath" "$fisher_file"
+                    debug "Remove broken plugin %s(%s) ok" "$name" "$realpath"
+                else
+                    debug "Remove broken plugin %s(%s) fail" "$name" "$realpath"
+                end
+            end
+
             if not set -q __fisher_fetch_status
                 set -g __fisher_fetch_status
                 printf "Installing plugin/s\n" > $stderr
