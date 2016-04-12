@@ -24,13 +24,13 @@ curl -sL get.fisherman.sh | fish
 
 ## 使用
 
-安装[fishery][fishery]插件。
+安装 [fishery][fishery] 插件。
 
 ```
 fisher i fishtape shark get bobthefish
 ```
 
-安装[Oh My Fish][Oh My Fish]插件。
+安装 [Oh My Fish][Oh My Fish] 插件。
 
 ```fish
 fisher i omf/plugin-{percol,jump,fasd}
@@ -48,7 +48,7 @@ fisher i ./path/to/plugin
 fisher i https://github.com/some/plugin another/plugin bb:one/more
 ```
 
-从[Gist][Gist]安装插件。
+从 [Gist][Gist] 安装插件。
 
 ```fish
 fisher i gist.github.com/owner/1f40e1c6e0551b2666b2
@@ -75,7 +75,7 @@ fisher uninstall fishtape debug
 
 ## 显示和搜索
 
-`fisher list`命令会显示本地安装的插件。`fisher search`命令会通过本地索引去查找合适的插件。
+`fisher list` 命令会显示本地安装的插件。`fisher search` 命令会通过本地索引去查找合适的插件。
 
 ```
 fisher list
