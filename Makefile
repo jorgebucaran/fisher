@@ -48,7 +48,7 @@ $(FISH_CONFIG):
 	echo "set fisher_config $(FISHER_CONFIG)" | sed "s|$$HOME|~|" >> $@.fisher
 	echo "source \$$fisher_home/config.fish" >> $@.fisher
 	awk 'FNR==NR{ print; a[$$0]; next } !($$0 in a) || /^$$/' $@ $@.fisher > $@.tmp
-	mv $@.tmp $@ && rm $@.fisher
+	cat "$@.tmp" > $@ && rm $@.fisher
 
 $(FISHER_CACHE):
 	mkdir -p $@
