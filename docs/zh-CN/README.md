@@ -42,7 +42,7 @@ fisher i omf/plugin-{percol,jump,fasd}
 fisher i ./path/to/plugin
 ```
 
-从不同的远程地址安装插件。
+从不同的 URL 安装插件。
 
 ```fish
 fisher i https://github.com/some/plugin another/plugin bb:one/more
@@ -54,19 +54,19 @@ fisher i https://github.com/some/plugin another/plugin bb:one/more
 fisher i gist.github.com/owner/1f40e1c6e0551b2666b2
 ```
 
-更新一切。
+更新所有的插件。
 
 ```
 fisher u
 ```
 
-更新插件。
+更新指定的插件。
 
 ```
 fisher u shark get
 ```
 
-卸载插件。
+卸载指定的插件。
 
 ```
 fisher uninstall fishtape debug
@@ -86,7 +86,7 @@ fisher list
 @ wipe
 ```
 
-查找索引。
+查找插件。
 
 ```
 fisher search
@@ -102,7 +102,7 @@ fisher search
   ...
 ```
 
-使用正则表达式查找索引。
+使用正则表达式查找插件。
 
 ```
 fisher search --name~/git-is/
@@ -114,7 +114,7 @@ git-is-stashed     Test if there are changes in the stash
 git-is-touched     Test if there are changes in the working tree
 ```
 
-使用标签查找索引。
+使用标签查找插件。
 
 ```
 fisher search --tag={git,test}
@@ -130,7 +130,7 @@ fisher search --tag={git,test}
   ...
 ```
 
-最前面的符号由下面组成:
+最前面的符号有以下几种含义:
 
 * `>` 该插件是用于修改提示符
 * `*` 该插件已安装
@@ -139,14 +139,15 @@ fisher search --tag={git,test}
 
 ## 管道
 
-Fisherman 的命令全部支持管道。用管道连接另一个命令可以实现更复杂的功能。  
+Fisherman 的命令全部支持管道。可以通过管道来连接其他命令，从而实现更复杂的功能。 
+
 更新所有为软链接的插件。
 
 ```fish
 fisher list --link | fisher update -
 ```
 
-开启当前被禁止的插件。
+重新启用被禁用的插件。
 
 ```fish
 fisher list --disabled | fisher install
@@ -160,19 +161,19 @@ fisher list | fisher uninstall --force
 
 ## Dotfiles
 
-当你安装插件时，Fisherman 会更新 *fishfile* 以便之后维护插件。
+当你安装插件时，Fisherman 会更新到 *fishfile* 以便之后跟踪启用了哪些插件。
 
-* 自定义 fishfile 的位置。
+* 自定义 *fishfile* 的位置。
 
 ```fish
 set -g fisher_file ~/.dotfiles/fishfile
 ```
 
-## 扁平化的目录结构
+## 扁平的目录结构
 
-Fisherman 会合并所有插件的目录到一个扁平的目录结构。因为这样在 shell 启动时，即便再多的插件，也只用加载一次，性能都表现良好。   
+Fisherman 会合并所有插件的目录到一个扁平的目录结构。之所以这样做的原因是因为无论安装了多少插件，只用在 shell 启动时加载一次，Fisherman 就能拥有不错的性能。   
 
-下面的图例展现了一个插件在 Fiserhman 的配置目录的架构。
+以下图例展现了一个插件在 Fiserhman 中的目录结构。
 ```
 $fisher_config
 ├── cache
@@ -192,9 +193,9 @@ $fisher_config
 
 ## 索引
 
-索引就是一个记录了被 Fisherman 安装的官方插件的文本数据库。
+索引就是一个用来记录被 Fisherman 安装的插件的文本数据库。
 
-索引记录了每个插件的*名字*， *地址*， *信息*，一个或多个*标签*和*作者*。
+索引记录了每个插件的*名字*， *地址*， *信息*，*标签*以及*作者*。
 
 ```
 z
@@ -204,7 +205,7 @@ z search cd jump
 jethrokuan
 ```
 
-如果你想要提交插件到这个索引， 你可以向我们发起一个 PR 到这个[仓库](https://github.com/fisherman/index)
+如果你想要提交插件， 你可以向这个 [仓库](https://github.com/fisherman/index) 发起一个 PR 
 ```
 git clone https://github.com/fisherman/index
 cd index
@@ -215,16 +216,16 @@ git push origin master
 ## 变量
 
 * $fisher_home:
-    Fisherman 的家目录。如果你按照推荐的方式安装了 Fisherman，这个位置应该就是 *XDG_DATA_HOME/fisherman* 。
+    Fisherman 的家目录。如果你按照推荐的方式安装了 Fisherman，这个变量应该是 *XDG_DATA_HOME/fisherman* 。
     
 * $fisher_config:
-    Fisherman 的配置目录。这个目录默认应该是你的 *fishfile*, *key_bindings.fish*, *cache*, *functions*, *completions* and *conf.d* 等目录的父目录。它的默认值是 *XDG_CONFIG_HOME/fisherman* 。
+    Fisherman 的配置目录。这个目录默认应该是你的 *fishfile*, *key_bindings.fish*, *cache*, *functions*, *completions* and *conf.d* 等目录所在的位置。它的默认值是 *XDG_CONFIG_HOME/fisherman* 。
     
 * $fisher_file:
     具体查看 [fishfile](#fishfile) 。
 
 * $fisher_cache:
-    Fisherman 的缓存目录。 所有的插件都被下载在这个位置。
+    Fisherman 的缓存目录。 所有的插件都会被下载到这个位置。
 
 * $fisher_alias *command*=*alias* ...:
     可以使用这个变量去创建 Fisherman 的命令别名。
