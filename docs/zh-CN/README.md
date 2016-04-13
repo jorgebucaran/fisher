@@ -1,3 +1,8 @@
+<p align="center">
+  <a href="../../README.md">English</a> &bull;
+  <b>简体中文</b>
+</p>
+
 <a name="fisherman"></a>
 [![play]][play-link]
 <h4 align="center">
@@ -139,7 +144,7 @@ fisher search --tag={git,test}
 
 ## 管道
 
-Fisherman 的命令全部支持管道。可以通过管道来连接其他命令，从而实现更复杂的功能。 
+Fisherman 的命令全部支持管道。可以通过管道来连接其他命令，从而实现更复杂的功能。
 
 更新所有为软链接的插件。
 
@@ -205,7 +210,7 @@ z search cd jump
 jethrokuan
 ```
 
-如果你想要提交插件， 你可以向这个 [仓库](https://github.com/fisherman/index) 发起一个 PR 
+如果你想要提交插件， 你可以向这个 [仓库](https://github.com/fisherman/index) 发起一个 PR
 ```
 git clone https://github.com/fisherman/index
 cd index
@@ -217,10 +222,10 @@ git push origin master
 
 * $fisher_home:
     Fisherman 的家目录。如果你按照推荐的方式安装了 Fisherman，这个变量应该是 *XDG_DATA_HOME/fisherman* 。
-    
+
 * $fisher_config:
     Fisherman 的配置目录。这个目录默认应该是你的 *fishfile*, *key_bindings.fish*, *cache*, *functions*, *completions* and *conf.d* 等目录所在的位置。它的默认值是 *XDG_CONFIG_HOME/fisherman* 。
-    
+
 * $fisher_file:
     具体查看 [fishfile](#fishfile) 。
 

@@ -1,3 +1,8 @@
+<p align="center">
+  <b>English</b> &bull;
+  <a href="docs/zh-CN">简体中文</a>
+</p>
+
 <a name="fisherman"></a>
 [![play]][play-link]
 <h4 align="center">
