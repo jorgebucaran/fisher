@@ -227,7 +227,7 @@ git push origin master
     Fisherman 的配置目录。这个目录默认应该是你的 *fishfile*, *key_bindings.fish*, *cache*, *functions*, *completions* and *conf.d* 等目录所在的位置。它的默认值是 *XDG_CONFIG_HOME/fisherman* 。
 
 * $fisher_file:
-    具体查看 [fishfile](#fishfile) 。
+    具体查看 [fishfile](#dotfiles) 。
 
 * $fisher_cache:
     Fisherman 的缓存目录。 所有的插件都会被下载到这个位置。

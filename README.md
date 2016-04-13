@@ -231,7 +231,7 @@ git push origin master
     The configuration directory. This is default location of your *fishfile*, *key_bindings.fish*, *cache*, *functions*, *completions* and *conf.d* directories. *XDG_CONFIG_HOME/fisherman* by default.
 
 * $fisher_file:
-    See [fishfile](#fishfile) above.
+    See [fishfile](#dotfiles) above.
 
 * $fisher_cache:
     The cache directory. Plugins are downloaded to this location.
