@@ -135,6 +135,8 @@ function __fisher_install_fisherman
     __fisher_run_commands \
         "Installing fisherman to $fisher_config" \
         "
+            set -e fish_greeting
+            
             mkdir -p $fisher_config/{cache,functions,completions,conf.d,man}
 
             mkdir -p $fish_config
