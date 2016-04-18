@@ -239,11 +239,11 @@ git push origin master
 * $fisher_alias *command*=*alias* ...:
     Use this variable to create aliases of fisherman commands.
 
-[travis-link]: https://travis-ci.org/fisherman/fisherman
-[travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
+[travis-link]: https://travis-ci.org/fishery/fisherman
+[travis-badge]: https://img.shields.io/travis/fishery/fisherman.svg?style=flat-square
 
 [version-badge]: https://img.shields.io/badge/latest-v1.5.0-00B9FF.svg?style=flat-square
-[version-link]: https://github.com/fisherman/fisherman/releases
+[version-link]: https://github.com/fishery/fisherman/releases
 
 [slack-link]: https://fisherman-wharf.herokuapp.com/
 [slack-badge]: https://img.shields.io/badge/slack-join%20the%20chat-00B9FF.svg?style=flat-square
@@ -254,5 +254,5 @@ git push origin master
 [Plugins]: http://fisherman.sh/#search
 [fish]: https://github.com/fish-shell/fish-shell
 
-[other]: https://github.com/fisherman/fisherman/wiki/Installing-fisherman#notes
+[other]: https://github.com/fishery/fisherman/wiki/Installing-fisherman#notes
 [fisherman]: http://fisherman.sh
