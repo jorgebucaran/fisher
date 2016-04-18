@@ -164,11 +164,11 @@ fisher list --disabled | fisher install
 fisher list | fisher uninstall --force
 ```
 
-## Dotfiles
+## Bundle
 
-当你安装插件时，fisherman 会更新到 *fishfile* 以便之后跟踪启用了哪些插件。
+当你安装一个插件时，fisherman 会更新到 *bundle* 文件以便之后跟踪激活了哪些插件。
 
-* 自定义 *fishfile* 的位置。
+* 自定义 bundle 的位置。
 
 ```fish
 set -g fisher_file ~/.dotfiles/fishfile
@@ -186,7 +186,7 @@ $fisher_config
 │   └── my_plugin.fish
 ├── conf.d
 │   └── my_plugin.fish
-├── fishfile
+├── bundle
 ├── functions
 │   ├── fish_prompt.fish
 │   ├── fish_right_prompt.fish
@@ -227,7 +227,7 @@ git push origin master
     fisherman 的配置目录。这个目录默认应该是你的 *fishfile*, *key_bindings.fish*, *cache*, *functions*, *completions* and *conf.d* 等目录所在的位置。它的默认值是 *XDG_CONFIG_HOME/fisherman* 。
 
 * $fisher_file:
-    具体查看 [fishfile](#dotfiles) 。
+    bundle 文件的位置
 
 * $fisher_cache:
     fisherman 的缓存目录。 所有的插件都会被下载到这个位置。
@@ -247,14 +247,8 @@ git push origin master
 [play]: https://cloud.githubusercontent.com/assets/8317250/14401577/14411b12-fe51-11e5-8d5a-bb054edfc2d4.png
 [play-link]: http://fisherman.sh/#demo
 
-[Get Started]: https://github.com/fisherman/fisherman/wiki
 [Plugins]: http://fisherman.sh/#search
 [fish]: https://github.com/fish-shell/fish-shell
 
 [other]: https://github.com/fisherman/fisherman/wiki/Installing-fisherman#notes
 [fisherman]: http://fisherman.sh
-[new]: https://github.com/fishery/new
-
-[fishery]: https://github.com/fishery
-[Oh My Fish]: https://github.com/oh-my-fish
-[Gist]: https://gist.github.com/
