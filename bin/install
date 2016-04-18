@@ -140,6 +140,8 @@ function __fisher_install_fisherman
             mkdir -p $fish_config
             pushd $fish_config
 
+            touch config.fish
+
             echo 'set -g fisher_home $fisher_home' | sed 's|/\$||;s|$home|~|' >> fisherconf
             echo 'set -g fisher_config $fisher_config' | sed 's|$home|~|' >> fisherconf
             echo 'source \$fisher_home/config.fish' >> fisherconf
