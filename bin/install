@@ -150,7 +150,7 @@ function __fisher_install_fisherman
             command mv config.fish.tmp config.fish
             command rm fisherconf
 
-            __fisher_index_update 0
+            fish -c '__fisher_index_update 0'
         "
 
     set -l gray (set_color aaa)
@@ -167,10 +167,10 @@ function __fisher_install_fisherman
     exec fish < /dev/tty
 end
 
-set -g fisher_color_param (set_color $fish_color_param)
+set -g fisher_color_param green
 set -g fisher_color_uline (set_color -u)
-set -g fisher_color_error (set_color $fish_color_error)
-set -g fisher_color_close (set_color $fish_color_normal)
+set -g fisher_color_error red
+set -g fisher_color_close (set_color normal)
 
 set -g fisher_check_symbol $fisher_color_param"✔"$fisher_color_close
 set -g fisher_error_symbol $fisher_color_error"✘"$fisher_color_close
