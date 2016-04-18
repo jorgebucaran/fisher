@@ -171,7 +171,7 @@ fisher list | fisher uninstall --force
 * 自定义 bundle 的位置。
 
 ```fish
-set -g fisher_file ~/.dotfiles/fishfile
+set -g fisher_file ~/.dotfiles/bundle
 ```
 
 ## 扁平的目录结构
