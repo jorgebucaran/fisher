@@ -9,7 +9,7 @@
     <br>
     <br>
     <a href="http://fisherman.sh"><img
-        alt="Fisherman"
+        alt="fisherman"
         width=800px
         src="https://rawgit.com/fisherman/logo/master/fisherman-black-white.svg"></a>
     <br>
@@ -18,7 +18,7 @@
 </h4>
 
 [![Build Status][travis-badge]][travis-link]
-[![Fisherman Version][version-badge]][version-link]
+[![fisherman Version][version-badge]][version-link]
 [![Slack Room][slack-badge]][slack-link]
 
 ## Install
@@ -146,7 +146,7 @@ The legend consists of:
 
 ## Plumbing
 
-Fisherman commands are pipe aware. Plumb one with another to create complex functionality.
+fisherman commands are pipe aware. Plumb one with another to create complex functionality.
 
 Update plugins installed as symbolic links.
 
@@ -166,21 +166,21 @@ Uninstall all the plugins and remove them from the cache.
 fisher list | fisher uninstall --force
 ```
 
-## Dotfiles
+## Bundle
 
-When you install a plugin, Fisherman updates the *fishfile* to track what plugins are currently enabled.
+When you install a plugin, fisherman updates the *bundle* file to track what plugins are currently active.
 
-* Customize the location of the fishfile.
+* Customize the location of the bundle.
 
 ```fish
-set -g fisher_file ~/.dotfiles/fishfile
+set -g fisher_file ~/.dotfiles/bundle
 ```
 
-## Flat Tree
+## Flat tree
 
-Fisherman merges the directory trees of all the plugins it installs into a single flat tree. Since the flat tree is loaded only once at the start of the shell, Fisherman performs equally well, regardless of the number of plugins installed.
+fisherman merges the directory trees of all the plugins it installs into a single flat tree. Since the flat tree is loaded only once at the start of the shell, fisherman performs equally well, regardless of the number of plugins installed.
 
-The following illustrates an example Fisherman configuration path with a single plugin and prompt.
+The following illustrates an example fisherman configuration path with a single plugin and prompt.
 
 ```
 $fisher_config
@@ -189,7 +189,7 @@ $fisher_config
 │   └── my_plugin.fish
 ├── conf.d
 │   └── my_plugin.fish
-├── fishfile
+├── bundle
 ├── functions
 │   ├── fish_prompt.fish
 │   ├── fish_right_prompt.fish
@@ -201,7 +201,7 @@ $fisher_config
 
 ## Index
 
-The index is a plain text database that lists Fisherman official plugins.
+The index is a plain text database that lists fisherman official plugins.
 
 The index lists records, each consisting the fields: *name*, *url*, *info*, one or more *tags* and *author*.
 
@@ -225,19 +225,19 @@ git push origin master
 ## Variables
 
 * $fisher_home:
-    The home directory. If you installed Fisherman using the recommended method, the location ought to be *XDG_DATA_HOME/fisherman*.
+    The home directory. If you installed fisherman using the recommended method, the location ought to be *XDG_DATA_HOME/fisherman*.
 
 * $fisher_config:
-    The configuration directory. This is default location of your *fishfile*, *key_bindings.fish*, *cache*, *functions*, *completions* and *conf.d* directories. *XDG_CONFIG_HOME/fisherman* by default.
+    The configuration directory. This is default location of your *bundle*, *key_bindings.fish*, *cache*, *functions*, *completions* and *conf.d* directories. *XDG_CONFIG_HOME/fisherman* by default.
 
 * $fisher_file:
-    See [fishfile](#dotfiles) above.
+    The location of the bundle file.
 
 * $fisher_cache:
     The cache directory. Plugins are downloaded to this location.
 
 * $fisher_alias *command*=*alias* ...:
-    Use this variable to create aliases of Fisherman commands.
+    Use this variable to create aliases of fisherman commands.
 
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
@@ -251,10 +251,8 @@ git push origin master
 [play]: https://cloud.githubusercontent.com/assets/8317250/14401577/14411b12-fe51-11e5-8d5a-bb054edfc2d4.png
 [play-link]: http://fisherman.sh/#demo
 
-[Get Started]: https://github.com/fisherman/fisherman/wiki
 [Plugins]: http://fisherman.sh/#search
 [fish]: https://github.com/fish-shell/fish-shell
 
-[other]: https://github.com/fisherman/fisherman/wiki/Installing-Fisherman#notes
-[Fisherman]: http://fisherman.sh
-[new]: https://github.com/fishery/new
+[other]: https://github.com/fisherman/fisherman/wiki/Installing-fisherman#notes
+[fisherman]: http://fisherman.sh
