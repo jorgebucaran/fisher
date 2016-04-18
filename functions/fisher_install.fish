@@ -44,7 +44,6 @@ function fisher_install -d "Install plugins (i)"
         set -l path $fisher_cache/$plugin
 
         if test -d $path
-            __fisher_path_make "$path" --quiet
             __fisher_plugin_enable "$plugin" "$path"
 
             set count (math $count + 1)
