@@ -9,7 +9,7 @@
     <br>
     <br>
     <a href="http://fisherman.sh"><img
-        alt="Fisherman"
+        alt="fisherman"
         width=800px
         src="https://rawgit.com/fisherman/logo/master/fisherman-black-white.svg"></a>
     <br>
@@ -18,7 +18,7 @@
 </h4>
 
 [![Build Status][travis-badge]][travis-link]
-[![Fisherman Version][version-badge]][version-link]
+[![fisherman Version][version-badge]][version-link]
 [![Slack Room][slack-badge]][slack-link]
 
 ## 安装
@@ -144,7 +144,7 @@ fisher search --tag={git,test}
 
 ## 管道
 
-Fisherman 的命令全部支持管道。可以通过管道来连接其他命令，从而实现更复杂的功能。
+fisherman 的命令全部支持管道。可以通过管道来连接其他命令，从而实现更复杂的功能。
 
 更新所有为软链接的插件。
 
@@ -166,7 +166,7 @@ fisher list | fisher uninstall --force
 
 ## Dotfiles
 
-当你安装插件时，Fisherman 会更新到 *fishfile* 以便之后跟踪启用了哪些插件。
+当你安装插件时，fisherman 会更新到 *fishfile* 以便之后跟踪启用了哪些插件。
 
 * 自定义 *fishfile* 的位置。
 
@@ -176,7 +176,7 @@ set -g fisher_file ~/.dotfiles/fishfile
 
 ## 扁平的目录结构
 
-Fisherman 会合并所有插件的目录到一个扁平的目录结构。之所以这样做的原因是因为无论安装了多少插件，只用在 shell 启动时加载一次，Fisherman 就能拥有不错的性能。   
+fisherman 会合并所有插件的目录到一个扁平的目录结构。之所以这样做的原因是因为无论安装了多少插件，只用在 shell 启动时加载一次，fisherman 就能拥有不错的性能。   
 
 以下图例展现了一个插件在 Fiserhman 中的目录结构。
 ```
@@ -198,7 +198,7 @@ $fisher_config
 
 ## 索引
 
-索引就是一个用来记录被 Fisherman 安装的插件的文本数据库。
+索引就是一个用来记录被 fisherman 安装的插件的文本数据库。
 
 索引记录了每个插件的*名字*， *地址*， *信息*，*标签*以及*作者*。
 
@@ -221,19 +221,19 @@ git push origin master
 ## 变量
 
 * $fisher_home:
-    Fisherman 的家目录。如果你按照推荐的方式安装了 Fisherman，这个变量应该是 *XDG_DATA_HOME/fisherman* 。
+    fisherman 的家目录。如果你按照推荐的方式安装了 fisherman，这个变量应该是 *XDG_DATA_HOME/fisherman* 。
 
 * $fisher_config:
-    Fisherman 的配置目录。这个目录默认应该是你的 *fishfile*, *key_bindings.fish*, *cache*, *functions*, *completions* and *conf.d* 等目录所在的位置。它的默认值是 *XDG_CONFIG_HOME/fisherman* 。
+    fisherman 的配置目录。这个目录默认应该是你的 *fishfile*, *key_bindings.fish*, *cache*, *functions*, *completions* and *conf.d* 等目录所在的位置。它的默认值是 *XDG_CONFIG_HOME/fisherman* 。
 
 * $fisher_file:
     具体查看 [fishfile](#dotfiles) 。
 
 * $fisher_cache:
-    Fisherman 的缓存目录。 所有的插件都会被下载到这个位置。
+    fisherman 的缓存目录。 所有的插件都会被下载到这个位置。
 
 * $fisher_alias *command*=*alias* ...:
-    可以使用这个变量去创建 Fisherman 的命令别名。
+    可以使用这个变量去创建 fisherman 的命令别名。
 
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
@@ -251,8 +251,8 @@ git push origin master
 [Plugins]: http://fisherman.sh/#search
 [fish]: https://github.com/fish-shell/fish-shell
 
-[other]: https://github.com/fisherman/fisherman/wiki/Installing-Fisherman#notes
-[Fisherman]: http://fisherman.sh
+[other]: https://github.com/fisherman/fisherman/wiki/Installing-fisherman#notes
+[fisherman]: http://fisherman.sh
 [new]: https://github.com/fishery/new
 
 [fishery]: https://github.com/fishery
