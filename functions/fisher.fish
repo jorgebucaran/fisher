@@ -59,11 +59,11 @@ function fisher -d "fish plugin manager"
             set -l color (set_color -u)
             set -l color_normal (set_color normal)
 
-            printf "Commands:\n"
+            printf "where <command> can be one of:\n"
 
             __fisher_help_commands | sed "
-                s/^/    /
-                s/;/"\t"  /
+                s/^/      /
+                s/;/"\t"    /
             " | column -ts\t
     end
 end

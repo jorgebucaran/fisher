@@ -1,0 +1,177 @@
+#!/usr/bin/env fish
+
+function __fisher_format_source_safe
+    if not command fish_indent $argv ^ /dev/null
+        command fish_indent
+    end
+end
+
+function __fisher_home_humanize
+    set -l tilde "$fisher_color_param~$fisher_color_close"
+    sed "s|$HOME|$tilde|"
+end
+
+function __fisher_run_commands -a message commands
+    set -l fish_debug_copy $fish_debug
+    set fish_debug
+
+    set -l tmp (mktemp -t fisherman.XXX)
+
+    fish -c "$commands" > /dev/null ^ $tmp &
+
+    while true
+        for spinner in ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
+            set -l message (printf "%s\n" $message | __fisher_home_humanize)
+            printf "  $fisher_color_param$spinner$fisher_color_close $message\r"
+            sleep 0.05
+        end
+
+        set -l last_job (jobs -l | command awk -v FS=\t '
+            /[0-9]+\t/{
+                jobs[++job_count] = $1
+            }
+
+            END {
+                for (i = 1; i <= job_count; i++) {
+                    print(jobs[i])
+                }
+
+                exit job_count == 0
+            }
+        ')
+
+        if test -z "$last_job"
+            break
+        end
+    end
+
+    if test -s $tmp
+        cat $tmp
+
+        printf "\r $fisher_error_symbol\n\n"
+
+        printf "Sorry, but I couldn't install fisherman. Some things you can try:\n\n"
+
+        printf "%s\n" " $fisher_arrow_symbol Upgrade your Git version (^2.0)"
+        printf "%s\n" " $fisher_arrow_symbol Upgrade your Fish version (^2.2.0)"
+        printf "%s\n" " $fisher_arrow_symbol Make sure you can write to $fisher_home"
+        printf "%s\n"
+        printf "%s\n" "For more help visit "$fisher_color_uline"http://issues.fisherman.sh$fisher_color_close"
+
+        command rm -f $tmp
+
+        set fish_debug $fish_debug_copy
+
+        exit 1
+    end
+
+    set fish_debug $fish_debug_copy
+
+    command rm -f $tmp
+
+    printf "\r $fisher_check_symbol \n"
+end
+
+function __fisher_install_fisherman
+    set xdg_home ~/.local/share
+    set xdg_config ~/.config
+
+    if test ! -z "$XDG_DATA_HOME"
+        set xdg_home "$XDG_DATA_HOME"
+    end
+
+    if test ! -z "$XDG_CONFIG_HOME"
+        set xdg_config "$XDG_CONFIG_HOME"
+    end
+
+    set fisher_home "$xdg_home/fisherman"
+    set fisher_config "$xdg_config/fisherman"
+    set fish_config "$xdg_config/fish"
+
+    if test ! -z "$FISHER_HOME"
+        set fisher_home "$FISHER_HOME"
+    end
+
+    if test ! -z "$FISHER_CONFIG"
+        set fisher_config "$FISHER_CONFIG"
+    end
+
+    set -l config "$fish_config/config.fish"
+
+    if test -d $fisher_home
+        printf " $fisher_error_symbol %s\n\n" "fisherman is already installed. To reinstall:"
+
+        printf " $fisher_arrow_symbol %s\n" "Remove $fisher_home" \
+            | __fisher_home_humanize
+
+        if test -s $config
+            printf " $fisher_arrow_symbol %s\n" "Remove this configuration from $fish_config" \
+                | __fisher_home_humanize
+
+            printf "%s\n"
+            set -l indent "    "
+            grep "fisher" $config | __fisher_format_source_safe --ansi | sed "s/^/ $indent /"
+
+            set_color normal
+        end
+
+        printf "\n%s\n" "For more help visit "$fisher_color_uline"http://issues.fisherman.sh$fisher_color_close"
+
+        exit 1
+    end
+
+    if test "$version" = 2.1.2
+        printf "%s\n" (set_color ff0
+            )" • Please upgrade to fish 2.2.0 for best results.$fisher_color_close"
+    end
+
+    __fisher_run_commands \
+        "Downloading fisherman to $fisher_home" \
+        "git clone --quiet --depth 1 $fisher_remote_uri $fisher_home"
+
+
+    set -l home ~
+
+    __fisher_run_commands \
+        "Installing fisherman to $fisher_config" \
+        "
+            mkdir -p $fisher_config/{cache,functions,completions,conf.d,man}
+            pushd $fish_config
+
+            echo 'set -g fisher_home $fisher_home' | sed 's|/\$||;s|$home|~|' >> fisherconf
+            echo 'set -g fisher_config $fisher_config' | sed 's|$home|~|' >> fisherconf
+            echo 'source \$fisher_home/config.fish' >> fisherconf
+
+            command awk 'FNR==NR{ print; a[\$0]; next } !(\$0 in a) || /^\$/' config.fish fisherconf > config.fish.tmp
+            command mv config.fish.tmp config.fish
+            command rm fisherconf
+
+            __fisher_index_update 0
+        "
+
+    set -l gray (set_color aaa)
+
+    printf " $fisher_check_symbol ""$gray"" Done! Enter $fisherman""``fisher``""$fisher_color_close ""$gray""to get started\n\n"
+
+    printf " $fisher_arrow_symbol Plugins    "$fisher_color_uline"http://plugins.fisherman.sh$fisher_color_close\n"
+    printf " $fisher_arrow_symbol Community  "$fisher_color_uline"http://slack.fisherman.sh$fisher_color_close\n"
+
+    if set -q CI
+        exit
+    end
+
+    exec fish < /dev/tty
+end
+
+set -g fisher_color_param (set_color $fish_color_param)
+set -g fisher_color_uline (set_color -u)
+set -g fisher_color_error (set_color $fish_color_error)
+set -g fisher_color_close (set_color $fish_color_normal)
+
+set -g fisher_check_symbol $fisher_color_param"✔"$fisher_color_close
+set -g fisher_error_symbol $fisher_color_error"✘"$fisher_color_close
+set -g fisher_arrow_symbol $fisher_color_param"▸"$fisher_color_close
+
+set -g fisher_remote_uri "https://github.com/fisherman/fisherman"
+
+__fisher_install_fisherman
