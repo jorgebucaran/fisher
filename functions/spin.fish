@@ -58,7 +58,7 @@ function spin -d "Background job spinner"
                 }
                 ' > /dev/stderr
 
-                sleep 0.01
+                sleep 0.05
             end
         end
     end

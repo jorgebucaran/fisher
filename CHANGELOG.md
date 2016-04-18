@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.5.0][v150] - 2016-04-18
+
+* So long `make`, the fisherman installer is now entirely written in fish #196, #184.
+
 ## [1.4.0][v140] - 2016-03-31
 
 * :warning: Deprecate --force flag in fisher install.
