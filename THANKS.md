@@ -16,3 +16,4 @@ The following individuals have contributed to Fisherman.
 * [Mizuki](https://github.com/zukif)
 * [Patrick Callahan](https://github.com/therealpxc)
 * [Seunggi Kim](https://github.com/dfdgsdfg)
+* [Yang Bingwu](https://github.com/detailyang)
