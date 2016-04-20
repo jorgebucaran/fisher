@@ -4,5 +4,8 @@ before_install:
     - sudo apt-get update
     - sudo apt-get -y install fish
 script:
-    - bin/install
-    - fish -c "fisher i fishery/fishtape; fishtape test/*.fish"
+    - sudo make install
+    - mkdir -p ~/.config/fish
+    - echo "source /usr/share/fish/config-fisherman.fish" >> ~/.config/fish/config.fish
+    - fish -c "fisher i fishtape"
+    - fish -c "fishtape test/*.fish"

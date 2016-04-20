@@ -27,6 +27,19 @@
 curl -sL get.fisherman.sh | fish
 ```
 
+## Packaging
+
+Fisherman supports the [DESTDIR convention](https://www.gnu.org/prep/standards/html_node/DESTDIR.html). Using the Makefile (`DESTDIR` should be adjusted with respect to your OS/distribution or simply not provided):
+```bash
+make install DESTDIR=/path/to/stage
+```
+
+### Usage prerequisites
+
+In order for users who install the package to actually use Fisherman, they need to source the provided `/usr/share/fish/config-fisherman.git`. In your package, you should thus provide a hint such as the following:
+
+Please run `echo "source /usr/share/fish/config-fisherman.git" >> ~/.config/fish/config.fish` to enable Fisherman for your current user.
+
 ## Usage
 
 Install plugins.
