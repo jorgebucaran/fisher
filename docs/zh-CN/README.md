@@ -145,7 +145,7 @@ brew install fish
 
 ### 3. 如何从一些 linux 发行版安装最近版本的 fish?
 
-使用 git 或者 上游源。
+使用 git 或者上游源。
 
 ```sh
 sudo apt-get -y install git gettext automake autoconf \
