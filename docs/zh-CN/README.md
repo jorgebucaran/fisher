@@ -8,15 +8,6 @@
 
 # [fisherman] - fish shell plugin manager
 
-[fisherman]: http://fisherman.sh
-[fish shell]: https://github.com/fish-shell/fish-shell
-[organization]: https://github.com/fisherman
-[online]: http://fisherman.sh/#search
-
-[English]: ../../README.md
-[Español]: ../es-ES
-[日本語]: ../jp-JA
-
 ##为什么使用fisherman？
 
 * 简单
@@ -253,12 +244,11 @@ fundle 启发我去使用打包的文件，但是目前它仍然有着一些功�
 * https://github.com/fisherman/fisherman/issues
 
 
+[fisherman]: http://fisherman.sh
 [fish shell]: https://github.com/fish-shell/fish-shell
-[fisherman]: https://github.com/fisherman.sh
 [organization]: https://github.com/fisherman
 [online]: http://fisherman.sh/#search
-[Slack]: https://fisherman-wharf.herokuapp.com
 
-[Español]: docs/es-ES
-[简体中文]: docs/zh-CN
-[日本語]: docs/jp-JA
+[English]: ../../README.md
+[Español]: ../es-ES
+[日本語]: ../jp-JA
