@@ -8,6 +8,10 @@
 
 # [fisherman] - fish shell plugin manager
 
+fisherman is a zero-configuration, concurrent plugin manager for the [fish shell].
+
+Read this document in another language: [Español], [日本語], [简体中文].
+
 ##为什么使用fisherman？
 
 * 简单
