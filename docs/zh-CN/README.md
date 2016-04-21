@@ -10,7 +10,7 @@
 
 fisherman 是一款零配置，并发的 [fish shell] 插件管理器。
 
-选择不同语言版本的文档: [Español], [日本語], [简体中文]。
+选择不同语言版本的文档: [Español], [日本語], [English]。
 
 ##为什么使用fisherman？
 
@@ -256,4 +256,3 @@ fundle 启发我去使用打包的文件，但是目前它仍然有着一些功�
 [English]: ../../README.md
 [Español]: ../es-ES
 [日本語]: ../jp-JA
-[简体中文]: ../zh-CN
