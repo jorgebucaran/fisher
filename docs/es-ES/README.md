@@ -254,5 +254,5 @@ Crea un nuevo ticket en el issue tracker:
 [en línea]: http://fisherman.sh/#search
 
 [English]: ../../README.md
-[简体中文]: docs/zh-CN
-[日本語]: docs/jp-JA
+[简体中文]: zh-CN
+[日本語]: jp-JA
