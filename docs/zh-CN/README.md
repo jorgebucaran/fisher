@@ -14,5 +14,5 @@
 [online]: http://fisherman.sh/#search
 
 [English]: ../../README.md
-[Español]: es-ES
-[日本語]: jp-JA
+[Español]: ../es-ES
+[日本語]: ../jp-JA
