@@ -8,9 +8,9 @@
 
 # [fisherman] - fish shell plugin manager
 
-fisherman is a zero-configuration, concurrent plugin manager for the [fish shell].
+fisherman 是一款零配置，并发的[fish shell]插件管理器。
 
-Read this document in another language: [Español], [日本語], [简体中文].
+选择不同语言版本的文档: [Español], [日本語], [简体中文]。
 
 ##为什么使用fisherman？
 
