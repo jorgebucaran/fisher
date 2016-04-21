@@ -256,3 +256,4 @@ fundle 启发我去使用打包的文件，但是目前它仍然有着一些功�
 [English]: ../../README.md
 [Español]: ../es-ES
 [日本語]: ../jp-JA
+[简体中文]: ../zh-CN
