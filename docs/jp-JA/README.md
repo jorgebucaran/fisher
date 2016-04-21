@@ -15,4 +15,4 @@
 
 [English]: ../../README.md
 [Español]: docs/es-ES
-[日本語]: docs/jp-JA
+[简体中文]: docs/zh-CN
