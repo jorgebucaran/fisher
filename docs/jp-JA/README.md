@@ -14,5 +14,5 @@
 [online]: http://fisherman.sh/#search
 
 [English]: ../../README.md
-[Español]: docs/es-ES
-[简体中文]: docs/zh-CN
+[Español]: es-ES
+[简体中文]: zh-CN
