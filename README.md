@@ -1,258 +1,259 @@
-<p align="center">
-  <b>English</b> &bull;
-  <a href="docs/zh-CN">简体中文</a>
-</p>
-
-<a name="fisherman"></a>
-[![play]][play-link]
-<h4 align="center">
-    <br>
-    <br>
-    <a href="http://fisherman.sh"><img
-        alt="fisherman"
-        width=800px
-        src="https://rawgit.com/fisherman/logo/master/fisherman-black-white.svg"></a>
-    <br>
-    <br>
-    <br>
-</h4>
+[slack-link]: https://fisherman-wharf.herokuapp.com/
+[slack-badge]: https://img.shields.io/badge/slack-join%20the%20chat-00B9FF.svg?style=flat-square
+[travis-link]: https://travis-ci.org/fisherman/fisherman
+[travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
 
 [![Build Status][travis-badge]][travis-link]
-[![fisherman Version][version-badge]][version-link]
-[![Slack Room][slack-badge]][slack-link]
+[![Slack][slack-badge]][slack-link]
+
+# [fisherman] - fish shell plugin manager
+
+fisherman is a zero-configuration, concurrent plugin manager for the [fish shell].
+
+Read this document in another language: [Español], [日本語], [简体中文].
+
+## Why?
+
+* Simple
+
+* No configuration
+
+* No external dependencies
+
+* No impact on shell startup time
+
+* Use it interactively or _a la_ vundle
+
+* Only the essentials, install, update, remove, list and help
 
 ## Install
 
-```fish
-curl -sL get.fisherman.sh | fish
+Copy `fisher.fish` into your `~/.config/fish/functions` directory and that's it.
+
+```sh
+curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 ```
 
 ## Usage
 
-Install plugins.
+Install a plugin.
 
 ```
-fisher i fishtape shark get bobthefish
+fisher simple
 ```
 
-Install Oh My Fish! plugins.
+Install from multiple sources.
 
-```fish
-fisher i omf/plugin-{percol,jump,fasd}
+```
+fisher z fzf omf/{grc,thefuck}
 ```
 
-Install a plugin from a local directory.
+Install from a URL.
 
-```fish
-fisher i ./path/to/plugin
+```
+fisher https://github.com/edc/bass
 ```
 
-Install a plugin from various URLs.
+Install from a gist.
 
-```fish
-fisher i https://github.com/some/plugin another/plugin bb:one/more
+```
+fisher https://gist.github.com/username/1f40e1c6e0551b2666b2
 ```
 
-Install a plugin from a Gist.
+Install from a local directory.
 
-```fish
-fisher i gist.github.com/owner/1f40e1c6e0551b2666b2
+```sh
+fisher ~/my_aliases
+```
+
+Use it a la vundle. Edit your fishfile and run `fisher` to satisfy changes.
+
+> [What is a fishfile and how do I use it?](#9-what-is-a-fishfile-and-how-do-i-use-it)
+
+```sh
+$EDITOR fishfile # add plugins
+fisher
+```
+
+See what's installed.
+
+```
+fisher ls
+@ my_aliases    # this plugin is a local directory
+* simple        # this plugin is the current prompt
+  bass
+  fzf
+  grc
+  thefuck
+  z
 ```
 
 Update everything.
 
 ```
-fisher u
+fisher up
 ```
 
-Update plugins.
+Update some plugins.
 
 ```
-fisher u shark get
+fisher up bass z fzf thefuck
 ```
 
-Uninstall plugins.
+Remove plugins.
 
 ```
-fisher uninstall fishtape debug
+fisher rm simple
 ```
 
-
-## List and search
-
-The list command displays all the plugins you have installed. The search command queries the index to show what's available to install.
-
-List installed plugins.
+Remove all the plugins.
 
 ```
-fisher list
-  debug
-  fishtape
-  spin
-> superman
-@ wipe
+fisher ls | fisher rm
 ```
 
-Search the index.
+Get help.
 
 ```
-fisher search
-  ...
-* debug        Conditional debug logger
-  errno        POSIX error code/string translator
-* fishtape     TAP producing test runner
-  flash        Flash-inspired, thunder prompt
-  fzf          Efficient keybindings for fzf
-  get          Press any key to continue
-  ...
-> superman     Powerline prompt based on Superman
-  ...
+fisher help z
 ```
 
-Query the index using regular expressions.
+## FAQ
 
-```
-fisher search --name~/git-is/
-git-is-dirty       Test if there are changes not staged for commit
-git-is-empty       Test if a repository is empty
-git-is-repo        Test if the current directory is a Git repo
-git-is-staged      Test if there are changes staged for commit
-git-is-stashed     Test if there are changes in the stash
-git-is-touched     Test if there are changes in the working tree
-```
+### 1. What fish version is required?
 
-Search using tags.
-
-```
-fisher search --tag={git,test}
-  ...
-  * fishtape         TAP producing test runner
-  git-branch-name    Get the name of the current Git branch
-  git-is-dirty       Test if there are changes not staged for commit
-  git-is-empty       Test if a repository is empty
-  git-is-repo        Test if the current directory is a Git repo
-  git-is-staged      Test if there are changes staged for commit
-  git-is-stashed     Test if there are changes in the stash
-  git-is-touched     Test if there are changes in the working tree
-  ...
-```
-
-The legend consists of:
-
-* `>` The plugin is a prompt
-* `*` The plugin is installed
-* `@` The plugin is a symbolic link
-
-
-## Plumbing
-
-fisherman commands are pipe aware. Plumb one with another to create complex functionality.
-
-Update plugins installed as symbolic links.
+fisherman was built for the latest fish, but at least 2.2.0 is required. If you can't upgrade your build, append the following code to your `~/.config/fish/config.fish` for [snippet](#12-what-is-a-plugin) support.
 
 ```fish
-fisher list --link | fisher update -
+for file in ~/.config/fish/conf.d/*.fish
+    source $file
+end
 ```
 
-Enable all the plugins currently disabled.
+### 2. How do I install fish on OS X?
+
+With Homebrew.
+
+```
+brew install fish
+```
+
+### 3. How do I install the latest fish on some Linux?
+
+With git, from the source.
+
+```sh
+sudo apt-get -y install git gettext automake autoconf \
+    ncurses-dev build-essential libncurses5-dev
+
+git clone -q --depth 1 https://github.com/fish-shell/fish-shell
+cd fish-shell
+autoreconf && ./configure
+make && sudo make install
+```
+
+### 4. How do I use fish as my default shell?
+
+Add fish to the list of login shells in `/etc/shells` and make it your default shell.
+
+```sh
+echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
+chsh -s /usr/local/bin/fish
+```
+
+### 5. How do I uninstall fisherman?
+
+Run
 
 ```fish
-fisher list --disabled | fisher install
+fisher self-uninstall
 ```
 
-Uninstall all the plugins and remove them from the cache.
+### 6. Is fisherman compatible with oh my fish themes and plugins?
+
+Yes.
+
+### 7. Why fisherman? Why not ____?
+
+fisherman has / is:
+
+* small and fits in one file
+
+* zero impact on shell startup time
+
+* fast and easy to install, update and uninstall
+
+* no need to edit your fish configuration
+
+* correct usage of the XDG base directory spec
+
+### 8. Where does fisherman put stuff?
+
+fisherman goes in `~/.config/fish/functions/fisher.fish`.
+
+The cache and plugin configuration is created in `~/.cache/fisherman` and `~/.config/fisherman` respectively.
+
+The fishfile is saved to `~/.config/fish/fishfile`.
+
+### 9. What is a fishfile and how do I use it?
+
+The fishfile `~/.config/fish/fishfile` lists all the installed plugins.
+
+You can let fisherman take care of this file for you automatically, or write in the plugins you want and run `fisher` to satisfy the changes.
+
+```
+fisherman/simple
+fisherman/z
+omf/thefuck
+omf/grc
+```
+
+This mechanism only installs plugins and missing dependencies. To remove a plugin, use `fisher rm` instead.
+
+### 10. Where can I find a list of fish plugins?
+
+Browse the [organization] or use the [online] search to discover content.
+
+### 11. How do I upgrade from ____?
+
+fisherman does not interfere with any known frameworks. If you want to uninstall oh my fish, refer to their documentation.
+
+### 12. What is a plugin?
+
+A plugin is:
+
+1. a directory or git repo with a function `.fish` file either at the root level of the project or inside a `functions` directory
+
+2. a theme or prompt, i.e, a `fish_prompt.fish`, `fish_right_prompt.fish` or both files
+
+3. a snippet, i.e, one or more `.fish` files inside a directory named `conf.d` that are evaluated by fish at the start of the shell
+
+### 13. How can I list plugins as dependencies to my plugin?
+
+Create a new `fishfile` file at the root level of your project and write in the plugin dependencies.
 
 ```fish
-fisher list | fisher uninstall --force
+owner/repo
+https://github.com/dude/sweet
+https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
 ```
 
-## Bundle
+### 14. What about fundle?
 
-When you install a plugin, fisherman updates the *bundle* file to track what plugins are currently active.
+fundle inspired me to use a bundle file, but it still has limited capabilities and requires you to modify your fish configuration.
 
-* Customize the location of the bundle.
+### 15. I have a question or request not addressed here. Where should I put it?
 
-```fish
-set -g fisher_file ~/.dotfiles/bundle
-```
+Create a new ticket on the issue tracker:
 
-## Flat tree
+* https://github.com/fisherman/fisherman/issues
 
-fisherman merges the directory trees of all the plugins it installs into a single flat tree. Since the flat tree is loaded only once at the start of the shell, fisherman performs equally well, regardless of the number of plugins installed.
 
-The following illustrates an example fisherman configuration path with a single plugin and prompt.
+[fish shell]: https://github.com/fish-shell/fish-shell
+[fisherman]: https://github.com/fisherman.sh
+[organization]: https://github.com/fisherman
+[online]: http://fisherman.sh/#search
 
-```
-$fisher_config
-├── cache
-├── completions
-│   └── my_plugin.fish
-├── conf.d
-│   └── my_plugin.fish
-├── bundle
-├── functions
-│   ├── fish_prompt.fish
-│   ├── fish_right_prompt.fish
-│   └── my_plugin.fish
-└── man
-    └── man1
-        └── my_plugin.1
-```
-
-## Index
-
-The index is a plain text database that lists fisherman official plugins.
-
-The index lists records, each consisting the fields: *name*, *url*, *info*, one or more *tags* and *author*.
-
-```
-z
-https://github.com/fisherman/z
-Pure-fish z directory jumping
-z search cd jump
-jethrokuan
-```
-
-If you have a plugin you would like to submit to the index, send us a PR here [index](https://github.com/fisherman/index) repository.
-
-```
-git clone https://github.com/fisherman/index
-cd index
-echo "$name\n$url\n$info\n$tags\n$author\n\n" >> index
-git push origin master
-```
-
-## Variables
-
-* $fisher_home:
-    The home directory. If you installed fisherman using the recommended method, the location ought to be *XDG_DATA_HOME/fisherman*.
-
-* $fisher_config:
-    The configuration directory. This is default location of your *bundle*, *key_bindings.fish*, *cache*, *functions*, *completions* and *conf.d* directories. *XDG_CONFIG_HOME/fisherman* by default.
-
-* $fisher_file:
-    The location of the bundle file.
-
-* $fisher_cache:
-    The cache directory. Plugins are downloaded to this location.
-
-* $fisher_alias *command*=*alias* ...:
-    Use this variable to create aliases of fisherman commands.
-
-[travis-link]: https://travis-ci.org/fisherman/fisherman
-[travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
-
-[version-badge]: https://img.shields.io/badge/latest-v1.5.0-00B9FF.svg?style=flat-square
-[version-link]: https://github.com/fisherman/fisherman/releases
-
-[slack-link]: https://fisherman-wharf.herokuapp.com/
-[slack-badge]: https://img.shields.io/badge/slack-join%20the%20chat-00B9FF.svg?style=flat-square
-
-[play]: https://cloud.githubusercontent.com/assets/8317250/14401577/14411b12-fe51-11e5-8d5a-bb054edfc2d4.png
-[play-link]: http://fisherman.sh/#demo
-
-[Plugins]: http://fisherman.sh/#search
-[fish]: https://github.com/fish-shell/fish-shell
-
-[other]: https://github.com/fisherman/fisherman/wiki/Installing-fisherman#notes
-[fisherman]: http://fisherman.sh
+[Español]: docs/es-ES
+[简体中文]: docs/zh-CN
+[日本語]: docs/jp-JA
