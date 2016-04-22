@@ -15,7 +15,7 @@
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
-# [fisherman] - fish shell plugin manager
+# [fisherman](http://fisherman.sh/) - fish shell plugin manager
 
 fisherman is a zero-configuration, concurrent plugin manager for the [fish shell].
 
