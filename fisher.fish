@@ -1,5 +1,5 @@
 function fisher
-    set -g fisher_version "2.0.0-beta"
+    set -g fisher_version "2.0.0"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
     function __fisher_show_spinner
@@ -534,7 +534,7 @@ function __fisher_self_update
     set -l new_version "$fisher_version"
 
     if test "$previous_version" = "$fisher_version"
-        __fisher_log okay "@fisherman is up to date@" $__fisher_stderr
+        __fisher_log okay "fisherman is up to date" $__fisher_stderr
     else
         __fisher_log okay "You are now running fisherman @$fisher_version@" $__fisher_stderr
 
@@ -1376,7 +1376,7 @@ function __fisher_usage
 end
 
 
-function __fisher_help -a command number
+function __fisher_help -a cmd number
     if test -z "$argv"
         set -l page "$fisher_cache/fisher.1"
 
