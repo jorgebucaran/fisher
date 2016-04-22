@@ -6,7 +6,7 @@
 [organization]: https://github.com/fisherman
 [fish shell]: https://github.com/fish-shell/fish-shell
 [fisherman]: http://fisherman.sh
-[online]: http://fisherman.sh/#search
+[ウェブサイト]: http://fisherman.sh/#search
 
 [English]: ../../README.md
 [Español]: ../es-ES
@@ -16,3 +16,242 @@
 [![Slack][slack-badge]][slack-link]
 
 # [fisherman] - fish shell plugin manager
+
+fishermanとは、フィッシュシェルのための並列処理パッケージマネージャーである。fishermanには設定は必要ではない。
+
+翻訳: [English], [Español], [简体中文].
+
+## 理由
+
+* 簡単
+
+* 設定なし
+
+* 依存性なし
+
+* フィッシュシェルのスタート時間に関係ない
+
+* cliから利用可能であり、vundleのようにも使える
+
+* 基本のコマンド、install、update、remove、listとhelpだけである
+
+## インストール
+
+`fisher.fish`を`~/.config/fish/functions`に。
+
+```sh
+curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
+```
+
+## 使い方
+
+プラグインをインストール。
+
+```
+fisher simple
+```
+
+様々な所からもインストール。
+
+```
+fisher z fzf omf/{grc,thefuck}
+```
+
+URLからインストール。
+
+```
+fisher https://github.com/edc/bass
+```
+
+Gistをインストール。
+
+```
+fisher https://gist.github.com/username/1f40e1c6e0551b2666b2
+```
+
+ディレクトリをインストール。
+
+```sh
+fisher ~/my_aliases
+```
+
+vundleのように、「fishfile」というファイルに、プラグインたちを打って、`fisher`を入力すると、インストールされる。
+
+> [fishfileとは？](#9-fishfileとは？)
+
+```sh
+$EDITOR fishfile # プラグインを入れる
+fisher
+```
+
+インストールされるプラグインを表示する。
+
+```
+fisher ls
+@ my_aliases    # este paquete es un directorio
+* simple        # este paquete es el tema actual
+  bass
+  fzf
+  grc
+  thefuck
+  z
+```
+
+全部をアップデート。
+
+```
+fisher up
+```
+
+いくつかのプラグインをアップデート。
+
+```
+fisher up bass z fzf thefuck
+```
+
+プラグインを削除。
+
+```
+fisher rm simple
+```
+
+全部のプラグインを削除。
+
+```
+fisher ls | fisher rm
+```
+
+ドキュを表示。
+
+```
+fisher help z
+```
+
+## FAQ
+
+### 1. fishの必要なバージョンとは？
+
+fisherman、fishの最新バーションのために、開発していますが、最低バーションは2.2.0です。１番新しいfishのアップグレードが、不可能であれば、[snippets](#13-プラグインとは？)の対応のため、次のコードを`~/.config/fish/config.fish`に書いてください。
+
+```fish
+for file in ~/.config/fish/conf.d/*.fish
+    source $file
+end
+```
+
+### 2. OSXにフィッシュシェルをインストールする方法は？
+
+Homebrewで
+
+```
+brew install fish
+```
+
+### 3. Linuxにフィッシュシェルをインストールする方法は？
+
+gitで、ソースから。
+
+```sh
+sudo apt-get -y install git gettext automake autoconf \
+    ncurses-dev build-essential libncurses5-dev
+
+git clone -q --depth 1 https://github.com/fish-shell/fish-shell
+cd fish-shell
+autoreconf && ./configure
+make && sudo make install
+```
+
+### 4. フィッシュシェルをデフォルトのシェルにするには？
+
+システムの`/etc/shells`ファイルに、fishを追加して下さい。
+
+```sh
+echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
+chsh -s /usr/local/bin/fish
+```
+
+### 5. fishermanを削除する方法とは？
+
+はい。
+
+```fish
+fisher self-uninstall
+```
+
+### 6. oh-my-fishのプラグインとテーマに対応ですか？
+
+対応です。
+
+### 7. なぜfisherman?
+
+* 小さくて一つのファイルでOK
+
+* フィッシュシェルのスタート時間に関係ない
+
+* インストールも、アップグレードも、削除も簡単で、素早い
+
+* フィッシュシェルの設定に関係ない
+
+* XDGディレクトリ方針を従う
+
+### 8. fishermanのファイル等は、どこに保存されますか？
+
+fisherman自体は`~/.config/fish/functions/fisher.fish`に。
+
+キャシュは`~/.cache/fisherman`に、コンフィグディレクトリは`~/.config/fisherman`に。
+
+fishfileは`~/.config/fish/fishfile`に。
+
+### 9. fishfileとは？
+
+fishfile（`~/.config/fish/fishfile`）に現在インストールされているプラグインを記入してあります。
+
+
+fishermanに任せて、このファイルを自動的に扱って頂けるか、自分で手に入れたいプラグインを入れて、`fisher`を入力すると、インストールも可能です。
+
+```
+fisherman/simple
+fisherman/z
+omf/thefuck
+omf/grc
+```
+
+この仕組はプラグインと、そのプラグインのデペンデンシーをインストールすることができます。プラグインを削除するために、`fisher rm`を使ってください。
+
+### 10. フィッシュシェルのプラグインはどこにありますか？
+
+fishermanの[organization]や、[ウェブサイト]等で、プラグインを検索できます。
+
+### 11. 他のシステムからのアップグレード方法とは？
+
+fishermanは他のフィッシュシェルフレームワーク等に関係ないです。もし、oh-my-fish等をアンインストールしたい場合、あちらのドキュメンテーションを参考してください。
+
+### 13. プラグインとは？
+
+プラグインとは
+
+1. 普通のディレクトリや、gitレポジトリのrootに、`.fish`ファイルの関数、それか、`functions`ディレクトリに。
+
+2. テーマ。つまり、`fish_prompt.fish`か`fish_right_prompt.fish`か両方。
+
+3. スニペット。つまり、1以上の`.fish`ファイルを`conf.d`といディレクトリに。こちらのファイルがフィッシュシェルがスタートする際に実行されます。
+
+### 14. 自分のプラグインを、他のプラグインのデペンデンシーにしたい場合は？
+
+プラグインのrootディレクトリに`fishfile`編集して、そのプラグインを打ってください。
+
+```fish
+owner/repo
+https://github.com/dude/sweet
+https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
+```
+
+### 15. fundleはどう？
+
+fundleを参考しながら、vundleのようにfishfileを使いたいと思いましたが、fundle自体はまだ特徴はすくないですし、フィッシュシェルの設定をいじることは必要です。
+
+### 16. 質問がありますが、どこに書いたらいいですか？
+
+新しいissueを作って頂いて、英語でも、日本語でも対応しております。
+
+* https://github.com/fisherman/fisherman/issues
