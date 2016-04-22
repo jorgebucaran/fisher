@@ -541,7 +541,7 @@ function __fisher_self_update
         __fisher_log info "
 
             To see the change log, please visit:
-            __https://github.com/fisherman/fisherman/releases__
+            https://github.com/fisherman/fisherman/releases
         " $__fisher_stderr
     end
 end
