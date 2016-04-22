@@ -3,6 +3,15 @@
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
 
+[organización]: https://github.com/fisherman
+[fish shell]: https://github.com/fish-shell/fish-shell
+[fisherman]: http://fisherman.sh
+[en línea]: http://fisherman.sh/#search
+
+[English]: ../../README.md
+[简体中文]: ../zh-CN
+[日本語]: ../jp-JA
+
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
@@ -247,12 +256,3 @@ fundle fue la inspiración para utilizar el fishfile, pero todavía es limitado 
 Crea un nuevo ticket en el issue tracker:
 
 * https://github.com/fisherman/fisherman/issues
-
-[fish shell]: https://github.com/fish-shell/fish-shell
-[fisherman]: https://github.com/fisherman.sh
-[organización]: https://github.com/fisherman
-[en línea]: http://fisherman.sh/#search
-
-[English]: ../../README.md
-[简体中文]: ../zh-CN
-[日本語]: ../jp-JA

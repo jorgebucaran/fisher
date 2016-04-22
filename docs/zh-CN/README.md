@@ -3,6 +3,15 @@
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
 
+[organization]: https://github.com/fisherman
+[fish shell]: https://github.com/fish-shell/fish-shell
+[fisherman]: http://fisherman.sh
+[online]: http://fisherman.sh/#search
+
+[English]: ../../README.md
+[Español]: ../es-ES
+[日本語]: ../jp-JA
+
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
@@ -246,13 +255,3 @@ fundle 启发我去使用打包的文件，但是目前它仍然有着一些功�
 在 gituhb issue 上创建一个新的工单：
 
 * https://github.com/fisherman/fisherman/issues
-
-
-[fisherman]: http://fisherman.sh
-[fish shell]: https://github.com/fish-shell/fish-shell
-[organization]: https://github.com/fisherman
-[online]: http://fisherman.sh/#search
-
-[English]: ../../README.md
-[Español]: ../es-ES
-[日本語]: ../jp-JA

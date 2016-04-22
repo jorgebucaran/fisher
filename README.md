@@ -3,6 +3,15 @@
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
 
+[organization]: https://github.com/fisherman
+[fish shell]: https://github.com/fish-shell/fish-shell
+[fisherman]: http://fisherman.sh
+[online]: http://fisherman.sh/#search
+
+[Español]: docs/es-ES
+[简体中文]: docs/zh-CN
+[日本語]: docs/jp-JA
+
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
@@ -247,13 +256,3 @@ fundle inspired me to use a bundle file, but it still has limited capabilities a
 Create a new ticket on the issue tracker:
 
 * https://github.com/fisherman/fisherman/issues
-
-
-[fish shell]: https://github.com/fish-shell/fish-shell
-[fisherman]: https://github.com/fisherman.sh
-[organization]: https://github.com/fisherman
-[online]: http://fisherman.sh/#search
-
-[Español]: docs/es-ES
-[简体中文]: docs/zh-CN
-[日本語]: docs/jp-JA
