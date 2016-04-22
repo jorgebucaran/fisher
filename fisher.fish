@@ -1,5 +1,5 @@
 function fisher
-    set -g fisher_version "2.0.0"
+    set -g fisher_version "2.0.1"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
     function __fisher_show_spinner
@@ -444,10 +444,10 @@ function __fisher_plugin_url_clone_async -a url name
             set -lx GIT_ASKPASS /bin/echo
 
             if command git clone -q --depth 1 '$url' '$fisher_cache/$name' ^ /dev/null
-                  printf '$okay""OKAY""$nc Fetching $okay%s$nc %s\n' '$name' '→ $hm_url'
+                  printf '$okay""OKAY""$nc Fetching $okay%s$nc %s\n' '$name' '→ $hm_url' > $__fisher_stderr
                   command cp -rf '$fisher_cache/$name' '$fisher_config'
             else
-                  printf '$error""ARGH""$nc Fetching $error%s$nc %s\n' '$name' '→ $hm_url'
+                  printf '$error""ARGH""$nc Fetching $error%s$nc %s\n' '$name' '→ $hm_url' > $__fisher_stderr
             end
       " > /dev/stderr &
 
@@ -558,7 +558,7 @@ function __fisher_update_path_async -a name path
         pushd $path
 
         if not command git fetch -q origin master ^ /dev/null
-            printf '$error""ARGH""$nc Fetching $error%s$nc\n' '$name'
+            printf '$error""ARGH""$nc Fetching $error%s$nc\n' '$name' > $__fisher_stderr
             exit
         end
 
@@ -568,10 +568,10 @@ function __fisher_update_path_async -a name path
         command git clean -qdfx
 
         if test -z \"\$commits\" -o \"\$commits\" -eq 0
-            printf '$okay""OKAY""$nc Latest $okay%s$nc\n' '$name'
+            printf '$okay""OKAY""$nc Latest $okay%s$nc\n' '$name' > $__fisher_stderr
             command cp -rf '$path' '$fisher_cache/$name'
         else
-            printf '$okay""OKAY""$nc $okay%s$nc new commits $okay%s$nc\n' \$commits '$name'
+            printf '$okay""OKAY""$nc $okay%s$nc new commits $okay%s$nc\n' \$commits '$name' > $__fisher_stderr
         end
 
     " > /dev/stderr &
