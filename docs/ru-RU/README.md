@@ -45,6 +45,12 @@ fisherman это параллельный менеджер плагинов дл
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 ```
 
+npm.
+
+```sh
+npm i fisherman
+```
+
 ## Использование
 
 Установите плагин.

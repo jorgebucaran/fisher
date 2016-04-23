@@ -46,7 +46,7 @@ curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 Via npm.
 
 ```
-npm fisherman
+npm i fisherman
 ```
 
 ## Uso

@@ -46,7 +46,7 @@ curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 npm。
 
 ```
-npm install
+npm i fisherman
 ```
 
 ## 功能
