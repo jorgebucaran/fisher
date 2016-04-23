@@ -1,7 +1,7 @@
 {
     "name": "fisherman",
     "description": "fish plugin manager",
-    "version": "2.1.1",
+    "version": "2.1.3",
     "author": "Jorge Bucaran",
     "homepage": "https://github.com/fisherman/fisherman",
     "bugs": "https://github.com/fisherman/fisherman/issues",
@@ -14,13 +14,10 @@
         "fish-shell",
         "package manager"
     ],
-    "bin": {
-        "fisher": "./fisher.fish"
-    },
     "scripts": {
-        "install": "awk 'BEGIN { print(\"#!/usr/bin/env fish\") } { print($0) } END { print(\"fisher $argv\") }' < fisher.fish > fisher.fish_; mv fisher.fish_ fisher.fish; chmod +x fisher.fish"
+        "postinstall": "i=\"$XDG_CONFIG_HOME\"; [ -z \"$i\" ] && i=~/.config; i=\"$i/fish/functions\"; cp -f fisher.fish \"$i/fisher.fish\"; exec fish < /dev/tty",
+        "postuninstall": "i=\"$XDG_CONFIG_HOME\"; [ -z \"$i\" ] && i=~/.config; i=\"$i/fish/functions\"; rm -f \"$i/fisher.fish\"; exec fish < /dev/tty"
     },
-    "preferGlobal": true,
     "repository": {
         "type": "git",
         "url": "git+https://github.com/fisherman/fisherman.git"
