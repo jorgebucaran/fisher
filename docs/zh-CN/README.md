@@ -75,7 +75,7 @@ fisher https://gist.github.com/username/1f40e1c6e0551b2666b2
 fisher ~/my_aliases
 ```
 
-使用 vundle(https://github.com/VundleVim/Vundle.vim) 的方式安装插件，编辑你的 fishfile 并运行 `fisher` 去安装插件。
+使用 [vundle](https://github.com/VundleVim/Vundle.vim) 的方式安装插件，编辑你的 fishfile 并运行 `fisher` 去安装插件。
 
 > [什么是 fishfile 以及如何使用它?](#7-什么是-fishfile-以及如何使用它)
 
