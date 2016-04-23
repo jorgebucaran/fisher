@@ -507,17 +507,14 @@ end
 
 
 function __fisher_self_update
-    set -l raw_url "https://raw.githubusercontent.com/fisherman/fisherman/master/fisher.fish"
-    set -l fake_qs (date "+%s")
     set -l file (status --current-filename)
 
     if test "$file" != "$fish_config/functions/fisher.fish"
-        __fisher_log warn "
-            Non-standard setup detected.
-        " $__fisher_stderr
-
         return 1
     end
+
+    set -l raw_url "https://raw.githubusercontent.com/fisherman/fisherman/master/fisher.fish"
+    set -l fake_qs (date "+%s")
 
     set -l previous_version "$fisher_version"
 
@@ -1421,21 +1418,12 @@ function __fisher_help -a cmd number
 end
 
 
-function __fisher_self_uninstall
-    if test -z "$fish_config" -o -z "$fisher_cache" -o -z "$fisher_config" -o -L "$fisher_cache" -o -L "$fisher_config"
-        __fisher_log error "
+function __fisher_self_uninstall -a yn
+    set -l file (status --current-filename)
 
-            Some of fisherman variables refer to symbolic links or were undefined.
-
-            If you are running a custom fisherman setup, remove the following
-            directories and files by yourself:
-
-            @$fisher_cache@
-            @$fisher_config@
-            @$fish_config/functions/fisher.fish@
-            @$fish_config/completions/fisher.fish@
-
-        " /dev/stderr
+    if test -z "$fish_config" -o -z "$fisher_cache" -o -z "$fisher_config" -o -L "$fisher_cache" -o -L "$fisher_config" -o "$file" != "$fish_config/functions/fisher.fish"
+        __fisher_log warn "Global or non-standard setup detected."
+        __fisher_log says "Use your package manager to remove fisherman." /dev/stderr
 
         return 1
     end
@@ -1443,7 +1431,7 @@ function __fisher_self_uninstall
     set -l u (set_color -u)
     set -l nc (set_color normal)
 
-    switch "$argv"
+    switch "$yn"
         case -y --yes
         case \*
             __fisher_log warn "
