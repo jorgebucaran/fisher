@@ -219,7 +219,3 @@ owner/repo
 https://github.com/dude/sweet
 https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
 ```
-
-### 10. ¿Qué puedes decir de fundle?
-
-fundle fue la inspiración para utilizar el fishfile, pero todavía es limitado en sus capacidades y hace requisito modificar la configuración de fish.

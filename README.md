@@ -217,7 +217,3 @@ owner/repo
 https://github.com/dude/sweet
 https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
 ```
-
-### 10. What about fundle?
-
-fundle inspired me to use a bundle file, but it still has limited capabilities and requires you to modify your fish configuration.

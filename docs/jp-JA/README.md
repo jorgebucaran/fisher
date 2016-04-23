@@ -218,7 +218,3 @@ owner/repo
 https://github.com/dude/sweet
 https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
 ```
-
-### 10. fundleはどう？
-
-fundleを参考しながら、vundleのようにfishfileを使いたいと思いましたが、fundle自体はまだ特徴はすくないですし、フィッシュシェルの設定をいじることは必要です。

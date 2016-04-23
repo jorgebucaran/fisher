@@ -220,7 +220,3 @@ owner/repo
 https://github.com/dude/sweet
 https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
 ```
-
-### 10. Что насчет fundle?
-
-fundle вдохновил меня, чтобы использовать пакет-файлы, но он имеет ограниченные возможностей и требует, чтобы вы изменили конфигурацию вашего fish.
