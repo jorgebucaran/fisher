@@ -1,7 +1,7 @@
 [slack-link]: https://fisherman-wharf.herokuapp.com/
 [slack-badge]: https://fisherman-wharf.herokuapp.com/badge.svg
 [travis-link]: https://travis-ci.org/fisherman/fisherman
-[travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
+[travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg
 
 [organización]: https://github.com/fisherman
 [fish shell]: https://github.com/fish-shell/fish-shell
