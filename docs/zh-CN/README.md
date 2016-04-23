@@ -218,7 +218,3 @@ owner/repo
 https://github.com/dude/sweet
 https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
 ```
-
-### 10. 什么是 fundle?
-
-fundle 启发我去使用打包的文件，但是目前它仍然有着一些功能限制，需要你去调整 fish 配置。
