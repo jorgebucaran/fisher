@@ -1812,14 +1812,11 @@ function __fisher_man_page_write
     # .
     # .IP "" 0
     # .
-    # .SS "9\. What about fundle?"
-    # fundle inspired me to use a bundle file, but it still has limited capabilities and requires you to modify your fish configuration\.
-    # .
-    # .SS "10\. I have a question or request not addressed here\. Where should I put it?"
+    # .SS "9\. I have a question or request not addressed here\. Where should I put it?"
     # Create a new ticket on the issue tracker:
     # .
     # .IP "\(bu" 4
-    # https://github\.com/fisherman/fisherman/issues
+    # \fIhttps://github\.com/fisherman/fisherman/issues\fR
     # .
     # .IP "" 0
 end
