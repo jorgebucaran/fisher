@@ -131,7 +131,7 @@ fisher help z
 
 ### 1. ¿Qué versión de fish se requiere?
 
-fisherman fue diseñado para fish >= 2.3.0. Si estás en 2.2.0 y no puedes actualizarte por algún motivo, añade este código a `~/.config/fish/config.fish` para poder ejecutar [snippets](#13-qué-es-un-paquete).
+fisherman fue diseñado para fish >= 2.3.0. Si estás en 2.2.0 y no puedes actualizarte por algún motivo, añade este código a `~/.config/fish/config.fish` para poder ejecutar [snippets](#10-qué-es-un-paquete).
 
 ```fish
 for file in ~/.config/fish/conf.d/*.fish
