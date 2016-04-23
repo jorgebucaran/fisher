@@ -139,29 +139,7 @@ for file in ~/.config/fish/conf.d/*.fish
 end
 ```
 
-### 2. 如何从 OS X 安装 fish?
-
-使用 Homebrew。
-
-```
-brew install fish
-```
-
-### 3. 如何从一些 linux 发行版安装最近版本的 fish?
-
-使用 git 或者上游源。
-
-```sh
-sudo apt-get -y install git gettext automake autoconf \
-    ncurses-dev build-essential libncurses5-dev
-
-git clone -q --depth 1 https://github.com/fish-shell/fish-shell
-cd fish-shell
-autoreconf && ./configure
-make && sudo make install
-```
-
-### 4. 如何让 fish 作为我默认的 shell ?
+### 2. 如何让 fish 作为我默认的 shell ?
 
 Add fish to the list of login shells in `/etc/shells` and make it your default shell.
 把 fish 加入到 `/etc/shells` 并令 fish 成为默认 shell。
@@ -171,7 +149,7 @@ echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
 chsh -s /usr/local/bin/fish
 ```
 
-### 5. 如何卸载 fisherman？
+### 3. 如何卸载 fisherman？
 
 运行以下命令。
 
@@ -179,11 +157,11 @@ chsh -s /usr/local/bin/fish
 fisher self-uninstall
 ```
 
-### 6. fisherman 兼容已有的 fish 主题和插件吗？
+### 4. fisherman 兼容已有的 fish 主题和插件吗？
 
 是的。
 
-### 7. 为什么选择 fisherman？
+### 5. 为什么选择 fisherman？
 
 fisherman 有以下特色：
 
@@ -197,13 +175,13 @@ fisherman 有以下特色：
 
 * 符合 [XDG](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) 规范
 
-### 8. fisherman 把数据放到哪里了？
+### 6. fisherman 把数据放到哪里了？
 
 fisherman 的位置在 `~/.config/fish/functions/fisher.fish`。
 缓存和插件配置被分别存在 `~/.cache/fisherman` 和 `~/.config/fisherman`。
 fishfile 位置在 `~/.config/fish/fishfile`。
 
-### 9. 什么是 fishfile 以及如何使用它？
+### 7. 什么是 fishfile 以及如何使用它？
 
 fishfile `~/.config/fish/fishfile` 列出了所有已安装的插件。
 
@@ -218,15 +196,15 @@ omf/grc
 
 这个文件只会记录插件和一些依赖。如果你想卸载插件，可以使用 `fisher rm`来替代。
 
-### 10. 去哪里可以找到插件？
+### 8. 去哪里可以找到插件？
 
 看看这个 [organization] 或者使用这个 [online] 来搜索。
 
-### 11. 如何从 ____ 更新？
+### 9. 如何从 ____ 更新？
 
 fisherman 没有引入其他任何已知的框架。如果你想卸载 oh my fish, 看它的文档即可
 
-### 12. 什么是一个插件？
+### 10. 什么是一个插件？
 
 一个插件是：
 
@@ -236,7 +214,7 @@ fisherman 没有引入其他任何已知的框架。如果你想卸载 oh my fis
 
 3. 一些代码片段，比如一个或多个在 `conf.d`目录下的 `.fish` 文件并且它们会在 shell 启动时执行。
 
-### 13. 如何把这些插件作为我自己插件的依赖？
+### 11. 如何把这些插件作为我自己插件的依赖？
 
 在项目的顶层目录创建一个新的 `fishfile` 文件，并写下你的依赖。
 
@@ -246,11 +224,11 @@ https://github.com/dude/sweet
 https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
 ```
 
-### 14. 什么是 fundle?
+### 12. 什么是 fundle?
 
 fundle 启发我去使用打包的文件，但是目前它仍然有着一些功能限制，需要你去调整 fish 配置。
 
-### 15. 我有一些问题想提交？
+### 13. 我有一些问题想提交？
 
 在 gituhb issue 上创建一个新的工单：
 

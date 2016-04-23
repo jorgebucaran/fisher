@@ -131,7 +131,7 @@ fisher help z
 
 ### 1. What fish version is required?
 
-fisherman was built for the latest fish, but at least 2.2.0 is required. If you can't upgrade your build, append the following code to your `~/.config/fish/config.fish` for [snippet](#12-what-is-a-plugin) support.
+fisherman was built for fish >= 2.3.0. If you are using 2.2.0, append the following code to your `~/.config/fish/config.fish` for [snippet](#12-what-is-a-plugin) support.
 
 ```fish
 for file in ~/.config/fish/conf.d/*.fish
@@ -139,29 +139,7 @@ for file in ~/.config/fish/conf.d/*.fish
 end
 ```
 
-### 2. How do I install fish on OS X?
-
-With Homebrew.
-
-```
-brew install fish
-```
-
-### 3. How do I install the latest fish on some Linux?
-
-With git, from the source.
-
-```sh
-sudo apt-get -y install git gettext automake autoconf \
-    ncurses-dev build-essential libncurses5-dev
-
-git clone -q --depth 1 https://github.com/fish-shell/fish-shell
-cd fish-shell
-autoreconf && ./configure
-make && sudo make install
-```
-
-### 4. How do I use fish as my default shell?
+### 2. How do I use fish as my default shell?
 
 Add fish to the list of login shells in `/etc/shells` and make it your default shell.
 
@@ -170,7 +148,7 @@ echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
 chsh -s /usr/local/bin/fish
 ```
 
-### 5. How do I uninstall fisherman?
+### 3. How do I uninstall fisherman?
 
 Run
 
@@ -178,11 +156,11 @@ Run
 fisher self-uninstall
 ```
 
-### 6. Is fisherman compatible with oh my fish themes and plugins?
+### 4. Is fisherman compatible with oh my fish themes and plugins?
 
 Yes.
 
-### 7. Why fisherman? Why not ____?
+### 5. Why fisherman? Why not ____?
 
 fisherman has / is:
 
@@ -196,7 +174,7 @@ fisherman has / is:
 
 * correct usage of the XDG base directory spec
 
-### 8. Where does fisherman put stuff?
+### 6. Where does fisherman put stuff?
 
 fisherman goes in `~/.config/fish/functions/fisher.fish`.
 
@@ -204,7 +182,7 @@ The cache and plugin configuration is created in `~/.cache/fisherman` and `~/.co
 
 The fishfile is saved to `~/.config/fish/fishfile`.
 
-### 9. What is a fishfile and how do I use it?
+### 7. What is a fishfile and how do I use it?
 
 The fishfile `~/.config/fish/fishfile` lists all the installed plugins.
 
@@ -219,15 +197,15 @@ omf/grc
 
 This mechanism only installs plugins and missing dependencies. To remove a plugin, use `fisher rm` instead.
 
-### 10. Where can I find a list of fish plugins?
+### 8. Where can I find a list of fish plugins?
 
 Browse the [organization] or use the [online] search to discover content.
 
-### 11. How do I upgrade from ____?
+### 9. How do I upgrade from ____?
 
 fisherman does not interfere with any known frameworks. If you want to uninstall oh my fish, refer to their documentation.
 
-### 12. What is a plugin?
+### 10. What is a plugin?
 
 A plugin is:
 
@@ -237,7 +215,7 @@ A plugin is:
 
 3. a snippet, i.e, one or more `.fish` files inside a directory named `conf.d` that are evaluated by fish at the start of the shell
 
-### 13. How can I list plugins as dependencies to my plugin?
+### 11. How can I list plugins as dependencies to my plugin?
 
 Create a new `fishfile` file at the root level of your project and write in the plugin dependencies.
 
@@ -247,11 +225,11 @@ https://github.com/dude/sweet
 https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
 ```
 
-### 14. What about fundle?
+### 12. What about fundle?
 
 fundle inspired me to use a bundle file, but it still has limited capabilities and requires you to modify your fish configuration.
 
-### 15. I have a question or request not addressed here. Where should I put it?
+### 13. I have a question or request not addressed here. Where should I put it?
 
 Create a new ticket on the issue tracker:
 

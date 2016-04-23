@@ -131,7 +131,7 @@ fisher help z
 
 ### 1. fishの必要なバージョンとは？
 
-fisherman、fishの最新バーションのために、開発していますが、最低バーションは2.2.0です。１番新しいfishのアップグレードが、不可能であれば、[snippets](#13-プラグインとは？)の対応のため、次のコードを`~/.config/fish/config.fish`に書いてください。
+fish >= 2.3.0は必要です。まだ2.2.0を利用中であれば、[snippets](#13-プラグインとは？)の対応のため、次のコードを`~/.config/fish/config.fish`に書いてください。
 
 ```fish
 for file in ~/.config/fish/conf.d/*.fish
@@ -139,29 +139,7 @@ for file in ~/.config/fish/conf.d/*.fish
 end
 ```
 
-### 2. OSXにフィッシュシェルをインストールする方法は？
-
-Homebrewで
-
-```
-brew install fish
-```
-
-### 3. Linuxにフィッシュシェルをインストールする方法は？
-
-gitで、ソースから。
-
-```sh
-sudo apt-get -y install git gettext automake autoconf \
-    ncurses-dev build-essential libncurses5-dev
-
-git clone -q --depth 1 https://github.com/fish-shell/fish-shell
-cd fish-shell
-autoreconf && ./configure
-make && sudo make install
-```
-
-### 4. フィッシュシェルをデフォルトのシェルにするには？
+### 2. フィッシュシェルをデフォルトのシェルにするには？
 
 システムの`/etc/shells`ファイルに、fishを追加して下さい。
 
@@ -170,7 +148,7 @@ echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
 chsh -s /usr/local/bin/fish
 ```
 
-### 5. fishermanを削除する方法とは？
+### 3. fishermanを削除する方法とは？
 
 はい。
 
@@ -178,11 +156,11 @@ chsh -s /usr/local/bin/fish
 fisher self-uninstall
 ```
 
-### 6. oh-my-fishのプラグインとテーマに対応ですか？
+### 4. oh-my-fishのプラグインとテーマに対応ですか？
 
 対応です。
 
-### 7. なぜfisherman?
+### 5. なぜfisherman?
 
 * 小さくて一つのファイルでOK
 
@@ -194,7 +172,7 @@ fisher self-uninstall
 
 * XDGディレクトリ方針を従う
 
-### 8. fishermanのファイル等は、どこに保存されますか？
+### 6. fishermanのファイル等は、どこに保存されますか？
 
 fisherman自体は`~/.config/fish/functions/fisher.fish`に。
 
@@ -202,7 +180,7 @@ fisherman自体は`~/.config/fish/functions/fisher.fish`に。
 
 fishfileは`~/.config/fish/fishfile`に。
 
-### 9. fishfileとは？
+### 7. fishfileとは？
 
 fishfile（`~/.config/fish/fishfile`）に現在インストールされているプラグインを記入してあります。
 
@@ -218,15 +196,15 @@ omf/grc
 
 この仕組はプラグインと、そのプラグインのデペンデンシーをインストールすることができます。プラグインを削除するために、`fisher rm`を使ってください。
 
-### 10. フィッシュシェルのプラグインはどこにありますか？
+### 8. フィッシュシェルのプラグインはどこにありますか？
 
 fishermanの[organization]や、[ウェブサイト]等で、プラグインを検索できます。
 
-### 11. 他のシステムからのアップグレード方法とは？
+### 9. 他のシステムからのアップグレード方法とは？
 
 fishermanは他のフィッシュシェルフレームワーク等に関係ないです。もし、oh-my-fish等をアンインストールしたい場合、あちらのドキュメンテーションを参考してください。
 
-### 13. プラグインとは？
+### 10. プラグインとは？
 
 プラグインとは
 
@@ -236,7 +214,7 @@ fishermanは他のフィッシュシェルフレームワーク等に関係な�
 
 3. スニペット。つまり、1以上の`.fish`ファイルを`conf.d`といディレクトリに。こちらのファイルがフィッシュシェルがスタートする際に実行されます。
 
-### 14. 自分のプラグインを、他のプラグインのデペンデンシーにしたい場合は？
+### 11. 自分のプラグインを、他のプラグインのデペンデンシーにしたい場合は？
 
 プラグインのrootディレクトリに`fishfile`編集して、そのプラグインを打ってください。
 
@@ -246,11 +224,11 @@ https://github.com/dude/sweet
 https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
 ```
 
-### 15. fundleはどう？
+### 12. fundleはどう？
 
 fundleを参考しながら、vundleのようにfishfileを使いたいと思いましたが、fundle自体はまだ特徴はすくないですし、フィッシュシェルの設定をいじることは必要です。
 
-### 16. 質問がありますが、どこに書いたらいいですか？
+### 13. 質問がありますが、どこに書いたらいいですか？
 
 新しいissueを作って頂いて、英語でも、日本語でも対応しております。
 
