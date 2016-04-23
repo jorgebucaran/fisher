@@ -1535,7 +1535,7 @@ function __fisher_man_page_write
     # where \fIcommand\fR can be one of: \fBi\fRnstall, \fBu\fRpdate, \fBls\fR, \fBrm\fR and \fBh\fRelp
     # .
     # .SH "DESCRIPTION"
-    # fisherman is a zero\-configuration, concurrent plugin manager for the fish shell\.
+    # fisherman is a plugin manager for the fish shell\.
     # .
     # .SH "USAGE"
     # Install a plugin\.

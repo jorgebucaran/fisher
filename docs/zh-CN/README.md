@@ -161,27 +161,13 @@ fisher self-uninstall
 
 是的。
 
-### 5. 为什么选择 fisherman？
-
-fisherman 有以下特色：
-
-* 小巧，所有代码都在一个文件
-
-* 不影响 shell 启动速度
-
-* 容易安装、更新和卸载
-
-* 你不再需要配置你的 fish 配置
-
-* 符合 [XDG](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) 规范
-
-### 6. fisherman 把数据放到哪里了？
+### 5. fisherman 把数据放到哪里了？
 
 fisherman 的位置在 `~/.config/fish/functions/fisher.fish`。
 缓存和插件配置被分别存在 `~/.cache/fisherman` 和 `~/.config/fisherman`。
 fishfile 位置在 `~/.config/fish/fishfile`。
 
-### 7. 什么是 fishfile 以及如何使用它？
+### 6. 什么是 fishfile 以及如何使用它？
 
 fishfile `~/.config/fish/fishfile` 列出了所有已安装的插件。
 
@@ -196,15 +182,15 @@ omf/grc
 
 这个文件只会记录插件和一些依赖。如果你想卸载插件，可以使用 `fisher rm`来替代。
 
-### 8. 去哪里可以找到插件？
+### 7. 去哪里可以找到插件？
 
 看看这个 [organization] 或者使用这个 [online] 来搜索。
 
-### 9. 如何从 ____ 更新？
+### 8. 如何从 ____ 更新？
 
 fisherman 没有引入其他任何已知的框架。如果你想卸载 oh my fish, 看它的文档即可
 
-### 10. 什么是一个插件？
+### 9. 什么是一个插件？
 
 一个插件是：
 
@@ -214,7 +200,7 @@ fisherman 没有引入其他任何已知的框架。如果你想卸载 oh my fis
 
 3. 一些代码片段，比如一个或多个在 `conf.d`目录下的 `.fish` 文件并且它们会在 shell 启动时执行。
 
-### 11. 如何把这些插件作为我自己插件的依赖？
+### 10. 如何把这些插件作为我自己插件的依赖？
 
 在项目的顶层目录创建一个新的 `fishfile` 文件，并写下你的依赖。
 
@@ -224,11 +210,11 @@ https://github.com/dude/sweet
 https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
 ```
 
-### 12. 什么是 fundle?
+### 11. 什么是 fundle?
 
 fundle 启发我去使用打包的文件，但是目前它仍然有着一些功能限制，需要你去调整 fish 配置。
 
-### 13. 我有一些问题想提交？
+### 12. 我有一些问题想提交？
 
 在 gituhb issue 上创建一个新的工单：
 
