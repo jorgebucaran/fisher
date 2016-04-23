@@ -77,7 +77,7 @@ fisher ~/my_aliases
 
 使用 [vundle](https://github.com/VundleVim/Vundle.vim) 的方式安装插件，编辑你的 fishfile 并运行 `fisher` 去安装插件。
 
-> [什么是 fishfile 以及如何使用它?](#7-什么是-fishfile-以及如何使用它)
+> [什么是 fishfile 以及如何使用它?](#6-什么是-fishfile-以及如何使用它)
 
 ```sh
 $EDITOR fishfile # add plugins
@@ -131,7 +131,7 @@ fisher help z
 
 ### 1. fish 的版本要求多少？
 
-fisherman 要求 2.3.0 及以上版本的 fish。如果你不能更新你的 fish 版本，你可以写入以下[代码片段](#10-什么是一个插件)到你的 `~/.config/fish/config.fish`。
+fisherman 要求 2.3.0 及以上版本的 fish。如果你不能更新你的 fish 版本，你可以写入以下[代码片段](#8-什么是一个插件)到你的 `~/.config/fish/config.fish`。
 
 ```fish
 for file in ~/.config/fish/conf.d/*.fish
@@ -186,11 +186,7 @@ omf/grc
 
 看看这个 [organization] 或者使用这个 [online] 来搜索。
 
-### 8. 如何从 ____ 更新？
-
-fisherman 没有引入其他任何已知的框架。如果你想卸载 oh my fish, 看它的文档即可
-
-### 9. 什么是一个插件？
+### 8. 什么是一个插件？
 
 一个插件是：
 
@@ -200,7 +196,7 @@ fisherman 没有引入其他任何已知的框架。如果你想卸载 oh my fis
 
 3. 一些代码片段，比如一个或多个在 `conf.d`目录下的 `.fish` 文件并且它们会在 shell 启动时执行。
 
-### 10. 如何把这些插件作为我自己插件的依赖？
+### 9. 如何把这些插件作为我自己插件的依赖？
 
 在项目的顶层目录创建一个新的 `fishfile` 文件，并写下你的依赖。
 
@@ -210,12 +206,6 @@ https://github.com/dude/sweet
 https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
 ```
 
-### 11. 什么是 fundle?
+### 10. 什么是 fundle?
 
 fundle 启发我去使用打包的文件，但是目前它仍然有着一些功能限制，需要你去调整 fish 配置。
-
-### 12. 我有一些问题想提交？
-
-在 gituhb issue 上创建一个新的工单：
-
-* https://github.com/fisherman/fisherman/issues

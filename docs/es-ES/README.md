@@ -77,7 +77,7 @@ fisher ~/my_aliases
 
 A la vundle. Edita el fishfile y entra `fisher` para satisfacer los cambios.
 
-> [¿Qué es el fishfile y cómo lo utilizo?](#7-qué-es-el-fishfile-y-cómo-lo-uso)
+> [¿Qué es el fishfile y cómo lo utilizo?](#6-qué-es-el-fishfile-y-cómo-lo-uso)
 
 ```sh
 $EDITOR fishfile # añade paquetes
@@ -131,7 +131,7 @@ fisher help z
 
 ### 1. ¿Qué versión de fish se requiere?
 
-fisherman fue diseñado para fish >= 2.3.0. Si estás en 2.2.0 y no puedes actualizarte por algún motivo, añade este código a `~/.config/fish/config.fish` para poder ejecutar [snippets](#10-qué-es-un-paquete).
+fisherman fue diseñado para fish >= 2.3.0. Si estás en 2.2.0 y no puedes actualizarte por algún motivo, añade este código a `~/.config/fish/config.fish` para poder ejecutar [snippets](#8-qué-es-un-paquete).
 
 ```fish
 for file in ~/.config/fish/conf.d/*.fish
@@ -160,21 +160,7 @@ fisher self-uninstall
 
 Sí.
 
-### 5. ¿Por qué fisherman? ¿Por qué no ____?
-
-fisherman tiene / es:
-
-* Diminuto y cabe en un solo archivo
-
-* No influye en el tiempo de inicio de la sesión
-
-* Rápido y fácil de instalar, actualizar y desinstalar
-
-* No requiere modificar tu configuración de fish
-
-* Usa el sistema XDG de directions base correctamente
-
-### 6. ¿Dónde guarda fisherman las cosas?
+### 5. ¿Dónde guarda fisherman las cosas?
 
 fisherman mismo va en `~/.config/fish/functions/fisher.fish`.
 
@@ -182,7 +168,7 @@ El caché y la configuración en `~/.cache/fisherman` y `~/.config/fisherman` re
 
 El fishfile en `~/.config/fish/fishfile`.
 
-### 7. ¿Qué es el fishfile y cómo lo uso?
+### 6. ¿Qué es el fishfile y cómo lo uso?
 
 El fishfile `~/.config/fish/fishfile` registra todos los paquetes que están instalados.
 
@@ -197,15 +183,11 @@ omf/grc
 
 Este mecanismo solo instala paquetes y dependecias necesarias. Para remover paquetes, usa `fisher rm`.
 
-### 8. ¿Dónde consigo las lista de paquetes para fish?
+### 7. ¿Dónde consigo las lista de paquetes para fish?
 
 Diríjete a la [organización] o usa la búsqueda [en línea] para descrubir contenido.
 
-### 9. ¿Cómo puedo migrar desde ____?
-
-fisherman no interfiere con otros sistemas conocidos. Si quieres desinstalar oh my fish, diríjete a su documentación
-
-### 10. ¿Qué es un paquete?
+### 8. ¿Qué es un paquete?
 
 Un paquete es:
 
@@ -215,7 +197,7 @@ Un paquete es:
 
 3. un snippet, es decir, uno o más archivos `.fish` en un directorio llamado `conf.d` que son ejecutados por fish al inicio de la sesión.
 
-### 11. ¿Cómo puedo añadir dependencias a mi plugin?
+### 9. ¿Cómo puedo añadir dependencias a mi plugin?
 
 Crea un `fishfile` en el nivel raíz de tu proyecto y escribe los paquetes.
 
@@ -225,12 +207,6 @@ https://github.com/dude/sweet
 https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
 ```
 
-### 12. ¿Qué puedes decir de fundle?
+### 10. ¿Qué puedes decir de fundle?
 
 fundle fue la inspiración para utilizar el fishfile, pero todavía es limitado en sus capacidades y hace requisito modificar la configuración de fish.
-
-### 13. Tengo una pregunta que no aparece aquí. ¿Dónde pregunto?
-
-Crea un nuevo ticket en el issue tracker:
-
-* https://github.com/fisherman/fisherman/issues
