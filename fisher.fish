@@ -1720,7 +1720,7 @@ function __fisher_man_page_write
     # .SH "FAQ"
     # .
     # .SS "1\. What fish version is required?"
-    # fisherman was built for the latest fish, but at least 2\.2\.0 is required\. If you can\'t upgrade your build, append the following code to your \fB~/\.config/fish/config\.fish\fR for snippet support\.
+    # fisherman was built for fish >= 2\.3\.0\. If you are using 2\.2\.0, append the following code to your \fB~/\.config/fish/config\.fish\fR for snippet support\.
     # .
     # .IP "" 4
     # .
@@ -1734,39 +1734,7 @@ function __fisher_man_page_write
     # .
     # .IP "" 0
     # .
-    # .SS "2\. How do I install fish on OS X?"
-    # With Homebrew\.
-    # .
-    # .IP "" 4
-    # .
-    # .nf
-    #
-    # brew install fish
-    # .
-    # .fi
-    # .
-    # .IP "" 0
-    # .
-    # .SS "3\. How do I install the latest fish on some Linux?"
-    # With git, from the source\.
-    # .
-    # .IP "" 4
-    # .
-    # .nf
-    #
-    # sudo apt\-get \-y install git gettext automake autoconf \e
-    #     ncurses\-dev build\-essential libncurses5\-dev
-    #
-    # git clone \-q \-\-depth 1 https://github\.com/fish\-shell/fish\-shell
-    # cd fish\-shell
-    # autoreconf && \./configure
-    # make && sudo make install
-    # .
-    # .fi
-    # .
-    # .IP "" 0
-    # .
-    # .SS "4\. How do I use fish as my default shell?"
+    # .SS "2\. How do I use fish as my default shell?"
     # Add fish to the list of login shells in \fB/etc/shells\fR and make it your default shell\.
     # .
     # .IP "" 4
@@ -1780,7 +1748,7 @@ function __fisher_man_page_write
     # .
     # .IP "" 0
     # .
-    # .SS "5\. How do I uninstall fisherman?"
+    # .SS "3\. How do I uninstall fisherman?"
     # Run
     # .
     # .IP "" 4
@@ -1793,30 +1761,10 @@ function __fisher_man_page_write
     # .
     # .IP "" 0
     # .
-    # .SS "6\. Is fisherman compatible with oh my fish themes and plugins?"
+    # .SS "4\. Is fisherman compatible with oh my fish themes and plugins?"
     # Yes\.
     # .
-    # .SS "7\. Why fisherman? Why not ____?"
-    # fisherman has / is:
-    # .
-    # .IP "\(bu" 4
-    # small and fits in one file
-    # .
-    # .IP "\(bu" 4
-    # zero impact on shell startup time
-    # .
-    # .IP "\(bu" 4
-    # fast and easy to install, update and uninstall
-    # .
-    # .IP "\(bu" 4
-    # no need to edit your fish configuration
-    # .
-    # .IP "\(bu" 4
-    # correct usage of the XDG base directory spec
-    # .
-    # .IP "" 0
-    # .
-    # .SS "8\. Where does fisherman put stuff?"
+    # .SS "5\. Where does fisherman put stuff?"
     # fisherman goes in \fB~/\.config/fish/functions/fisher\.fish\fR\.
     # .
     # .P
@@ -1825,7 +1773,7 @@ function __fisher_man_page_write
     # .P
     # The fishfile is saved to \fB~/\.config/fish/fishfile\fR\.
     # .
-    # .SS "9\. What is a fishfile and how do I use it?"
+    # .SS "6\. What is a fishfile and how do I use it?"
     # The fishfile \fB~/\.config/fish/fishfile\fR lists all the installed plugins\.
     # .
     # .P
@@ -1847,13 +1795,13 @@ function __fisher_man_page_write
     # .P
     # This mechanism only installs plugins and missing dependencies\. To remove a plugin, use \fBfisher rm\fR instead\.
     # .
-    # .SS "10\. Where can I find a list of fish plugins?"
-    # Browse the github/fisherman organization or use the online \fIhttp://fisherman\.sh/#search\fR search to discover content\.
+    # .SS "7\. Where can I find a list of fish plugins?"
+    # Browse the [organization] or use the \fIhttp://fisherman\.sh/#search\fR search to discover content\.
     # .
-    # .SS "11\. How do I upgrade from ____?"
+    # .SS "8\. How do I upgrade from ____?"
     # fisherman does not interfere with any known frameworks\. If you want to uninstall oh my fish, refer to their documentation\.
     # .
-    # .SS "12\. What is a plugin?"
+    # .SS "9\. What is a plugin?"
     # A plugin is:
     # .
     # .IP "1." 4
@@ -1867,7 +1815,7 @@ function __fisher_man_page_write
     # .
     # .IP "" 0
     # .
-    # .SS "13\. How can I list plugins as dependencies to my plugin?"
+    # .SS "10\. How can I list plugins as dependencies to my plugin?"
     # Create a new \fBfishfile\fR file at the root level of your project and write in the plugin dependencies\.
     # .
     # .IP "" 4
@@ -1882,10 +1830,10 @@ function __fisher_man_page_write
     # .
     # .IP "" 0
     # .
-    # .SS "14\. What about fundle?"
+    # .SS "11\. What about fundle?"
     # fundle inspired me to use a bundle file, but it still has limited capabilities and requires you to modify your fish configuration\.
     # .
-    # .SS "15\. I have a question or request not addressed here\. Where should I put it?"
+    # .SS "12\. I have a question or request not addressed here\. Where should I put it?"
     # Create a new ticket on the issue tracker:
     # .
     # .IP "\(bu" 4
