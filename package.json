@@ -22,6 +22,7 @@
         "type": "git",
         "url": "git+https://github.com/fisherman/fisherman.git"
     },
+    "preferGlobal": true,
     "engines": {
         "node": "*"
     },
