@@ -131,7 +131,7 @@ fisher help z
 
 ### 1. What fish version is required?
 
-fisherman was built for fish >= 2.3.0. If you are using 2.2.0, append the following code to your `~/.config/fish/config.fish` for [snippet](#12-what-is-a-plugin) support.
+fisherman was built for fish >= 2.3.0. If you are using 2.2.0, append the following code to your `~/.config/fish/config.fish` for [snippet](#10-what-is-a-plugin) support.
 
 ```fish
 for file in ~/.config/fish/conf.d/*.fish
