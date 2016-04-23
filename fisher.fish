@@ -1793,7 +1793,7 @@ function __fisher_man_page_write
     # This mechanism only installs plugins and missing dependencies\. To remove a plugin, use \fBfisher rm\fR instead\.
     # .
     # .SS "6\. Where can I find a list of fish plugins?"
-    # Browse <https://github.com/fisherman> or use the \fIhttp://fisherman\.sh/#search\fR search to discover content\.
+    # Browse \fIhttps://github\.com/fisherman\fR or use \fIhttp://fisherman\.sh/#search\fR to discover content\.
     # .
     # .SS "7\. What is a plugin?"
     # A plugin is:
