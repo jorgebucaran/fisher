@@ -1719,7 +1719,7 @@ function __fisher_man_page_write
     # .
     # .SH "FAQ"
     # .
-    # .SS "1\. What fish version is required?"
+    # .SS "1\. What is the required fish version?"
     # fisherman was built for fish >= 2\.3\.0\. If you are using 2\.2\.0, append the following code to your \fB~/\.config/fish/config\.fish\fR for snippet support\.
     # .
     # .IP "" 4
@@ -1796,7 +1796,7 @@ function __fisher_man_page_write
     # This mechanism only installs plugins and missing dependencies\. To remove a plugin, use \fBfisher rm\fR instead\.
     # .
     # .SS "6\. Where can I find a list of fish plugins?"
-    # Browse the [organization] or use the \fIhttp://fisherman\.sh/#search\fR search to discover content\.
+    # Browse <https://github.com/fisherman> or use the \fIhttp://fisherman\.sh/#search\fR search to discover content\.
     # .
     # .SS "7\. What is a plugin?"
     # A plugin is:
