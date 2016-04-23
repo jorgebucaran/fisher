@@ -129,7 +129,7 @@ fisher help z
 
 ## FAQ
 
-### 1. What fish version is required?
+### 1. What is the required fish version?
 
 fisherman was built for fish >= 2.3.0. If you are using 2.2.0, append the following code to your `~/.config/fish/config.fish` for [snippet](#8-what-is-a-plugin) support.
 
