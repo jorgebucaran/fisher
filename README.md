@@ -157,10 +157,14 @@ chsh -s /usr/local/bin/fish
 
 ### 3. How do I uninstall fisherman?
 
-Run
-
 ```fish
 fisher self-uninstall
+```
+
+or
+
+```
+npm un -g fisherman
 ```
 
 ### 4. Is fisherman compatible with oh my fish themes and plugins?
