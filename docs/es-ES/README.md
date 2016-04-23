@@ -77,7 +77,7 @@ fisher ~/my_aliases
 
 A la vundle. Edita el fishfile y entra `fisher` para satisfacer los cambios.
 
-> [¿Qué es el fishfile y cómo lo utilizo?](#9-qué-es-el-fishfile-y-cómo-lo-uso)
+> [¿Qué es el fishfile y cómo lo utilizo?](#7-qué-es-el-fishfile-y-cómo-lo-uso)
 
 ```sh
 $EDITOR fishfile # añade paquetes
