@@ -141,7 +141,7 @@ end
 
 ### 2. How do I install fish on OS X?
 
-With Homebrew.
+With [Homebrew][Homebrew].
 
 ```
 brew install fish
@@ -149,7 +149,53 @@ brew install fish
 
 ### 3. How do I install the latest fish on some Linux?
 
-With git, from the source.
+#### Debian
+
+```sh
+wget http://download.opensuse.org/repositories/shells:fish:release:2/Debian_8.0/Release.key
+apt-key add - < Release.key
+echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/2/Debian_8.0/ /' >> /etc/apt/sources.list.d/fish.list
+apt-get update
+apt-get install fish
+```
+
+#### Ubuntu
+
+```sh
+sudo apt-add-repository ppa:fish-shell/release-2
+sudo apt-get update
+sudo apt-get install fish
+```
+
+#### CentOS
+
+```sh
+cd /etc/yum.repos.d/
+wget http://download.opensuse.org/repositories/shells:fish:release:2/CentOS_7/shells:fish:release:2.repo
+yum install fish
+```
+
+#### Fedora
+
+```sh
+cd /etc/yum.repos.d/
+wget http://download.opensuse.org/repositories/shells:fish:release:2/Fedora_23/shells:fish:release:2.repo
+yum install fish
+```
+
+#### Arch Linux
+
+```sh
+pacman -S fish
+```
+
+#### Gentoo
+
+```sh
+emerge fish
+```
+
+#### From source
 
 ```sh
 sudo apt-get -y install git gettext automake autoconf \
@@ -256,3 +302,5 @@ fundle inspired me to use a bundle file, but it still has limited capabilities a
 Create a new ticket on the issue tracker:
 
 * https://github.com/fisherman/fisherman/issues
+
+[Homebrew]: http://brew.sh
