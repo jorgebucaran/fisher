@@ -43,6 +43,12 @@ fisherman 是一款零配置，并发的 [fish shell] 插件管理器。
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 ```
 
+npm。
+
+```
+npm install
+```
+
 ## 功能
 
 安装插件。

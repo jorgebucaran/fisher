@@ -37,10 +37,16 @@ fishermanとは、フィッシュシェルのための並列処理パッケー�
 
 ## インストール
 
-`fisher.fish`を`~/.config/fish/functions`に。
+curlで。
 
 ```sh
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
+```
+
+npmで。
+
+```
+npm fisherman
 ```
 
 ## 使い方
