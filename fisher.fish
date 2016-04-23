@@ -1795,13 +1795,10 @@ function __fisher_man_page_write
     # .P
     # This mechanism only installs plugins and missing dependencies\. To remove a plugin, use \fBfisher rm\fR instead\.
     # .
-    # .SS "7\. Where can I find a list of fish plugins?"
+    # .SS "6\. Where can I find a list of fish plugins?"
     # Browse the [organization] or use the \fIhttp://fisherman\.sh/#search\fR search to discover content\.
     # .
-    # .SS "8\. How do I upgrade from ____?"
-    # fisherman does not interfere with any known frameworks\. If you want to uninstall oh my fish, refer to their documentation\.
-    # .
-    # .SS "9\. What is a plugin?"
+    # .SS "7\. What is a plugin?"
     # A plugin is:
     # .
     # .IP "1." 4
@@ -1815,7 +1812,7 @@ function __fisher_man_page_write
     # .
     # .IP "" 0
     # .
-    # .SS "10\. How can I list plugins as dependencies to my plugin?"
+    # .SS "8\. How can I list plugins as dependencies to my plugin?"
     # Create a new \fBfishfile\fR file at the root level of your project and write in the plugin dependencies\.
     # .
     # .IP "" 4
@@ -1830,10 +1827,10 @@ function __fisher_man_page_write
     # .
     # .IP "" 0
     # .
-    # .SS "11\. What about fundle?"
+    # .SS "9\. What about fundle?"
     # fundle inspired me to use a bundle file, but it still has limited capabilities and requires you to modify your fish configuration\.
     # .
-    # .SS "12\. I have a question or request not addressed here\. Where should I put it?"
+    # .SS "10\. I have a question or request not addressed here\. Where should I put it?"
     # Create a new ticket on the issue tracker:
     # .
     # .IP "\(bu" 4

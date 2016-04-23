@@ -77,7 +77,7 @@ fisher ~/my_aliases
 
 Use it a la vundle. Edit your fishfile and run `fisher` to satisfy changes.
 
-> [What is a fishfile and how do I use it?](#7-what-is-a-fishfile-and-how-do-i-use-it)
+> [What is a fishfile and how do I use it?](#6-what-is-a-fishfile-and-how-do-i-use-it)
 
 ```sh
 $EDITOR fishfile # add plugins
@@ -131,7 +131,7 @@ fisher help z
 
 ### 1. What fish version is required?
 
-fisherman was built for fish >= 2.3.0. If you are using 2.2.0, append the following code to your `~/.config/fish/config.fish` for [snippet](#10-what-is-a-plugin) support.
+fisherman was built for fish >= 2.3.0. If you are using 2.2.0, append the following code to your `~/.config/fish/config.fish` for [snippet](#8-what-is-a-plugin) support.
 
 ```fish
 for file in ~/.config/fish/conf.d/*.fish
@@ -187,11 +187,7 @@ This mechanism only installs plugins and missing dependencies. To remove a plugi
 
 Browse the [organization] or use the [online] search to discover content.
 
-### 8. How do I upgrade from ____?
-
-fisherman does not interfere with any known frameworks. If you want to uninstall oh my fish, refer to their documentation.
-
-### 9. What is a plugin?
+### 8. What is a plugin?
 
 A plugin is:
 
@@ -201,7 +197,7 @@ A plugin is:
 
 3. a snippet, i.e, one or more `.fish` files inside a directory named `conf.d` that are evaluated by fish at the start of the shell
 
-### 10. How can I list plugins as dependencies to my plugin?
+### 9. How can I list plugins as dependencies to my plugin?
 
 Create a new `fishfile` file at the root level of your project and write in the plugin dependencies.
 
@@ -211,12 +207,6 @@ https://github.com/dude/sweet
 https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
 ```
 
-### 11. What about fundle?
+### 10. What about fundle?
 
 fundle inspired me to use a bundle file, but it still has limited capabilities and requires you to modify your fish configuration.
-
-### 12. I have a question or request not addressed here. Where should I put it?
-
-Create a new ticket on the issue tracker:
-
-* https://github.com/fisherman/fisherman/issues

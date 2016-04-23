@@ -77,7 +77,7 @@ fisher ~/my_aliases
 
 vundleのように、「fishfile」というファイルに、プラグインたちを打って、`fisher`を入力すると、インストールされる。
 
-> [fishfileとは？](#7-fishfileとは)
+> [fishfileとは？](#6-fishfileとは)
 
 ```sh
 $EDITOR fishfile # プラグインを入れる
@@ -131,7 +131,7 @@ fisher help z
 
 ### 1. fishの必要なバージョンとは？
 
-fish >= 2.3.0は必要です。まだ2.2.0を利用中であれば、[snippets](#10-プラグインとは)の対応のため、次のコードを`~/.config/fish/config.fish`に書いてください。
+fish >= 2.3.0は必要です。まだ2.2.0を利用中であれば、[snippets](#8-プラグインとは)の対応のため、次のコードを`~/.config/fish/config.fish`に書いてください。
 
 ```fish
 for file in ~/.config/fish/conf.d/*.fish
@@ -188,11 +188,7 @@ omf/grc
 
 fishermanの[organization]や、[ウェブサイト]等で、プラグインを検索できます。
 
-### 8. 他のシステムからのアップグレード方法とは？
-
-fishermanは他のフィッシュシェルフレームワーク等に関係ないです。もし、oh-my-fish等をアンインストールしたい場合、あちらのドキュメンテーションを参考してください。
-
-### 9. プラグインとは？
+### 8. プラグインとは？
 
 プラグインとは
 
@@ -202,7 +198,7 @@ fishermanは他のフィッシュシェルフレームワーク等に関係な�
 
 3. スニペット。つまり、1以上の`.fish`ファイルを`conf.d`といディレクトリに。こちらのファイルがフィッシュシェルがスタートする際に実行されます。
 
-### 10. 自分のプラグインを、他のプラグインのデペンデンシーにしたい場合は？
+### 9. 自分のプラグインを、他のプラグインのデペンデンシーにしたい場合は？
 
 プラグインのrootディレクトリに`fishfile`編集して、そのプラグインを打ってください。
 
@@ -212,12 +208,6 @@ https://github.com/dude/sweet
 https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
 ```
 
-### 11. fundleはどう？
+### 10. fundleはどう？
 
 fundleを参考しながら、vundleのようにfishfileを使いたいと思いましたが、fundle自体はまだ特徴はすくないですし、フィッシュシェルの設定をいじることは必要です。
-
-### 12. 質問がありますが、どこに書いたらいいですか？
-
-新しいissueを作って頂いて、英語でも、日本語でも対応しております。
-
-* https://github.com/fisherman/fisherman/issues
