@@ -17,7 +17,7 @@
 
 # [fisherman] - fish shell plugin manager
 
-fisherman es un gestionador de paquetes para el [fish shell] de procesamiento en paralelo libre de configuración.
+fisherman es un gestionador de paquetes para el [fish shell] de procesamiento en paralelo.
 
 Lee este documento en otro idioma: [English], [日本語], [简体中文].
 

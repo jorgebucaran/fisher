@@ -17,7 +17,7 @@
 
 # [fisherman] - fish shell plugin manager
 
-fisherman is a zero-configuration, concurrent plugin manager for the [fish shell].
+fisherman is a concurrent plugin manager for the [fish shell].
 
 Read this document in another language: [Español], [日本語], [简体中文].
 
@@ -160,21 +160,7 @@ fisher self-uninstall
 
 Yes.
 
-### 5. Why fisherman? Why not ____?
-
-fisherman has / is:
-
-* small and fits in one file
-
-* zero impact on shell startup time
-
-* fast and easy to install, update and uninstall
-
-* no need to edit your fish configuration
-
-* correct usage of the XDG base directory spec
-
-### 6. Where does fisherman put stuff?
+### 5. Where does fisherman put stuff?
 
 fisherman goes in `~/.config/fish/functions/fisher.fish`.
 
@@ -182,7 +168,7 @@ The cache and plugin configuration is created in `~/.cache/fisherman` and `~/.co
 
 The fishfile is saved to `~/.config/fish/fishfile`.
 
-### 7. What is a fishfile and how do I use it?
+### 6. What is a fishfile and how do I use it?
 
 The fishfile `~/.config/fish/fishfile` lists all the installed plugins.
 
@@ -197,15 +183,15 @@ omf/grc
 
 This mechanism only installs plugins and missing dependencies. To remove a plugin, use `fisher rm` instead.
 
-### 8. Where can I find a list of fish plugins?
+### 7. Where can I find a list of fish plugins?
 
 Browse the [organization] or use the [online] search to discover content.
 
-### 9. How do I upgrade from ____?
+### 8. How do I upgrade from ____?
 
 fisherman does not interfere with any known frameworks. If you want to uninstall oh my fish, refer to their documentation.
 
-### 10. What is a plugin?
+### 9. What is a plugin?
 
 A plugin is:
 
@@ -215,7 +201,7 @@ A plugin is:
 
 3. a snippet, i.e, one or more `.fish` files inside a directory named `conf.d` that are evaluated by fish at the start of the shell
 
-### 11. How can I list plugins as dependencies to my plugin?
+### 10. How can I list plugins as dependencies to my plugin?
 
 Create a new `fishfile` file at the root level of your project and write in the plugin dependencies.
 
@@ -225,11 +211,11 @@ https://github.com/dude/sweet
 https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
 ```
 
-### 12. What about fundle?
+### 11. What about fundle?
 
 fundle inspired me to use a bundle file, but it still has limited capabilities and requires you to modify your fish configuration.
 
-### 13. I have a question or request not addressed here. Where should I put it?
+### 12. I have a question or request not addressed here. Where should I put it?
 
 Create a new ticket on the issue tracker:
 
