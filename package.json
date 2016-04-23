@@ -18,7 +18,7 @@
         "fisher": "./fisher.fish"
     },
     "scripts": {
-        "install": "awk 'BEGIN { print(\"#!/usr/bin/env fish\") } { print($0) } END { print(\"fisher $argv\") }' < fisher.fish > fisher.fish_; mv fisher.fish_ fisher.fish"
+        "install": "awk 'BEGIN { print(\"#!/usr/bin/env fish\") } { print($0) } END { print(\"fisher $argv\") }' < fisher.fish > fisher.fish_; mv fisher.fish_ fisher.fish; chmod +x fisher.fish"
     },
     "preferGlobal": true,
     "repository": {
