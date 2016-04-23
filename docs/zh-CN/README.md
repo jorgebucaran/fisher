@@ -1,5 +1,5 @@
 [slack-link]: https://fisherman-wharf.herokuapp.com/
-[slack-badge]: https://img.shields.io/badge/slack-join%20the%20chat-00B9FF.svg?style=flat-square
+[slack-badge]: https://fisherman-wharf.herokuapp.com/badge.svg
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg?style=flat-square
 
