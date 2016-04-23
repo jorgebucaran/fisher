@@ -1,5 +1,5 @@
 function fisher
-    set -g fisher_version "2.1.6"
+    set -g fisher_version "2.1.7"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
     function __fisher_show_spinner
@@ -536,9 +536,9 @@ function __fisher_self_update
         __fisher_log okay "You are now running fisherman @$fisher_version@" $__fisher_stderr
 
         __fisher_log info "
-
             To see the change log, please visit:
             https://github.com/fisherman/fisherman/releases
+            
         " $__fisher_stderr
     end
 end
