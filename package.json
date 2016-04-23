@@ -1,0 +1,32 @@
+{
+    "name": "fisherman",
+    "description": "fish plugin manager",
+    "version": "2.0.1",
+    "author": "Jorge Bucaran",
+    "homepage": "https://github.com/fisherman/fisherman",
+    "bugs": "https://github.com/fisherman/fisherman/issues",
+    "keywords": [
+        "install",
+        "plugins",
+        "parallel",
+        "concurrent",
+        "fish",
+        "fish-shell",
+        "package manager"
+    ],
+    "bin": {
+        "fisher": "./fisher.fish"
+    },
+    "scripts": {
+        "install": "awk 'BEGIN { print(\"#!/usr/bin/env fish\") } { print($0) } END { print(\"fisher $argv\") }' < fisher.fish > fisher.fish_; mv fisher.fish_ fisher.fish"
+    },
+    "preferGlobal": true,
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/fisherman/fisherman.git"
+    },
+    "engines": {
+        "node": "*"
+    },
+    "license": "MIT"
+}
