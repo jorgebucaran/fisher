@@ -141,7 +141,7 @@ end
 
 ### 2. How do I install fish on OS X?
 
-With Homebrew.
+With [Homebrew][Homebrew].
 
 ```
 brew install fish
@@ -302,3 +302,5 @@ fundle inspired me to use a bundle file, but it still has limited capabilities a
 Create a new ticket on the issue tracker:
 
 * https://github.com/fisherman/fisherman/issues
+
+[Homebrew]: http://brew.sh
