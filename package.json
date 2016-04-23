@@ -1,7 +1,7 @@
 {
     "name": "fisherman",
     "description": "fish plugin manager",
-    "version": "2.1.5",
+    "version": "2.1.6",
     "author": "Jorge Bucaran",
     "homepage": "https://github.com/fisherman/fisherman",
     "bugs": "https://github.com/fisherman/fisherman/issues",
@@ -15,8 +15,8 @@
         "package manager"
     ],
     "scripts": {
-        "preinstall": "i=\"$XDG_CONFIG_HOME\"; [ -z \"$i\" ] && i=~/.config; i=\"$i/fish/functions\"; cp -f fisher.fish \"$i/fisher.fish\"; exec fish < /dev/tty",
-        "preuninstall": "i=\"$XDG_CONFIG_HOME\"; [ -z \"$i\" ] && i=~/.config; i=\"$i/fish/functions\"; rm -f \"$i/fisher.fish\"; exec fish < /dev/tty"
+        "postinstall": "i=\"$XDG_CONFIG_HOME\"; [ -z \"$i\" ] && i=~/.config; i=\"$i/fish/functions\"; cp -f fisher.fish \"$i/fisher.fish\"; echo '\\033[47m\\033[30mPlease reload your shell to start using fisherman.\\033[0m'",
+        "preuninstall": "i=\"$XDG_CONFIG_HOME\"; [ -z \"$i\" ] && i=~/.config; i=\"$i/fish/functions\"; rm -f \"$i/fisher.fish\"; echo '\\033[47m\\033[30mPlease reload your shell to start using fisherman.\\033[0m'"
     },
     "repository": {
         "type": "git",
