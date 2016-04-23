@@ -77,7 +77,7 @@ fisher ~/my_aliases
 
 使用 vundle(https://github.com/VundleVim/Vundle.vim) 的方式安装插件，编辑你的 fishfile 并运行 `fisher` 去安装插件。
 
-> [什么是 fisherfile 以及如何使用它?](#9-什么是-fishfile-以及如何使用它)
+> [什么是 fishfile 以及如何使用它?](#7-什么是-fishfile-以及如何使用它)
 
 ```sh
 $EDITOR fishfile # add plugins
@@ -131,7 +131,7 @@ fisher help z
 
 ### 1. fish 的版本要求多少？
 
-fisherman 要求 2.2.0 及以上版本的 fish。如果你不能更新你的 fish 版本，你可以写入以下[代码片段](#12-什么是一个插件)到你的 `~/.config/fish/config.fish`。
+fisherman 要求 2.3.0 及以上版本的 fish。如果你不能更新你的 fish 版本，你可以写入以下[代码片段](#10-什么是一个插件)到你的 `~/.config/fish/config.fish`。
 
 ```fish
 for file in ~/.config/fish/conf.d/*.fish
