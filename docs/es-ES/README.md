@@ -37,10 +37,16 @@ Lee este documento en otro idioma: [English], [日本語], [简体中文].
 
 ## Instalación
 
-Copia `fisher.fish` en `~/.config/fish/functions` y listo.
+Via curl.
 
 ```sh
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
+```
+
+Via npm.
+
+```
+npm fisherman
 ```
 
 ## Uso
