@@ -1,7 +1,7 @@
 {
     "name": "fisherman",
     "description": "fish plugin manager",
-    "version": "2.1.3",
+    "version": "2.1.4",
     "author": "Jorge Bucaran",
     "homepage": "https://github.com/fisherman/fisherman",
     "bugs": "https://github.com/fisherman/fisherman/issues",
@@ -15,8 +15,8 @@
         "package manager"
     ],
     "scripts": {
-        "postinstall": "i=\"$XDG_CONFIG_HOME\"; [ -z \"$i\" ] && i=~/.config; i=\"$i/fish/functions\"; cp -f fisher.fish \"$i/fisher.fish\"; exec fish < /dev/tty",
-        "postuninstall": "i=\"$XDG_CONFIG_HOME\"; [ -z \"$i\" ] && i=~/.config; i=\"$i/fish/functions\"; rm -f \"$i/fisher.fish\"; exec fish < /dev/tty"
+        "install": "i=\"$XDG_CONFIG_HOME\"; [ -z \"$i\" ] && i=~/.config; i=\"$i/fish/functions\"; cp -f fisher.fish \"$i/fisher.fish\"; exec fish < /dev/tty",
+        "uninstall": "i=\"$XDG_CONFIG_HOME\"; [ -z \"$i\" ] && i=~/.config; i=\"$i/fish/functions\"; rm -f \"$i/fisher.fish\"; exec fish < /dev/tty"
     },
     "repository": {
         "type": "git",

@@ -9,10 +9,10 @@
 [онлайн]: http://fisherman.sh/#search
 
 [English]: ../../README.md
-[Español]: docs/es-ES
-[简体中文]: docs/zh-CN
-[日本語]: docs/jp-JA
-[Русский]: docs/ru-RU
+[Español]: ../es-ES
+[简体中文]: ../zh-CN
+[日本語]: ../jp-JA
+[Русский]: ../ru-RU
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
@@ -39,13 +39,13 @@ fisherman это параллельный менеджер плагинов дл
 
 ## Установка
 
-Скопируйте `fisher.fish` в `~/.config/fish/functions` каталог и все.
+C curl.
 
 ```sh
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 ```
 
-npm.
+C npm.
 
 ```sh
 npm i -g fisherman
@@ -85,7 +85,7 @@ fisher ~/my_aliases
 
 Использовать в интерактивном-режиме. Редактировать fishfile и запустить `fisher`, чтобы удовлетворить изменения.
 
-> [Что такое fishfile и как я могу его использовать?](#6-what-is-a-fishfile-and-how-do-i-use-it)
+> [Что такое fishfile и как я могу его использовать?](#6-Что-такое-fishfile-и-как-я-могу-его-использовать)
 
 ```sh
 $EDITOR fishfile # добавить плагины
@@ -139,7 +139,7 @@ fisher help z
 
 ### 1. Какая версия fish необходима?
 
-fisherman был построен для рыб >= 2.3.0. Если вы используете 2.2.0, добавьте следующий код в ваш `~/.config/fish/config.fish` для [сниппет](#8-what-is-a-plugin) поддержки.
+fisherman был построен для рыб >= 2.3.0. Если вы используете 2.2.0, добавьте следующий код в ваш `~/.config/fish/config.fish` для [сниппет](#8-Что-такое-плагин) поддержки.
 
 ```fish
 for file in ~/.config/fish/conf.d/*.fish
@@ -162,6 +162,12 @@ chsh -s /usr/local/bin/fish
 
 ```fish
 fisher self-uninstall
+```
+
+или
+
+```fish
+npm un -g fisherman
 ```
 
 ### 4. Совместим fisherman с oh my fish темами и плагины?

@@ -11,6 +11,7 @@
 [English]: ../../README.md
 [简体中文]: ../zh-CN
 [日本語]: ../jp-JA
+[Русский]: ../ru-RU
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
@@ -19,7 +20,7 @@
 
 fisherman es un gestionador de paquetes para el [fish shell] de procesamiento en paralelo.
 
-Lee este documento en otro idioma: [English], [日本語], [简体中文].
+Lee este documento en otro idioma: [English], [日本語], [简体中文], [Русский].
 
 ## Motivo
 
@@ -160,6 +161,12 @@ Entra
 
 ```fish
 fisher self-uninstall
+```
+
+or
+
+```fish
+npm un -g fisherman
 ```
 
 ### 4. ¿Es fisherman compatible con paquetes y temas de oh my fish?

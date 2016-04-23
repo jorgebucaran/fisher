@@ -11,6 +11,7 @@
 [English]: ../../README.md
 [Español]: ../es-ES
 [日本語]: ../jp-JA
+[Русский]: ../ru-RU
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
@@ -19,7 +20,7 @@
 
 fisherman 是一款零配置，并发的 [fish shell] 插件管理器。
 
-选择不同语言版本的文档: [Español], [日本語], [English]。
+选择不同语言版本的文档: [Español], [日本語], [English], [Русский]。
 
 ##为什么使用fisherman？
 
@@ -161,6 +162,12 @@ chsh -s /usr/local/bin/fish
 
 ```fish
 fisher self-uninstall
+```
+
+or
+
+```fish
+npm un -g fisherman
 ```
 
 ### 4. fisherman 兼容已有的 fish 主题和插件吗？
