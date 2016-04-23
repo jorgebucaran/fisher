@@ -11,6 +11,7 @@
 [English]: ../../README.md
 [Español]: ../es-ES
 [简体中文]: ../zh-CN
+[Русский]: ..//ru-RU
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
@@ -19,7 +20,7 @@
 
 fishermanとは、フィッシュシェルのための並列処理パッケージマネージャーである。
 
-翻訳: [English], [Español], [简体中文].
+翻訳: [English], [Español], [简体中文], [Русский].
 
 ## 理由
 
@@ -156,10 +157,14 @@ chsh -s /usr/local/bin/fish
 
 ### 3. fishermanを削除する方法とは？
 
-はい。
-
 ```fish
 fisher self-uninstall
+```
+
+もしくは
+
+```fish
+npm un -g fisherman
 ```
 
 ### 4. oh-my-fishのプラグインとテーマに対応ですか？
