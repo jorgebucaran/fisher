@@ -77,7 +77,7 @@ fisher ~/my_aliases
 
 vundleのように、「fishfile」というファイルに、プラグインたちを打って、`fisher`を入力すると、インストールされる。
 
-> [fishfileとは？](#9-fishfileとは？)
+> [fishfileとは？](#7-fishfileとは)
 
 ```sh
 $EDITOR fishfile # プラグインを入れる
@@ -131,7 +131,7 @@ fisher help z
 
 ### 1. fishの必要なバージョンとは？
 
-fish >= 2.3.0は必要です。まだ2.2.0を利用中であれば、[snippets](#13-プラグインとは？)の対応のため、次のコードを`~/.config/fish/config.fish`に書いてください。
+fish >= 2.3.0は必要です。まだ2.2.0を利用中であれば、[snippets](#10-プラグインとは)の対応のため、次のコードを`~/.config/fish/config.fish`に書いてください。
 
 ```fish
 for file in ~/.config/fish/conf.d/*.fish

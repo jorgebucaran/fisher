@@ -77,7 +77,7 @@ fisher ~/my_aliases
 
 Use it a la vundle. Edit your fishfile and run `fisher` to satisfy changes.
 
-> [What is a fishfile and how do I use it?](#9-what-is-a-fishfile-and-how-do-i-use-it)
+> [What is a fishfile and how do I use it?](#7-what-is-a-fishfile-and-how-do-i-use-it)
 
 ```sh
 $EDITOR fishfile # add plugins
