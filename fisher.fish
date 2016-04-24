@@ -163,6 +163,8 @@ function fisher
         case install
             if __fisher_install $items
                 __fisher_log okay "Done in "(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration) $__fisher_stderr
+            else
+                return
             end
 
         case update
@@ -1492,16 +1494,10 @@ function __fisher_self_uninstall -a yn
 
     functions -e __fisher_show_spinner
 
-    __fisher_log okay "
-
-        Thanks for trying out fisherman. If you have a moment,
-        please share your feedback with us on the issue tracker.
-
-        @https://github.com/fisherman/fisherman/issues@
-
-    " $__fisher_stderr
+    __fisher_log okay "Arrr! So long and thanks for all the fish." $__fisher_stderr
 
     functions -e __fisher_log
+    functions -e fisher
 end
 
 
