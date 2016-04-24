@@ -18,13 +18,13 @@
 
 # [fisherman] - fish shell plugin manager
 
-fishermanとは、フィッシュシェルのための並列処理パッケージマネージャーである。
+fisherman とは フィッシュシェルのための並列処理パッケージマネージャーです。
 
 翻訳: [English], [Español], [简体中文], [Русский].
 
 ## 理由
 
-* 簡単
+* シンプル
 
 * 設定なし
 
@@ -32,19 +32,19 @@ fishermanとは、フィッシュシェルのための並列処理パッケー�
 
 * フィッシュシェルのスタート時間に関係ない
 
-* cliから利用可能であり、vundleのようにも使える
+* cli から利用可能であり、vundle のようにも使える
 
-* 基本のコマンド、install、update、remove、listとhelpだけである
+* 基本のコマンドは install、update、remove、list と help だけ
 
 ## インストール
 
-curlで。
+curl:
 
 ```sh
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 ```
 
-npmで。
+npm:
 
 ```
 npm i -g fisherman
@@ -52,46 +52,46 @@ npm i -g fisherman
 
 ## 使い方
 
-プラグインをインストール。
+プラグインをインストール:
 
 ```
 fisher simple
 ```
 
-様々な所からもインストール。
+様々な所からもインストール:
 
 ```
 fisher z fzf omf/{grc,thefuck}
 ```
 
-URLからインストール。
+URL からインストール:
 
 ```
 fisher https://github.com/edc/bass
 ```
 
-Gistをインストール。
+Gist をインストール:
 
 ```
 fisher https://gist.github.com/username/1f40e1c6e0551b2666b2
 ```
 
-ディレクトリをインストール。
+ディレクトリをインストール:
 
 ```sh
 fisher ~/my_aliases
 ```
 
-vundleのように、「fishfile」というファイルに、プラグインたちを打って、`fisher`を入力すると、インストールされる。
+vundleのように 「fishfile」というファイルにプラグインたちを追加して `fisher` でインストール：
 
 > [fishfileとは？](#6-fishfileとは)
 
 ```sh
-$EDITOR fishfile # プラグインを入れる
+$EDITOR fishfile # プラグイン追加
 fisher
 ```
 
-インストールされるプラグインを表示する。
+インストールされるプラグイン表示：
 
 ```
 fisher ls
@@ -104,31 +104,31 @@ fisher ls
   z
 ```
 
-全部をアップデート。
+すべてのプラグインをアップデート：
 
 ```
 fisher up
 ```
 
-いくつかのプラグインをアップデート。
+いくつかのプラグインをアップデート：
 
 ```
 fisher up bass z fzf thefuck
 ```
 
-プラグインを削除。
+プラグインを削除：
 
 ```
 fisher rm simple
 ```
 
-全部のプラグインを削除。
+すべてのプラグインを削除：
 
 ```
 fisher ls | fisher rm
 ```
 
-ドキュを表示。
+ドキュメントを表示：
 
 ```
 fisher help z
@@ -138,7 +138,7 @@ fisher help z
 
 ### 1. fishの必要なバージョンとは？
 
-fish >= 2.3.0は必要です。まだ2.2.0を利用中であれば、[snippets](#8-プラグインとは)の対応のため、次のコードを`~/.config/fish/config.fish`に書いてください。
+fish >= 2.3.0 が必要です。まだ 2.2.0 を使っているのならば [snippets](#8-プラグインとは) の対応のため次のコードを `~/.config/fish/config.fish` に追記してください。
 
 ```fish
 for file in ~/.config/fish/conf.d/*.fish
@@ -148,7 +148,7 @@ end
 
 ### 2. フィッシュシェルをデフォルトのシェルにするには？
 
-システムの`/etc/shells`ファイルに、fishを追加して下さい。
+システムの `/etc/shells` ファイルに、fish を追加:
 
 ```sh
 echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
@@ -169,22 +169,17 @@ npm un -g fisherman
 
 ### 4. oh-my-fishのプラグインとテーマに対応ですか？
 
-対応です。
+対応してます
 
 ### 5. fishermanのファイル等は、どこに保存されますか？
 
-fisherman自体は`~/.config/fish/functions/fisher.fish`に。
-
-キャシュは`~/.cache/fisherman`に、コンフィグディレクトリは`~/.config/fisherman`に。
-
-fishfileは`~/.config/fish/fishfile`に。
+fisherman 自体は `~/.config/fish/functions/fisher.fish` に作成されます。そしてキャシュは`~/.cache/fisherman`に、コンフィグディレクトリは `~/.config/fisherman` に。fishfileは`~/.config/fish/fishfile`に保存されます
 
 ### 6. fishfileとは？
 
-fishfile（`~/.config/fish/fishfile`）に現在インストールされているプラグインを記入してあります。
+fishfile（`~/.config/fish/fishfile`）に現在インストールされているプラグインが書かれています。
 
-
-fishermanに任せて、このファイルを自動的に扱って頂けるか、自分で手に入れたいプラグインを入れて、`fisher`を入力すると、インストールも可能です。
+fisherman で自動的にこのファイルを更新するか、手動でプラグインを追加して `fisher`を入力してインストールすることも可能です。
 
 ```
 fisherman/simple
@@ -193,11 +188,11 @@ omf/thefuck
 omf/grc
 ```
 
-この仕組はプラグインと、そのプラグインのデペンデンシーをインストールすることができます。プラグインを削除するために、`fisher rm`を使ってください。
+この仕組はプラグインと、そのプラグインが依存しているものをインストールすることができます。プラグインを削除するために、`fisher rm`を使ってください。
 
 ### 7. フィッシュシェルのプラグインはどこにありますか？
 
-fishermanの[organization]や、[ウェブサイト]等で、プラグインを検索できます。
+fisherman の [organization] や [ウェブサイト] 等で、プラグインを検索できます。
 
 ### 8. プラグインとは？
 
@@ -211,7 +206,7 @@ fishermanの[organization]や、[ウェブサイト]等で、プラグインを�
 
 ### 9. 自分のプラグインを、他のプラグインのデペンデンシーにしたい場合は？
 
-プラグインのrootディレクトリに`fishfile`編集して、そのプラグインを打ってください。
+プラグイン root ディレクトリの `fishfile` 編集してそのプラグインを追加してください。
 
 ```fish
 owner/repo
