@@ -1,7 +1,7 @@
 {
     "name": "fisherman",
     "description": "fish plugin manager",
-    "version": "2.1.8",
+    "version": "2.1.9",
     "author": "Jorge Bucaran",
     "homepage": "https://github.com/fisherman/fisherman",
     "bugs": "https://github.com/fisherman/fisherman/issues",
