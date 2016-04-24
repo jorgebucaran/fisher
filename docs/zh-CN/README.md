@@ -38,13 +38,13 @@ fisherman 是一款零配置，并发的 [fish shell] 插件管理器。
 
 ## 安装
 
-拷贝 `fisher.fish` 到你的 `~/.config/fish/functions` 目录, 就这么简单。
+使用curl。
 
 ```sh
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 ```
 
-npm。
+使用npm。
 
 ```
 npm i -g fisherman
@@ -87,7 +87,7 @@ fisher ~/my_aliases
 > [什么是 fishfile 以及如何使用它?](#6-什么是-fishfile-以及如何使用它)
 
 ```sh
-$EDITOR fishfile # add plugins
+$EDITOR fishfile # 添加插件
 fisher
 ```
 
@@ -138,7 +138,7 @@ fisher help z
 
 ### 1. fish 的版本要求多少？
 
-fisherman 要求 2.3.0 及以上版本的 fish。如果你不能更新你的 fish 版本，你可以写入以下[代码片段](#8-什么是一个插件)到你的 `~/.config/fish/config.fish`。
+fisherman 要求 2.3.0 及以上版本的 fish。如果正在使用 2.2.0 版本，你可以写入以下[代码片段](#8-什么是一个插件)到你的 `~/.config/fish/config.fish`。
 
 ```fish
 for file in ~/.config/fish/conf.d/*.fish
@@ -164,7 +164,7 @@ chsh -s /usr/local/bin/fish
 fisher self-uninstall
 ```
 
-or
+或者
 
 ```fish
 npm un -g fisherman
@@ -207,7 +207,7 @@ omf/grc
 
 2. 一个主题或者命令行提示符，比如 `fish-prompt.fish`, `fish_right_prompt.fish`。
 
-3. 一些代码片段，比如一个或多个在 `conf.d`目录下的 `.fish` 文件并且它们会在 shell 启动时执行。
+3. 一些代码片段，比如一个或多个在 `conf.d`目录下的 `.fish` 文件，并且它们会在 shell 启动时执行。
 
 ### 9. 如何把这些插件作为我自己插件的依赖？
 
