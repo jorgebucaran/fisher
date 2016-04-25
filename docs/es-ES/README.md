@@ -25,8 +25,6 @@ Lee este documento en otro idioma: [English], [日本語], [简体中文], [한�
 
 ## Motivo
 
-* Simple
-
 * Sin configuración
 
 * Sin dependencias externas

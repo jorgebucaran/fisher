@@ -25,8 +25,6 @@ fisherman 是一款零配置，并发的 [fish shell] 插件管理器。
 
 ##为什么使用fisherman？
 
-* 简单
-
 * 零配置
 
 * 零依赖
