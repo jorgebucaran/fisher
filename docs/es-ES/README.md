@@ -19,17 +19,17 @@
 
 # [fisherman] - fish shell plugin manager
 
-fisherman es un gestionador de paquetes para el [fish shell] de procesamiento en paralelo.
+fisherman es un gestor de paquetes para la consola de comandos [fish shell] con procesamiento en paralelo.
 
 Lee este documento en otro idioma: [English], [日本語], [简体中文], [한국어], [Русский].
 
-## Motivo
+## Por que?
 
 * Sin configuración
 
 * Sin dependencias externas
 
-* No influye en el tiempo de inicio de la sesión
+* No afecta al tiempo de inicio de la sesión
 
 * Se puede utilizar de manera interactiva o _a la_ vundle
 
@@ -49,52 +49,52 @@ Via npm.
 npm i -g fisherman
 ```
 
-## Uso
+## Modo de uso
 
-Instala paquetes.
+Instalar paquetes.
 
 ```
 fisher simple
 ```
 
-Instala de múltiples fuentes.
+Instalar desde múltiples fuentes.
 
 ```
 fisher z fzf omf/{grc,thefuck}
 ```
 
-Instala URLs.
+Instalar desde URLs.
 
 ```
 fisher https://github.com/edc/bass
 ```
 
-Instala gists.
+Instalar desde gists.
 
 ```
 fisher https://gist.github.com/username/1f40e1c6e0551b2666b2
 ```
 
-Instala un directorio.
+Instalar desde un directorio.
 
 ```sh
 fisher ~/my_aliases
 ```
 
-A la vundle. Edita el fishfile y entra `fisher` para satisfacer los cambios.
+A la vundle. Edita el archivo fishfile y ejecuta `fisher` para aplicar los cambios.
 
-> [¿Qué es el fishfile y cómo lo utilizo?](#6-qué-es-el-fishfile-y-cómo-lo-uso)
+> [¿Qué es el archivo fishfile y cómo lo utilizo?](#6-qué-es-el-fishfile-y-cómo-lo-uso)
 
 ```sh
-$EDITOR fishfile # añade paquetes
+$EDITOR fishfile # añade los paquetes como dependencias
 fisher
 ```
 
-Muestra que está instalado actualmente.
+Muestra que tienes instalado actualmente.
 
 ```
 fisher ls
-@ my_aliases    # este paquete es un directorio
+@ my_aliases    # este paquete esta en un directorio
 * simple        # este paquete es el tema actual
   bass
   fzf
@@ -103,7 +103,7 @@ fisher ls
   z
 ```
 
-Actualiza todo.
+Actualizalo todo.
 
 ```
 fisher up
@@ -135,9 +135,9 @@ fisher help z
 
 ## FAQ
 
-### 1. ¿Qué versión de fish se requiere?
+### 1. ¿Qué versión de fish es necesaria?
 
-fisherman fue diseñado para fish >= 2.3.0. Si estás en 2.2.0 y no puedes actualizarte por algún motivo, añade este código a `~/.config/fish/config.fish` para poder ejecutar [snippets](#8-qué-es-un-paquete).
+fisherman fue diseñado para fish >= 2.3.0. Si tienes la versión 2.2.0 y no puedes actualizarla por algún motivo, añade este código en el archivo `~/.config/fish/config.fish` para poder ejecutar [snippets](#8-qué-es-un-paquete).
 
 ```fish
 for file in ~/.config/fish/conf.d/*.fish
@@ -145,9 +145,9 @@ for file in ~/.config/fish/conf.d/*.fish
 end
 ```
 
-### 2. ¿Cómo hago fish mi shell por defecto?
+### 2. ¿Cómo hago fish mi consola de comandos por defecto?
 
-Añade fish a la lista de login shells in `/etc/shells`.
+Añade fish a la lista de consolas de comandos en `/etc/shells`.
 
 ```sh
 echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
@@ -156,13 +156,13 @@ chsh -s /usr/local/bin/fish
 
 ### 3. ¿Cómo puedo desinstalar fisherman?
 
-Entra
+Ejecuta
 
 ```fish
 fisher self-uninstall
 ```
 
-or
+o
 
 ```fish
 npm un -g fisherman
@@ -172,19 +172,19 @@ npm un -g fisherman
 
 Sí.
 
-### 5. ¿Dónde guarda fisherman las cosas?
+### 5. ¿Dónde guarda fisherman sus cosas?
 
-fisherman mismo va en `~/.config/fish/functions/fisher.fish`.
+fisherman mismo esta en el archivo `~/.config/fish/functions/fisher.fish`.
 
 El caché y la configuración en `~/.cache/fisherman` y `~/.config/fisherman` respectivamente.
 
-El fishfile en `~/.config/fish/fishfile`.
+El archivo fishfile en `~/.config/fish/fishfile`.
 
-### 6. ¿Qué es el fishfile y cómo lo uso?
+### 6. ¿Qué es el archivo fishfile y cómo lo uso?
 
-El fishfile `~/.config/fish/fishfile` registra todos los paquetes que están instalados.
+El archivo fishfile `~/.config/fish/fishfile` contiene todos los paquetes que están instalados.
 
-Puedes dejar que fisherman se encargue de este archivo automáticamente, o ingresar los paquetes que requieres y entrar `fisher` para satisfacer los cambios.
+Puedes dejar que fisherman se encargue de este archivo automáticamente, o incluir los paquetes que necesitas y ejecutar `fisher` para aplicar los cambios.
 
 ```
 fisherman/simple
@@ -193,25 +193,25 @@ omf/thefuck
 omf/grc
 ```
 
-Este mecanismo solo instala paquetes y dependecias necesarias. Para remover paquetes, usa `fisher rm`.
+Este comando solo instala paquetes y sus dependencias. Para borrar paquetes, usa `fisher rm`.
 
-### 7. ¿Dónde consigo las lista de paquetes para fish?
+### 7. ¿Dónde consigo un listado de paquetes para fish?
 
-Diríjete a la [organización] o usa la búsqueda [en línea] para descrubir contenido.
+Dirígete a la [organización] o usa la búsqueda [en línea] para descubrir contenido.
 
 ### 8. ¿Qué es un paquete?
 
 Un paquete es:
 
-1. un directorio o repositorio de git con una función / archivo `.fish` bien sea en el nivel raíz del proyecto o en un directorio llamado `functions`.
+1. un directorio o repositorio de git con una función / archivo `.fish` bien sea en el directorio raíz del proyecto o en un directorio llamado `functions`.
 
 2. un tema o prompt, es decir, `fish_prompt.fish`, `fish_right_prompt.fish` o ambos.
 
-3. un snippet, es decir, uno o más archivos `.fish` en un directorio llamado `conf.d` que son ejecutados por fish al inicio de la sesión.
+3. un snippet, es decir, uno o más archivos `.fish` en un directorio llamado `conf.d` que son ejecutados por fish al iniciar la sesión.
 
 ### 9. ¿Cómo puedo añadir dependencias a mi plugin?
 
-Crea un `fishfile` en el nivel raíz de tu proyecto y escribe los paquetes.
+Crea un archivo `fishfile` en la carpeta raíz de tu plugin y incluye los paquetes en el.
 
 ```fish
 owner/repo
