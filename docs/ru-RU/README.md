@@ -13,6 +13,7 @@
 [简体中文]: ../zh-CN
 [日本語]: ../jp-JA
 [Русский]: ../ru-RU
+[한국어]: ../ko-KR
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
@@ -21,7 +22,7 @@
 
 fisherman это параллельный менеджер плагинов для [fish shell].
 
-Прочитать этот документ на другом языке: [English], [Español], [日本語], [简体中文].
+Прочитать этот документ на другом языке: [English], [Español], [日本語], [简体中文], [한국어].
 
 ## Почему?
 

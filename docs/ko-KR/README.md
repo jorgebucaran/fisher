@@ -9,10 +9,10 @@
 [online]: http://fisherman.sh/#search
 
 [English]: ../../README.md
-[Español]: docs/es-ES
-[简体中文]: docs/zh-CN
-[日本語]: docs/jp-JA
-[Русский]: docs/ru-RU
+[Español]: ../es-ES
+[简体中文]: ../zh-CN
+[日本語]: ../jp-JA
+[Русский]: ../ru-RU
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
