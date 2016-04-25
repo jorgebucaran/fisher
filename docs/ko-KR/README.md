@@ -25,8 +25,6 @@ fisherman은 [fish shell]을 위한 병렬 처리 플러그인 매니저 입니�
 
 ## 왜 fisherman을 사용해야 하죠?
 
-* 간결함
-
 * 설정 없음
 
 * 의존성 없음
