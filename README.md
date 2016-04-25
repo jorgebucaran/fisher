@@ -13,6 +13,7 @@
 [日本語]: docs/jp-JA
 [한국어]: docs/ko-KR
 [Русский]: docs/ru-RU
+[Català]: docs/ca-ES
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
