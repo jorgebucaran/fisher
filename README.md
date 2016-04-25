@@ -25,8 +25,6 @@ Read this document in another language: [Español], [日本語], [简体中文],
 
 ## Why?
 
-* Simple
-
 * No configuration
 
 * No external dependencies
@@ -49,6 +47,12 @@ With npm.
 
 ```
 npm i -g fisherman
+```
+
+If you are still running 1.5 and want to upgrade to >2.0 without much hassle.
+
+```
+curl -L git.io/fisher-up-me | fish
 ```
 
 ## Usage
@@ -174,9 +178,9 @@ Yes.
 
 ### 5. Where does fisherman put stuff?
 
-fisherman goes in `~/.config/fish/functions/fisher.fish`.
+fisherman is saved to `~/.config/fish/functions/fisher.fish`.
 
-The cache and plugin configuration is created in `~/.cache/fisherman` and `~/.config/fisherman` respectively.
+The cache and configuration is created in `~/.cache/fisherman` and `~/.config/fisherman` respectively.
 
 The fishfile is saved to `~/.config/fish/fishfile`.
 
