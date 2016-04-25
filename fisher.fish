@@ -52,6 +52,13 @@ function fisher
         return 1
     end
 
+    set -l completions "$fish_config/completions/fisher.fish"
+
+    if test ! -e "$completions"
+        __fisher_completions_write > "$completions"
+        source "$completions"
+    end
+
     set -g __fisher_stdout /dev/stdout
     set -g __fisher_stderr /dev/stderr
 
@@ -265,13 +272,6 @@ function fisher
                 complete -xc fisher -n "not __fish_seen_subcommand_from u up update r rm remove uninstall l ls list h help" -a "$plugin" -d "Plugin"
             end
         end
-    end
-
-    set -l completions "$fish_config/completions/fisher.fish"
-
-    if test ! -e "$completions"
-        __fisher_completions_write > "$completions"
-        source "$completions"
     end
 end
 
