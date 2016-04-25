@@ -13,6 +13,7 @@
 [日本語]: ../jp-JA
 [Русский]: ../ru-RU
 [한국어]: ../ko-KR
+[Català]: ../ca-ES
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
@@ -21,7 +22,7 @@
 
 fisherman es un gestor de paquetes para la consola de comandos [fish shell] con procesamiento en paralelo.
 
-Lee este documento en otro idioma: [English], [日本語], [简体中文], [한국어], [Русский].
+Lee este documento en otro idioma: [English], [日本語], [简体中文], [한국어], [Русский], [Català].
 
 ## Por que?
 
