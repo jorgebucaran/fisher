@@ -843,15 +843,15 @@ function __fisher_list_plugin_directory -a item
     for file in .* **
         if test -f "$file"
             switch "$file"
-                case .\*
-                    printf "    %s\n" $file
-
                 case \*/\*
                     set -l current_tree (dirname $file)
+
                     if test "$previous_tree" != "$current_tree"
                         printf "    $color%s/$nc\n" $current_tree
                     end
+                    
                     printf "        %s\n" (basename $file)
+
                     set previous_tree $current_tree
 
                 case \*
