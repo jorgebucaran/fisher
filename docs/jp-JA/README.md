@@ -13,6 +13,7 @@
 [简体中文]: ../zh-CN
 [Русский]: ..//ru-RU
 [한국어]: ../ko-KR
+[Català]: ../ca-ES
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
@@ -21,7 +22,7 @@
 
 fisherman とは フィッシュシェルのための並列処理パッケージマネージャーです。
 
-翻訳: [English], [Español], [简体中文], [한국어], [Русский].
+翻訳: [English], [Español], [简体中文], [한국어], [Русский], [Català].
 
 ## 理由
 

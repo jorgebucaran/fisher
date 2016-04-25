@@ -13,6 +13,7 @@
 [日本語]: ../jp-JA
 [Русский]: ../ru-RU
 [한국어]: ../ko-KR
+[Català]: ../ca-ES
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
@@ -21,7 +22,7 @@
 
 fisherman 是一款零配置，并发的 [fish shell] 插件管理器。
 
-选择不同语言版本的文档: [Español], [日本語], [English], [한국어], [Русский]。
+选择不同语言版本的文档: [Español], [日本語], [English], [한국어], [Русский], [Català]。
 
 ##为什么使用fisherman？
 
