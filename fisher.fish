@@ -1,5 +1,5 @@
 function fisher
-    set -g fisher_version "2.1.9"
+    set -g fisher_version "2.1.10"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
     function __fisher_show_spinner
@@ -849,7 +849,7 @@ function __fisher_list_plugin_directory -a item
                     if test "$previous_tree" != "$current_tree"
                         printf "    $color%s/$nc\n" $current_tree
                     end
-                    
+
                     printf "        %s\n" (basename $file)
 
                     set previous_tree $current_tree
