@@ -91,7 +91,7 @@ fisher ~/my_aliases
 
 Fes-lo anar a la vundle. Edita el teu arxiu fishfile i executa `fisher` per a aplicar els canvis.
 
-> [Que és un arxiu fishfile i com el faig anar?](#6-que-es-un-arxiu-fishfile-i-com-el-faig-anar)
+> [Que és un arxiu fishfile i com el faig anar?](#6-que-és-un-arxiu-fishfile-i-com-el-faig-anar)
 
 ```sh
 $EDITOR fishfile # afegeix complements
@@ -135,7 +135,7 @@ Esborra tots els complements.
 fisher ls | fisher rm
 ```
 
-Aconsegueix ajuga.
+Aconsegueix ajuda.
 
 ```
 fisher help z
