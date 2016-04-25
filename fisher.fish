@@ -830,7 +830,7 @@ function __fisher_list_plugin_directory -a item
 
     set -l color (set_color $fish_color_command)
     set -l nc (set_color normal)
-    set -l inside_tree
+    set -l previous_tree
 
     if contains -- --no-color $argv
         set color
@@ -845,18 +845,17 @@ function __fisher_list_plugin_directory -a item
             switch "$file"
                 case .\*
                     printf "    %s\n" $file
-                    set inside_tree
 
                 case \*/\*
-                    if test -z "$inside_tree"
-                        printf "    $color%s/$nc\n" (dirname $file)
-                        set inside_tree -
+                    set -l current_tree (dirname $file)
+                    if test "$previous_tree" != "$current_tree"
+                        printf "    $color%s/$nc\n" $current_tree
                     end
                     printf "        %s\n" (basename $file)
+                    set previous_tree $current_tree
 
                 case \*
                     printf "    %s\n" $file
-                    set inside_tree
             end
         end
     end > $fd
