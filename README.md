@@ -22,7 +22,7 @@
 
 fisherman is a concurrent plugin manager for the [fish shell].
 
-Read this document in another language: [Español], [日本語], [简体中文], [한국어], [Русский].
+Read this document in another language: [Español], [日本語], [简体中文], [한국어], [Русский], [Català].
 
 ## Why?
 
