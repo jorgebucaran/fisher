@@ -565,10 +565,10 @@ function __fisher_update_path_async -a name path
 
         command git reset -q --hard FETCH_HEAD ^ /dev/null
         command git clean -qdfx
+        command cp -rf '$path/.' '$fisher_cache/$name'
 
         if test -z \"\$commits\" -o \"\$commits\" -eq 0
             printf '$okay""OKAY""$nc Latest $okay%s$nc\n' '$name' > $__fisher_stderr
-            command cp -rf '$path' '$fisher_cache/$name'
         else
             printf '$okay""OKAY""$nc $okay%s$nc new commits $okay%s$nc\n' \$commits '$name' > $__fisher_stderr
         end
