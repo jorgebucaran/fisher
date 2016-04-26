@@ -1,5 +1,5 @@
 function fisher
-    set -g fisher_version "2.1.12"
+    set -g fisher_version "2.1.13"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
     function __fisher_show_spinner
@@ -461,7 +461,7 @@ function __fisher_update
     set -l jobs
     set -l count (count $argv)
     set -l updated
-    set -l skipped 0
+    set -l links 0
 
     if test "$count" = 0
         return
@@ -480,7 +480,7 @@ function __fisher_update
             set updated $updated "$i"
 
             if test -L "$fisher_config/$i"
-                set skipped (math "$skipped + 1")
+                set links (math "$links + 1")
                 continue
             end
 
@@ -499,11 +499,12 @@ function __fisher_update
         if test "$i" = "$fisher_active_prompt"
             set fisher_active_prompt
         end
+
         __fisher_plugin_enable "$fisher_config/$i"
     end
 
-    if test "$skipped" -gt 0
-        __fisher_log warn "Skipped @$skipped@ symlink/s" $__fisher_stderr
+    if test "$links" -gt 0
+        __fisher_log info "Synced @$links@ symlink/s" $__fisher_stderr
     end
 end
 
@@ -535,13 +536,8 @@ function __fisher_self_update
     if test "$previous_version" = "$fisher_version"
         __fisher_log okay "fisherman is up to date" $__fisher_stderr
     else
-        __fisher_log okay "You are now running fisherman @$fisher_version@" $__fisher_stderr
-
-        __fisher_log info "
-            To see the change log, please visit:
-            https://github.com/fisherman/fisherman/releases
-
-        " $__fisher_stderr
+        __fisher_log okay "You are running fisherman @$fisher_version@" $__fisher_stderr
+        __fisher_log info "See github.com/fisherman/fisherman/releases" $__fisher_stderr
     end
 end
 
