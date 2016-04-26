@@ -28,7 +28,7 @@ fisherman 是一款零配置，并发的 [fish shell] 插件管理器。
 
 * 零配置
 
-* 零依赖
+* 没有其他依赖
 
 * 不影响 shell 启动速度
 
@@ -46,8 +46,13 @@ curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 
 使用npm。
 
-```
+```sh
 npm i -g fisherman
+```
+
+如果你仍然在使用 fisherman 1.5 并且想轻松升级到 2.0以上， 可以执行以下命令
+```sh
+curl -L git.io/fisher-up-me | fish
 ```
 
 ## 功能
