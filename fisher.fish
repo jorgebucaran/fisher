@@ -1,5 +1,5 @@
 function fisher
-    set -g fisher_version "2.1.11"
+    set -g fisher_version "2.1.12"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
     function __fisher_show_spinner
@@ -37,12 +37,6 @@ function fisher
 
     if test -z "$fisher_bundle"
         set -g fisher_bundle "$fish_config/fishfile"
-    end
-
-    if test (uname -s) = "OpenBSD"
-        set ln_flags = "-sf"
-    else
-        set ln_flags = "-sfF"
     end
 
     if not command mkdir -p "$fish_config/"{conf.d,functions,completions} "$fisher_config" "$fisher_cache"
@@ -374,7 +368,7 @@ function __fisher_plugin_fetch_items
         end
 
         if test -d "$i"
-            command ln $ln_flags "$i" "$fisher_config/$names[1]"
+            command ln -sf "$i" "$fisher_config/$names[1]"
             set links $links "$names[1]"
             continue
         end
@@ -384,7 +378,7 @@ function __fisher_plugin_fetch_items
         if test -z "$names[2]"
             if test -d "$source"
                 if test -L "$source"
-                    command ln $ln_flags "$source" "$fisher_config"
+                    command ln -sf "$source" "$fisher_config"
                 else
                     command cp -rf "$source" "$fisher_config"
                 end
@@ -619,7 +613,8 @@ function __fisher_plugin_enable -a path
 
         set -l target "$fish_config/$dir/$base"
 
-        command ln $ln_flags "$file" "$target"
+        command ln -sf "$file" "$target"
+
         builtin source "$target"
 
         if test "$base" = "set_color_custom.fish"
@@ -630,19 +625,19 @@ function __fisher_plugin_enable -a path
 
     for file in $path/conf.d/*.{py,awk}
         set -l base (basename "$file")
-        command ln $ln_flags "$file" "$fish_config/conf.d/$base"
+        command ln -sf "$file" "$fish_config/conf.d/$base"
     end
 
     for file in $path/{functions/,}*.{py,awk}
         set -l base (basename "$file")
-        command ln $ln_flags "$file" "$fish_config/functions/$base"
+        command ln -sf "$file" "$fish_config/functions/$base"
     end
 
     for file in $path/conf.d/*.fish
         set -l base (basename "$file")
         set -l target "$fish_config/conf.d/$base"
 
-        command ln $ln_flags "$file" "$target"
+        command ln -sf "$file" "$target"
         builtin source "$target"
     end
 
@@ -650,7 +645,7 @@ function __fisher_plugin_enable -a path
         set -l base (basename "$file")
         set -l target "$fish_config/completions/$base"
 
-        command ln $ln_flags "$file" "$target"
+        command ln -sf "$file" "$target"
         builtin source "$target"
     end
 
