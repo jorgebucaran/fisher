@@ -1112,7 +1112,7 @@ function __fisher_plugin_get_names
         {
             sub(/\/$/, "")
             n = split($0, s, "/")
-            sub(/^(omf|omf-theme|omf-plugin|plugin|theme|fish|fisher)-/, "", s[n])
+            sub(/^(omf|oh-my-fish|fish|fisher)-/, "", s[n])
 
             printf("%s\n%s\n", s[n], s[n - 1])
         }
