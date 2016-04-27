@@ -100,7 +100,7 @@ fisher
 
 Fes un cop d'ull al que tens instal·lat.
 
-```
+```ApacheConf
 fisher ls
 @ my_aliases    # aquest complement esta dins un directori local
 * simple        # aquest complement es el tema actual

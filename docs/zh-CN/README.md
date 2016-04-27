@@ -98,7 +98,7 @@ fisher
 
 查看以安装的插件。
 
-```
+```ApacheConf
 fisher ls
 @ my_aliases    # 该插件是一个本地插件
 * simple        # 该插件是当前的命令行提示符插件

@@ -93,7 +93,7 @@ fisher
 
 インストールされるプラグイン表示：
 
-```
+```ApacheConf
 fisher ls
 @ my_aliases    # este paquete es un directorio
 * simple        # este paquete es el tema actual
