@@ -93,7 +93,7 @@ fisher
 
 Muestra que tienes instalado actualmente.
 
-```
+```ApacheConf
 fisher ls
 @ my_aliases    # este paquete esta en un directorio
 * simple        # este paquete es el tema actual

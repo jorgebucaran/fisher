@@ -99,7 +99,7 @@ fisher
 
 See what's installed.
 
-```
+```ApacheConf
 fisher ls
 @ my_aliases    # this plugin is a local directory
 * simple        # this plugin is the current prompt

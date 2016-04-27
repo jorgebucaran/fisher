@@ -93,7 +93,7 @@ fisher
 
 설치된 플러그인 확인:
 
-```
+```ApacheConf
 fisher ls
 @ my_aliases    # 로컬 디렉토리 설치 플러그인
 * simple        # 현재 사용되고 있는 프롬프트 스타일 플러그인
