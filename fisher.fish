@@ -168,11 +168,11 @@ function fisher
 
     switch "$cmd"
         case install
-            if __fisher_install $items
-                __fisher_log okay "Done in "(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration) $__fisher_stderr
-            else
+            if not __fisher_install $items
                 return
             end
+
+            __fisher_log okay "Done in @"(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"@" $__fisher_stderr
 
         case update
             if isatty
@@ -188,7 +188,7 @@ function fisher
 
             __fisher_update $items
 
-            __fisher_log okay "Done in "(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration) $__fisher_stderr
+            __fisher_log okay "Done in @"(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"@" $__fisher_stderr
 
         case ls
             if test "$argv" -ge 0 -o "$argv" = -
@@ -224,7 +224,7 @@ function fisher
                     __fisher_show_spinner
                 end
 
-                __fisher_log okay "Done in "(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration) $__fisher_stderr
+                __fisher_log okay "Done in @"(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"@" $__fisher_stderr
             end
     end
 
@@ -273,6 +273,8 @@ function fisher
             end
         end
     end
+
+    return 0
 end
 
 function __fisher_install
