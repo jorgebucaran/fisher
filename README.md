@@ -18,13 +18,11 @@
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
-# [fisherman] - fish shell plugin manager
+# [fisherman] - fish plugin manager
 
-fisherman is a concurrent plugin manager for the [fish shell].
+Translations: [Español], [日本語], [简体中文], [한국어], [Русский], [Català].
 
-Read this document in another language: [Español], [日本語], [简体中文], [한국어], [Русский], [Català].
-
-## Why?
+## Features
 
 * No configuration
 
@@ -32,7 +30,9 @@ Read this document in another language: [Español], [日本語], [简体中文],
 
 * No impact on shell startup time
 
-* Use it interactively or _a la_ vundle
+* Use it interactively or via a fishfile
+
+* Install and update plugins concurrently
 
 * Only the essentials, install, update, remove, list and help
 
@@ -88,7 +88,7 @@ Install from a local directory.
 fisher ~/my_aliases
 ```
 
-Use it a la vundle. Edit your fishfile and run `fisher` to satisfy changes.
+Edit your fishfile and run `fisher` to satisfy changes.
 
 > [What is a fishfile and how do I use it?](#6-what-is-a-fishfile-and-how-do-i-use-it)
 
@@ -108,6 +108,16 @@ fisher ls
   grc
   thefuck
   z
+```
+
+See what you can install.
+
+```ApacheConf
+fisher ls-remote
+  ...
+  spin          roach       git_util        pwd_info
+  submit        flash       pyenv           host_info
+  ...
 ```
 
 Update everything.
