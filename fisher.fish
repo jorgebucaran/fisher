@@ -73,6 +73,7 @@ function fisher
     end
 
     set -l cmd
+    set -l value
 
     switch "$argv[1]"
         case i install
@@ -90,6 +91,15 @@ function fisher
         case l ls list
             set -e argv[1]
             set cmd "ls"
+
+        case ls-remote
+            set -e argv[1]
+            set cmd "ls-remote"
+
+            switch "$argv[1]"
+                case --format\*
+                    set value (printf "%s\n" "$argv" | command sed 's|^--[^= ]*[= ]\(.*\)|\1|')
+            end
 
         case h help
             set -e argv[1]
@@ -206,6 +216,9 @@ function fisher
             else
                 __fisher_list_plugin_directory $argv
             end
+
+        case ls-remote
+            __fisher_list_remote "$value"
 
         case rm
             if test -z "$items"
@@ -330,11 +343,11 @@ function __fisher_plugin_fetch_items
             if test "$count" = 1 -a -d "$argv[1]"
                 if test "$argv[1]" = "$PWD"
                     set -l home ~
-                    set -l name (printf "%s\n" "$argv[1]" | sed "s|$home|~|")
+                    set -l name (printf "%s\n" "$argv[1]" | command sed "s|$home|~|")
 
                     __fisher_log info "Installing @""$name""@ " $__fisher_stderr
                 else
-                    set -l name (printf "%s\n" "$argv[1]" | sed "s|$PWD/||")
+                    set -l name (printf "%s\n" "$argv[1]" | command sed "s|$PWD/||")
 
                     __fisher_log info "Installing @""$name""@ " $__fisher_stderr
                 end
@@ -442,7 +455,7 @@ function __fisher_plugin_url_clone_async -a url name
     set -l error (set_color red)
     set -l okay (set_color green)
 
-    set -l hm_url (printf "%s\n" "$url" | sed 's|^https://||')
+    set -l hm_url (printf "%s\n" "$url" | command sed 's|^https://||')
 
     fish -c "
             set -lx GIT_ASKPASS /bin/echo
@@ -518,6 +531,7 @@ function __fisher_self_update
         return 1
     end
 
+    set -l completions "$fish_config/completions/fisher.fish"
     set -l raw_url "https://raw.githubusercontent.com/fisherman/fisherman/master/fisher.fish"
     set -l fake_qs (date "+%s")
 
@@ -532,8 +546,13 @@ function __fisher_self_update
     end
 
     source "$file"
+
     fisher -v > /dev/null
+
     set -l new_version "$fisher_version"
+
+    __fisher_completions_write > "$completions"
+    source "$completions"
 
     if test "$previous_version" = "$fisher_version"
         __fisher_log okay "fisherman is up to date" $__fisher_stderr
@@ -786,8 +805,159 @@ function __fisher_get_plugin_name_from_gist -a url
 end
 
 
+function __fisher_remote_index_update
+    set -l index "$fisher_cache/.index.json"
+    set -l interval 2160
+
+    if test ! -z "$fisher_index_update_interval"
+        set interval "$fin_index_update_interval"
+    end
+
+    if test -s "$index"
+        if test (__fisher_get_file_age "$index") -lt "$interval"
+            return
+        end
+    end
+
+    fish -c "curl -s 'https://api.github.com/orgs/fisherman/repos?per_page=100' > '$index'" &
+
+    __fisher_jobs_await (__fisher_jobs_get -l)
+
+    if test ! -s "$index"
+        return 1
+    end
+end
+
+
+function __fisher_list_remote -a format
+    set -l index "$fisher_cache/.index.json"
+
+    if not __fisher_remote_index_update
+        __fisher_log error "I could not update the remote index."
+        __fisher_log info "
+
+            This is most likely a problem with http://api.github.com/
+            or a connection timeout. If the problem persists, open an
+            issue in: <github.com/fisherman/fisherman/issues>
+        "
+
+        return 1
+    end
+
+    set -l column_options
+
+    if test -z "$format"
+        set format "%name\n"
+    else
+        set column_options -c0
+    end
+
+    set -l config "$fisher_config"/*
+
+    command awk -v format_s="$format" -v config="$config" '
+
+        function qsort(A, L, R, pivot,   j, i, t) {
+            pivot = j = i = t
+            if (L >= R) {
+                return
+            }
+            pivot = L
+            i = L
+            j = R
+            while (i < j) {
+                while (A[i] <= A[pivot] && i < R) i++
+                while (A[j] > A[pivot]) j--
+                if (i < j) {
+                    t = A[i]
+                    A[i] = A[j]
+                    A[j] = t
+                }
+            }
+            t = A[pivot]
+            A[pivot] = A[j]
+            A[j] = t
+            qsort(A, L, j - 1)
+            qsort(A, j + 1, R)
+        }
+
+        function basename(s,   n, a) {
+            n = split(s, a, "/")
+            return a[n]
+        }
+
+        function in_config(item,   i) {
+            for (i = 1; i <= config_n; i++) {
+                if (item == config_a[i]) {
+                    return 1
+                }
+            }
+
+            return 0
+        }
+
+        function print_record_with_format(name, stars, url, info, fmt) {
+            gsub(/%name/, name, fmt)
+            gsub(/%stars/, stars, fmt)
+            gsub(/%url/, url, fmt)
+            gsub(/%info/, info, fmt)
+
+            printf(fmt)
+        }
+
+        function json_get_field(s) {
+            if ($0 ~ "^" s ":") {
+                return substr($0, length(s) + 3)
+            }
+        }
+
+        BEGIN {
+            config_n = split(config, config_a)
+
+            for (i = 1; i <= config_n; i++) {
+                config_a[i] = basename(config_a[i])
+            }
+        }
+
+        {
+            gsub(/[\[\],{}"]|^[\t ]+/, "")
+
+            s = json_get_field("name")
+            name = s != "" ? s : name
+
+            s = json_get_field("description")
+            info = s != "" ? s : info
+
+            s = json_get_field("stargazers_count")
+            stars = s != "" ? s : stars
+
+            if (name != "" && info != "" && stars != "" && !in_config(name)) {
+                if (name !~ /^awesome-fish|^fisherman|^index|logo/) {
+                    info = (info == "null") ? "No description." : info
+                    records[++record_index] = name ";" info ";" stars
+                }
+
+                name = info = stars = ""
+            }
+        }
+
+        END {
+            qsort(records, 1, record_index)
+
+            for (i = 1; i <= record_index; i++) {
+                n = split(records[i], r, ";")
+
+                if (n == 3) {
+                    print_record_with_format(r[1], r[2], "github.com/fisherman/"r[1], r[3], format_s)
+                }
+            }
+        }
+
+    ' < "$index" | column $column_options
+end
+
+
 function __fisher_list
-    set -l config $fisher_config/*
+    set -l config "$fisher_config"/*
 
     if test -z "$config"
         return 1
@@ -988,9 +1158,9 @@ function __fisher_key_bindings_remove -a plugin_name
     set -l user_key_bindings "$fish_config/functions/fish_user_key_bindings.fish"
     set -l tmp (date "+%s")
 
-    fish_indent < "$user_key_bindings" | sed -n "/### $plugin_name ###/,/### $plugin_name ###/{s/^ *bind /bind -e /p;};" | source ^ /dev/null
+    fish_indent < "$user_key_bindings" | command sed -n "/### $plugin_name ###/,/### $plugin_name ###/{s/^ *bind /bind -e /p;};" | source ^ /dev/null
 
-    sed "/### $plugin_name ###/,/### $plugin_name ###/d" < "$user_key_bindings" > "$user_key_bindings.$tmp"
+    command sed "/### $plugin_name ###/,/### $plugin_name ###/d" < "$user_key_bindings" > "$user_key_bindings.$tmp"
     command mv -f "$user_key_bindings.$tmp" "$user_key_bindings"
 
     if awk '
@@ -1260,14 +1430,15 @@ end
 function __fisher_completions_write
     functions __fisher_completions_write | fish_indent | __fisher_parse_comments_from_function
 
-    # complete -xc fisher -s h -l help -d "Show usage help"
     # complete -xc fisher -s q -l quiet -d "Enable quiet mode"
-    # complete -xc fisher -s v -l version -d "Show version information"
-    # complete -xc fisher -n "__fish_use_subcommand" -a install -d "Install plugins  /  i"
-    # complete -xc fisher -n "__fish_use_subcommand" -a update -d "Update itself and plugins  /  u"
-    # complete -xc fisher -n "__fish_use_subcommand" -a rm -d "Remove plugins  /  r"
-    # complete -xc fisher -n "__fish_use_subcommand" -a ls -d "List plugins  /  l"
-    # complete -xc fisher -n "__fish_use_subcommand" -a help -d "Show help  /  h"
+    # complete -xc fisher -n "__fish_use_subcommand" -s h -l help -d "Show usage help"
+    # complete -xc fisher -n "__fish_use_subcommand" -s v -l version -d "Show version information"
+    # complete -xc fisher -n "__fish_use_subcommand" -a install -d "Install plugins"
+    # complete -xc fisher -n "__fish_use_subcommand" -a update -d "Upgrade and update plugins"
+    # complete -xc fisher -n "__fish_use_subcommand" -a rm -d "Remove plugins"
+    # complete -xc fisher -n "__fish_use_subcommand" -a ls -d "List what's installed"
+    # complete -xc fisher -n "__fish_use_subcommand" -a ls-remote -d "List what can be installed"
+    # complete -xc fisher -n "__fish_use_subcommand" -a help -d "Show help"
 end
 
 
@@ -1358,6 +1529,15 @@ function __fisher_parse_comments_from_function
 end
 
 
+function __fisher_get_file_age -a file
+    if not type -q python
+        return 1
+    end
+
+    python -c "import os, time; print int(time.time() - os.path.getmtime('$file'))" ^ /dev/null
+end
+
+
 function __fisher_usage
     set -l u (set_color -u)
     set -l nc (set_color normal)
@@ -1368,7 +1548,7 @@ function __fisher_usage
     echo "       "$u"i"$nc"nstall (default)"
     echo "       "$u"u"$nc"pdate"
     echo "       "$u"r"$nc"m"
-    echo "       "$u"l"$nc"s"
+    echo "       "$u"l"$nc"s (or ls-remote)"
     echo "       "$u"h"$nc"elp"
 end
 
@@ -1613,6 +1793,23 @@ function __fisher_man_page_write
     #   grc
     #   thefuck
     #   z
+    # .
+    # .fi
+    # .
+    # .IP "" 0
+    # .
+    # .P
+    # See what you can install\.
+    # .
+    # .IP "" 4
+    # .
+    # .nf
+    #
+    # fisher ls\-remote
+    #   \.\.\.
+    #   spin          roach       git_util        pwd_info
+    #   submit        flash       pyenv           host_info
+    #   \.\.\.
     # .
     # .fi
     # .
