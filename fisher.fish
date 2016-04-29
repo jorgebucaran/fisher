@@ -295,12 +295,11 @@ function fisher
         end
     end
 
-    if test -s "$fisher_cache/.index"
-        __fisher_list_remote_complete
-    end
-
-    return 0
+    __fisher_list_remote_complete
+    
+    source "$completions"
 end
+
 
 function __fisher_install
     if test -z "$argv"
@@ -938,7 +937,14 @@ end
 function __fisher_list_remote_complete
     set -l IFS \t
 
-    __fisher_list_remote "%name\t%info\n" | while read -l name info
+    command awk -v FS=\t -v OFS=\t '
+
+        {
+            print($1, $2)
+        }
+
+    ' "$fisher_cache/.index" ^ /dev/null | while read -l name info
+
         complete -xc fisher -n "__fish_seen_subcommand_from info ls-remote" -a "$name" -d "$info"
     end
 end
