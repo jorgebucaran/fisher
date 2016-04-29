@@ -3,7 +3,7 @@
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg
 
-[fish]: http://fish.sh
+[fish shell]: https://github.com/fish-shell/fish-shell
 [fisherman]: https://github.com/fisherman.sh
 [fishfile]: #6-Что-такое-fishfile-и-как-я-могу-его-использовать
 [организации]: https://github.com/fisherman
@@ -20,7 +20,7 @@
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
-# [fisherman] - менеджер плагинов для [fish]
+# [fisherman] - менеджер плагинов для [fish shell]
 
 Другие переводы: [English], [Español], [日本語], [简体中文], [한국어], [Català].
 
@@ -44,12 +44,6 @@
 
 ```sh
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
-```
-
-Если вы ещё используете версию 1.5 и хотите обновиться до >2.0 без особых хлопот:
-
-```
-curl -L git.io/fisher-up-me | fish
 ```
 
 ## Использование
