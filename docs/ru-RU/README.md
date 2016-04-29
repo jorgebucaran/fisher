@@ -5,6 +5,7 @@
 
 [fish-shell]: https://github.com/fish-shell/fish-shell
 [fisherman]: https://github.com/fisherman.sh
+[fishfile]: #6-Что-такое-fishfile-и-как-я-могу-его-использовать
 [организации]: https://github.com/fisherman
 [онлайн]: http://fisherman.sh/#search
 
@@ -20,11 +21,9 @@
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
-# [fisherman] - fish shell plugin manager
+# [fisherman] - менеджер плагинов для [fish shell]
 
-fisherman это параллельный менеджер плагинов для [fish-shell].
-
-Прочитать этот документ на другом языке: [English], [Español], [日本語], [简体中文], [한국어], [Català], [Português].
+Другие переводы: [English], [Español], [日本語], [简体中文], [한국어], [Català], [Português].
 
 ## Достоинства fisherman
 
@@ -34,9 +33,11 @@ fisherman это параллельный менеджер плагинов дл
 
 * Не влияет на время запуска оболочки
 
-* Можно использовать в интерактивном режиме или а-ля vundle
+* Можно использовать в интерактивном режиме или через [fishfile]
 
-* Только необходимые функции: установка, обновление, удаление, список установленного и справка
+* Плагины устанавливаются и обновляются в параллельном режиме
+
+* Только необходимые функции: установка, обновление, удаление, список и справка
 
 ## Установка
 
@@ -44,12 +45,6 @@ fisherman это параллельный менеджер плагинов дл
 
 ```sh
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
-```
-
-Если вы ещё используете версию 1.5 и хотите обновиться до >2.0 без особых хлопот:
-
-```
-curl -L git.io/fisher-up-me | fish
 ```
 
 ## Использование
@@ -84,16 +79,14 @@ fisher https://gist.github.com/username/1f40e1c6e0551b2666b2
 fisher ~/my_aliases
 ```
 
-Использование в интерактивном-режиме. Отредактируйте fishfile и запустите `fisher`, чтобы изменения вступили в силу.
-
-> [Что такое fishfile и как я могу его использовать?](#6-Что-такое-fishfile-и-как-я-могу-его-использовать)
+Отредактируйте [fishfile] и запустите `fisher`, чтобы изменения вступили в силу.
 
 ```sh
 $EDITOR fishfile # добавьте плагины
 fisher
 ```
 
-Просмотр установленных плагинов.
+Список установленных плагинов.
 
 ```ApacheConf
 fisher ls
@@ -104,6 +97,16 @@ fisher ls
   grc
   thefuck
   z
+```
+
+Список доступных плагинов.
+
+```
+fisher ls-remote
+  ...
+  spin          roach       git_util        pwd_info
+  submit        flash       pyenv           host_info
+  ...
 ```
 
 Обновление всего сразу.
@@ -163,12 +166,6 @@ chsh -s /usr/local/bin/fish
 fisher self-uninstall
 ```
 
-или
-
-```fish
-npm un -g fisherman
-```
-
 ### 4. Совместим ли fisherman с темами и плагинами oh my fish?
 
 Да.
@@ -208,7 +205,7 @@ omf/grc
 
 2. тема или оформление командной строки, т.е. `fish_prompt.fish`, `fish_right_prompt.fish` или оба файла
 
-3. сниппет, т.е. один или несколько `.fish` файлов в директории `conf.d`, которые fish читает при запуске
+3. сниппет, т.е. один или несколько `.fish` файлов в директории `conf.d`, которые загружаются при запуске fish
 
 ### 9. Как я могу объявить зависимости моего плагина?
 
