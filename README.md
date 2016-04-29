@@ -14,6 +14,7 @@
 [한국어]: docs/ko-KR
 [Русский]: docs/ru-RU
 [Català]: docs/ca-ES
+[Português]: docs/pt-PT
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
@@ -22,7 +23,7 @@
 
 fisherman is a concurrent plugin manager for [fish-shell].
 
-Translations: [Español], [日本語], [简体中文], [한국어], [Русский], [Català].
+Translations: [Español], [日本語], [简体中文], [한국어], [Русский], [Català], [Português].
 
 ## Features
 

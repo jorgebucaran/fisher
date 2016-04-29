@@ -4,7 +4,7 @@
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg
 
 [organització]: https://github.com/fisherman
-[fish shell]: https://github.com/fish-shell/fish-shell
+[fish-shell]: https://github.com/fish-shell/fish-shell
 [fisherman]: http://fisherman.sh
 [en línia]: http://fisherman.sh/#search
 
@@ -15,13 +15,14 @@
 [한국어]: docs/ko-KR
 [Русский]: docs/ru-RU
 [Català]: docs/ca-ES
+[Português]: ../pt-PT
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
 # [fisherman] - gestor de complements per a fish
 
-Llegeix aquest document en un altre llenguatge: [English], [Español], [日本語], [简体中文], [한국어], [Русский].
+Llegeix aquest document en un altre llenguatge: [English], [Español], [日本語], [简体中文], [한국어], [Русский], [Português].
 
 ## Prestacions
 
