@@ -167,6 +167,8 @@ function fisher
                 __fisher_usage > /dev/stderr
                 return
             end
+        else
+            set cmd "install"
         end
     end
 
@@ -329,7 +331,7 @@ function __fisher_install
         " $__fisher_stderr
 
         __fisher_log info "
-            Try using a namespace before the plugin name: @omf@/$fetched
+            Try using a namespace before the plugin name: @xxx@/$fetched
         " $__fisher_stderr
 
         return 1
