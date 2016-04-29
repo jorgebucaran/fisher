@@ -4,7 +4,7 @@
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg
 
 [organización]: https://github.com/fisherman
-[fish shell]: https://github.com/fish-shell/fish-shell
+[fish-shell]: https://github.com/fish-shell/fish-shell
 [fisherman]: http://fisherman.sh
 [en línea]: http://fisherman.sh/#search
 
@@ -14,13 +14,14 @@
 [Русский]: ../ru-RU
 [한국어]: ../ko-KR
 [Català]: ../ca-ES
+[Português]: ../pt-PT
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
 # [fisherman] - fish plugin manager
 
-Lee este documento en otro idioma: [English], [日本語], [简体中文], [한국어], [Русский], [Català].
+Lee este documento en otro idioma: [English], [日本語], [简体中文], [한국어], [Русский], [Català], [Português].
 
 ## Prestaciones
 

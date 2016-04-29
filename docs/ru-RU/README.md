@@ -3,7 +3,7 @@
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg
 
-[fish shell]: https://github.com/fish-shell/fish-shell
+[fish-shell]: https://github.com/fish-shell/fish-shell
 [fisherman]: https://github.com/fisherman.sh
 [организации]: https://github.com/fisherman
 [онлайн]: http://fisherman.sh/#search
@@ -15,15 +15,16 @@
 [Русский]: ../ru-RU
 [한국어]: ../ko-KR
 [Català]: ../ca-ES
+[Português]: ../pt-PT
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
 # [fisherman] - fish shell plugin manager
 
-fisherman это параллельный менеджер плагинов для [fish shell].
+fisherman это параллельный менеджер плагинов для [fish-shell].
 
-Прочитать этот документ на другом языке: [English], [Español], [日本語], [简体中文], [한국어], [Català].
+Прочитать этот документ на другом языке: [English], [Español], [日本語], [简体中文], [한국어], [Català], [Português].
 
 ## Достоинства fisherman
 

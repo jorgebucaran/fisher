@@ -4,7 +4,7 @@
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg
 
 [organization]: https://github.com/fisherman
-[fish shell]: https://github.com/fish-shell/fish-shell
+[fish-shell]: https://github.com/fish-shell/fish-shell
 [fisherman]: http://fisherman.sh
 [online]: http://fisherman.sh/#search
 
@@ -14,15 +14,16 @@
 [日本語]: ../jp-JA
 [Русский]: ../ru-RU
 [Català]: ../ca-ES
+[Português]: ../pt-PT
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
 # [fisherman] - fish shell 플러그인 매니저
 
-fisherman은 [fish shell]을 위한 병렬 처리 플러그인 매니저 입니다.
+fisherman은 [fish-shell]을 위한 병렬 처리 플러그인 매니저 입니다.
 
-다른 언어로 읽기: [English], [Español], [日本語], [简体中文], [Русский], [Català].
+다른 언어로 읽기: [English], [Español], [日本語], [简体中文], [Русский], [Català], [Português].
 
 ## 왜 fisherman을 사용해야 하죠?
 
