@@ -91,7 +91,7 @@ function fisher
             set -e argv[1]
             set cmd "ls"
 
-        case ls-remote
+        case info ls-remote
             set -e argv[1]
             set cmd "ls-remote"
 
@@ -259,8 +259,8 @@ function fisher
     else
         __fisher_plugin_get_url_info -- $config > $fisher_bundle
 
-        complete -xc fisher -n "__fish_seen_subcommand_from u up update r rm remove uninstall" -a "(printf '%s\n' $config | command sed 's|.*/||')"
-        complete -xc fisher -n "__fish_seen_subcommand_from u up update r rm remove uninstall" -a "$fisher_active_prompt" -d "Prompt"
+        complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "(printf '%s\n' $config | command sed 's|.*/||')"
+        complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$fisher_active_prompt" -d "Prompt"
     end
 
     if test ! -z "$cache"
@@ -287,12 +287,16 @@ function fisher
         ' | while read -l plugin
             if __fisher_plugin_is_prompt "$fisher_cache/$plugin"
                 complete -xc fisher -n "__fish_seen_subcommand_from i in install" -a "$plugin" -d "Prompt"
-                complete -xc fisher -n "not __fish_seen_subcommand_from u up update r rm remove uninstall l ls list h help" -a "$plugin" -d "Prompt"
+                complete -xc fisher -n "not __fish_seen_subcommand_from u up update r rm remove uninstall l ls list ls-remote h help" -a "$plugin" -d "Prompt"
             else
                 complete -xc fisher -n "__fish_seen_subcommand_from i in install" -a "$plugin" -d "Plugin"
-                complete -xc fisher -n "not __fish_seen_subcommand_from u up update r rm remove uninstall l ls list h help" -a "$plugin" -d "Plugin"
+                complete -xc fisher -n "not __fish_seen_subcommand_from u up update r rm remove uninstall l ls list ls-remote h help" -a "$plugin" -d "Plugin"
             end
         end
+    end
+
+    if test -s "$fisher_cache/.index"
+        __fisher_list_remote_complete
     end
 
     return 0
@@ -814,7 +818,7 @@ end
 
 
 function __fisher_remote_index_update
-    set -l index "$fisher_cache/.index.json"
+    set -l index "$fisher_cache/.index"
     set -l interval 2160
 
     if test ! -z "$fisher_index_update_interval"
@@ -855,35 +859,8 @@ function __fisher_remote_index_update
     if test ! -s "$index"
         return 1
     end
-end
 
-
-function __fisher_list_remote -a format key
-    set -l index "$fisher_cache/.index.json"
-
-    if not __fisher_remote_index_update
-        __fisher_log error "I could not update the remote index."
-        __fisher_log info "
-
-            This is most likely a problem with http://api.github.com/
-            or a connection timeout. If the problem persists, open an
-            issue in: <github.com/fisherman/fisherman/issues>
-        "
-
-        return 1
-    end
-
-    set -l column_options
-
-    if test -z "$format"
-        set format "%name\n"
-    else
-        set column_options -c0
-    end
-
-    set -l config "$fisher_config"/*
-
-    command awk -v format_s="$format" -v config="$config" -v key="$key" '
+    command awk '
 
         function quicksort(list, lo, hi, pivot,   j, i, t) {
             pivot = j = i = t
@@ -921,6 +898,79 @@ function __fisher_list_remote -a format key
             quicksort(list, j + 1, hi)
         }
 
+        function field_parse(s) {
+            if ($0 ~ "^" s ":") {
+                return substr($0, length(s) + 3)
+            }
+        }
+
+        {
+            name = (s = field_parse("name")) ? s : name
+            info = (s = field_parse("description")) ? s : info
+            stars = (s = field_parse("stargazers_count")) ? s : stars
+
+            if (name && info && stars != "") {
+                records[++record_count] = name "\t" info "\t" "github.com/fisherman/" name "\t" stars
+                name = info = stars = ""
+            }
+        }
+
+        END {
+            quicksort(records, 1, record_count)
+
+            for (i = 1; i <= record_count; i++) {
+                print(records[i])
+            }
+        }
+
+    ' < "$index" > "$index-tab"
+
+    if test ! -s "$index-tab"
+        command rm "$index"
+
+        return 1
+    end
+
+    command mv -f "$index-tab" "$index"
+end
+
+
+function __fisher_list_remote_complete
+    set -l IFS \t
+
+    __fisher_list_remote "%name\t%info\n" | while read -l name info
+        complete -xc fisher -n "__fish_seen_subcommand_from info ls-remote" -a "$name" -d "$info"
+    end
+end
+
+
+function __fisher_list_remote -a format key
+    set -l index "$fisher_cache/.index"
+
+    if not __fisher_remote_index_update
+        __fisher_log error "I could not update the remote index."
+        __fisher_log info "
+
+            This is most likely a problem with http://api.github.com/
+            or a connection timeout. If the problem persists, open an
+            issue in: <github.com/fisherman/fisherman/issues>
+        "
+
+        return 1
+    end
+
+    set -l column_options
+
+    if test -z "$format"
+        set format "%name\n"
+    else
+        set column_options -c0
+    end
+
+    set -l config "$fisher_config"/*
+
+    command awk -v FS=\t -v format_s="$format" -v config="$config" -v key="$key" '
+
         function basename(s,   n, a) {
             n = split(s, a, "/")
             return a[n]
@@ -932,7 +982,6 @@ function __fisher_list_remote -a format key
                     return 1
                 }
             }
-
             return 0
         }
 
@@ -949,12 +998,6 @@ function __fisher_list_remote -a format key
             printf(fmt)
         }
 
-        function field_parse(s) {
-            if ($0 ~ "^" s ":") {
-                return substr($0, length(s) + 3)
-            }
-        }
-
         BEGIN {
             config_count = split(config, config_a)
 
@@ -964,55 +1007,13 @@ function __fisher_list_remote -a format key
         }
 
         {
-            s = field_parse("name")
-            if (s != "") {
-                name = s
-                # next
-            }
-            s = field_parse("description")
-            if (s != "") {
-                info = s
-                # next
-            }
-            s = field_parse("stargazers_count")
-            if (s != "") {
-                stars = s
+            if (key == $1) {
+                record_printf(format_s, $1, $2, $3, $4)
+                exit
             }
 
-            # name = (s = field_parse("name")) ? s : name
-            # info = (s = field_parse("description")) ? s : info
-            # stars = (s = field_parse("stargazers_count")) ? s : stars
-
-            if (name && info && stars != "") {
-                records[++record_count] = name ";" stars ";" info
-                name = info = stars = ""
-            }
-        }
-
-        END {
-            quicksort(records, 1, record_count)
-
-            for (i = 1; i <= record_count; i++) {
-                split(records[i], r, ";")
-
-                name = r[1]
-
-                if (key != "" && key != name) {
-                    continue
-                }
-
-                stars = r[2]
-                info = r[3] (substr($0, length($0), 1) == "." ? "" : ".")
-                url = "github.com/fisherman/" name
-
-                if (key == name) {
-                    record_printf(format_s, name, info, url, stars)
-                    continue
-                }
-
-                if (!plugin_is_config(r[1]) && !plugin_is_blacklisted(r[1])) {
-                    record_printf(format_s, name, info, url, stars)
-                }
+            if (key == "" && !plugin_is_config($1) && !plugin_is_blacklisted($1)) {
+                record_printf(format_s, $1, $2, $3, $4)
             }
         }
 
