@@ -3,8 +3,9 @@
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg
 
-[fish shell]: https://github.com/fish-shell/fish-shell
+[fish]: http://fish.sh
 [fisherman]: https://github.com/fisherman.sh
+[fishfile]: #6-Что-такое-fishfile-и-как-я-могу-его-использовать
 [организации]: https://github.com/fisherman
 [онлайн]: http://fisherman.sh/#search
 
@@ -19,7 +20,7 @@
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
-# [fisherman] - менеджер плагинов для fish
+# [fisherman] - менеджер плагинов для [fish]
 
 Другие переводы: [English], [Español], [日本語], [简体中文], [한국어], [Català].
 
@@ -31,11 +32,11 @@
 
 * Не влияет на время запуска оболочки
 
-* Можно использовать в интерактивном режиме или через fishfile
+* Можно использовать в интерактивном режиме или через [fishfile]
 
 * Плагины устанавливаются и обновляются в параллельном режиме
 
-* Только необходимые функции: установка, обновление, удаление, список установленного и справка
+* Только необходимые функции: установка, обновление, удаление, список и справка
 
 ## Установка
 
@@ -43,12 +44,6 @@
 
 ```sh
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
-```
-
-Используя npm:
-
-```sh
-npm i -g fisherman
 ```
 
 Если вы ещё используете версию 1.5 и хотите обновиться до >2.0 без особых хлопот:
@@ -89,16 +84,14 @@ fisher https://gist.github.com/username/1f40e1c6e0551b2666b2
 fisher ~/my_aliases
 ```
 
-Отредактируйте fishfile и запустите `fisher`, чтобы изменения вступили в силу.
-
-> [Что такое fishfile и как я могу его использовать?](#6-Что-такое-fishfile-и-как-я-могу-его-использовать)
+Отредактируйте [fishfile] и запустите `fisher`, чтобы изменения вступили в силу.
 
 ```sh
 $EDITOR fishfile # добавьте плагины
 fisher
 ```
 
-Просмотр установленных плагинов.
+Список установленных плагинов.
 
 ```ApacheConf
 fisher ls
@@ -113,7 +106,7 @@ fisher ls
 
 Список доступных плагинов.
 
-```ApacheConf
+```
 fisher ls-remote
   ...
   spin          roach       git_util        pwd_info
@@ -176,12 +169,6 @@ chsh -s /usr/local/bin/fish
 
 ```fish
 fisher self-uninstall
-```
-
-или
-
-```fish
-npm un -g fisherman
 ```
 
 ### 4. Совместим ли fisherman с темами и плагинами oh my fish?
