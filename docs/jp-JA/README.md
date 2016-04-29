@@ -4,7 +4,7 @@
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg
 
 [organization]: https://github.com/fisherman
-[fish shell]: https://github.com/fish-shell/fish-shell
+[fish-shell]: https://github.com/fish-shell/fish-shell
 [fisherman]: http://fisherman.sh
 [ウェブサイト]: http://fisherman.sh/#search
 
@@ -14,6 +14,7 @@
 [Русский]: ..//ru-RU
 [한국어]: ../ko-KR
 [Català]: ../ca-ES
+[Português]: ../pt-PT
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
@@ -22,7 +23,7 @@
 
 fisherman とは フィッシュシェルのための並列処理パッケージマネージャーです。
 
-翻訳: [English], [Español], [简体中文], [한국어], [Русский], [Català].
+翻訳: [English], [Español], [简体中文], [한국어], [Русский], [Català], [Português].
 
 ## 理由
 

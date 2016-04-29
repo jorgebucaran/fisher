@@ -3,7 +3,7 @@
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg
 
-[fish shell]: https://github.com/fish-shell/fish-shell
+[fish-shell]: https://github.com/fish-shell/fish-shell
 [fisherman]: https://github.com/fisherman.sh
 [fishfile]: #6-Что-такое-fishfile-и-как-я-могу-его-использовать
 [организации]: https://github.com/fisherman
@@ -16,13 +16,14 @@
 [Русский]: ../ru-RU
 [한국어]: ../ko-KR
 [Català]: ../ca-ES
+[Português]: ../pt-PT
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
-# [fisherman] - менеджер плагинов для [fish shell]
+# [fisherman] - менеджер плагинов для [fish-shell]
 
-Другие переводы: [English], [Español], [日本語], [简体中文], [한국어], [Català].
+Другие переводы: [English], [Español], [日本語], [简体中文], [한국어], [Català], [Português].
 
 ## Достоинства fisherman
 
