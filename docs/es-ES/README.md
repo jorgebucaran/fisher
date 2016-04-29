@@ -44,12 +44,6 @@ Via curl.
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 ```
 
-Via npm.
-
-```
-npm i -g fisherman
-```
-
 ## Modo de uso
 
 Instalar paquetes.
