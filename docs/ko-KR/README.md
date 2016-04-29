@@ -44,12 +44,6 @@ curl를 통한 설치:
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 ```
 
-npm을 통한 설치:
-
-```
-npm i -g fisherman
-```
-
 ## 사용법
 
 플러그인 설치:
