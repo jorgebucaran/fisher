@@ -1,5 +1,5 @@
 function fisher
-    set -g fisher_version "2.3.0"
+    set -g fisher_version "2.3.1"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
     function __fisher_show_spinner
@@ -296,7 +296,7 @@ function fisher
     end
 
     __fisher_list_remote_complete
-    
+
     source "$completions"
 end
 
