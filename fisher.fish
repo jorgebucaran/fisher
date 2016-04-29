@@ -228,7 +228,14 @@ function fisher
                 end
             end
 
-            __fisher_list_remote "$format" $argv
+            if test -z "$format"
+                set format "%name\n"
+
+                __fisher_list_remote "$format" $argv | column
+            else
+
+                __fisher_list_remote "$format" $argv
+            end
 
         case rm
             if test -z "$items"
@@ -959,7 +966,7 @@ function __fisher_list_remote_complete
 end
 
 
-function __fisher_list_remote -a format key
+function __fisher_list_remote -a format
     set -l index "$fisher_cache/.index"
 
     if not __fisher_remote_index_update
@@ -974,17 +981,12 @@ function __fisher_list_remote -a format key
         return 1
     end
 
-    set -l column_options
-
-    if test -z "$format"
-        set format "%name\n"
-    else
-        set column_options -c0
-    end
+    set -e argv[1]
+    set -l keys $argv
 
     set -l config "$fisher_config"/*
 
-    command awk -v FS=\t -v format_s="$format" -v config="$config" -v key="$key" '
+    command awk -v FS=\t -v format_s="$format" -v config="$config" -v keys="$keys" '
 
         function basename(s,   n, a) {
             n = split(s, a, "/")
@@ -1014,7 +1016,8 @@ function __fisher_list_remote -a format key
         }
 
         BEGIN {
-            config_count = split(config, config_a)
+            keys_count = split(keys, keys_a, " ")
+            config_count = split(config, config_a, " ")
 
             for (i = 1; i <= config_count; i++) {
                 config_a[i] = basename(config_a[i])
@@ -1022,17 +1025,21 @@ function __fisher_list_remote -a format key
         }
 
         {
-            if (key == $1) {
-                record_printf(format_s, $1, $2, $3, $4)
-                exit
-            }
-
-            if (key == "" && !plugin_is_config($1) && !plugin_is_blacklisted($1)) {
-                record_printf(format_s, $1, $2, $3, $4)
+            if (keys_count > 0) {
+                for (i = 1; i <= keys_count; i++) {
+                    if (keys_a[i] == $1) {
+                        record_printf(format_s, $1, $2, $3, $4)
+                        next
+                    }
+                }
+            } else {
+                if (!plugin_is_config($1) && !plugin_is_blacklisted($1)) {
+                    record_printf(format_s, $1, $2, $3, $4)
+                }
             }
         }
 
-    ' < "$index" | command column $column_options
+    ' < "$index"
 end
 
 
