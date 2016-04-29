@@ -945,6 +945,11 @@ function __fisher_list_remote_complete
 
     ' "$fisher_cache/.index" ^ /dev/null | while read -l name info
 
+        switch "$name"
+            case awesome-\* fisherman\* index\* logo\* taof
+                continue
+        end
+
         complete -xc fisher -n "__fish_seen_subcommand_from info ls-remote" -a "$name" -d "$info"
     end
 end
