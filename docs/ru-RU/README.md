@@ -21,7 +21,7 @@
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
-# [fisherman] - менеджер плагинов для [fish shell]
+# [fisherman] - менеджер плагинов для [fish-shell]
 
 Другие переводы: [English], [Español], [日本語], [简体中文], [한국어], [Català], [Português].
 
