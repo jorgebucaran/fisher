@@ -44,12 +44,6 @@ curl:
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 ```
 
-npm:
-
-```
-npm i -g fisherman
-```
-
 ## 使い方
 
 プラグインをインストール:

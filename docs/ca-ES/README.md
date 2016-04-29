@@ -45,12 +45,6 @@ Amb curl.
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 ```
 
-Amb npm.
-
-```
-npm i -g fisherman
-```
-
 Si encara estàs fent anar la versió 1.5 i vols actualitzar a >2.0 sense mes preocupació.
 
 ```
