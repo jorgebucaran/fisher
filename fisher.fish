@@ -1,5 +1,5 @@
 function fisher
-    set -g fisher_version "2.3.1"
+    set -g fisher_version "2.3.2"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
     function __fisher_show_spinner
@@ -253,6 +253,8 @@ function fisher
 
     complete -c fisher --erase
 
+    source "$completions"
+
     set -l config $fisher_config/*
     set -l cache $fisher_cache/*
 
@@ -299,7 +301,7 @@ function fisher
 
     __fisher_list_remote_complete
 
-    source "$completions"
+    return 0
 end
 
 
