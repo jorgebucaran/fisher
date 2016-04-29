@@ -103,6 +103,16 @@ fisher ls
   z
 ```
 
+列出远程插件。
+
+```
+fisher ls-remote
+  ...
+  spin          roach       git_util        pwd_info
+  submit        flash       pyenv           host_info
+  ...
+```
+
 更新所有。
 
 ```
@@ -161,12 +171,6 @@ chsh -s /usr/local/bin/fish
 
 ```fish
 fisher self-uninstall
-```
-
-或者
-
-```fish
-npm un -g fisherman
 ```
 
 ### 4. fisherman 兼容已有的 fish 主题和插件吗？
