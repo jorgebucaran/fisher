@@ -4,7 +4,7 @@
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg
 
 [organization]: https://github.com/fisherman
-[fish shell]: https://github.com/fish-shell/fish-shell
+[fish-shell]: https://github.com/fish-shell/fish-shell
 [fisherman]: http://fisherman.sh
 [online]: http://fisherman.sh/#search
 
@@ -19,6 +19,8 @@
 [![Slack][slack-badge]][slack-link]
 
 # [fisherman] - fish plugin manager
+
+fisherman is a concurrent plugin manager for [fish-shell].
 
 Translations: [Español], [日本語], [简体中文], [한국어], [Русский], [Català].
 
@@ -42,18 +44,6 @@ With curl.
 
 ```sh
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
-```
-
-With npm.
-
-```sh
-npm i -g fisherman
-```
-
-If you are still running 1.5 and want to upgrade to >2.0 without much hassle.
-
-```sh
-curl -L git.io/fisher-up-me | fish
 ```
 
 ## Usage
@@ -112,7 +102,7 @@ fisher ls
 
 See what you can install.
 
-```ApacheConf
+```
 fisher ls-remote
   ...
   spin          roach       git_util        pwd_info
@@ -175,12 +165,6 @@ chsh -s /usr/local/bin/fish
 
 ```fish
 fisher self-uninstall
-```
-
-or
-
-```
-npm un -g fisherman
 ```
 
 ### 4. Is fisherman compatible with oh my fish themes and plugins?

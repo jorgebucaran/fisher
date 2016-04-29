@@ -1,5 +1,5 @@
 function fisher
-    set -g fisher_version "2.2.0"
+    set -g fisher_version "2.3.0"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
     function __fisher_show_spinner
@@ -73,7 +73,6 @@ function fisher
     end
 
     set -l cmd
-    set -l value
 
     switch "$argv[1]"
         case i install
@@ -95,11 +94,6 @@ function fisher
         case ls-remote
             set -e argv[1]
             set cmd "ls-remote"
-
-            switch "$argv[1]"
-                case --format\*
-                    set value (printf "%s\n" "$argv" | command sed 's|^--[^= ]*[= ]\(.*\)|\1|')
-            end
 
         case h help
             set -e argv[1]
@@ -218,7 +212,21 @@ function fisher
             end
 
         case ls-remote
-            __fisher_list_remote "$value"
+            set -l format
+
+            if test ! -z "$argv"
+                switch "$argv[1]"
+                    case --format\*
+                        set format (printf "%s\n" "$argv[1]" | command sed 's|^--[^= ]*[= ]\(.*\)|\1|')
+                        set -e argv[1]
+                end
+
+                if test -z "$format"
+                    set format "%info\n%url\n"
+                end
+            end
+
+            __fisher_list_remote "$format" $argv
 
         case rm
             if test -z "$items"
@@ -819,7 +827,28 @@ function __fisher_remote_index_update
         end
     end
 
-    fish -c "curl -s 'https://api.github.com/orgs/fisherman/repos?per_page=100' > '$index'" &
+    fish -c "
+
+        curl -s 'https://api.github.com/orgs/fisherman/repos?per_page=100' | awk -v ORS='' '
+
+            {
+                gsub(/[{}\[\]]|^[\t ]*/, \"\")
+
+            } //
+
+        ' | awk '
+
+            {
+                n = split(\$0, a, /,\"/)
+
+                for (i = 1; i <= n; i++) {
+                    gsub(/\"/, \"\", a[i])
+                    print(a[i])
+                }
+            }
+
+        ' > '$index'
+    " &
 
     __fisher_jobs_await (__fisher_jobs_get -l)
 
@@ -829,7 +858,7 @@ function __fisher_remote_index_update
 end
 
 
-function __fisher_list_remote -a format
+function __fisher_list_remote -a format key
     set -l index "$fisher_cache/.index.json"
 
     if not __fisher_remote_index_update
@@ -854,30 +883,42 @@ function __fisher_list_remote -a format
 
     set -l config "$fisher_config"/*
 
-    command awk -v format_s="$format" -v config="$config" '
+    command awk -v format_s="$format" -v config="$config" -v key="$key" '
 
-        function qsort(A, L, R, pivot,   j, i, t) {
+        function quicksort(list, lo, hi, pivot,   j, i, t) {
             pivot = j = i = t
-            if (L >= R) {
+
+            if (lo >= hi) {
                 return
             }
-            pivot = L
-            i = L
-            j = R
+
+            pivot = lo
+            i = lo
+            j = hi
+
             while (i < j) {
-                while (A[i] <= A[pivot] && i < R) i++
-                while (A[j] > A[pivot]) j--
+                while (list[i] <= list[pivot] && i < hi) {
+                    i++
+                }
+
+                while (list[j] > list[pivot]) {
+                    j--
+                }
+
                 if (i < j) {
-                    t = A[i]
-                    A[i] = A[j]
-                    A[j] = t
+                    t = list[i]
+                    list[i] = list[j]
+                    list[j] = t
                 }
             }
-            t = A[pivot]
-            A[pivot] = A[j]
-            A[j] = t
-            qsort(A, L, j - 1)
-            qsort(A, j + 1, R)
+
+            t = list[pivot]
+
+            list[pivot] = list[j]
+            list[j] = t
+
+            quicksort(list, lo, j - 1)
+            quicksort(list, j + 1, hi)
         }
 
         function basename(s,   n, a) {
@@ -885,8 +926,8 @@ function __fisher_list_remote -a format
             return a[n]
         }
 
-        function in_config(item,   i) {
-            for (i = 1; i <= config_n; i++) {
+        function plugin_is_config(item,   i) {
+            for (i = 1; i <= config_count; i++) {
                 if (item == config_a[i]) {
                     return 1
                 }
@@ -895,7 +936,11 @@ function __fisher_list_remote -a format
             return 0
         }
 
-        function print_record_with_format(name, stars, url, info, fmt) {
+        function plugin_is_blacklisted(item) {
+            return (item ~ /^awesome-fish|^fisherman|^index|^logo|^taof/)
+        }
+
+        function record_printf(fmt, name, info, url, stars) {
             gsub(/%name/, name, fmt)
             gsub(/%stars/, stars, fmt)
             gsub(/%url/, url, fmt)
@@ -904,55 +949,74 @@ function __fisher_list_remote -a format
             printf(fmt)
         }
 
-        function json_get_field(s) {
+        function field_parse(s) {
             if ($0 ~ "^" s ":") {
                 return substr($0, length(s) + 3)
             }
         }
 
         BEGIN {
-            config_n = split(config, config_a)
+            config_count = split(config, config_a)
 
-            for (i = 1; i <= config_n; i++) {
+            for (i = 1; i <= config_count; i++) {
                 config_a[i] = basename(config_a[i])
             }
         }
 
         {
-            gsub(/[\[\],{}"]|^[\t ]+/, "")
+            s = field_parse("name")
+            if (s != "") {
+                name = s
+                # next
+            }
+            s = field_parse("description")
+            if (s != "") {
+                info = s
+                # next
+            }
+            s = field_parse("stargazers_count")
+            if (s != "") {
+                stars = s
+            }
 
-            s = json_get_field("name")
-            name = s != "" ? s : name
+            # name = (s = field_parse("name")) ? s : name
+            # info = (s = field_parse("description")) ? s : info
+            # stars = (s = field_parse("stargazers_count")) ? s : stars
 
-            s = json_get_field("description")
-            info = s != "" ? s : info
-
-            s = json_get_field("stargazers_count")
-            stars = s != "" ? s : stars
-
-            if (name != "" && info != "" && stars != "" && !in_config(name)) {
-                if (name !~ /^awesome-fish|^fisherman|^index|logo/) {
-                    info = (info == "null") ? "No description." : info
-                    records[++record_index] = name ";" info ";" stars
-                }
-
+            if (name && info && stars != "") {
+                records[++record_count] = name ";" stars ";" info
                 name = info = stars = ""
             }
         }
 
         END {
-            qsort(records, 1, record_index)
+            quicksort(records, 1, record_count)
 
-            for (i = 1; i <= record_index; i++) {
-                n = split(records[i], r, ";")
+            for (i = 1; i <= record_count; i++) {
+                split(records[i], r, ";")
 
-                if (n == 3) {
-                    print_record_with_format(r[1], r[2], "github.com/fisherman/"r[1], r[3], format_s)
+                name = r[1]
+
+                if (key != "" && key != name) {
+                    continue
+                }
+
+                stars = r[2]
+                info = r[3] (substr($0, length($0), 1) == "." ? "" : ".")
+                url = "github.com/fisherman/" name
+
+                if (key == name) {
+                    record_printf(format_s, name, info, url, stars)
+                    continue
+                }
+
+                if (!plugin_is_config(r[1]) && !plugin_is_blacklisted(r[1])) {
+                    record_printf(format_s, name, info, url, stars)
                 }
             }
         }
 
-    ' < "$index" | column $column_options
+    ' < "$index" | command column $column_options
 end
 
 

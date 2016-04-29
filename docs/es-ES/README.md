@@ -18,13 +18,11 @@
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
-# [fisherman] - fish shell plugin manager
-
-fisherman es un gestor de paquetes para la consola de comandos [fish shell] con procesamiento en paralelo.
+# [fisherman] - fish plugin manager
 
 Lee este documento en otro idioma: [English], [日本語], [简体中文], [한국어], [Русский], [Català].
 
-## Por que?
+## Prestaciones
 
 * Sin configuración
 
@@ -32,7 +30,9 @@ Lee este documento en otro idioma: [English], [日本語], [简体中文], [한�
 
 * No afecta al tiempo de inicio de la sesión
 
-* Se puede utilizar de manera interactiva o _a la_ vundle
+* Se puede utilizar de manera interactiva o con un archivo fishfile
+
+* Instala i actualiza paquetes de manera concurrente
 
 * Solo lo fundamental, install, update, remove, list y help
 
@@ -42,12 +42,6 @@ Via curl.
 
 ```sh
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
-```
-
-Via npm.
-
-```
-npm i -g fisherman
 ```
 
 ## Modo de uso
@@ -82,7 +76,7 @@ Instalar desde un directorio.
 fisher ~/my_aliases
 ```
 
-A la vundle. Edita el archivo fishfile y ejecuta `fisher` para aplicar los cambios.
+Edita el archivo fishfile y ejecuta `fisher` para aplicar los cambios.
 
 > [¿Qué es el archivo fishfile y cómo lo utilizo?](#6-qué-es-el-fishfile-y-cómo-lo-uso)
 
@@ -102,6 +96,16 @@ fisher ls
   grc
   thefuck
   z
+```
+
+Busca que puedes llegar a instalar.
+
+```ApacheConf
+fisher ls-remote
+  ...
+  spin          roach       git_util        pwd_info
+  submit        flash       pyenv           host_info
+  ...
 ```
 
 Actualizalo todo.

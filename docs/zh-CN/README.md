@@ -44,12 +44,6 @@ fisherman 是一款零配置，并发的 [fish shell] 插件管理器。
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 ```
 
-使用npm。
-
-```sh
-npm i -g fisherman
-```
-
 如果你仍然在使用 fisherman 1.5 并且想轻松升级到 2.0以上， 可以执行以下命令
 ```sh
 curl -L git.io/fisher-up-me | fish
@@ -107,6 +101,16 @@ fisher ls
   grc
   thefuck
   z
+```
+
+列出远程插件。
+
+```
+fisher ls-remote
+  ...
+  spin          roach       git_util        pwd_info
+  submit        flash       pyenv           host_info
+  ...
 ```
 
 更新所有。
@@ -167,12 +171,6 @@ chsh -s /usr/local/bin/fish
 
 ```fish
 fisher self-uninstall
-```
-
-或者
-
-```fish
-npm un -g fisherman
 ```
 
 ### 4. fisherman 兼容已有的 fish 主题和插件吗？
