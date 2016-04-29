@@ -1070,53 +1070,66 @@ function __fisher_list
 end
 
 
-function __fisher_list_plugin_directory -a item
-    set -l fd $__fisher_stderr
-
-    set -e argv[1]
-    set -l path "$fisher_config/$item"
-
-    if test ! -d "$path"
-        __fisher_log error "$item is not installed" $__fisher_stderr
-
+function __fisher_list_plugin_directory
+    if test -z "$argv"
         return 1
     end
 
-    pushd "$path"
+    for item in $argv
+        if test ! -d "$fisher_config/$item"
+            __fisher_log error "@$item@ is not installed" $__fisher_stderr
 
-    set -l color (set_color $fish_color_command)
-    set -l nc (set_color normal)
-    set -l previous_tree
-
-    if contains -- --no-color $argv
-        set color
-        set nc
-        set fd $__fisher_stdout
+            return 1
+        end
     end
 
-    printf "$color%s$nc\n" "$PWD" > $fd
+    set -l fd $__fisher_stderr
+    set -l uniq_items
 
-    for file in .* **
-        if test -f "$file"
-            switch "$file"
-                case \*/\*
-                    set -l current_tree (dirname $file)
-
-                    if test "$previous_tree" != "$current_tree"
-                        printf "    $color%s/$nc\n" $current_tree
-                    end
-
-                    printf "        %s\n" (basename $file)
-
-                    set previous_tree $current_tree
-
-                case \*
-                    printf "    %s\n" $file
-            end
+    for item in $argv
+        if contains -- "$item" $uniq_items
+            continue
         end
-    end > $fd
 
-    popd
+        set uniq_items $uniq_items "$item"
+        set -l path "$fisher_config/$item"
+
+        pushd "$path"
+
+        set -l color (set_color $fish_color_command)
+        set -l nc (set_color normal)
+        set -l previous_tree
+
+        if contains -- --no-color $argv
+            set color
+            set nc
+            set fd $__fisher_stdout
+        end
+
+        printf "$color%s$nc\n" "$PWD" > $fd
+
+        for file in .* **
+            if test -f "$file"
+                switch "$file"
+                    case \*/\*
+                        set -l current_tree (dirname $file)
+
+                        if test "$previous_tree" != "$current_tree"
+                            printf "    $color%s/$nc\n" $current_tree
+                        end
+
+                        printf "        %s\n" (basename $file)
+
+                        set previous_tree $current_tree
+
+                    case \*
+                        printf "    %s\n" $file
+                end
+            end
+        end > $fd
+
+        popd
+    end
 end
 
 
