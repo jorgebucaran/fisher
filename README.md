@@ -20,6 +20,8 @@
 
 # [fisherman] - fish plugin manager
 
+fisherman is a concurrent plugin manager for [fish-shell].
+
 Translations: [Español], [日本語], [简体中文], [한국어], [Русский], [Català].
 
 ## Features
@@ -112,7 +114,7 @@ fisher ls
 
 See what you can install.
 
-```ApacheConf
+```
 fisher ls-remote
   ...
   spin          roach       git_util        pwd_info
