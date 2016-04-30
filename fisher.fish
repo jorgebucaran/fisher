@@ -273,10 +273,14 @@ function fisher
         complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$fisher_active_prompt" -d "Prompt"
     end
 
-    if test -z "$config"
-        echo > $fisher_bundle
-    else
-        __fisher_plugin_get_url_info -- $config > $fisher_bundle
+    switch "$cmd"
+        case ls ls-remote
+        case \*
+            if test -z "$config"
+                echo > $fisher_bundle
+            else
+                __fisher_plugin_get_url_info -- $config > $fisher_bundle
+            end
     end
 
     if test ! -z "$cache"
