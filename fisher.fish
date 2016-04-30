@@ -668,7 +668,7 @@ function __fisher_plugin_enable -a path
         builtin source "$target"
 
         if test "$base" = "set_color_custom.fish"
-            printf "%s\n" "$fish_color_normal" "$fish_color_command" "$fish_color_param" "$fish_color_redirection" "$fish_color_comment" "$fish_color_error" "$fish_color_escape" "$fish_color_operator" "$fish_color_end" "$fish_color_quote" "$fish_color_autosuggestion" "$fish_color_user" "$fish_color_valid_path" "$fish_color_cwd" "$fish_color_cwd_root" "$fish_color_match" "$fish_color_search_match" "$fish_color_selection" "$fish_pager_color_prefix" "$fish_pager_color_completion" "$fish_pager_color_description" "$fish_pager_color_progress" "$fish_color_history_current" "$fish_color_host" > "$fish_config/fish_colors"
+            __fisher_print_default_fish_colors > "$fish_config/fish_colors"
             set_color_custom
         end
     end
@@ -740,37 +740,7 @@ function __fisher_plugin_disable -a path
                 continue
             end
 
-            set -l IFS \n
-
-            read -laz colors < $fish_colors_config
-            set colors[25] ""
-
-            set -l IFS " "
-
-            echo "$colors[1]" | read -a -U fish_color_normal
-            echo "$colors[2]" | read -a -U fish_color_command
-            echo "$colors[3]" | read -a -U fish_color_param
-            echo "$colors[4]" | read -a -U fish_color_redirection
-            echo "$colors[5]" | read -a -U fish_color_comment
-            echo "$colors[6]" | read -a -U fish_color_error
-            echo "$colors[7]" | read -a -U fish_color_escape
-            echo "$colors[8]" | read -a -U fish_color_operator
-            echo "$colors[9]" | read -a -U fish_color_end
-            echo "$colors[10]" | read -a -U fish_color_quote
-            echo "$colors[11]" | read -a -U fish_color_autosuggestion
-            echo "$colors[12]" | read -a -U fish_color_user
-            echo "$colors[13]" | read -a -U fish_color_valid_path
-            echo "$colors[14]" | read -a -U fish_color_cwd
-            echo "$colors[15]" | read -a -U fish_color_cwd_root
-            echo "$colors[16]" | read -a -U fish_color_match
-            echo "$colors[17]" | read -a -U fish_color_search_match
-            echo "$colors[18]" | read -a -U fish_color_selection
-            echo "$colors[19]" | read -a -U fish_pager_color_prefix
-            echo "$colors[20]" | read -a -U fish_pager_color_completion
-            echo "$colors[21]" | read -a -U fish_pager_color_description
-            echo "$colors[22]" | read -a -U fish_pager_color_progress
-            echo "$colors[23]" | read -a -U fish_color_history_current
-            echo "$colors[24]" | read -a -U fish_color_host
+            __fisher_restore_fish_colors < $fish_colors_config | source ^ /dev/null
 
             command rm -f $fish_colors_config
         end
@@ -1486,6 +1456,90 @@ function __fisher_plugin_is_installed -a name
     end
 
     printf "%s\n" "$fisher_config/$name"
+end
+
+
+function __fisher_print_default_fish_colors
+    printf "%s\n" "$fish_color_normal" "$fish_color_command" "$fish_color_param" "$fish_color_redirection" "$fish_color_comment" "$fish_color_error" "$fish_color_escape" "$fish_color_operator" "$fish_color_end" "$fish_color_quote" "$fish_color_autosuggestion" "$fish_color_user" "$fish_color_valid_path" "$fish_color_cwd" "$fish_color_cwd_root" "$fish_color_match" "$fish_color_search_match" "$fish_color_selection" "$fish_pager_color_prefix" "$fish_pager_color_completion" "$fish_pager_color_description" "$fish_pager_color_progress" "$fish_color_history_current" "$fish_color_host"
+end
+
+
+function __fisher_restore_fish_colors
+    command awk '
+        NR == 1 {
+            print("set -U fish_color_normal " $0)
+        }
+        NR == 2 {
+            print("set -U fish_color_command " $0)
+        }
+        NR == 3 {
+            print("set -U fish_color_param " $0)
+        }
+        NR == 4 {
+            print("set -U fish_color_redirection " $0)
+        }
+        NR == 5 {
+            print("set -U fish_color_comment " $0)
+        }
+        NR == 6 {
+            print("set -U fish_color_error " $0)
+        }
+        NR == 7 {
+            print("set -U fish_color_escape " $0)
+        }
+        NR == 8 {
+            print("set -U fish_color_operator " $0)
+        }
+        NR == 9 {
+            print("set -U fish_color_end " $0)
+        }
+        NR == 10 {
+            print("set -U fish_color_quote " $0)
+        }
+        NR == 11 {
+            print("set -U fish_color_autosuggestion " $0)
+        }
+        NR == 12 {
+            print("set -U fish_color_user " $0)
+        }
+        NR == 13 {
+            print("set -U fish_color_valid_path " $0)
+        }
+        NR == 14 {
+            print("set -U fish_color_cwd " $0)
+        }
+        NR == 15 {
+            print("set -U fish_color_cwd_root " $0)
+        }
+        NR == 16 {
+            print("set -U fish_color_match " $0)
+        }
+        NR == 17 {
+            print("set -U fish_color_search_match " $0)
+        }
+        NR == 18 {
+            print("set -U fish_color_selection " $0)
+        }
+        NR == 19 {
+            print("set -U fish_pager_color_prefix " $0)
+        }
+        NR == 20 {
+            print("set -U fish_pager_color_completion " $0)
+        }
+        NR == 21 {
+            print("set -U fish_pager_color_description " $0)
+        }
+        NR == 22 {
+            print("set -U fish_pager_color_progress " $0)
+        }
+        NR == 23 {
+            print("set -U fish_color_history_current " $0)
+        }
+        NR == 24 {
+            print("set -U fish_color_host " $0)
+        }
+
+    '
 end
 
 
