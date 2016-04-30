@@ -77,7 +77,12 @@ function fisher
     switch "$argv[1]"
         case i install
             set -e argv[1]
-            set cmd "install"
+
+            if test -z "$argv"
+                set cmd "default"
+            else
+                set cmd "install"
+            end
 
         case u up update
             set -e argv[1]
@@ -174,11 +179,9 @@ function fisher
 
     switch "$cmd"
         case install
-            if not __fisher_install $items
-                return
+            if __fisher_install $items
+                __fisher_log okay "Done in @"(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"@" $__fisher_stderr
             end
-
-            __fisher_log okay "Done in @"(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"@" $__fisher_stderr
 
         case update
             if isatty
@@ -260,34 +263,36 @@ function fisher
 
     complete -c fisher --erase
 
-    source "$completions"
-
     set -l config $fisher_config/*
     set -l cache $fisher_cache/*
+
+    source "$completions"
+
+    if test ! -z "$config"
+        complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "(printf '%s\n' $config | command sed 's|.*/||')"
+        complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$fisher_active_prompt" -d "Prompt"
+    end
 
     if test -z "$config"
         echo > $fisher_bundle
     else
         __fisher_plugin_get_url_info -- $config > $fisher_bundle
-
-        complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "(printf '%s\n' $config | command sed 's|.*/||')"
-        complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$fisher_active_prompt" -d "Prompt"
     end
 
     if test ! -z "$cache"
-        printf "%s\n" $cache | command awk -v _config="$config" '
+        printf "%s\n" $cache | command awk -v config="$config" '
 
             BEGIN {
-                count = split(_config, config, " ")
+                config_n = split(config, config_a, " ")
             }
 
             {
                 sub(/.*\//, "")
 
-                for (i = 1; i <= count; i++) {
-                    sub(/.*\//, "", config[i])
+                for (i = 1; i <= config_n; i++) {
+                    sub(/.*\//, "", config_a[i])
 
-                    if (config[i] == $0) {
+                    if (config_a[i] == $0) {
                         next
                     }
                 }
@@ -296,6 +301,7 @@ function fisher
             //
 
         ' | while read -l plugin
+
             if __fisher_plugin_is_prompt "$fisher_cache/$plugin"
                 complete -xc fisher -n "__fish_seen_subcommand_from i in install" -a "$plugin" -d "Prompt"
                 complete -xc fisher -n "not __fish_seen_subcommand_from u up update r rm remove uninstall l ls list ls-remote h help" -a "$plugin" -d "Prompt"
@@ -303,6 +309,7 @@ function fisher
                 complete -xc fisher -n "__fish_seen_subcommand_from i in install" -a "$plugin" -d "Plugin"
                 complete -xc fisher -n "not __fish_seen_subcommand_from u up update r rm remove uninstall l ls list ls-remote h help" -a "$plugin" -d "Plugin"
             end
+
         end
     end
 
