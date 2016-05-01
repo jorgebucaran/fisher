@@ -1810,7 +1810,7 @@ function __fisher_self_uninstall -a yn
 
             " /dev/stderr
 
-            echo -sn "Do you wish to continue? [Y/n] " > /dev/stderr
+            echo -sn "Shall we to continue? [Y/n] " > /dev/stderr
 
             __fisher_get_key | read -l yn
 
@@ -1838,29 +1838,19 @@ function __fisher_self_uninstall -a yn
     command rm -rf "$fisher_cache" "$fisher_config"
     command rm -f "$fish_config"/{functions,completions}/fisher.fish "$fisher_bundle"
 
-    __fisher_show_spinner
-
+    set -e fish_config
     set -e fisher_active_prompt
     set -e fisher_cache
     set -e fisher_config
-    set -e fish_config
     set -e fisher_bundle
     set -e fisher_version
     set -e fisher_spinners
 
-    for func in __fisher_jobs_await __fisher_plugin_url_clone_async __fisher_completions_write __fisher_plugin_fetch_items __fisher_get_epoch_in_ms __fisher_jobs_get __fisher_get_key __fisher_get_plugin_name_from_gist __fisher_plugin_get_names __fisher_plugin_get_url_info __fisher_plugin_get_missing __fisher_help __fisher_humanize_duration __fisher_install __fisher_list __fisher_list_plugin_directory __fisher_man_page_write __fisher_plugin_normalize_path __fisher_parse_column_output __fisher_parse_comments_from_function __fisher_plugin_is_prompt __fisher_plugin_disable __fisher_plugin_enable __fisher_plugin_is_installed __fisher_read_bundle_file __fisher_reset_default_fish_colors __fisher_self_uninstall __fisher_self_update __fisher_usage __fisher_update __fisher_update_path_async
-        __fisher_show_spinner
-        functions -e "$func"
-    end
+    __fisher_log okay "Arrr! So long and thanks for all the fish cap!" $__fisher_stderr
 
-    __fisher_show_spinner
+    set -l funcs (functions -a | command grep __fisher)
 
-    functions -e __fisher_show_spinner
-
-    __fisher_log okay "Arrr! So long and thanks for all the fish." $__fisher_stderr
-
-    functions -e __fisher_log
-    functions -e fisher
+    functions -e $funcs fisher
 end
 
 
