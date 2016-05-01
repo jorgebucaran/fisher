@@ -1981,10 +1981,9 @@ function __fisher_man_page_write
     # .nf
     #
     # fisher ls\-remote
-    #   \.\.\.
-    #   spin          roach       git_util        pwd_info
-    #   submit        flash       pyenv           host_info
-    #   \.\.\.
+    # spin          roach       git_util        pwd_info
+    # submit        flash       pyenv           host_info
+    # \.\.\.
     # .
     # .fi
     # .
@@ -2061,7 +2060,7 @@ function __fisher_man_page_write
     # \-v, \-\-version Show version information\.
     # .
     # .IP "\(bu" 4
-    # \-h, \-\-help Show usage help\. Use the long form to display this page instead\.
+    # \-h, \-\-help Show usage help\. Use the long form to display this page\.
     # .
     # .IP "\(bu" 4
     # \-q, \-\-quiet Enable quiet mode\. Use to suppress output\.
