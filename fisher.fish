@@ -1468,80 +1468,85 @@ end
 
 function __fisher_restore_fish_colors
     command awk '
-        $0 == "" {
-            next
+        {
+            if ($0 == "") {
+                set_option "-e"
+            } else {
+                set_option "-U"
+            }
         }
+
         NR == 1 {
-            print("set -U fish_color_normal " $0)
+            print("set " set_option " fish_color_normal " $0)
         }
         NR == 2 {
-            print("set -U fish_color_command " $0)
+            print("set " set_option " fish_color_command " $0)
         }
         NR == 3 {
-            print("set -U fish_color_param " $0)
+            print("set " set_option " fish_color_param " $0)
         }
         NR == 4 {
-            print("set -U fish_color_redirection " $0)
+            print("set " set_option " fish_color_redirection " $0)
         }
         NR == 5 {
-            print("set -U fish_color_comment " $0)
+            print("set " set_option " fish_color_comment " $0)
         }
         NR == 6 {
-            print("set -U fish_color_error " $0)
+            print("set " set_option " fish_color_error " $0)
         }
         NR == 7 {
-            print("set -U fish_color_escape " $0)
+            print("set " set_option " fish_color_escape " $0)
         }
         NR == 8 {
-            print("set -U fish_color_operator " $0)
+            print("set " set_option " fish_color_operator " $0)
         }
         NR == 9 {
-            print("set -U fish_color_end " $0)
+            print("set " set_option " fish_color_end " $0)
         }
         NR == 10 {
-            print("set -U fish_color_quote " $0)
+            print("set " set_option " fish_color_quote " $0)
         }
         NR == 11 {
-            print("set -U fish_color_autosuggestion " $0)
+            print("set " set_option " fish_color_autosuggestion " $0)
         }
         NR == 12 {
-            print("set -U fish_color_user " $0)
+            print("set " set_option " fish_color_user " $0)
         }
         NR == 13 {
-            print("set -U fish_color_valid_path " $0)
+            print("set " set_option " fish_color_valid_path " $0)
         }
         NR == 14 {
-            print("set -U fish_color_cwd " $0)
+            print("set " set_option " fish_color_cwd " $0)
         }
         NR == 15 {
-            print("set -U fish_color_cwd_root " $0)
+            print("set " set_option " fish_color_cwd_root " $0)
         }
         NR == 16 {
-            print("set -U fish_color_match " $0)
+            print("set " set_option " fish_color_match " $0)
         }
         NR == 17 {
-            print("set -U fish_color_search_match " $0)
+            print("set " set_option " fish_color_search_match " $0)
         }
         NR == 18 {
-            print("set -U fish_color_selection " $0)
+            print("set " set_option " fish_color_selection " $0)
         }
         NR == 19 {
-            print("set -U fish_pager_color_prefix " $0)
+            print("set " set_option " fish_pager_color_prefix " $0)
         }
         NR == 20 {
-            print("set -U fish_pager_color_completion " $0)
+            print("set " set_option " fish_pager_color_completion " $0)
         }
         NR == 21 {
-            print("set -U fish_pager_color_description " $0)
+            print("set " set_option " fish_pager_color_description " $0)
         }
         NR == 22 {
-            print("set -U fish_pager_color_progress " $0)
+            print("set " set_option " fish_pager_color_progress " $0)
         }
         NR == 23 {
-            print("set -U fish_color_history_current " $0)
+            print("set " set_option " fish_color_history_current " $0)
         }
         NR == 24 {
-            print("set -U fish_color_host " $0)
+            print("set " set_option " fish_color_host " $0)
         }
 
     '
