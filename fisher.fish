@@ -263,13 +263,14 @@ function fisher
 
     complete -c fisher --erase
 
-    set -l config $fisher_config/*
     set -l cache $fisher_cache/*
-
-    source "$completions"
+    set -l config (
+        set -l path $fisher_config/*
+        printf "%s\n" $path | command sed "s|.*/||"
+        )
 
     if test ! -z "$config"
-        complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "(printf '%s\n' $config | command sed 's|.*/||')"
+        complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$config"
         complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$fisher_active_prompt" -d "Prompt"
     end
 
@@ -279,8 +280,9 @@ function fisher
             if test -z "$config"
                 echo > $fisher_bundle
             else
-                __fisher_plugin_get_url_info -- $config > $fisher_bundle
+                __fisher_plugin_get_url_info -- "$fisher_config"/$config > $fisher_bundle
             end
+
     end
 
     if test ! -z "$cache"
@@ -294,8 +296,6 @@ function fisher
                 sub(/.*\//, "")
 
                 for (i = 1; i <= config_n; i++) {
-                    sub(/.*\//, "", config_a[i])
-
                     if (config_a[i] == $0) {
                         next
                     }
@@ -319,7 +319,7 @@ function fisher
 
     __fisher_list_remote_complete
 
-    return 0
+    source "$completions"
 end
 
 
