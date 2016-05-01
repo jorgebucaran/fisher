@@ -347,7 +347,7 @@ function __fisher_install
 
     else
         __fisher_log error "
-            There was an error cloning @$fetched@ or more plugin/s.
+            There was an error installing @$fetched@ or more plugin/s.
         " $__fisher_stderr
 
         __fisher_log info "
@@ -455,6 +455,13 @@ function __fisher_plugin_fetch_items
     for i in $fetched
         if test ! -d "$fisher_cache/$i"
             printf "%s\n" "$i"
+
+            for i in $fetched
+                if test -d "$fisher_config/$i"
+                    command rm -rf "$fisher_config/$i"
+                end
+            end
+
             return 1
         end
     end
