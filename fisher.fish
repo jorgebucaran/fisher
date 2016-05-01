@@ -1715,12 +1715,13 @@ end
 
 
 function __fisher_get_file_age -a file
-    if not type -q python
-        return 1
-    end
+    if type -q perl
+        perl -e "printf(\"%s\n\", time - (stat ('$file'))[9])" ^ /dev/null
 
-    python -c "import os, time; print int(time.time() - os.path.getmtime('$file'))" ^ /dev/null
-end
+    else if type -q python
+        python -c "from __future__ import print_function; import os, time; print(int(time.time() - os.path.getmtime('$file')))" ^ /dev/null
+    end
+end 
 
 
 function __fisher_usage
