@@ -8,22 +8,12 @@
 [fisherman]: http://fisherman.sh
 [ウェブサイト]: http://fisherman.sh/#search
 
-[English]: ../../README.md
-[Español]: ../es-ES
-[简体中文]: ../zh-CN
-[Русский]: ..//ru-RU
-[한국어]: ../ko-KR
-[Català]: ../ca-ES
-[Português]: ../pt-PT
-
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
-# [fisherman] - fish shell plugin manager
+# [fisherman] - fish plugin manager
 
-fisherman とは フィッシュシェルのための並列処理パッケージマネージャーです。
-
-翻訳: [English], [Español], [简体中文], [한국어], [Русский], [Català], [Português].
+fisherman とは [fish-shell]のための並列処理パッケージマネージャーです。
 
 ## 理由
 

@@ -8,22 +8,12 @@
 [fisherman]: http://fisherman.sh
 [online]: http://fisherman.sh/#search
 
-[English]: ../../README.md
-[Español]: ../es-ES
-[日本語]: ../jp-JA
-[Русский]: ../ru-RU
-[한국어]: ../ko-KR
-[Català]: ../ca-ES
-[Português]: ../pt-PT
-
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
-# [fisherman] - fish shell plugin manager
+# [fisherman] - fish plugin manager
 
 fisherman 是一款零配置，并发的 [fish-shell] 插件管理器。
-
-选择不同语言版本的文档: [Español], [日本語], [English], [한국어], [Русский], [Català], [Português]。
 
 ##为什么使用fisherman？
 

@@ -8,22 +8,12 @@
 [fisherman]: http://fisherman.sh
 [online]: http://fisherman.sh/#search
 
-[English]: ../../README.md
-[Español]: ../es-ES
-[简体中文]: ../zh-CN
-[日本語]: ../jp-JA
-[Русский]: ../ru-RU
-[Català]: ../ca-ES
-[Português]: ../pt-PT
-
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
-# [fisherman] - fish shell 플러그인 매니저
+# [fisherman] - fish plugin manager
 
 fisherman은 [fish-shell]을 위한 병렬 처리 플러그인 매니저 입니다.
-
-다른 언어로 읽기: [English], [Español], [日本語], [简体中文], [Русский], [Català], [Português].
 
 ## 왜 fisherman을 사용해야 하죠?
 

@@ -9,21 +9,12 @@
 [организации]: https://github.com/fisherman
 [онлайн]: http://fisherman.sh/#search
 
-[English]: ../../README.md
-[Español]: ../es-ES
-[简体中文]: ../zh-CN
-[日本語]: ../jp-JA
-[Русский]: ../ru-RU
-[한국어]: ../ko-KR
-[Català]: ../ca-ES
-[Português]: ../pt-PT
-
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
-# [fisherman] - менеджер плагинов для [fish-shell]
+# [fisherman] - fish plugin manager
 
-Другие переводы: [English], [Español], [日本語], [简体中文], [한국어], [Català], [Português].
+fisherman это параллельный менеджер плагинов для [fish-shell].
 
 ## Достоинства fisherman
 
