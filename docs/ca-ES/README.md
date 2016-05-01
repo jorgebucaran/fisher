@@ -9,20 +9,13 @@
 [en línia]: http://fisherman.sh/#search
 
 [English]: ../../README.md
-[Español]: docs/es-ES
-[简体中文]: docs/zh-CN
-[日本語]: docs/jp-JA
-[한국어]: docs/ko-KR
-[Русский]: docs/ru-RU
-[Català]: docs/ca-ES
-[Português]: ../pt-PT
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
-# [fisherman] - gestor de complements per a fish
+# [fisherman] - fish plugin manager
 
-Llegeix aquest document en un altre llenguatge: [English], [Español], [日本語], [简体中文], [한국어], [Русский], [Português].
+fisherman és un gestor de complements per a [fish-shell].
 
 ## Prestacions
 
@@ -31,10 +24,6 @@ Llegeix aquest document en un altre llenguatge: [English], [Español], [日本�
 * Sense dependencies externes
 
 * No afecta als temps d'arrencada de la consola de comandes
-
-* Fes-la anar interactivament o per mitjà del arxiu fishfile
-
-* Instal·la i actualitza complements de manera concurrent
 
 * Només l'essencial, instal·lar, actualitzar, esborrar, llistar i ajuda
 
@@ -108,12 +97,8 @@ fisher ls
 
 Tria el que pots instal·lar.
 
-```ApacheConf
+```
 fisher ls-remote
-  ...
-  spin          roach       git_util        pwd_info
-  submit        flash       pyenv           host_info
-  ...
 ```
 
 Actualitza-ho tot.

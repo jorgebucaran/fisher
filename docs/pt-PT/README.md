@@ -8,22 +8,12 @@
 [fisherman]: http://fisherman.sh
 [online]: http://fisherman.sh/#search
 
-[English]: ../../README.md
-[Español]: ../es-ES
-[简体中文]: ../zh-CN
-[日本語]: ../jp-JA
-[Русский]: ../ru-RU
-[한국어]: ../ko-KR
-[Català]: ../ca-ES
-
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
 # [fisherman] - fish plugin manager
 
 fisherman é um gestor de plugins para [fish-shell].
-
-Traduções: [English], [Español], [日本語], [简体中文], [한국어], [Русский], [Català].
 
 ## Funcionalidades
 
