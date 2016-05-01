@@ -1212,7 +1212,7 @@ function __fisher_jobs_await
     while true
         for spinner in $fisher_spinners
             printf "  $spinner  \r" > /dev/stderr
-            sleep 0.04
+            sleep 0.05
         end
 
         set -l currently_active_jobs (__fisher_jobs_get)
