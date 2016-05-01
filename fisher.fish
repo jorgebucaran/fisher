@@ -1466,6 +1466,9 @@ end
 
 function __fisher_restore_fish_colors
     command awk '
+        $0 == "" {
+            next
+        }
         NR == 1 {
             print("set -U fish_color_normal " $0)
         }
