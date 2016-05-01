@@ -104,11 +104,10 @@ fisher ls
 See what you can install.
 
 ```
-fisher ls-remote
-  ...
-  spin          roach       git_util        pwd_info
-  submit        flash       pyenv           host_info
-  ...
+fisher ls-remotef
+spin          roach       git_util        pwd_info
+submit        flash       pyenv           host_info
+...
 ```
 
 Update everything.
