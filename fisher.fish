@@ -817,8 +817,10 @@ function __fisher_remote_index_update
     end
 
     if test -s "$index"
-        if test (__fisher_get_file_age "$index") -lt "$interval"
-            return
+        if set -l file_age (__fisher_get_file_age "$index")
+            if test "$file_age" -lt "$interval"
+                return
+            end
         end
     end
 
