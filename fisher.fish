@@ -1981,9 +1981,6 @@ function __fisher_man_page_write
     # .nf
     #
     # fisher ls\-remote
-    # spin          roach       git_util        pwd_info
-    # submit        flash       pyenv           host_info
-    # \.\.\.
     # .
     # .fi
     # .
