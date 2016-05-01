@@ -125,7 +125,7 @@ function fisher
                 set cmd "install"
             end
 
-        case self-uninstall
+        case self-uninstall self-destroy
             set -e argv[1]
             __fisher_self_uninstall $argv
             return
