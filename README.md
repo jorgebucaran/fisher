@@ -8,13 +8,13 @@
 [fisherman]: http://fisherman.sh
 [online]: http://fisherman.sh/#search
 
-[Español]: docs/es-ES
-[简体中文]: docs/zh-CN
 [日本語]: docs/jp-JA
+[简体中文]: docs/zh-CN
 [한국어]: docs/ko-KR
 [Русский]: docs/ru-RU
 [Català]: docs/ca-ES
 [Português]: docs/pt-PT
+[Español]: docs/es-ES
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
@@ -23,19 +23,15 @@
 
 fisherman is a concurrent plugin manager for [fish-shell].
 
-Translations: [Español], [日本語], [简体中文], [한국어], [Русский], [Català], [Português].
+Translations: [日本語], [简体中文], [한국어], [Русский], [Català], [Português], [Español].
 
 ## Features
 
-* No configuration
+* Zero configuration
 
 * No external dependencies
 
 * No impact on shell startup time
-
-* Use it interactively or via a fishfile
-
-* Install and update plugins concurrently
 
 * Only the essentials, install, update, remove, list and help
 
@@ -104,10 +100,7 @@ fisher ls
 See what you can install.
 
 ```
-fisher ls-remotef
-spin          roach       git_util        pwd_info
-submit        flash       pyenv           host_info
-...
+fisher ls-remote
 ```
 
 Update everything.

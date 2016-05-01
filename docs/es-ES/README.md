@@ -8,20 +8,12 @@
 [fisherman]: http://fisherman.sh
 [en línea]: http://fisherman.sh/#search
 
-[English]: ../../README.md
-[简体中文]: ../zh-CN
-[日本語]: ../jp-JA
-[Русский]: ../ru-RU
-[한국어]: ../ko-KR
-[Català]: ../ca-ES
-[Português]: ../pt-PT
-
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
 # [fisherman] - fish plugin manager
 
-Lee este documento en otro idioma: [English], [日本語], [简体中文], [한국어], [Русский], [Català], [Português].
+fisherman es un gestor de paquetes para [fish-shell].
 
 ## Prestaciones
 
@@ -99,17 +91,13 @@ fisher ls
   z
 ```
 
-Busca que puedes llegar a instalar.
+Muestra que puedes instalar.
 
-```ApacheConf
+```
 fisher ls-remote
-  ...
-  spin          roach       git_util        pwd_info
-  submit        flash       pyenv           host_info
-  ...
 ```
 
-Actualizalo todo.
+Actualiza todo.
 
 ```
 fisher up
