@@ -1351,20 +1351,10 @@ end
 
 
 function __fisher_plugin_is_prompt -a path
-    if test -e $path/fish_prompt.fish
-        return
-    end
-
-    if test -e $path/functions/fish_prompt.fish
-        return
-    end
-
-    if test -e $path/fish_right_prompt.fish
-        return
-    end
-
-    if test -e $path/functions/fish_right_prompt.fish
-        return
+    for file in "$path"/{,functions/}{fish_prompt,fish_right_prompt}.fish
+        if test -e "$file"
+            return
+        end
     end
 
     return 1
@@ -1721,7 +1711,7 @@ function __fisher_get_file_age -a file
     else if type -q python
         python -c "from __future__ import print_function; import os, time; print(int(time.time() - os.path.getmtime('$file')))" ^ /dev/null
     end
-end 
+end
 
 
 function __fisher_usage
