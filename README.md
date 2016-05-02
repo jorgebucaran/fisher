@@ -37,7 +37,7 @@ Translations: [日本語], [简体中文], [한국어], [Русский], [Catal
 
 ## Install
 
-With curl.
+Copy `fisher.fish` in `~/.config/fish/functions` and that's it.
 
 ```sh
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
@@ -63,21 +63,19 @@ Install from a URL.
 fisher https://github.com/edc/bass
 ```
 
-Install from a gist.
+Install a gist.
 
 ```
 fisher https://gist.github.com/username/1f40e1c6e0551b2666b2
 ```
 
-Install from a local directory.
+Install a local directory.
 
 ```sh
 fisher ~/my_aliases
 ```
 
-Edit your fishfile and run `fisher` to satisfy changes.
-
-> [What is a fishfile and how do I use it?](#6-what-is-a-fishfile-and-how-do-i-use-it)
+Edit your [fishfile](#6-what-is-a-fishfile-and-how-do-i-use-it) and run `fisher` to satisfy changes.
 
 ```sh
 $EDITOR fishfile # add plugins
@@ -137,7 +135,7 @@ fisher help z
 
 ### 1. What is the required fish version?
 
-fisherman was built for fish >= 2.3.0. If you are using 2.2.0, append the following code to your `~/.config/fish/config.fish` for [snippet](#8-what-is-a-plugin) support.
+fisherman works best in fish >= 2.3.0. If you are using 2.2.0, append the following code to your `~/.config/fish/config.fish` for [snippet](#8-what-is-a-plugin) support.
 
 ```fish
 for file in ~/.config/fish/conf.d/*.fish
