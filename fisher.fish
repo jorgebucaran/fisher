@@ -241,24 +241,8 @@ function fisher
             end
 
         case rm
-            if test -z "$items"
-                __fisher_parse_column_output | __fisher_read_bundle_file | read -az items
-            end
-
-            if test (count $items) -le 1
-                function __fisher_show_spinner
-                end
-            end
-
-            if test ! -z "$items"
-                for i in $items
-                    set -l name (__fisher_plugin_get_names "$i")[1]
-                    __fisher_plugin_disable "$fisher_config/$name"
-                    __fisher_show_spinner
-                end
-
-                __fisher_log okay "Done in @"(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"@" $__fisher_stderr
-            end
+            __fisher_remove $items
+            __fisher_log okay "Done in @"(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"@" $__fisher_stderr
     end
 
     complete -c fisher --erase
@@ -282,7 +266,6 @@ function fisher
             else
                 __fisher_plugin_get_url_info -- "$fisher_config"/$config > $fisher_bundle
             end
-
     end
 
     if test ! -z "$cache"
@@ -342,9 +325,26 @@ function __fisher_install
         end
 
         for i in $fetched
+            __fisher_plugin_increment_ref_count "$i"
             __fisher_plugin_enable "$fisher_config/$i"
         end
 
+        for i in $argv
+            if test -f "$fisher_config/$i/fishfile"
+                while read -l i
+                    set -l name (__fisher_plugin_get_names "$i")[1]
+
+                    if not contains -- "$name" $fetched
+                        __fisher_plugin_increment_ref_count "$name"
+                    end
+
+                end < "$fisher_config/$i/fishfile"
+            end
+
+            __fisher_show_spinner
+        end
+
+        return 0
     else
         __fisher_log error "
             There was an error installing @$fetched@ or more plugin/s.
@@ -716,6 +716,15 @@ end
 function __fisher_plugin_disable -a path
     set -l plugin_name (basename $path)
 
+    __fisher_plugin_decrement_ref_count "$plugin_name"
+
+    if test -f "$fisher_config/$plugin_name/fishfile"
+        while read -l i
+            set -l name (__fisher_plugin_get_names $i)[1]
+            __fisher_plugin_decrement_ref_count "$name"
+        end < "$fisher_config/$plugin_name/fishfile"
+    end
+
     for file in $path/{functions/*,}*.fish
         set -l name (basename "$file" .fish)
         set -l base "$name.fish"
@@ -785,6 +794,41 @@ function __fisher_plugin_disable -a path
     end
 
     command rm -rf "$path" > /dev/stderr
+end
+
+
+function __fisher_remove
+    if test -z "$argv"
+        __fisher_parse_column_output | __fisher_read_bundle_file | read -az argv
+    end
+
+    if test ! -z "$argv"
+        set -l orphans
+
+        for i in $argv
+            set -l name (__fisher_plugin_get_names "$i")[1]
+            __fisher_show_spinner
+
+            if test -f "$fisher_config/$i/fishfile"
+                while read -l i
+                    set -l name (__fisher_plugin_get_names "$i")[1]
+
+                    if test (__fisher_plugin_get_ref_count "$name") -le 1
+                        set orphans $orphans "$name"
+                    end
+
+                    __fisher_show_spinner
+                end < "$fisher_config/$i/fishfile"
+            end
+
+            __fisher_plugin_disable "$fisher_config/$name"
+            __fisher_show_spinner
+        end
+
+        for i in $orphans
+            __fisher_remove "$i"
+        end
+    end
 end
 
 
@@ -1598,6 +1642,37 @@ function __fisher_read_bundle_file
                 printf("%s\n", $0)
             }
         }
+    '
+end
+
+
+function __fisher_plugin_increment_ref_count -a name
+    set -U fisher_dependency_count $fisher_dependency_count $name
+end
+
+
+function __fisher_plugin_decrement_ref_count -a name
+    if set -l i (contains -i -- "$name" $fisher_dependency_count)
+        set -e fisher_dependency_count[$i]
+    end
+end
+
+
+function __fisher_plugin_get_ref_count -a name
+    printf "%s\n" $fisher_dependency_count | command awk -v plugin="$name" '
+
+        BEGIN {
+            i = 0
+        }
+
+        $0 == plugin {
+            i++
+        }
+
+        END {
+            print(i)
+        }
+
     '
 end
 
