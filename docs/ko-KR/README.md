@@ -199,6 +199,6 @@ fisherman의 [organization] 페이지를 살펴보거나 [online] 플러그인 �
 
 ```fish
 owner/repo
-https://github.com/dude/sweet
+https://github.com/owner/repo
 https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
 ```

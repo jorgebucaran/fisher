@@ -209,6 +209,6 @@ omf/grc
 
 ```fish
 owner/repo
-https://github.com/dude/sweet
+https://github.com/owner/repo
 https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
 ```
