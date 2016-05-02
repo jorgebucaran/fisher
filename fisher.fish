@@ -501,10 +501,10 @@ function __fisher_plugin_url_clone_async -a url name
             set -lx GIT_ASKPASS /bin/echo
 
             if command git clone -q --depth 1 '$url' '$fisher_cache/$name' ^ /dev/null
-                  printf '$okay""OKAY""$nc Fetching $okay%s$nc %s\n' '$name' '→ $hm_url' > $__fisher_stderr
+                  printf '$okay""OKAY""$nc Fetching $okay%s$nc %s\n' '$name' '$hm_url' > $__fisher_stderr
                   command cp -rf '$fisher_cache/$name' '$fisher_config'
             else
-                  printf '$error""ARGH""$nc Fetching $error%s$nc %s\n' '$name' '→ $hm_url' > $__fisher_stderr
+                  printf '$error""ARGH""$nc Fetching $error%s$nc %s\n' '$name' '$hm_url' > $__fisher_stderr
             end
       " > /dev/stderr &
 
