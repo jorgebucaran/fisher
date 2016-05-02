@@ -56,7 +56,7 @@ function fisher
 
     if test ! -e "$completions"
         __fisher_completions_write > "$completions"
-        source "$completions"
+        builtin source "$completions" ^ /dev/null
     end
 
     set -g __fisher_stdout /dev/stdout
@@ -302,7 +302,7 @@ function fisher
 
     __fisher_list_remote_complete
 
-    source "$completions"
+    builtin source "$completions" ^ /dev/null
 end
 
 
@@ -315,8 +315,6 @@ function __fisher_install
 
     if set -l fetched (__fisher_plugin_fetch_items (__fisher_plugin_get_missing $argv))
         if test -z "$fetched"
-            set -l count (count $argv)
-
             __fisher_log okay "
                 No plugins to install or dependencies missing.
             " $__fisher_stderr
@@ -325,16 +323,17 @@ function __fisher_install
         end
 
         for i in $fetched
-            __fisher_plugin_increment_ref_count "$i"
-            __fisher_plugin_enable "$fisher_config/$i"
-        end
+            __fisher_show_spinner
 
-        for i in $argv
             if test -f "$fisher_config/$i/fishfile"
                 while read -l i
                     set -l name (__fisher_plugin_get_names "$i")[1]
 
-                    if not contains -- "$name" $fetched
+                    if contains -- "$name" $fetched
+                        if contains -- "$name" $argv
+                            __fisher_plugin_increment_ref_count "$name"
+                        end
+                    else
                         __fisher_plugin_increment_ref_count "$name"
                     end
 
@@ -342,9 +341,20 @@ function __fisher_install
             end
 
             __fisher_show_spinner
-        end
+            __fisher_plugin_increment_ref_count "$i"
 
-        return 0
+            set -l path "$fisher_config/$i"
+
+            if __fisher_plugin_is_prompt "$path"
+                if test ! -z "$fisher_active_prompt"
+                    __fisher_remove "$fisher_active_prompt"
+                end
+
+                set -U fisher_active_prompt "$i"
+            end
+
+            __fisher_plugin_enable "$path"
+        end
     else
         __fisher_log error "
             There was an error installing @$fetched@ or more plugin/s.
@@ -391,7 +401,12 @@ function __fisher_plugin_fetch_items
             set -g __fisher_fetch_plugins_state "fetching"
 
         case "fetching"
-            __fisher_log info "Installing @$count@ dependencies" $__fisher_stderr
+            if test "$count" -eq 1
+                __fisher_log info "Installing @1@ dependency" $__fisher_stderr
+            else
+                __fisher_log info "Installing @$count@ dependencies" $__fisher_stderr
+            end
+
             set -g __fisher_fetch_plugins_state "done"
 
         case "done"
@@ -421,24 +436,24 @@ function __fisher_plugin_fetch_items
             continue
         end
 
-        set -l source "$fisher_cache/$names[1]"
+        set -l src "$fisher_cache/$names[1]"
 
         if test -z "$names[2]"
-            if test -d "$source"
-                if test -L "$source"
-                    command ln -sf "$source" "$fisher_config"
+            if test -d "$src"
+                if test -L "$src"
+                    command ln -sf "$src" "$fisher_config"
                 else
-                    command cp -rf "$source" "$fisher_config"
+                    command cp -rf "$src" "$fisher_config"
                 end
             else
                 set jobs $jobs (__fisher_plugin_url_clone_async "$i" "$names[1]")
             end
         else
-            if test -d "$source"
-                set -l real_namespace (__fisher_plugin_get_url_info --dirname "$source" )
+            if test -d "$src"
+                set -l real_namespace (__fisher_plugin_get_url_info --dirname "$src" )
 
                 if test "$real_namespace" = "$names[2]"
-                    command cp -rf "$source" "$fisher_config"
+                    command cp -rf "$src" "$fisher_config"
                 else
                     set jobs $jobs (__fisher_plugin_url_clone_async "$i" "$names[1]")
                 end
@@ -541,7 +556,7 @@ function __fisher_update
 
             set jobs $jobs (__fisher_update_path_async "$i" "$path")
         else
-            __fisher_log warn "@$i@ is not installed"
+            __fisher_log warn "Skipped @$i@"
         end
     end
 
@@ -551,10 +566,6 @@ function __fisher_update
     set -l fetched (__fisher_plugin_fetch_items (__fisher_plugin_get_missing $updated))
 
     for i in $updated $fetched
-        if test "$i" = "$fisher_active_prompt"
-            set fisher_active_prompt
-        end
-
         __fisher_plugin_enable "$fisher_config/$i"
     end
 
@@ -585,14 +596,14 @@ function __fisher_self_update
         command mv "$file.$fake_qs" "$file"
     end
 
-    source "$file"
+    builtin source "$file" ^ /dev/null
 
     fisher -v > /dev/null
 
     set -l new_version "$fisher_version"
 
     __fisher_completions_write > "$completions"
-    source "$completions"
+    builtin source "$completions" ^ /dev/null
 
     if test "$previous_version" = "$fisher_version"
         __fisher_log okay "fisherman is up to date" $__fisher_stderr
@@ -637,14 +648,6 @@ end
 
 
 function __fisher_plugin_enable -a path
-    if __fisher_plugin_is_prompt "$path"
-        if test ! -z "$fisher_active_prompt"
-            __fisher_plugin_disable "$fisher_config/$fisher_active_prompt"
-        end
-
-        set -U fisher_active_prompt (basename "$path")
-    end
-
     set -l plugin_name (basename $path)
 
     for file in $path/{functions/*,}*.fish
@@ -672,7 +675,7 @@ function __fisher_plugin_enable -a path
 
         command ln -sf "$file" "$target"
 
-        builtin source "$target"
+        builtin source "$target" ^ /dev/null
 
         if test "$base" = "set_color_custom.fish"
             if test ! -s "$fish_config/fish_colors"
@@ -698,7 +701,7 @@ function __fisher_plugin_enable -a path
         set -l target "$fish_config/conf.d/$base"
 
         command ln -sf "$file" "$target"
-        builtin source "$target"
+        builtin source "$target" ^ /dev/null
     end
 
     for file in $path/completions/*.fish
@@ -706,7 +709,7 @@ function __fisher_plugin_enable -a path
         set -l target "$fish_config/completions/$base"
 
         command ln -sf "$file" "$target"
-        builtin source "$target"
+        builtin source "$target" ^ /dev/null
     end
 
     return 0
@@ -716,21 +719,12 @@ end
 function __fisher_plugin_disable -a path
     set -l plugin_name (basename $path)
 
-    __fisher_plugin_decrement_ref_count "$plugin_name"
-
-    if test -f "$fisher_config/$plugin_name/fishfile"
-        while read -l i
-            set -l name (__fisher_plugin_get_names $i)[1]
-            __fisher_plugin_decrement_ref_count "$name"
-        end < "$fisher_config/$plugin_name/fishfile"
-    end
-
     for file in $path/{functions/*,}*.fish
         set -l name (basename "$file" .fish)
         set -l base "$name.fish"
 
         if test "$base" = "uninstall.fish"
-            builtin source "$file"
+            builtin source "$file" ^ /dev/null
             continue
         end
 
@@ -759,7 +753,7 @@ function __fisher_plugin_disable -a path
                 continue
             end
 
-            __fisher_restore_fish_colors < $fish_colors_config | source ^ /dev/null
+            __fisher_restore_fish_colors < $fish_colors_config | builtin source ^ /dev/null
 
             command rm -f $fish_colors_config
         end
@@ -807,7 +801,9 @@ function __fisher_remove
 
         for i in $argv
             set -l name (__fisher_plugin_get_names "$i")[1]
+
             __fisher_show_spinner
+            __fisher_plugin_decrement_ref_count "$name"
 
             if test -f "$fisher_config/$i/fishfile"
                 while read -l i
@@ -815,6 +811,8 @@ function __fisher_remove
 
                     if test (__fisher_plugin_get_ref_count "$name") -le 1
                         set orphans $orphans "$name"
+                    else
+                        __fisher_plugin_decrement_ref_count "$name"
                     end
 
                     __fisher_show_spinner
@@ -826,7 +824,7 @@ function __fisher_remove
         end
 
         for i in $orphans
-            __fisher_remove "$i"
+            __fisher_remove "$i" > /dev/stderr
         end
     end
 end
@@ -1112,9 +1110,9 @@ function __fisher_list_plugin_directory
         return 1
     end
 
-    for item in $argv
-        if test ! -d "$fisher_config/$item"
-            __fisher_log error "@$item@ is not installed" $__fisher_stderr
+    for i in $argv
+        if test ! -d "$fisher_config/$i"
+            __fisher_log warn "Skipped @$i@" $__fisher_stderr
 
             return 1
         end
@@ -1123,13 +1121,13 @@ function __fisher_list_plugin_directory
     set -l fd $__fisher_stderr
     set -l uniq_items
 
-    for item in $argv
-        if contains -- "$item" $uniq_items
+    for i in $argv
+        if contains -- "$i" $uniq_items
             continue
         end
 
-        set uniq_items $uniq_items "$item"
-        set -l path "$fisher_config/$item"
+        set uniq_items $uniq_items "$i"
+        set -l path "$fisher_config/$i"
 
         pushd "$path"
 
@@ -1295,7 +1293,7 @@ function __fisher_key_bindings_remove -a plugin_name
     set -l user_key_bindings "$fish_config/functions/fish_user_key_bindings.fish"
     set -l tmp (date "+%s")
 
-    fish_indent < "$user_key_bindings" | command sed -n "/### $plugin_name ###/,/### $plugin_name ###/{s/^ *bind /bind -e /p;};" | source ^ /dev/null
+    fish_indent < "$user_key_bindings" | command sed -n "/### $plugin_name ###/,/### $plugin_name ###/{s/^ *bind /bind -e /p;};" | builtin source ^ /dev/null
 
     command sed "/### $plugin_name ###/,/### $plugin_name ###/d" < "$user_key_bindings" > "$user_key_bindings.$tmp"
     command mv -f "$user_key_bindings.$tmp" "$user_key_bindings"
@@ -1830,17 +1828,10 @@ function __fisher_help -a cmd number
         set -l page "$fisher_config/$cmd/man/man$number/$cmd.$number"
 
         if not man "$page" ^ /dev/null
-            __fisher_log error "No manual entry for $cmd" $__fisher_stderr
-
             if test -d "$fisher_config/$cmd"
-                set -l url (__fisher_plugin_get_url_info -- $fisher_config/$cmd)
-
-                if test ! -z "$url"
-                    __fisher_log info "Visit the online repository for help:" $__fisher_stderr
-                    __fisher_log info "@https://github.com/$url@" $__fisher_stderr
-                end
+                __fisher_log info "No manual for @$cmd@" $__fisher_stderr
             else
-                __fisher_log error "$cmd is not installed" $__fisher_stderr
+                __fisher_log warn "Skipped @$cmd@" $__fisher_stderr
             end
 
             return 1
@@ -2133,7 +2124,7 @@ function __fisher_man_page_write
     # .SH "FAQ"
     # .
     # .SS "1\. What is the required fish version?"
-    # fisherman was built for fish >= 2\.3\.0\. If you are using 2\.2\.0, append the following code to your \fB~/\.config/fish/config\.fish\fR for snippet support\.
+    # fisherman works best in fish >= 2\.3\.0\. If you are using 2\.2\.0, append the following code to your \fB~/\.config/fish/config\.fish\fR for snippet support\.
     # .
     # .IP "" 4
     # .
@@ -2233,7 +2224,7 @@ function __fisher_man_page_write
     # .nf
     #
     # owner/repo
-    # https://github\.com/dude/sweet
+    # https://github\.com/owner/repo
     # https://gist\.github\.com/bucaran/c256586044fea832e62f02bc6f6daf32
     # .
     # .fi
