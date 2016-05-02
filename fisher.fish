@@ -443,7 +443,7 @@ function __fisher_plugin_fetch_items
                 if test -L "$src"
                     command ln -sf "$src" "$fisher_config"
                 else
-                    command cp -rf "$src" "$fisher_config"
+                    command cp -Rf "$src" "$fisher_config"
                 end
             else
                 set jobs $jobs (__fisher_plugin_url_clone_async "$i" "$names[1]")
@@ -453,7 +453,7 @@ function __fisher_plugin_fetch_items
                 set -l real_namespace (__fisher_plugin_get_url_info --dirname "$src" )
 
                 if test "$real_namespace" = "$names[2]"
-                    command cp -rf "$src" "$fisher_config"
+                    command cp -Rf "$src" "$fisher_config"
                 else
                     set jobs $jobs (__fisher_plugin_url_clone_async "$i" "$names[1]")
                 end
@@ -516,10 +516,10 @@ function __fisher_plugin_url_clone_async -a url name
             set -lx GIT_ASKPASS /bin/echo
 
             if command git clone -q --depth 1 '$url' '$fisher_cache/$name' ^ /dev/null
-                  printf '$okay""OKAY""$nc Fetching $okay%s$nc %s\n' '$name' '$hm_url' > $__fisher_stderr
-                  command cp -rf '$fisher_cache/$name' '$fisher_config'
+                  printf '$okay""OKAY""$nc Fetch $okay%s$nc %s\n' '$name' '$hm_url' > $__fisher_stderr
+                  command cp -Rf '$fisher_cache/$name' '$fisher_config'
             else
-                  printf '$error""ARGH""$nc Fetching $error%s$nc %s\n' '$name' '$hm_url' > $__fisher_stderr
+                  printf '$error""ARGH""$nc Fetch $error%s$nc %s\n' '$name' '$hm_url' > $__fisher_stderr
             end
       " > /dev/stderr &
 
@@ -625,7 +625,7 @@ function __fisher_update_path_async -a name path
         pushd $path
 
         if not command git fetch -q origin master ^ /dev/null
-            printf '$error""ARGH""$nc Fetching $error%s$nc\n' '$name' > $__fisher_stderr
+            printf '$error""ARGH""$nc Fetch $error%s$nc\n' '$name' > $__fisher_stderr
             exit
         end
 
@@ -633,7 +633,7 @@ function __fisher_update_path_async -a name path
 
         command git reset -q --hard FETCH_HEAD ^ /dev/null
         command git clean -qdfx
-        command cp -rf '$path/.' '$fisher_cache/$name'
+        command cp -Rf '$path/.' '$fisher_cache/$name'
 
         if test -z \"\$commits\" -o \"\$commits\" -eq 0
             printf '$okay""OKAY""$nc Latest $okay%s$nc\n' '$name' > $__fisher_stderr
