@@ -1740,7 +1740,12 @@ function __fisher_get_epoch_in_ms -a elapsed
         set elapsed 0
     end
 
-    math (command date +%s%3N) - $elapsed
+    switch (uname)
+        case Darwin
+            perl -MTime::HiRes -e 'printf("%.0f\n", (Time::HiRes::time() * 1000) - '$elapsed')'
+        case '*'
+            math (command date +%s%3N) - $elapsed
+    end
 end
 
 
