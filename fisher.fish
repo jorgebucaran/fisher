@@ -1735,17 +1735,23 @@ function __fisher_get_key
 end
 
 
-function __fisher_get_epoch_in_ms -a elapsed
-    if test -z "$elapsed"
-        set elapsed 0
-    end
+switch (command uname)
+    case Darwin
+        function __fisher_get_epoch_in_ms -a elapsed
+            if test -z "$elapsed"
+                set elapsed 0
+            end
 
-    switch (command uname)
-        case Darwin
             perl -MTime::HiRes -e 'printf("%.0f\n", (Time::HiRes::time() * 1000) - '$elapsed')'
-        case '*'
+        end
+    case '*'
+        function __fisher_get_epoch_in_ms -a elapsed
+            if test -z "$elapsed"
+                set elapsed 0
+            end
+
             math (command date +%s%3N) - $elapsed
-    end
+        end
 end
 
 
