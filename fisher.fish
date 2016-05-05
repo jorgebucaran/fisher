@@ -206,7 +206,11 @@ function fisher
                 set -l count (count $items)
 
                 if test "$count" -ge 10
-                    printf "%s\n" $items | column -c$argv
+                    if isatty stdout
+                        printf "%s\n" $items | column -c$argv
+                    else
+                        printf "%s\n" $items | sed 's|^[@* ]*||'
+                    end
 
                 else if test "$count" -ge 1
                     printf "%s\n" $items
@@ -234,7 +238,11 @@ function fisher
             if test -z "$format"
                 set format "%name\n"
 
-                __fisher_list_remote "$format" $argv | column
+                if isatty stdout
+                    __fisher_list_remote "$format" $argv | column
+                else
+                    __fisher_list_remote "$format" $argv
+                end
             else
 
                 __fisher_list_remote "$format" $argv
