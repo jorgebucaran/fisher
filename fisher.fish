@@ -1,5 +1,5 @@
 function fisher
-    set -g fisher_version "2.5.0"
+    set -g fisher_version "2.6.0"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
     function __fisher_show_spinner
@@ -1675,7 +1675,7 @@ function __fisher_completions_write
     # complete -xc fisher -n "__fish_use_subcommand" -a update -d "Update fisherman and plugins"
     # complete -xc fisher -n "__fish_use_subcommand" -a rm -d "Remove plugins"
     # complete -xc fisher -n "__fish_use_subcommand" -a ls -d "List what's installed"
-    # complete -xc fisher -n "__fish_use_subcommand" -a ls-remote -d "List what can be installed"
+    # complete -xc fisher -n "__fish_use_subcommand" -a ls-remote -d "List everything available"
     # complete -xc fisher -n "__fish_use_subcommand" -a help -d "Show help"
 end
 
