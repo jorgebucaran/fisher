@@ -274,10 +274,8 @@ function fisher
             __fisher_log okay "Done in @"(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"@" $__fisher_stderr
     end
 
-    set -l config (
-        set -l path $fisher_config/*
-        printf "%s\n" $path | command sed "s|.*/||"
-        )
+    set -l config_glob $fisher_config/*
+    set -l config (printf "%s\n" $config_glob | command sed "s|.*/||")
 
     switch "$cmd"
         case ls ls-remote
@@ -303,6 +301,22 @@ function fisher
     end
 
     set -l IFS \t
+    set -l real_home ~
+
+    command find $config_glob -maxdepth 0 -type l ^ /dev/null | command awk -v real_home="$real_home" -v OFS=\t '
+
+        {
+            name = info = $0
+
+            sub(".*/", "", name)
+            sub(real_home, "~", info)
+
+            print(name, info)
+        }
+
+    ' | while read -l name info
+        complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$name" -d "$info"
+    end
 
     command awk -v FS=\t -v OFS=\t '
 
@@ -2116,7 +2130,7 @@ function __fisher_man_page_write
     # .SH "FAQ"
     # .
     # .SS "1\. What is the required fish version?"
-    # fisherman works best in fish >= 2\.3\.0\. If you are using 2\.2\.0, append the following code to your \fB~/\.config/fish/config\.fish\fR for snippet support\.
+    # >= 2\.2\.0. For snippet support, upgrade to 2\.3\.0, or append the following code to your \fB~/\.config/fish/config\.fish\fR\.
     # .
     # .IP "" 4
     # .
@@ -2191,7 +2205,7 @@ function __fisher_man_page_write
     # .P
     # This mechanism only installs plugins and missing dependencies\. To remove a plugin, use \fBfisher rm\fR instead\.
     # .
-    # .SS "6\. Where can I find a list of fish plugins?"
+    # .SS "6\. Where can I find the list of fish plugins?"
     # Browse \fIhttps://github\.com/fisherman\fR or use \fIhttp://fisherman\.sh/#search\fR to discover content\.
     # .
     # .SS "7\. What is a plugin?"
