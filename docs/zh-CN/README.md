@@ -148,8 +148,8 @@ end
 
 ### 2. 如何让 fish 作为我默认的 shell ?
 
-Add fish to the list of login shells in `/etc/shells` and make it your default shell.
-把 fish 加入到 `/etc/shells` 并令 fish 成为默认 shell。
+Add fish to the list of login shells in */etc/shells* and make it your default shell.
+把 fish 加入到 */etc/shells* 并令 fish 成为默认 shell。
 
 ```sh
 echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
@@ -170,13 +170,13 @@ fisher self-uninstall
 
 ### 5. fisherman 把数据放到哪里了？
 
-fisherman 的位置在 `~/.config/fish/functions/fisher.fish`。
-缓存和插件配置被分别存在 `~/.cache/fisherman` 和 `~/.config/fisherman`。
-fishfile 位置在 `~/.config/fish/fishfile`。
+fisherman 的位置在 *~/.config/fish/functions/fisher.fish*。
+缓存和插件配置被分别存在 *~/.cache/fisherman* 和 *~/.config/fisherman*。
+fishfile 位置在 *~/.config/fish/fishfile*。
 
 ### 6. 什么是 fishfile 以及如何使用它？
 
-fishfile `~/.config/fish/fishfile` 列出了所有已安装的插件。
+fishfile *~/.config/fish/fishfile* 列出了所有已安装的插件。
 
 fisherman 安装插件时，会自动写入这个文件，或者你可以手动写入你想装的插件，然后运行 `fisher` 来安装插件
 
@@ -197,18 +197,18 @@ omf/grc
 
 一个插件是：
 
-1. 一个目录或者一个在项目根目录有 `.fish` 文件或者 `functions` 目录的git仓库
+1. 一个目录或者一个在项目根目录有 *.fish* 文件或者 *functions* 目录的git仓库
 
-2. 一个主题或者命令行提示符，比如 `fish-prompt.fish`, `fish_right_prompt.fish`。
+2. 一个主题或者命令行提示符，比如 `fish-prompt.fish`, *fish_right_prompt.fish*。
 
-3. 一些代码片段，比如一个或多个在 `conf.d`目录下的 `.fish` 文件，并且它们会在 shell 启动时执行。
+3. 一些代码片段，比如一个或多个在 *conf.d*目录下的 *.fish* 文件，并且它们会在 shell 启动时执行。
 
 ### 9. 如何把这些插件作为我自己插件的依赖？
 
-在项目的顶层目录创建一个新的 `fishfile` 文件，并写下你的依赖。
+在项目的顶层目录创建一个新的 *fishfile* 文件，并写下你的依赖。
 
 ```fish
 owner/repo
 https://github.com/owner/repo
-https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
+https://gist.github.com/owner/c256586044fea832e62f02bc6f6daf32
 ```
