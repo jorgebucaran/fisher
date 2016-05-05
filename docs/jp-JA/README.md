@@ -133,7 +133,7 @@ end
 
 ### 2. フィッシュシェルをデフォルトのシェルにするには？
 
-システムの `/etc/shells` ファイルに、fish を追加:
+システムの */etc/shells* ファイルに、fish を追加:
 
 ```sh
 echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
@@ -158,11 +158,11 @@ npm un -g fisherman
 
 ### 5. fishermanのファイル等は、どこに保存されますか？
 
-fisherman 自体は `~/.config/fish/functions/fisher.fish` に作成されます。そしてキャシュは`~/.cache/fisherman`に、コンフィグディレクトリは `~/.config/fisherman` に。fishfileは`~/.config/fish/fishfile`に保存されます
+fisherman 自体は *~/.config/fish/functions/fisher.fish* に作成されます。そしてキャシュは*~/.cache/fisherman*に、コンフィグディレクトリは *~/.config/fisherman* に。fishfileは*~/.config/fish/fishfile*に保存されます
 
 ### 6. fishfileとは？
 
-fishfile（`~/.config/fish/fishfile`）に現在インストールされているプラグインが書かれています。
+fishfile（*~/.config/fish/fishfile*）に現在インストールされているプラグインが書かれています。
 
 fisherman で自動的にこのファイルを更新するか、手動でプラグインを追加して `fisher`を入力してインストールすることも可能です。
 
@@ -183,18 +183,18 @@ fisherman の [organization] や [ウェブサイト] 等で、プラグイン�
 
 プラグインとは
 
-1. 普通のディレクトリや、gitレポジトリのrootに、`.fish`ファイルの関数、それか、`functions`ディレクトリに。
+1. 普通のディレクトリや、gitレポジトリのrootに、*.fish*ファイルの関数、それか、*functions*ディレクトリに。
 
-2. テーマ。つまり、`fish_prompt.fish`か`fish_right_prompt.fish`か両方。
+2. テーマ。つまり、*fish_prompt.fish*か*fish_right_prompt.fish*か両方。
 
-3. スニペット。つまり、1以上の`.fish`ファイルを`conf.d`といディレクトリに。こちらのファイルがフィッシュシェルがスタートする際に実行されます。
+3. スニペット。つまり、1以上の*.fish*ファイルを*conf.d*といディレクトリに。こちらのファイルがフィッシュシェルがスタートする際に実行されます。
 
 ### 9. 自分のプラグインを、他のプラグインのデペンデンシーにしたい場合は？
 
-プラグイン root ディレクトリの `fishfile` 編集してそのプラグインを追加してください。
+プラグイン root ディレクトリの *fishfile* 編集してそのプラグインを追加してください。
 
 ```fish
 owner/repo
 https://github.com/owner/repo
-https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
+https://gist.github.com/owner/c256586044fea832e62f02bc6f6daf32
 ```

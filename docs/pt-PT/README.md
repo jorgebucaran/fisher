@@ -145,7 +145,7 @@ end
 
 ### 2. Como faço para tornar fish a minha consola predefinida?
 
-Adicione fish à lista de consolas no ficheiro `/etc/shells` e defina-a como a sua consola por omissão usando os seguintes comandos.
+Adicione fish à lista de consolas no ficheiro */etc/shells* e defina-a como a sua consola por omissão usando os seguintes comandos.
 
 ```sh
 echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
@@ -163,15 +163,15 @@ Sim.
 
 ### 5. Onde é que o fisherman guarda as suas coisas?
 
-O fisherman é guardado no ficheiro `~/.config/fish/functions/fisher.fish`.
+O fisherman é guardado no ficheiro *~/.config/fish/functions/fisher.fish*.
 
-A cache e a configuração é guardada nos ficheiros `~/.cache/fisherman` e `~/.config/fisherman` respectivamente.
+A cache e a configuração é guardada nos ficheiros *~/.cache/fisherman* e *~/.config/fisherman* respectivamente.
 
-O ficheiro fishfile é guardado em `~/.config/fish/fishfile`.
+O ficheiro fishfile é guardado em *~/.config/fish/fishfile*.
 
 ### 6. O que é o ficheiro fishfile e como é que eu o utilizo?
 
-O ficheiro fishfile `~/.config/fish/fishfile` contém todos os plugins instalados.
+O ficheiro fishfile *~/.config/fish/fishfile* contém todos os plugins instalados.
 
 Pode deixar que fisherman tome conta deste ficheiro automaticamente, ou se quiser, pode adicionar os plugins manualmente ao ficheiro e no fim executar `fisher` para aplicar as alterações.
 
@@ -192,18 +192,18 @@ Visite a [organização] ou use a pesquisa [online] para descobrir os plugins di
 
 Um plugin é:
 
-1. uma pasta local ou repositório git com uma função dentro de um ficheiro `.fish` na raiz da pasta ou repositório ou dentro de uma pasta chamada `functions`.
+1. uma pasta local ou repositório git com uma função dentro de um ficheiro *.fish* na raiz da pasta ou repositório ou dentro de uma pasta chamada *functions*.
 
-2. um tema ou um prompt, i.e, `fish_prompt.fish`, `fish_right_prompt.fish` ou ambos.
+2. um tema ou um prompt, i.e, *fish_prompt.fish*, *fish_right_prompt.fish* ou ambos.
 
-3. um snippet, i.e, um ou mais ficheiros `.fish` dentro de uma pasta chamada `conf.d` que são executados sempre por fish no arranque da consola.
+3. um snippet, i.e, um ou mais ficheiros *.fish* dentro de uma pasta chamada *conf.d* que são executados sempre por fish no arranque da consola.
 
 ### 9. Como posso definir plugins como dependências do meu plugin?
 
-Crie um ficheiro `fishfile` na raiz do seu projecto e adicione ao ficheiros as dependências.
+Crie um ficheiro *fishfile* na raiz do seu projecto e adicione ao ficheiros as dependências.
 
 ```fish
 owner/repo
 https://github.com/owner/repo
-https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
+https://gist.github.com/owner/c256586044fea832e62f02bc6f6daf32
 ```

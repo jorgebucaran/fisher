@@ -133,7 +133,7 @@ end
 
 ### 2. 어떻게 fish를 기본 shell로 지정하나요?
 
-`/etc/shells` 파일에 있는 shell 목록에 fish를 추가하고, 기본 shell로 지정합니다.
+*/etc/shells* 파일에 있는 shell 목록에 fish를 추가하고, 기본 shell로 지정합니다.
 
 ```sh
 echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
@@ -158,15 +158,15 @@ npm un -g fisherman
 
 ### 5. fisherman은 어디에 파일을 두나요?
 
-fisherman 자체는 `~/.config/fish/functions/fisher.fish` 입니다.
+fisherman 자체는 *~/.config/fish/functions/fisher.fish* 입니다.
 
-캐쉬와 플러그인 관리 파일은 각각 `~/.cache/fisherman`과 `~/.config/fisherman`을 관례로 사용합니다.
+캐쉬와 플러그인 관리 파일은 각각 *~/.cache/fisherman*과 *~/.config/fisherman*을 관례로 사용합니다.
 
-fishfile은 `~/.config/fish/fishfile`에 위치합니다.
+fishfile은 *~/.config/fish/fishfile*에 위치합니다.
 
 ### 6. fishfile이 뭐죠? 어떻게 사용하나요?
 
-fishfile은 `~/.config/fish/fishfile` 위치하며 모든 설치 플러그인의 목록이 담겨있습니다.
+fishfile은 *~/.config/fish/fishfile* 위치하며 모든 설치 플러그인의 목록이 담겨있습니다.
 
 fisherman 명령어를 통해 플러그인을 설치/제거하면 자동으로 fishfile이 관리됩니다. 혹은, fishfile에 직접 플러그인을 추가하고 `fisher` 명령어를 입력하면 변경사항이 적용됩니다.
 
@@ -187,18 +187,18 @@ fisherman의 [organization] 페이지를 살펴보거나 [online] 플러그인 �
 
 플러그인은:
 
-1. 최상단 혹은 최상단에 위치한 `functions` 디렉토리에 담긴 `.fish`파일이 기능으로 작동하는 디렉토리 혹은 git 저장소
+1. 최상단 혹은 최상단에 위치한 *functions* 디렉토리에 담긴 *.fish*파일이 기능으로 작동하는 디렉토리 혹은 git 저장소
 
-2. 테마 혹은 프롬프트. 예: `fish_prompt.fish`이거나 `fish_right_prompt.fish` 혹은 두 파일 전부
+2. 테마 혹은 프롬프트. 예: *fish_prompt.fish*이거나 *fish_right_prompt.fish* 혹은 두 파일 전부
 
-3. 코드 조각. 예: fish shell 시작시 불러들이게 되는 `conf.d` 디렉토리 안에 위치 한 `.fish` 파일들
+3. 코드 조각. 예: fish shell 시작시 불러들이게 되는 *conf.d* 디렉토리 안에 위치 한 *.fish* 파일들
 
 ### 9. 플러그인 제작시 의존성을 명시하는 방법이 있나요?
 
-작성하는 플러그인 최상단 디렉토리에  `fishfile`를 만들고 의존성을 나열하세요.
+작성하는 플러그인 최상단 디렉토리에  *fishfile*를 만들고 의존성을 나열하세요.
 
 ```fish
 owner/repo
 https://github.com/owner/repo
-https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
+https://gist.github.com/owner/c256586044fea832e62f02bc6f6daf32
 ```
