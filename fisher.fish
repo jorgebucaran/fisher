@@ -253,18 +253,10 @@ function fisher
             __fisher_log okay "Done in @"(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"@" $__fisher_stderr
     end
 
-    complete -c fisher --erase
-
-    set -l cache $fisher_cache/*
     set -l config (
         set -l path $fisher_config/*
         printf "%s\n" $path | command sed "s|.*/||"
         )
-
-    if test ! -z "$config"
-        complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$config"
-        complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$fisher_active_prompt" -d "Prompt"
-    end
 
     switch "$cmd"
         case ls ls-remote
@@ -276,41 +268,45 @@ function fisher
             end
     end
 
-    if test ! -z "$cache"
-        printf "%s\n" $cache | command awk -v config="$config" '
+    complete -c fisher --erase
 
-            BEGIN {
-                config_n = split(config, config_a, " ")
-            }
+    builtin source "$completions" ^ /dev/null
 
-            {
-                sub(/.*\//, "")
+    if test ! -s "$fisher_cache/.index"
+        if test ! -z "$config"
+            complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$config"
+            complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$fisher_active_prompt" -d "Prompt"
+        end
 
-                for (i = 1; i <= config_n; i++) {
-                    if (config_a[i] == $0) {
-                        next
-                    }
-                }
-            }
+        return
+    end
 
-            //
+    set -l IFS \t
 
-        ' | while read -l plugin
+    command awk -v FS=\t -v OFS=\t '
 
-            if __fisher_plugin_is_prompt "$fisher_cache/$plugin"
-                complete -xc fisher -n "__fish_seen_subcommand_from i in install" -a "$plugin" -d "Prompt"
-                complete -xc fisher -n "not __fish_seen_subcommand_from u up update r rm remove uninstall l ls list ls-remote h help" -a "$plugin" -d "Prompt"
-            else
-                complete -xc fisher -n "__fish_seen_subcommand_from i in install" -a "$plugin" -d "Plugin"
-                complete -xc fisher -n "not __fish_seen_subcommand_from u up update r rm remove uninstall l ls list ls-remote h help" -a "$plugin" -d "Plugin"
-            end
+        {
+            print($1, $2)
+        }
 
+    ' "$fisher_cache/.index" ^ /dev/null | while read -l name info
+
+        switch "$name"
+            case awesome-\* fisherman\* index\* logo\* taof
+                continue
+        end
+
+        complete -xc fisher -n "__fish_seen_subcommand_from info ls-remote" -a "$name" -d "$info"
+
+        if contains -- "$name" $config
+            complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$name" -d "$info"
+        else
+            complete -xc fisher -n "__fish_seen_subcommand_from i in install" -a "$name" -d "$info"
+            complete -xc fisher -n "not __fish_seen_subcommand_from u up update r rm remove uninstall l ls list ls-remote h help" -a "$name" -d "$info"
         end
     end
 
-    __fisher_list_remote_complete
-
-    builtin source "$completions" ^ /dev/null
+    return 0
 end
 
 
@@ -988,27 +984,6 @@ function __fisher_remote_index_update
 end
 
 
-function __fisher_list_remote_complete
-    set -l IFS \t
-
-    command awk -v FS=\t -v OFS=\t '
-
-        {
-            print($1, $2)
-        }
-
-    ' "$fisher_cache/.index" ^ /dev/null | while read -l name info
-
-        switch "$name"
-            case awesome-\* fisherman\* index\* logo\* taof
-                continue
-        end
-
-        complete -xc fisher -n "__fish_seen_subcommand_from info ls-remote" -a "$name" -d "$info"
-    end
-end
-
-
 function __fisher_list_remote -a format
     set -l index "$fisher_cache/.index"
 
@@ -1672,7 +1647,7 @@ function __fisher_completions_write
     # complete -xc fisher -n "__fish_use_subcommand" -s h -l help -d "Show usage help"
     # complete -xc fisher -n "__fish_use_subcommand" -s v -l version -d "Show version information"
     # complete -xc fisher -n "__fish_use_subcommand" -a install -d "Install plugins"
-    # complete -xc fisher -n "__fish_use_subcommand" -a update -d "Upgrade and update plugins"
+    # complete -xc fisher -n "__fish_use_subcommand" -a update -d "Update fisherman and plugins"
     # complete -xc fisher -n "__fish_use_subcommand" -a rm -d "Remove plugins"
     # complete -xc fisher -n "__fish_use_subcommand" -a ls -d "List what's installed"
     # complete -xc fisher -n "__fish_use_subcommand" -a ls-remote -d "List what can be installed"
