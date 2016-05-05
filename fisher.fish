@@ -178,6 +178,36 @@ function fisher
     end
 
     switch "$cmd"
+        case install update
+            if not command -s git > /dev/null
+                __fisher_log error "
+                    git is required to download plugin repositories.
+                " > /dev/stderr
+
+                __fisher_log info "
+                    Please install git and try again.
+                    Visit <https://git-scm.com> for more information.
+                " $__fisher_stderr
+
+                return 1
+            end
+
+        case ls ls-remote
+            if not command -s curl > /dev/null
+                __fisher_log error "
+                    curl is required to query the GitHub API.
+                " > /dev/stderr
+
+                __fisher_log info "
+                    Please install curl and try again.
+                    Refer to your package manager documentation for instructions.
+                " $__fisher_stderr
+
+                return 1
+            end
+    end
+
+    switch "$cmd"
         case install
             if __fisher_install $items
                 __fisher_log okay "Done in @"(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"@" $__fisher_stderr
