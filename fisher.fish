@@ -332,7 +332,6 @@ function fisher
             complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$name" -d "$info"
         else
             complete -xc fisher -n "__fish_seen_subcommand_from i in install" -a "$name" -d "$info"
-            complete -xc fisher -n "not __fish_seen_subcommand_from u up update r rm remove uninstall l ls list ls-remote h help" -a "$name" -d "$info"
         end
     end
 
