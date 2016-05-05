@@ -1027,22 +1027,11 @@ function __fisher_list_remote -a format
     set -e argv[1]
     set -l keys $argv
 
-    set -l config "$fisher_config"/*
-
-    command awk -v FS=\t -v format_s="$format" -v config="$config" -v keys="$keys" '
+    command awk -v FS=\t -v format_s="$format" -v keys="$keys" '
 
         function basename(s,   n, a) {
             n = split(s, a, "/")
             return a[n]
-        }
-
-        function plugin_is_config(item,   i) {
-            for (i = 1; i <= config_count; i++) {
-                if (item == config_a[i]) {
-                    return 1
-                }
-            }
-            return 0
         }
 
         function plugin_is_blacklisted(item) {
@@ -1060,11 +1049,6 @@ function __fisher_list_remote -a format
 
         BEGIN {
             keys_count = split(keys, keys_a, " ")
-            config_count = split(config, config_a, " ")
-
-            for (i = 1; i <= config_count; i++) {
-                config_a[i] = basename(config_a[i])
-            }
         }
 
         {
@@ -1075,10 +1059,8 @@ function __fisher_list_remote -a format
                         next
                     }
                 }
-            } else {
-                if (!plugin_is_config($1) && !plugin_is_blacklisted($1)) {
-                    record_printf(format_s, $1, $2, $3, $4)
-                }
+            } else if (!plugin_is_blacklisted($1)) {
+                record_printf(format_s, $1, $2, $3, $4)
             }
         }
 
