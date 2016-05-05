@@ -146,7 +146,7 @@ end
 
 ### 2. Com converteixo fish en la meva consola de comandes per defecte?
 
-Afegeix fish a la llista de consoles de comandes dins de l'arxiu `/etc/shells` i converteix-la en la teva consola de comandes per defecte.
+Afegeix fish a la llista de consoles de comandes dins de l'arxiu */etc/shells* i converteix-la en la teva consola de comandes per defecte.
 
 ```sh
 echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
@@ -171,15 +171,15 @@ Si.
 
 ### 5. On deixa fisherman les seves coses?
 
-fisherman es guarda al directori `~/.config/fish/functions/fisher.fish`.
+fisherman es guarda al directori *~/.config/fish/functions/fisher.fish*.
 
-La caché i configuracions són creades dins de `~/.cache/fisherman` i `~/.config/fisherman` respectivament.
+La caché i configuracions són creades dins de *~/.cache/fisherman* i *~/.config/fisherman* respectivament.
 
-El arxiu fishfile es guarda a `~/.config/fish/fishfile`.
+El arxiu fishfile es guarda a *~/.config/fish/fishfile*.
 
 ### 6. Que és un arxiu fishfile i com el faig anar?
 
-El arxiu fishfile `~/.config/fish/fishfile` llista tots els complements instal·lats.
+El arxiu fishfile *~/.config/fish/fishfile* llista tots els complements instal·lats.
 
 Pots deixar que en fisherman s'encarregui d'aquest arxiu per tu automaticament, o be escriure a dins els complements que vols instal·lar i llavors executar `fisher` per a aplicar els canvis.
 
@@ -200,18 +200,18 @@ Busca dins de l'[organització] o fes anar la busqueda [en línia] per descobrir
 
 Un complement es:
 
-1. un directori o repositori de git amb una funció dins d'un arxiu `.fish` ja be a l'arrel del projecte o dins d'un directori `functions`
+1. un directori o repositori de git amb una funció dins d'un arxiu *.fish* ja be a l'arrel del projecte o dins d'un directori *functions*
 
-2. un tema o prompt, p.e., un `fish_prompt.fish`, `fish_right_prompt.fish` o ambdós
+2. un tema o prompt, p.e., un *fish_prompt.fish*, *fish_right_prompt.fish* o ambdós
 
-3. un retall, p.e., un o mes arxius `.fish` dins un directori anomenat `conf.d` que es evaluat per fish a l'arrencada de la consola de comandes.
+3. un retall, p.e., un o mes arxius *.fish* dins un directori anomenat *conf.d* que es evaluat per fish a l'arrencada de la consola de comandes.
 
 ### 9. Com puc llistar complements com dependencies del meu complement?
 
-Crea un nou arxiu `fishfile` a l'arrel del teu i escriu a dins les dependències del teu complement.
+Crea un nou arxiu *fishfile* a l'arrel del teu i escriu a dins les dependències del teu complement.
 
 ```fish
 owner/repo
 https://github.com/owner/repo
-https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
+https://gist.github.com/owner/c256586044fea832e62f02bc6f6daf32
 ```

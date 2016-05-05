@@ -141,7 +141,7 @@ end
 
 ### 2. ¿Cómo hago fish mi consola de comandos por defecto?
 
-Añade fish a la lista de consolas de comandos en `/etc/shells`.
+Añade fish a la lista de consolas de comandos en */etc/shells*.
 
 ```sh
 echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
@@ -168,15 +168,15 @@ Sí.
 
 ### 5. ¿Dónde guarda fisherman sus cosas?
 
-fisherman mismo esta en el archivo `~/.config/fish/functions/fisher.fish`.
+fisherman mismo esta en el archivo *~/.config/fish/functions/fisher.fish*.
 
-El caché y la configuración en `~/.cache/fisherman` y `~/.config/fisherman` respectivamente.
+El caché y la configuración en *~/.cache/fisherman* y *~/.config/fisherman* respectivamente.
 
-El archivo fishfile en `~/.config/fish/fishfile`.
+El archivo fishfile en *~/.config/fish/fishfile*.
 
 ### 6. ¿Qué es el archivo fishfile y cómo lo uso?
 
-El archivo fishfile `~/.config/fish/fishfile` contiene todos los paquetes que están instalados.
+El archivo fishfile *~/.config/fish/fishfile* contiene todos los paquetes que están instalados.
 
 Puedes dejar que fisherman se encargue de este archivo automáticamente, o incluir los paquetes que necesitas y ejecutar `fisher` para aplicar los cambios.
 
@@ -197,18 +197,18 @@ Dirígete a la [organización] o usa la búsqueda [en línea] para descubrir con
 
 Un paquete es:
 
-1. un directorio o repositorio de git con una función / archivo `.fish` bien sea en el directorio raíz del proyecto o en un directorio llamado `functions`.
+1. un directorio o repositorio de git con una función / archivo *.fish* bien sea en el directorio raíz del proyecto o en un directorio llamado *functions*.
 
-2. un tema o prompt, es decir, `fish_prompt.fish`, `fish_right_prompt.fish` o ambos.
+2. un tema o prompt, es decir, *fish_prompt.fish*, *fish_right_prompt.fish* o ambos.
 
-3. un snippet, es decir, uno o más archivos `.fish` en un directorio llamado `conf.d` que son ejecutados por fish al iniciar la sesión.
+3. un snippet, es decir, uno o más archivos *.fish* en un directorio llamado *conf.d* que son ejecutados por fish al iniciar la sesión.
 
 ### 9. ¿Cómo puedo añadir dependencias a mi plugin?
 
-Crea un archivo `fishfile` en la carpeta raíz de tu plugin y incluye los paquetes en el.
+Crea un archivo *fishfile* en la carpeta raíz de tu plugin y incluye los paquetes en el.
 
 ```fish
 owner/repo
 https://github.com/owner/repo
-https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
+https://gist.github.com/owner/c256586044fea832e62f02bc6f6daf32
 ```

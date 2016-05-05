@@ -86,8 +86,8 @@ See what's installed.
 
 ```ApacheConf
 fisher ls
-@ my_aliases    # this plugin is a local directory
-* simple        # this plugin is the current prompt
+@ my_aliases    # this is a local directory
+* simple        # this is the current prompt
   bass
   fzf
   grc
@@ -95,7 +95,7 @@ fisher ls
   z
 ```
 
-See what you can install.
+See everything available.
 
 ```
 fisher ls-remote
@@ -135,7 +135,9 @@ fisher help z
 
 ### 1. What is the required fish version?
 
-fisherman works best in fish >= 2.3.0. If you are using 2.2.0, append the following code to your `~/.config/fish/config.fish` for [snippet](#8-what-is-a-plugin) support.
+\>=2.2.0.
+
+ For [snippet](#8-what-is-a-plugin) support, upgrade to 2.3.0  or append the following code to your *~/.config/fish/config.fish*.
 
 ```fish
 for file in ~/.config/fish/conf.d/*.fish
@@ -145,7 +147,7 @@ end
 
 ### 2. How do I use fish as my default shell?
 
-Add fish to the list of login shells in `/etc/shells` and make it your default shell.
+Add fish to the list of login shells in */etc/shells* and make it your default shell.
 
 ```sh
 echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
@@ -164,15 +166,15 @@ Yes.
 
 ### 5. Where does fisherman put stuff?
 
-fisherman is saved to `~/.config/fish/functions/fisher.fish`.
+fisherman is saved to *~/.config/fish/functions/fisher.fish*.
 
-The cache and configuration is created in `~/.cache/fisherman` and `~/.config/fisherman` respectively.
+The cache and configuration is created in *~/.cache/fisherman* and *~/.config/fisherman* respectively.
 
-The fishfile is saved to `~/.config/fish/fishfile`.
+The fishfile is saved to *~/.config/fish/fishfile*.
 
 ### 6. What is a fishfile and how do I use it?
 
-The fishfile `~/.config/fish/fishfile` lists all the installed plugins.
+The fishfile *~/.config/fish/fishfile* lists all the installed plugins.
 
 You can let fisherman take care of this file for you automatically, or write in the plugins you want and run `fisher` to satisfy the changes.
 
@@ -185,7 +187,7 @@ omf/grc
 
 This mechanism only installs plugins and missing dependencies. To remove a plugin, use `fisher rm` instead.
 
-### 7. Where can I find a list of fish plugins?
+### 7. Where can I find the list of fish plugins?
 
 Browse the [organization] or use the [online] search to discover content.
 
@@ -193,18 +195,18 @@ Browse the [organization] or use the [online] search to discover content.
 
 A plugin is:
 
-1. a directory or git repo with a function `.fish` file either at the root level of the project or inside a `functions` directory
+1. a directory or git repo with a function *.fish* file either at the root level of the project or inside a *functions* directory
 
-2. a theme or prompt, i.e, a `fish_prompt.fish`, `fish_right_prompt.fish` or both files
+2. a theme or prompt, i.e, a *fish_prompt.fish*, *fish_right_prompt.fish* or both files
 
-3. a snippet, i.e, one or more `.fish` files inside a directory named `conf.d` that are evaluated by fish at the start of the shell
+3. a snippet, i.e, one or more *.fish* files inside a directory named *conf.d* that are evaluated by fish at the start of the shell
 
 ### 9. How can I list plugins as dependencies to my plugin?
 
-Create a new `fishfile` file at the root level of your project and write in the plugin dependencies.
+Create a new *fishfile* file at the root level of your project and write in the plugin dependencies.
 
 ```fish
 owner/repo
 https://github.com/owner/repo
-https://gist.github.com/bucaran/c256586044fea832e62f02bc6f6daf32
+https://gist.github.com/owner/c256586044fea832e62f02bc6f6daf32
 ```
