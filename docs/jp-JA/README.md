@@ -80,8 +80,8 @@ fisher
 
 ```ApacheConf
 fisher ls
-@ my_aliases    # este paquete es un directorio
-* simple        # este paquete es el tema actual
+@ my_aliases    # ローカルディレクトリ
+* simple        # 現在のテーマ
   bass
   fzf
   grc
