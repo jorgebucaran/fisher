@@ -231,19 +231,10 @@ function fisher
 
         case ls
             if test "$argv" -ge 0 -o "$argv" = -
-                set items (__fisher_list)
-
-                set -l count (count $items)
-
-                if test "$count" -ge 10
-                    if isatty stdout
-                        printf "%s\n" $items | column -c$argv
-                    else
-                        printf "%s\n" $items | sed 's|^[@* ]*||'
-                    end
-
-                else if test "$count" -ge 1
-                    printf "%s\n" $items
+                if isatty stdout
+                    __fisher_list | column -c$argv
+                else
+                    __fisher_list | sed 's|^[@* ]*||'
                 end
 
             else
