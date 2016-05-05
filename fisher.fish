@@ -292,7 +292,7 @@ function fisher
     ' "$fisher_cache/.index" ^ /dev/null | while read -l name info
 
         switch "$name"
-            case awesome-\* fisherman\* index\* logo\* taof
+            case fisherman\*
                 continue
         end
 
@@ -1009,10 +1009,6 @@ function __fisher_list_remote -a format
             return a[n]
         }
 
-        function plugin_is_blacklisted(item) {
-            return (item ~ /^awesome-fish|^fisherman|^index|^logo|^taof/)
-        }
-
         function record_printf(fmt, name, info, url, stars) {
             gsub(/%name/, name, fmt)
             gsub(/%stars/, stars, fmt)
@@ -1023,18 +1019,18 @@ function __fisher_list_remote -a format
         }
 
         BEGIN {
-            keys_count = split(keys, keys_a, " ")
+            keys_n = split(keys, keys_a, " ")
         }
 
         {
-            if (keys_count > 0) {
-                for (i = 1; i <= keys_count; i++) {
+            if (keys_n > 0) {
+                for (i = 1; i <= keys_n; i++) {
                     if (keys_a[i] == $1) {
                         record_printf(format_s, $1, $2, $3, $4)
                         next
                     }
                 }
-            } else if (!plugin_is_blacklisted($1)) {
+            } else if ($1 !~ /^fisherman/) {
                 record_printf(format_s, $1, $2, $3, $4)
             }
         }
