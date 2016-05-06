@@ -918,7 +918,7 @@ function __fisher_remote_index_update
 
     fish -c "
 
-        curl -s 'https://api.github.com/orgs/fisherman/repos?per_page=100' | awk -v ORS='' '
+        curl --max-time 10 -s 'https://api.github.com/orgs/fisherman/repos?per_page=100' | awk -v ORS='' '
 
             {
                 gsub(/[{}\[\]]|^[\t ]*/, \"\")
