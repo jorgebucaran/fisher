@@ -984,19 +984,17 @@ function __fisher_remote_index_update
             quicksort(list, j + 1, hi)
         }
 
-        function field_parse(s) {
-            if ($0 ~ "^" s ":") {
-                return substr($0, length(s) + 3)
-            }
-        }
-
         {
-            name = (s = field_parse("name")) ? s : name
-            info = (s = field_parse("description")) ? s : info
-            stars = (s = field_parse("stargazers_count")) ? s : stars
+            name = ($0 ~ /^name: /) ? substr($0, 7) : name
+            info = ($0 ~ /^description: /) ? substr($0, 14) : info
+            stars = ($0 ~ /^stargazers_count: /) ? substr($0, 19) : stars
 
-            if (name && info && stars != "") {
-                records[++record_count] = name "\t" info "\t" "github.com/fisherman/" name "\t" stars
+            if (name && stars != "") {
+                url = "github.com/fisherman/" name
+                info = info ? info : url
+
+                records[++record_count] = name "\t" info "\t" url "\t" stars
+
                 name = info = stars = ""
             }
         }
