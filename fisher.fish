@@ -303,19 +303,11 @@ function fisher
     set -l IFS \t
     set -l real_home ~
 
-    command find $config_glob -maxdepth 0 -type l ^ /dev/null | command awk -v real_home="$real_home" -v OFS=\t '
+    for name in (command find $config_glob -maxdepth 0 -type l ^ /dev/null)
+        set -l path (command readlink "$name")
+        set -l name (command basename "$name" | sed "s|$real_home|~|")
 
-        {
-            name = info = $0
-
-            sub(".*/", "", name)
-            sub(real_home, "~", info)
-
-            print(name, info)
-        }
-
-    ' | while read -l name info
-        complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$name" -d "$info"
+        complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$name" -d "$path"
     end
 
     command awk -v FS=\t -v OFS=\t '
@@ -339,6 +331,16 @@ function fisher
             complete -xc fisher -n "__fish_seen_subcommand_from i in install" -a "$name" -d "$info"
         end
     end
+
+    for i in (__fisher_plugin_get_url_info -- $config_glob)
+         switch "$i"
+             case fisherman\*
+             case \*
+                 set -l name (__fisher_plugin_get_names "$i")[1]
+
+                 complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$name" -d "$i"
+         end
+     end
 
     return 0
 end
@@ -935,6 +937,7 @@ function __fisher_remote_index_update
             }
 
         ' > '$index'
+
     " &
 
     __fisher_jobs_await (__fisher_jobs_get -l)
@@ -1739,13 +1742,14 @@ switch (command uname)
 
             perl -MTime::HiRes -e 'printf("%.0f\n", (Time::HiRes::time() * 1000) - '$elapsed')'
         end
-    case '*'
+
+    case \*
         function __fisher_get_epoch_in_ms -a elapsed
             if test -z "$elapsed"
                 set elapsed 0
             end
 
-            math (command date +%s%3N) - $elapsed
+            math (command date "+%s%3N") - $elapsed
         end
 end
 
