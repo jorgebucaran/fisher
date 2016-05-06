@@ -137,7 +137,7 @@ fisher help z
 
 \>=2.2.0.
 
- For [snippet](#8-what-is-a-plugin) support, upgrade to 2.3.0  or append the following code to your *~/.config/fish/config.fish*.
+For [snippet](#8-what-is-a-plugin) support, upgrade to 2.3.0  or append the following code to your *~/.config/fish/config.fish*.
 
 ```fish
 for file in ~/.config/fish/conf.d/*.fish
@@ -147,7 +147,7 @@ end
 
 ### 2. How do I use fish as my default shell?
 
-Add fish to the list of login shells in */etc/shells* and make it your default shell.
+Add fish to the list of login shells in */etc/shells* and make it the default.
 
 ```sh
 echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
@@ -166,9 +166,7 @@ Yes.
 
 ### 5. Where does fisherman put stuff?
 
-fisherman is saved to *~/.config/fish/functions/fisher.fish*.
-
-The cache and configuration is created in *~/.cache/fisherman* and *~/.config/fisherman* respectively.
+The cache and configuration go in *~/.cache/fisherman* and *~/.config/fisherman* respectively.
 
 The fishfile is saved to *~/.config/fish/fishfile*.
 
