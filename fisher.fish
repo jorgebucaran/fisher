@@ -306,7 +306,11 @@ function fisher
     end
 
     set -l config_glob $fisher_config/*
-    set -l config (printf "%s\n" $config_glob | command sed "s|.*/||")
+    set -l config (
+        if test ! -z "$config_glob"
+            command find $config_glob -maxdepth 0 -type d | command sed "s|.*/||"
+        end
+    )
 
     switch "$cmd"
         case ls ls-remote
@@ -1415,7 +1419,7 @@ function __fisher_plugin_get_url_info -a option
         return
     end
 
-    cat {$argv}/.git/config ^ /dev/null | command awk -v option="$option" '
+    command cat {$argv}/.git/config ^ /dev/null | command awk -v option="$option" '
         /url/ {
             n = split($3, s, "/")
 
