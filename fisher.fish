@@ -286,7 +286,7 @@ function fisher
 
             for i in $items
                 if test ! -d "$fisher_config/$i"
-                    __fisher_log warn "You can only remove plugins you've installed." $__fisher_stderr
+                    __fisher_log info "You can only remove plugins you've installed." $__fisher_stderr
                     set -e items
                     break
                 end
@@ -1156,8 +1156,7 @@ end
 function __fisher_log -a log message fd
     set -l nc (set_color normal)
     set -l okay (set_color green)
-    set -l info (set_color green)
-    set -l warn (set_color yellow)
+    set -l info (set_color cyan)
     set -l error (set_color red)
 
     switch "$fd"
@@ -1171,7 +1170,6 @@ function __fisher_log -a log message fd
             set nc ""
             set okay ""
             set info ""
-            set warn ""
             set error ""
     end
 
@@ -1182,10 +1180,6 @@ function __fisher_log -a log message fd
 
         function info(s) {
             printf("'$info'%s'$nc' %s\n", "INFO", s)
-        }
-
-        function warn(s) {
-            printf("'$warn'%s'$nc' %s\n", "WARN", s)
         }
 
         function error(s) {
@@ -1276,6 +1270,11 @@ end
 
 function __fisher_key_bindings_remove -a plugin_name
     set -l user_key_bindings "$fish_config/functions/fish_user_key_bindings.fish"
+
+    if test ! -f "$user_key_bindings"
+        return
+    end
+
     set -l tmp (date "+%s")
 
     fish_indent < "$user_key_bindings" | command sed -n "/### $plugin_name ###/,/### $plugin_name ###/{s/^ *bind /bind -e /p;};" | builtin source ^ /dev/null
@@ -1343,7 +1342,7 @@ function __fisher_key_bindings_append -a plugin_name file
                 printf("### %s ###\n", name)
             }
 
-            /^function fish_user_key_bindings$/ {
+            /^function (fish_(user_)?)?key_bindings$/ {
                 is_end = 1
                 next
             }
@@ -1898,7 +1897,7 @@ function __fisher_help -a cmd number
 
         if not man "$page" ^ /dev/null
             if test -d "$fisher_config/$cmd"
-                __fisher_log warn "There's no manual for this plugin." $__fisher_stderr
+                __fisher_log info "There's no manual for this plugin." $__fisher_stderr
 
                 set -l url (__fisher_plugin_get_url_info -- "$fisher_config/$cmd")
 
@@ -1917,8 +1916,7 @@ function __fisher_self_uninstall -a yn
     set -l file (status --current-filename)
 
     if test -z "$fish_config" -o -z "$fisher_cache" -o -z "$fisher_config" -o -L "$fisher_cache" -o -L "$fisher_config" -o "$file" != "$fish_config/functions/fisher.fish"
-        __fisher_log warn "Global or non-standard setup detected."
-        __fisher_log says "Use your package manager to remove fisherman." /dev/stderr
+        __fisher_log info "Abort: Non-standard setup detected."
 
         return 1
     end
@@ -1929,7 +1927,7 @@ function __fisher_self_uninstall -a yn
     switch "$yn"
         case -y --yes
         case \*
-            __fisher_log warn "
+            __fisher_log info "
                 This will permanently remove fisherman from your system.
                 The following directories and files will be erased:
 
