@@ -856,7 +856,7 @@ end
 
 function __fisher_remote_index_update
     set -l index "$fisher_cache/.index"
-    set -l interval 2160
+    set -l interval 3240
 
     if test ! -z "$fisher_index_update_interval"
         set interval "$fin_index_update_interval"
