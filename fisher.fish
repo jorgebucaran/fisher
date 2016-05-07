@@ -1,17 +1,4 @@
 function fisher
-    set -g fisher_version "2.6.6"
-    set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
-
-    function __fisher_show_spinner
-        if not set -q __fisher_fg_spinner[1]
-            set -g __fisher_fg_spinner $fisher_spinners
-        end
-
-        printf "  $__fisher_fg_spinner[1]\r" > /dev/stderr
-
-        set -e __fisher_fg_spinner[1]
-    end
-
     set -l config_home $XDG_CONFIG_HOME
     set -l cache_home $XDG_CACHE_HOME
 
@@ -39,6 +26,24 @@ function fisher
         set -g fisher_bundle "$fish_config/fishfile"
     end
 
+    if test "$argv" = --complete
+        __fisher_complete
+        return
+    end
+
+    set -g fisher_version "2.6.6"
+    set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
+
+    function __fisher_show_spinner
+        if not set -q __fisher_fg_spinner[1]
+            set -g __fisher_fg_spinner $fisher_spinners
+        end
+
+        printf "  $__fisher_fg_spinner[1]\r" > /dev/stderr
+
+        set -e __fisher_fg_spinner[1]
+    end
+
     if not command mkdir -p "$fish_config/"{conf.d,functions,completions} "$fisher_config" "$fisher_cache"
         __fisher_log error "
             I couldn't create the fisherman configuration.
@@ -55,7 +60,7 @@ function fisher
     set -l completions "$fish_config/completions/fisher.fish"
 
     if test ! -s "$completions"
-        __fisher_completions_write > "$completions"
+        __fisher_completions > "$completions"
         __fisher_complete
     end
 
@@ -590,7 +595,7 @@ function __fisher_self_update
 
     set -l new_version "$fisher_version"
 
-    __fisher_completions_write > "$completions"
+    __fisher_completions > "$completions"
     builtin source "$completions" ^ /dev/null
 
     if test "$previous_version" = "$fisher_version"
@@ -1619,35 +1624,12 @@ function __fisher_plugin_get_ref_count -a name
 end
 
 
-function __fisher_completions_write
-    functions __fisher_completions_write | fish_indent | __fisher_parse_comments_from_function
-
-    # if functions -q __fisher_complete
-    #     __fisher_complete
-    # end
+function __fisher_completions
+    echo "fisher --complete"
 end
 
 
 function __fisher_complete
-    set -l config_home $XDG_CONFIG_HOME
-    set -l cache_home $XDG_CACHE_HOME
-
-    if test -z "$config_home"
-        set config_home ~/.config
-    end
-
-    if test -z "$cache_home"
-        set cache_home ~/.cache
-    end
-
-    if test -z "$fisher_config"
-        set -g fisher_config "$config_home/fisherman"
-    end
-
-    if test -z "$fisher_cache"
-        set -g fisher_cache "$cache_home/fisherman"
-    end
-
     set -l config_glob "$fisher_config"/*
     set -l config (printf "%s\n" $config_glob | command sed "s|.*/||")
 
