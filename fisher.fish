@@ -28,10 +28,11 @@ function fisher
 
     if test "$argv" = --complete
         __fisher_complete
+
         return
     end
 
-    set -g fisher_version "2.6.6"
+    set -g fisher_version "2.6.7"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
     function __fisher_show_spinner
