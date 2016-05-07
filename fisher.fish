@@ -61,7 +61,7 @@ function fisher
     set -l completions "$fish_config/completions/fisher.fish"
 
     if test ! -s "$completions"
-        __fisher_completions > "$completions"
+        __fisher_completions_write > "$completions"
         __fisher_complete
     end
 
@@ -596,7 +596,7 @@ function __fisher_self_update
 
     set -l new_version "$fisher_version"
 
-    __fisher_completions > "$completions"
+    __fisher_completions_write > "$completions"
     builtin source "$completions" ^ /dev/null
 
     if test "$previous_version" = "$fisher_version"
@@ -1625,7 +1625,7 @@ function __fisher_plugin_get_ref_count -a name
 end
 
 
-function __fisher_completions
+function __fisher_completions_write
     echo "fisher --complete"
 end
 
