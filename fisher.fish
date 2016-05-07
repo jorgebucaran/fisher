@@ -1,4 +1,17 @@
 function fisher
+    set -g fisher_version "2.6.8"
+    set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
+
+    function __fisher_show_spinner
+        if not set -q __fisher_fg_spinner[1]
+            set -g __fisher_fg_spinner $fisher_spinners
+        end
+
+        printf "  $__fisher_fg_spinner[1]\r" > /dev/stderr
+
+        set -e __fisher_fg_spinner[1]
+    end
+
     set -l config_home $XDG_CONFIG_HOME
     set -l cache_home $XDG_CACHE_HOME
 
@@ -22,27 +35,27 @@ function fisher
         set -g fisher_cache "$cache_home/fisherman"
     end
 
+    # to be deprecated ~ 2.8
     if test -z "$fisher_bundle"
         set -g fisher_bundle "$fish_config/fishfile"
     end
 
-    if test "$argv" = --complete
-        __fisher_complete
-
-        return
+    if test -z "$fisher_file"
+        set -g fisher_file "$fish_config/fishfile"
     end
 
-    set -g fisher_version "2.6.7"
-    set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
+    switch "$argv[1]"
+        case --complete
+            __fisher_complete
+            return
 
-    function __fisher_show_spinner
-        if not set -q __fisher_fg_spinner[1]
-            set -g __fisher_fg_spinner $fisher_spinners
-        end
+        case -v --version
+            __fisher_version
+            return
 
-        printf "  $__fisher_fg_spinner[1]\r" > /dev/stderr
-
-        set -e __fisher_fg_spinner[1]
+        case -h
+            __fisher_usage > /dev/stderr
+            return
     end
 
     if not command mkdir -p "$fish_config/"{conf.d,functions,completions} "$fisher_config" "$fisher_cache"
@@ -73,7 +86,6 @@ function fisher
             set -e argv[$index]
             set __fisher_stdout /dev/null
             set __fisher_stderr /dev/null
-
             break
         end
     end
@@ -94,7 +106,7 @@ function fisher
             set -e argv[1]
             set cmd "update"
 
-        case r rm remove uninstall
+        case r rm remove
             set -e argv[1]
             set cmd "rm"
 
@@ -109,17 +121,11 @@ function fisher
         case h help
             set -e argv[1]
             __fisher_help $argv
+            return
 
         case --help
             set -e argv[1]
             __fisher_help
-
-        case -h
-            __fisher_usage > /dev/stderr
-
-        case -v --version
-            set -l home ~
-            printf "fisherman version $fisher_version %s\n" (__fisher_plugin_normalize_path (status -f) | command awk -v home="$home" '{ sub(home, "~") } //')
             return
 
         case -- ""
@@ -131,7 +137,7 @@ function fisher
                 set cmd "install"
             end
 
-        case self-uninstall self-destroy
+        case self-{uninstall,destroy}
             set -e argv[1]
             __fisher_self_uninstall $argv
             return
@@ -146,7 +152,6 @@ function fisher
     end
 
     set -l elapsed (__fisher_get_epoch_in_ms)
-
     set -l items (
         if test ! -z "$argv"
             printf "%s\n" $argv | command awk '
@@ -161,7 +166,7 @@ function fisher
                     }
                 }
 
-                !seen[$0]++
+                !dedupe[$0]++
 
             '
         end
@@ -171,8 +176,8 @@ function fisher
         if isatty
             command touch "$fisher_bundle"
 
-            set items (__fisher_read_bundle_file < "$fisher_bundle")
             set cmd "install"
+            set items (__fisher_read_bundle_file < "$fisher_bundle")
 
             if test -z "$items"
                 __fisher_usage > /dev/stderr
@@ -271,13 +276,27 @@ function fisher
                     __fisher_list_remote "$format" $argv
                 end
             else
-
                 __fisher_list_remote "$format" $argv
             end
 
         case rm
-            __fisher_remove $items
-            __fisher_log okay "Done in @"(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"@" $__fisher_stderr
+            if test -z "$items"
+                __fisher_parse_column_output | __fisher_read_bundle_file | read -az items
+            end
+
+            for i in $items
+                if test ! -d "$fisher_config/$i"
+                    __fisher_log warn "You can only remove plugins you've installed." $__fisher_stderr
+                    set -e items
+                    break
+                end
+            end
+
+            if test ! -z "$items"
+                __fisher_remove $items
+                __fisher_log okay "Done in @"(
+                    __fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"@" $__fisher_stderr
+            end
     end
 
     set -l config_glob $fisher_config/*
@@ -287,7 +306,7 @@ function fisher
         case ls ls-remote
         case \*
             if test -z "$config"
-                echo > $fisher_bundle
+                echo > "$fisher_bundle"
                 set -e fisher_dependency_count
             else
                 __fisher_plugin_get_url_info -- "$fisher_config"/$config > $fisher_bundle
@@ -434,6 +453,10 @@ function __fisher_plugin_fetch_items
 
         if test -z "$names[2]"
             if test -d "$src"
+                if test ! -d "$fisher_config/$names[1]"
+                    __fisher_log info "Fetch @$names[1]@" $__fisher_stderr
+                end
+
                 if test -L "$src"
                     command ln -sf "$src" "$fisher_config"
                 else
@@ -444,9 +467,13 @@ function __fisher_plugin_fetch_items
             end
         else
             if test -d "$src"
-                set -l real_namespace (__fisher_plugin_get_url_info --dirname "$src" )
+                set -l real_namespace (__fisher_plugin_get_url_info --dirname "$src")
 
                 if test "$real_namespace" = "$names[2]"
+                    if test ! -d "$fisher_config/$names[1]"
+                        __fisher_log info "Fetch @$names[1]@" $__fisher_stderr
+                    end
+
                     command cp -Rf "$src" "$fisher_config"
                 else
                     set jobs $jobs (__fisher_plugin_url_clone_async "$i" "$names[1]")
@@ -787,39 +814,47 @@ end
 
 function __fisher_remove
     if test -z "$argv"
-        __fisher_parse_column_output | __fisher_read_bundle_file | read -az argv
+        return 1
     end
 
-    if test ! -z "$argv"
-        set -l orphans
+    set -l orphans
+    set -l removed
 
-        for i in $argv
-            set -l name (__fisher_plugin_get_names "$i")[1]
+    for i in $argv
+        set -l name (__fisher_plugin_get_names "$i")[1]
 
-            __fisher_show_spinner
-            __fisher_plugin_decrement_ref_count "$name"
+        __fisher_show_spinner
+        __fisher_plugin_decrement_ref_count "$name"
 
-            if test -f "$fisher_config/$i/fishfile"
-                while read -l i
-                    set -l name (__fisher_plugin_get_names "$i")[1]
+        if test -f "$fisher_config/$i/fishfile"
+            while read -l i
+                set -l name (__fisher_plugin_get_names "$i")[1]
 
-                    if test (__fisher_plugin_get_ref_count "$name") -le 1
-                        set orphans $orphans "$name"
-                    else
-                        __fisher_plugin_decrement_ref_count "$name"
-                    end
+                if test (__fisher_plugin_get_ref_count "$name") -le 1
+                    set orphans $orphans "$name"
+                else
+                    __fisher_plugin_decrement_ref_count "$name"
+                end
 
-                    __fisher_show_spinner
-                end < "$fisher_config/$i/fishfile"
-            end
-
-            __fisher_plugin_disable "$fisher_config/$name"
-            __fisher_show_spinner
+                __fisher_show_spinner
+            end < "$fisher_config/$i/fishfile"
         end
 
-        for i in $orphans
-            __fisher_remove "$i" > /dev/stderr
+        if test -d "$fisher_config/$name"
+            set removed $removed $name
         end
+
+        __fisher_plugin_disable "$fisher_config/$name"
+
+        __fisher_show_spinner
+    end
+
+    for i in $orphans
+        __fisher_remove "$i" > /dev/stderr
+    end
+
+    for i in $removed
+        __fisher_log info "Remove @$i@" $__fisher_stderr
     end
 end
 
@@ -1062,7 +1097,7 @@ function __fisher_list_plugin_directory
 
     for i in $argv
         if test ! -d "$fisher_config/$i"
-            __fisher_log error "Skipped @$i@" $__fisher_stderr
+            __fisher_log error "You can only list plugins you've installed." $__fisher_stderr
 
             return 1
         end
@@ -1586,7 +1621,7 @@ function __fisher_read_bundle_file
         {
             sub("^[@* \t]*", "")
 
-            if (!seen[$0]++) {
+            if (!dedupe[$0]++) {
                 printf("%s\n", $0)
             }
         }
@@ -1600,7 +1635,7 @@ end
 
 
 function __fisher_plugin_decrement_ref_count -a name
-    if set -l i (contains -i -- "$name" $fisher_dependency_count)
+    if set -l i (contains --index -- "$name" $fisher_dependency_count)
         set -e fisher_dependency_count[$i]
     end
 end
@@ -1625,6 +1660,11 @@ function __fisher_plugin_get_ref_count -a name
 end
 
 
+function __fisher_completions
+    echo "fisher --complete"
+end
+
+# to be deprecated ~ 2.8
 function __fisher_completions_write
     echo "fisher --complete"
 end
@@ -1636,22 +1676,22 @@ function __fisher_complete
 
     if test ! -s "$fisher_cache/.index"
         if test ! -z "$config"
-            complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$config"
-            complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$fisher_active_prompt" -d "Prompt"
+            complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$config"
+            complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$fisher_active_prompt" -d "Prompt"
         end
-
         return
     end
 
-    set -l IFS \t
     set -l real_home ~
 
     for name in (command find $config_glob -maxdepth 0 -type l ^ /dev/null)
         set -l path (command readlink "$name")
         set -l name (command basename "$name" | sed "s|$real_home|~|")
 
-        complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$name" -d "$path"
+        complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$name" -d "$path"
     end
+
+    set -l IFS \t
 
     command awk -v FS=\t -v OFS=\t '
 
@@ -1669,7 +1709,7 @@ function __fisher_complete
         complete -xc fisher -n "__fish_seen_subcommand_from info ls-remote" -a "$name" -d "$info"
 
         if contains -- "$name" $config
-            complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$name" -d "$info"
+            complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$name" -d "$info"
         else
             complete -xc fisher -n "__fish_seen_subcommand_from i in install" -a "$name" -d "$info"
         end
@@ -1682,7 +1722,7 @@ function __fisher_complete
                 case \*
                     set -l name (__fisher_plugin_get_names "$i")[1]
 
-                    complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove uninstall" -a "$name" -d "$i"
+                    complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$name" -d "$i"
             end
         end
     end
@@ -1813,14 +1853,21 @@ function __fisher_usage
     set -l u (set_color -u)
     set -l nc (set_color normal)
 
-    echo "Usage: fisher [<command>] [<plugins>] [--quiet] [--version]"
+    echo "Usage: fisher [<command>] [<plugins>]"
     echo
-    echo "where <command> can be one of:"
+    echo "where <command> is one of:"
     echo "       "$u"i"$nc"nstall (default)"
     echo "       "$u"u"$nc"pdate"
     echo "       "$u"r"$nc"m"
     echo "       "$u"l"$nc"s (or ls-remote)"
     echo "       "$u"h"$nc"elp"
+end
+
+
+function __fisher_version
+    set -l real_home ~
+    printf "fisherman version $fisher_version %s\n" (
+        __fisher_plugin_normalize_path (status -f) | command sed "s|$real_home|~|")
 end
 
 
@@ -1851,9 +1898,13 @@ function __fisher_help -a cmd number
 
         if not man "$page" ^ /dev/null
             if test -d "$fisher_config/$cmd"
-                __fisher_log info "No manual for @$cmd@" $__fisher_stderr
+                __fisher_log warn "There's no manual for this plugin." $__fisher_stderr
+
+                set -l url (__fisher_plugin_get_url_info -- "$fisher_config/$cmd")
+
+                __fisher_log info "Try online: <@github.com/$url@>" $__fisher_stderr
             else
-                __fisher_log error "Skipped @$cmd@" $__fisher_stderr
+                __fisher_log error "You can only check plugins you've installed." $__fisher_stderr
             end
 
             return 1
