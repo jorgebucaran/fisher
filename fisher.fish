@@ -163,7 +163,7 @@ function fisher
 
     if test -z "$items" -a "$cmd" = "default"
         if isatty
-            touch "$fisher_bundle"
+            command touch "$fisher_bundle"
 
             set items (__fisher_read_bundle_file < "$fisher_bundle")
             set cmd "install"
@@ -700,7 +700,7 @@ function __fisher_plugin_enable -a path
         end
 
         switch "$base"
-            case {,fish_}key_bindings.fish
+            case {,fish_{,user_}}key_bindings.fish
                 __fisher_key_bindings_append "$plugin_name" "$file"
                 continue
         end
@@ -1296,7 +1296,7 @@ function __fisher_key_bindings_remove -a plugin_name
     command sed "/### $plugin_name ###/,/### $plugin_name ###/d" < "$user_key_bindings" > "$user_key_bindings.$tmp"
     command mv -f "$user_key_bindings.$tmp" "$user_key_bindings"
 
-    if awk '
+    if command awk '
         /^$/ { next }
 
         /^function fish_user_key_bindings/ {
@@ -1323,7 +1323,7 @@ function __fisher_key_bindings_append -a plugin_name file
     set -l user_key_bindings "$fish_config/functions/fish_user_key_bindings.fish"
 
     command mkdir -p (dirname "$user_key_bindings")
-    touch "$user_key_bindings"
+    command touch "$user_key_bindings"
 
     set -l key_bindings_source (
         fish_indent < "$user_key_bindings" | awk '
@@ -1357,11 +1357,11 @@ function __fisher_key_bindings_append -a plugin_name file
             }
 
             /^function fish_user_key_bindings$/ {
-                check_for_and_keyword = 1
+                check_for_end = 1
                 next
             }
 
-            /^end$/ && check_for_and_keyword {
+            /^end$/ && check_for_end {
                 end = 0
                 next
             }
