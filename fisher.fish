@@ -1,5 +1,5 @@
 function fisher
-    set -g fisher_version "2.6.9"
+    set -g fisher_version "2.6.10"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
     function __fisher_show_spinner
