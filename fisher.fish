@@ -282,6 +282,7 @@ function fisher
         case \*
             if test -z "$config"
                 echo > $fisher_bundle
+                set -e fisher_dependency_count
             else
                 __fisher_plugin_get_url_info -- "$fisher_config"/$config > $fisher_bundle
             end
@@ -596,7 +597,7 @@ function __fisher_update
 
             set jobs $jobs (__fisher_update_path_async "$i" "$path")
         else
-            __fisher_log warn "Skipped @$i@"
+            __fisher_log error "Skipped @$i@"
         end
     end
 
@@ -643,6 +644,7 @@ function __fisher_self_update
     set -l new_version "$fisher_version"
 
     __fisher_completions_write > "$completions"
+
     builtin source "$completions" ^ /dev/null
 
     if test "$previous_version" = "$fisher_version"
@@ -1108,7 +1110,7 @@ function __fisher_list_plugin_directory
 
     for i in $argv
         if test ! -d "$fisher_config/$i"
-            __fisher_log warn "Skipped @$i@" $__fisher_stderr
+            __fisher_log error "Skipped @$i@" $__fisher_stderr
 
             return 1
         end
@@ -1839,7 +1841,7 @@ function __fisher_help -a cmd number
             if test -d "$fisher_config/$cmd"
                 __fisher_log info "No manual for @$cmd@" $__fisher_stderr
             else
-                __fisher_log warn "Skipped @$cmd@" $__fisher_stderr
+                __fisher_log error "Skipped @$cmd@" $__fisher_stderr
             end
 
             return 1
