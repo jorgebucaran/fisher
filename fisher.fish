@@ -180,7 +180,13 @@ function fisher
             set items (__fisher_read_bundle_file < "$fisher_bundle")
 
             if test -z "$items"
-                __fisher_usage > /dev/stderr
+                __fisher_log okay "
+                    No plugins to install or dependencies missing.
+                " $__fisher_stderr
+
+                __fisher_log info "
+                    See @fisher help@ for usage instructions.
+                " $__fisher_stderr
                 return
             end
         else
