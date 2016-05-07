@@ -106,7 +106,7 @@ function fisher
             set -e argv[1]
             set cmd "update"
 
-        case r rm remove
+        case r rm remove uninstall
             set -e argv[1]
             set cmd "rm"
 
