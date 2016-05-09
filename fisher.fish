@@ -1,5 +1,5 @@
 function fisher
-    set -g fisher_version "2.6.10"
+    set -g fisher_version "2.6.11"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
     function __fisher_show_spinner
@@ -154,21 +154,7 @@ function fisher
     set -l elapsed (__fisher_get_epoch_in_ms)
     set -l items (
         if test ! -z "$argv"
-            printf "%s\n" $argv | command awk '
-
-                /^(--|-).*/ { next }
-
-                /^omf\// {
-                    sub(/^omf\//, "oh-my-fish/")
-
-                    if ($0 !~ /(theme|plugin)-/) {
-                        sub(/^oh-my-fish\//, "oh-my-fish/plugin-")
-                    }
-                }
-
-                !dedupe[$0]++
-
-            '
+            printf "%s\n" $argv | __fisher_read_bundle_file
         end
     )
 
@@ -291,9 +277,25 @@ function fisher
             end
 
             for i in $items
-                if test ! -d "$fisher_config/$i"
-                    __fisher_log info "You can only remove plugins you've installed." $__fisher_stderr
+                set -l name (__fisher_plugin_get_names $i)[1]
+
+                if test ! -d "$fisher_config/$name"
                     set -e items
+
+                    if test -L "$fisher_config/$name"
+                        set -l real_path (command readlink "$fisher_config/$name")
+
+                        __fisher_log error "
+                            I can't remove @$name@ without its real path.
+                        " $__fisher_stderr
+
+                        __fisher_log info "
+                            Restore @$real_path@ and try again.
+                        " $__fisher_stderr
+                    else
+                        __fisher_log info "You can only remove plugins you've installed." $__fisher_stderr
+                    end
+
                     break
                 end
             end
@@ -833,6 +835,12 @@ function __fisher_remove
     for i in $argv
         set -l name (__fisher_plugin_get_names "$i")[1]
 
+        if test ! -d "$fisher_config/$name"
+            continue
+        end
+
+        set removed $removed $name
+
         __fisher_show_spinner
         __fisher_plugin_decrement_ref_count "$name"
 
@@ -848,10 +856,6 @@ function __fisher_remove
 
                 __fisher_show_spinner
             end < "$fisher_config/$i/fishfile"
-        end
-
-        if test -d "$fisher_config/$name"
-            set removed $removed $name
         end
 
         __fisher_plugin_disable "$fisher_config/$name"
@@ -1473,6 +1477,14 @@ function __fisher_plugin_get_missing
 
         set -l name (__fisher_plugin_get_names "$i")[1]
 
+        if test "$name" = fisherman
+
+            __fisher_log info "
+                Run @fisher update@ to update fisherman.
+            " > /dev/stderr
+            continue
+        end
+
         if set -l path (__fisher_plugin_is_installed "$name")
             for file in fishfile bundle
                 if test -s "$path/$file"
@@ -1619,8 +1631,16 @@ end
 
 function __fisher_read_bundle_file
     command awk -v FS=\t '
-        /^$/ || /^[ \t]*#/ {
+        /^$/ || /^[ \t]*#/ || /^(--|-).*/ {
             next
+        }
+
+        /^omf\// {
+            sub(/^omf\//, "oh-my-fish/")
+
+            if ($0 !~ /(theme|plugin)-/) {
+                sub(/^oh-my-fish\//, "oh-my-fish/plugin-")
+            }
         }
 
         /^[ \t]*package / {
