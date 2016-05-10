@@ -694,6 +694,32 @@ end
 function __fisher_plugin_enable -a path
     set -l plugin_name (basename $path)
 
+    for file in $path/conf.d/*.{py,awk}
+        set -l base (basename "$file")
+        command ln -sf "$file" "$fish_config/conf.d/$base"
+    end
+
+    for file in $path/conf.d/*.fish
+        set -l base (basename "$file")
+        set -l target "$fish_config/conf.d/$base"
+
+        command ln -sf "$file" "$target"
+        builtin source "$target" ^ /dev/null
+    end
+
+    for file in $path/{functions/,}*.{py,awk}
+        set -l base (basename "$file")
+        command ln -sf "$file" "$fish_config/functions/$base"
+    end
+
+    for file in $path/completions/*.fish
+        set -l base (basename "$file")
+        set -l target "$fish_config/completions/$base"
+
+        command ln -sf "$file" "$target"
+        builtin source "$target" ^ /dev/null
+    end
+
     for file in $path/{functions/*,}*.fish
         set -l base (basename "$file")
 
@@ -736,32 +762,6 @@ function __fisher_plugin_enable -a path
 
             set_color_custom
         end
-    end
-
-    for file in $path/conf.d/*.{py,awk}
-        set -l base (basename "$file")
-        command ln -sf "$file" "$fish_config/conf.d/$base"
-    end
-
-    for file in $path/{functions/,}*.{py,awk}
-        set -l base (basename "$file")
-        command ln -sf "$file" "$fish_config/functions/$base"
-    end
-
-    for file in $path/conf.d/*.fish
-        set -l base (basename "$file")
-        set -l target "$fish_config/conf.d/$base"
-
-        command ln -sf "$file" "$target"
-        builtin source "$target" ^ /dev/null
-    end
-
-    for file in $path/completions/*.fish
-        set -l base (basename "$file")
-        set -l target "$fish_config/completions/$base"
-
-        command ln -sf "$file" "$target"
-        builtin source "$target" ^ /dev/null
     end
 
     return 0
@@ -1401,6 +1401,8 @@ function __fisher_key_bindings_append -a plugin_name file
 
         '
     )
+
+    printf "%s\n" $plugin_key_bindings_source | source ^ /dev/null
 
     printf "%s\n" $key_bindings_source $plugin_key_bindings_source | awk '
 
