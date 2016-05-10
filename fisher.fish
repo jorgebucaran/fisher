@@ -1,4 +1,20 @@
 function fisher
+    switch "$FISH_VERSION"
+        case 2.1.2 2.1.1 2.1.0 2.0.0
+            __fisher_log error "You need fish @2.2.0@ or higher to use fisherman."
+
+            if command -s brew > /dev/null
+                __fisher_log info "Run @brew up; brew upgrade --HEAD fish@"
+            else
+                __fisher_log info "
+                    Refer to your package manager documentation for
+                    instructions on how to upgrade your fish build.
+                "
+            end
+
+            return 1
+    end
+
     set -g fisher_version "2.6.11"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
