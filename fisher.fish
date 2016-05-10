@@ -171,10 +171,10 @@ function fisher
 
     if test -z "$items" -a "$cmd" = "default"
         if isatty
-            command touch "$fisher_bundle"
+            command touch "$fisher_file"
 
             set cmd "install"
-            set items (__fisher_read_bundle_file < "$fisher_bundle")
+            set items (__fisher_read_bundle_file < "$fisher_file")
 
             if test -z "$items"
                 __fisher_log okay "
@@ -329,10 +329,10 @@ function fisher
         case ls ls-remote
         case \*
             if test -z "$config"
-                echo > "$fisher_bundle"
+                echo > "$fisher_file"
                 set -e fisher_dependency_count
             else
-                __fisher_plugin_get_url_info -- "$fisher_config"/$config > $fisher_bundle
+                __fisher_plugin_get_url_info -- "$fisher_config"/$config > $fisher_file
             end
     end
 
@@ -2012,13 +2012,13 @@ function __fisher_self_uninstall -a yn
     __fisher_show_spinner
 
     command rm -rf "$fisher_cache" "$fisher_config"
-    command rm -f "$fish_config"/{functions,completions}/fisher.fish "$fisher_bundle"
+    command rm -f "$fish_config"/{functions,completions}/fisher.fish "$fisher_file"
 
     set -e fish_config
     set -e fisher_active_prompt
     set -e fisher_cache
     set -e fisher_config
-    set -e fisher_bundle
+    set -e fisher_file
     set -e fisher_version
     set -e fisher_spinners
 
