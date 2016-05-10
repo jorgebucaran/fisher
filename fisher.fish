@@ -35,11 +35,6 @@ function fisher
         set -g fisher_cache "$cache_home/fisherman"
     end
 
-    # to be deprecated ~ 2.8
-    if test -z "$fisher_bundle"
-        set -g fisher_bundle "$fish_config/fishfile"
-    end
-
     if test -z "$fisher_file"
         set -g fisher_file "$fish_config/fishfile"
     end
@@ -73,8 +68,8 @@ function fisher
 
     set -l completions "$fish_config/completions/fisher.fish"
 
-    if test ! -s "$completions"
-        __fisher_completions_write > "$completions"
+    if test ! -e "$completions"
+        echo "fisher --complete" > "$completions"
         __fisher_complete
     end
 
@@ -635,7 +630,7 @@ function __fisher_self_update
 
     set -l new_version "$fisher_version"
 
-    __fisher_completions_write > "$completions"
+    echo "fisher --complete" > "$completions"
     builtin source "$completions" ^ /dev/null
 
     if test "$previous_version" = "$fisher_version"
@@ -706,6 +701,14 @@ function __fisher_plugin_enable -a path
 
         set -l target "$fish_config/$dir/$base"
 
+        if test -e "$target" -a ! -L "$target"
+            set -l backup_target "$fish_config/$dir/copy-$base"
+
+            __fisher_log info "Backup @$base@..." $__fisher_stderr
+
+            command mv "$target" "$backup_target" ^ /dev/stderr
+        end
+
         command ln -sf "$file" "$target"
 
         builtin source "$target" ^ /dev/null
@@ -774,9 +777,18 @@ function __fisher_plugin_disable -a path
             set base "$plugin_name.$base"
         end
 
-        command rm -f "$fish_config/$dir/$base"
+        set -l target "$fish_config/$dir/$base"
+
+        command rm -f "$target"
 
         functions -e "$name"
+
+        set -l backup_source "$fish_config/$dir/copy-$base"
+
+        if test -e "$backup_source"
+            command mv "$backup_source" "$target"
+            builtin source "$target" ^ /dev/stderr
+        end
 
         if test "$base" = "set_color_custom.fish"
             set -l fish_colors_config "$fish_config/fish_colors"
@@ -1686,16 +1698,6 @@ function __fisher_plugin_get_ref_count -a name
         }
 
     '
-end
-
-
-function __fisher_completions
-    echo "fisher --complete"
-end
-
-# to be deprecated ~ 2.8
-function __fisher_completions_write
-    echo "fisher --complete"
 end
 
 
