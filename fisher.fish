@@ -15,7 +15,7 @@ function fisher
             return 1
     end
 
-    set -g fisher_version "2.6.11"
+    set -g fisher_version "2.6.12"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
     function __fisher_show_spinner
