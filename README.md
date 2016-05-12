@@ -61,13 +61,13 @@ Install a gist.
 fisher https://gist.github.com/username/1f40e1c6e0551b2666b2
 ```
 
-Install a local directory.
+Install from a local directory.
 
 ```sh
 fisher ~/plugin
 ```
 
-Edit your [fishfile](#what-is-a-fishfile-and-how-do-i-use-it) and run `fisher` to satisfy changes.
+Edit your [fishfile](#what-is-a-fishfile-and-how-do-i-use-it) and run `fisher` to apply changes.
 
 ```sh
 $EDITOR ~/.config/fish/fishfile
@@ -78,8 +78,8 @@ List what you've installed.
 
 ```ApacheConf
 fisher ls
-@ plugin     # a local directory
-* simple     # the current prompt
+@ plugin     # a local plugin
+* simple     # current prompt
   bass
   fzf
   tab
