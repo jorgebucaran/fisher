@@ -15,7 +15,7 @@ function fisher
             return 1
     end
 
-    set -g fisher_version "2.6.14"
+    set -g fisher_version "2.6.15"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
     function __fisher_show_spinner
@@ -177,7 +177,7 @@ function fisher
             set items (__fisher_read_bundle_file < "$fisher_file")
 
             if test -z "$items"
-                __fisher_log okay "
+                __fisher_log info "
                     No plugins to install or dependencies missing.
                 " $__fisher_stderr
 
@@ -200,7 +200,7 @@ function fisher
 
                 __fisher_log info "
                     Please install git and try again.
-                    Visit <https://git-scm.com> for more information.
+                    Visit <@https://git-scm.com@> for more information.
                 " $__fisher_stderr
 
                 return 1
@@ -224,7 +224,7 @@ function fisher
     switch "$cmd"
         case install
             if __fisher_install $items
-                __fisher_log okay "Done in @"(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"@" $__fisher_stderr
+                __fisher_log info "Done in @"(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"@" $__fisher_stderr
             end
 
         case update
@@ -241,7 +241,7 @@ function fisher
 
             __fisher_update $items
 
-            __fisher_log okay "Done in @"(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"@" $__fisher_stderr
+            __fisher_log info "Done in @"(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"@" $__fisher_stderr
 
         case ls
             if test "$argv" -ge 0 -o "$argv" = -
@@ -313,7 +313,7 @@ function fisher
 
             if test ! -z "$items"
                 __fisher_remove $items
-                __fisher_log okay "Done in @"(
+                __fisher_log info "Done in @"(
                     __fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"@" $__fisher_stderr
             end
     end
@@ -351,7 +351,7 @@ function __fisher_install
 
     if set -l fetched (__fisher_plugin_fetch_items (__fisher_plugin_get_missing $argv))
         if test -z "$fetched"
-            __fisher_log okay "
+            __fisher_log info "
                 No plugins to install or dependencies missing.
             " $__fisher_stderr
 
@@ -551,8 +551,8 @@ function __fisher_plugin_url_clone_async -a url name
     end
 
     set -l nc (set_color normal)
-    set -l error (set_color red)
-    set -l okay (set_color green)
+    set -l error (set_color $fish_color_error)
+    set -l okay (set_color $fish_color_match)
 
     set -l hm_url (printf "%s\n" "$url" | command sed 's|^https://||')
 
@@ -560,10 +560,10 @@ function __fisher_plugin_url_clone_async -a url name
             set -lx GIT_ASKPASS /bin/echo
 
             if command git clone -q --depth 1 '$url' '$fisher_cache/$name' ^ /dev/null
-                  printf '$okay""OKAY""$nc Fetch $okay%s$nc %s\n' '$name' '$hm_url' > $__fisher_stderr
+                  printf '$okay""OK""$nc Fetch $okay%s$nc %s\n' '$name' '$hm_url' > $__fisher_stderr
                   command cp -Rf '$fisher_cache/$name' '$fisher_config'
             else
-                  printf '$error""ARGH""$nc Fetch $error%s$nc %s\n' '$name' '$hm_url' > $__fisher_stderr
+                  printf '$error""ERR""$nc Fetch $error%s$nc %s\n' '$name' '$hm_url' > $__fisher_stderr
             end
       " > /dev/stderr &
 
@@ -660,16 +660,15 @@ end
 
 function __fisher_update_path_async -a name path
     set -l nc (set_color normal)
-    set -l error (set_color red)
-    set -l uline (set_color -u)
-    set -l okay (set_color green)
+    set -l error (set_color $fish_color_match)
+    set -l okay (set_color $fish_color_match)
 
     fish -c "
 
         pushd $path
 
         if not command git fetch -q origin master ^ /dev/null
-            printf '$error""ARGH""$nc Fetch $error%s$nc\n' '$name' > $__fisher_stderr
+            printf '$error""ERR""$nc Fetch $error%s$nc\n' '$name' > $__fisher_stderr
             exit
         end
 
@@ -680,9 +679,9 @@ function __fisher_update_path_async -a name path
         command cp -Rf '$path/.' '$fisher_cache/$name'
 
         if test -z \"\$commits\" -o \"\$commits\" -eq 0
-            printf '$okay""OKAY""$nc Latest $okay%s$nc\n' '$name' > $__fisher_stderr
+            printf '$okay""OK""$nc Latest $okay%s$nc\n' '$name' > $__fisher_stderr
         else
-            printf '$okay""OKAY""$nc Pulled $okay%s$nc new commit/s $okay%s$nc\n' \$commits '$name' > $__fisher_stderr
+            printf '$okay""OK""$nc Pulled $okay%s$nc new commit/s $okay%s$nc\n' \$commits '$name' > $__fisher_stderr
         end
 
     " > /dev/stderr &
@@ -1217,15 +1216,15 @@ function __fisher_log -a log message fd
 
     printf "%s\n" "$message" | command awk '
         function okay(s) {
-            printf("'$okay'%s'$nc' %s\n", "OKAY", s)
+            printf("'$okay'%s'$nc' %s\n", "OK", s)
         }
 
         function info(s) {
-            printf("'$info'%s'$nc' %s\n", "INFO", s)
+            printf("%s\n", s)
         }
 
         function error(s) {
-            printf("'$error'%s'$nc' %s\n", "ARGH", s)
+            printf("'$error'%s'$nc' %s\n", "ERR", s)
         }
 
         {
