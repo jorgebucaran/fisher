@@ -1197,9 +1197,9 @@ end
 
 function __fisher_log -a log message fd
     set -l nc (set_color normal)
-    set -l okay (set_color green)
-    set -l info (set_color cyan)
-    set -l error (set_color red)
+    set -l okay (set_color $fish_color_match)
+    set -l info (set_color $fish_color_match)
+    set -l error (set_color $fish_color_error)
 
     switch "$fd"
         case "/dev/null"
