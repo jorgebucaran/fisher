@@ -711,14 +711,6 @@ function __fisher_plugin_enable -a path
         command ln -sf "$file" "$fish_config/functions/$base"
     end
 
-    for file in $path/completions/*.fish
-        set -l base (basename "$file")
-        set -l target "$fish_config/completions/$base"
-
-        command ln -sf "$file" "$target"
-        builtin source "$target" ^ /dev/null
-    end
-
     for file in $path/{functions/*,}*.fish
         set -l base (basename "$file")
 
@@ -761,6 +753,14 @@ function __fisher_plugin_enable -a path
 
             set_color_custom
         end
+    end
+
+    for file in $path/completions/*.fish
+        set -l base (basename "$file")
+        set -l target "$fish_config/completions/$base"
+
+        command ln -sf "$file" "$target"
+        builtin source "$target" ^ /dev/null
     end
 
     return 0
