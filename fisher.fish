@@ -15,7 +15,7 @@ function fisher
             return 1
     end
 
-    set -g fisher_version "2.6.18"
+    set -g fisher_version "2.6.19"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
     function __fisher_show_spinner
@@ -2008,7 +2008,7 @@ function __fisher_self_uninstall -a yn
 
     __fisher_show_spinner
 
-    fisher ls | fisher rm
+    fisher ls | fisher rm -q
 
     __fisher_show_spinner
 
@@ -2068,7 +2068,7 @@ function __fisher_man_page_write
     # .
     # .nf
     #
-    # fisher real
+    # fisher sol
     # .
     # .fi
     # .
@@ -2136,7 +2136,7 @@ function __fisher_man_page_write
     #
     # fisher ls
     # @ plugin     # a local directory
-    # * real       # the current prompt
+    # * sol        # the current prompt
     #   bass
     #   fzf
     #   tab
