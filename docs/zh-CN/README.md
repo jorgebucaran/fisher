@@ -13,7 +13,7 @@
 
 # [fisherman]
 
-fisherman 是一款零配置，并发的 [fish] 插件管理器。
+fisherman 是 [fish] 的插件管理器。
 
 ## 安装
 
@@ -37,12 +37,6 @@ fisher real
 fisher z fzf edc/bass omf/thefuck
 ```
 
-从 URL 安装插件。
-
-```
-fisher https://github.com/edc/bass
-```
-
 从 Gist 安装插件。
 
 ```
@@ -60,7 +54,7 @@ fisher ~/plugin
 > [什么是 fishfile 以及如何使用它?](#6-什么是-fishfile-以及如何使用它)
 
 ```sh
-$EDITOR fishfile # 添加插件
+$EDITOR fishfile
 fisher
 ```
 
@@ -78,9 +72,11 @@ fisher ls
 ```
 
 列出远程插件。
+```
+fisher ls-remote
+```
 
-
-更新所有。
+更新所有插件。
 
 ```
 fisher up
@@ -110,6 +106,11 @@ fisher ls | fisher rm
 fisher help z
 ```
 
+卸载 fisherman
+```
+fisher self-uninstall
+```
+
 ## 常见疑问解答
 
 ### fish 的版本要求多少？
@@ -120,24 +121,6 @@ fisherman 要求 2.3.0 及以上版本的 fish。如果正在使用 2.2.0 版本
 for file in ~/.config/fish/conf.d/*.fish
     source $file
 end
-```
-
-### 如何让 fish 作为我默认的 shell ?
-
-Add fish to the list of login shells in */etc/shells* and make it your default shell.
-把 fish 加入到 */etc/shells* 并令 fish 成为默认 shell。
-
-```sh
-echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
-chsh -s /usr/local/bin/fish
-```
-
-### 如何卸载 fisherman？
-
-运行以下命令。
-
-```fish
-fisher self-uninstall
 ```
 
 ### fisherman 兼容已有的 fish 主题和插件吗？
@@ -164,10 +147,6 @@ omf/grc
 ```
 
 这个文件只会记录插件和一些依赖。如果你想卸载插件，可以使用 `fisher rm`来替代。
-
-### 去哪里可以找到插件？
-
-看看这个 [organization] 或者使用这个 [online] 来搜索。
 
 ### 什么是一个插件？
 
