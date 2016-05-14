@@ -15,7 +15,7 @@ function fisher
             return 1
     end
 
-    set -g fisher_version "2.6.17"
+    set -g fisher_version "2.6.18"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
     function __fisher_show_spinner
@@ -1719,6 +1719,17 @@ end
 
 
 function __fisher_complete
+    complete -xc fisher -n "__fish_use_subcommand" -a install   -d "Install plugins"
+    complete -xc fisher -n "__fish_use_subcommand" -a update    -d "Update plugins and self"
+    complete -xc fisher -n "__fish_use_subcommand" -a rm        -d "Remove plugins"
+    complete -xc fisher -n "__fish_use_subcommand" -a ls        -d "List what you've installed"
+    complete -xc fisher -n "__fish_use_subcommand" -a ls-remote -d "List everything that's available"
+    complete -xc fisher -n "__fish_use_subcommand" -a help      -d "Show help"
+
+    complete -xc fisher -n "__fish_use_subcommand" -s h -l help     -d "Show usage help"
+    complete -xc fisher -n "__fish_use_subcommand" -s v -l version  -d "Show version information"
+    complete -xc fisher -s q -l quiet -d "Enable quiet mode"
+
     set -l config_glob "$fisher_config"/*
     set -l config (printf "%s\n" $config_glob | command sed "s|.*/||")
 
@@ -1774,17 +1785,6 @@ function __fisher_complete
             end
         end
     end
-
-    complete -xc fisher -n "__fish_use_subcommand" -a install   -d "Install plugins"
-    complete -xc fisher -n "__fish_use_subcommand" -a update    -d "Update plugins and self"
-    complete -xc fisher -n "__fish_use_subcommand" -a rm        -d "Remove plugins"
-    complete -xc fisher -n "__fish_use_subcommand" -a ls        -d "List what you've installed"
-    complete -xc fisher -n "__fish_use_subcommand" -a ls-remote -d "List everything that's available"
-    complete -xc fisher -n "__fish_use_subcommand" -a help      -d "Show help"
-
-    complete -xc fisher -n "__fish_use_subcommand" -s h -l help     -d "Show usage help"
-    complete -xc fisher -n "__fish_use_subcommand" -s v -l version  -d "Show version information"
-    complete -xc fisher -s q -l quiet -d "Enable quiet mode"
 end
 
 
