@@ -4,16 +4,16 @@
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg
 
 [organización]: https://github.com/fisherman
-[fish-shell]: https://github.com/fish-shell/fish-shell
+[fish]: https://github.com/fish-shell/fish-shell
 [fisherman]: http://fisherman.sh
 [en línea]: http://fisherman.sh/#search
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
-# [fisherman] - fish plugin manager
+# [fisherman]
 
-fisherman es un gestor de paquetes para [fish-shell].
+fisherman es un gestor de paquetes para [fish].
 
 ## Prestaciones
 
@@ -42,13 +42,13 @@ curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 Instalar paquetes.
 
 ```
-fisher simple
+fisher real
 ```
 
 Instalar desde múltiples fuentes.
 
 ```
-fisher z fzf omf/{grc,thefuck}
+fisher z fzf edc/bass omf/thefuck
 ```
 
 Instalar desde URLs.
@@ -66,7 +66,7 @@ fisher https://gist.github.com/username/1f40e1c6e0551b2666b2
 Instalar desde un directorio.
 
 ```sh
-fisher ~/my_aliases
+fisher ~/plugin
 ```
 
 Edita el archivo fishfile y ejecuta `fisher` para aplicar los cambios.
@@ -82,8 +82,8 @@ Muestra que tienes instalado actualmente.
 
 ```ApacheConf
 fisher ls
-@ my_aliases    # este paquete esta en un directorio
-* simple        # este paquete es el tema actual
+@ plugin    # este paquete esta en un directorio
+* real        # este paquete es el tema actual
   bass
   fzf
   grc
@@ -112,7 +112,7 @@ fisher up bass z fzf thefuck
 Elimina paquetes.
 
 ```
-fisher rm simple
+fisher rm thefuck
 ```
 
 Elimina todos los paquetes.
@@ -129,7 +129,7 @@ fisher help z
 
 ## FAQ
 
-### 1. ¿Qué versión de fish es necesaria?
+### ¿Qué versión de fish es necesaria?
 
 fisherman fue diseñado para fish >= 2.3.0. Si tienes la versión 2.2.0 y no puedes actualizarla por algún motivo, añade este código en el archivo `~/.config/fish/config.fish` para poder ejecutar [snippets](#8-qué-es-un-paquete).
 
@@ -139,7 +139,7 @@ for file in ~/.config/fish/conf.d/*.fish
 end
 ```
 
-### 2. ¿Cómo hago fish mi consola de comandos por defecto?
+### ¿Cómo hago fish mi consola de comandos por defecto?
 
 Añade fish a la lista de consolas de comandos en */etc/shells*.
 
@@ -148,7 +148,7 @@ echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
 chsh -s /usr/local/bin/fish
 ```
 
-### 3. ¿Cómo puedo desinstalar fisherman?
+### ¿Cómo puedo desinstalar fisherman?
 
 Ejecuta
 
@@ -162,11 +162,11 @@ o
 npm un -g fisherman
 ```
 
-### 4. ¿Es fisherman compatible con paquetes y temas de oh my fish?
+### ¿Es fisherman compatible con paquetes y temas de oh my fish?
 
 Sí.
 
-### 5. ¿Dónde guarda fisherman sus cosas?
+### ¿Dónde guarda fisherman sus cosas?
 
 fisherman mismo esta en el archivo *~/.config/fish/functions/fisher.fish*.
 
@@ -174,14 +174,14 @@ El caché y la configuración en *~/.cache/fisherman* y *~/.config/fisherman* re
 
 El archivo fishfile en *~/.config/fish/fishfile*.
 
-### 6. ¿Qué es el archivo fishfile y cómo lo uso?
+### ¿Qué es el archivo fishfile y cómo lo uso?
 
 El archivo fishfile *~/.config/fish/fishfile* contiene todos los paquetes que están instalados.
 
 Puedes dejar que fisherman se encargue de este archivo automáticamente, o incluir los paquetes que necesitas y ejecutar `fisher` para aplicar los cambios.
 
 ```
-fisherman/simple
+fisherman/real
 fisherman/z
 omf/thefuck
 omf/grc
@@ -189,11 +189,11 @@ omf/grc
 
 Este comando solo instala paquetes y sus dependencias. Para borrar paquetes, usa `fisher rm`.
 
-### 7. ¿Dónde consigo un listado de paquetes para fish?
+### ¿Dónde consigo un listado de paquetes para fish?
 
 Dirígete a la [organización] o usa la búsqueda [en línea] para descubrir contenido.
 
-### 8. ¿Qué es un paquete?
+### ¿Qué es un paquete?
 
 Un paquete es:
 
@@ -203,7 +203,7 @@ Un paquete es:
 
 3. un snippet, es decir, uno o más archivos *.fish* en un directorio llamado *conf.d* que son ejecutados por fish al iniciar la sesión.
 
-### 9. ¿Cómo puedo añadir dependencias a mi plugin?
+### ¿Cómo puedo añadir dependencias a mi plugin?
 
 Crea un archivo *fishfile* en la carpeta raíz de tu plugin y incluye los paquetes en el.
 

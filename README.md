@@ -25,16 +25,6 @@ A plugin manager for [fish].
 
 Translations: [日本語], [简体中文], [한국어], [Русский], [Català], [Português], [Español].
 
-## Features
-
-* Zero configuration
-
-* No external dependencies
-
-* No impact on shell startup time
-
-* Only the essentials, install, update, remove, list and help
-
 ## Install
 
 ```sh
@@ -46,13 +36,13 @@ curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 Install a plugin.
 
 ```
-fisher simple
+fisher real
 ```
 
 Install from multiple sources.
 
 ```
-fisher z fzf edc/bass omf/tab
+fisher z fzf edc/bass omf/thefuck
 ```
 
 Install a gist.
@@ -79,10 +69,10 @@ List what you've installed.
 ```ApacheConf
 fisher ls
 @ plugin     # a local plugin
-* simple     # current prompt
+* real       # current prompt
   bass
   fzf
-  tab
+  thefuck
   z
 ```
 
@@ -107,7 +97,7 @@ fisher up bass z fzf
 Remove plugins.
 
 ```
-fisher rm simple
+fisher rm thefuck
 ```
 
 Remove all the plugins.
