@@ -563,7 +563,7 @@ function __fisher_plugin_url_clone_async -a url name
                   printf '$okay""OK""$nc Fetch $okay%s$nc %s\n' '$name' '$hm_url' > $__fisher_stderr
                   command cp -Rf '$fisher_cache/$name' '$fisher_config'
             else
-                  printf '$error""ERR""$nc Fetch $error%s$nc %s\n' '$name' '$hm_url' > $__fisher_stderr
+                  printf '$error""!""$nc Fetch $error%s$nc %s\n' '$name' '$hm_url' > $__fisher_stderr
             end
       " > /dev/stderr &
 
@@ -668,7 +668,7 @@ function __fisher_update_path_async -a name path
         pushd $path
 
         if not command git fetch -q origin master ^ /dev/null
-            printf '$error""ERR""$nc Fetch $error%s$nc\n' '$name' > $__fisher_stderr
+            printf '$error""!""$nc Fetch $error%s$nc\n' '$name' > $__fisher_stderr
             exit
         end
 
@@ -1224,7 +1224,7 @@ function __fisher_log -a log message fd
         }
 
         function error(s) {
-            printf("'$error'%s'$nc' %s\n", "ERR", s)
+            printf("'$error'%s'$nc' %s\n", "!", s)
         }
 
         {
