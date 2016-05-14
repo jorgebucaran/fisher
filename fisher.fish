@@ -737,7 +737,7 @@ function __fisher_plugin_enable -a path
         if test -e "$target" -a ! -L "$target"
             set -l backup_target "$fish_config/$dir/copy-$base"
 
-            __fisher_log info "Backup @$base@..." $__fisher_stderr
+            __fisher_log info "Save old @$base@" $__fisher_stderr
 
             command mv "$target" "$backup_target" ^ /dev/stderr
         end
@@ -2023,7 +2023,7 @@ function __fisher_self_uninstall -a yn
     set -e fisher_version
     set -e fisher_spinners
 
-    __fisher_log okay "Arrr! So long and thanks for all the fish cap!" $__fisher_stderr
+    __fisher_log info "Done." $__fisher_stderr
 
     set -l funcs (functions -a | command grep __fisher)
 
@@ -2068,7 +2068,7 @@ function __fisher_man_page_write
     # .
     # .nf
     #
-    # fisher simple
+    # fisher real
     # .
     # .fi
     # .
@@ -2136,7 +2136,7 @@ function __fisher_man_page_write
     #
     # fisher ls
     # @ plugin     # a local directory
-    # * simple     # the current prompt
+    # * real       # the current prompt
     #   bass
     #   fzf
     #   tab
@@ -2192,7 +2192,7 @@ function __fisher_man_page_write
     # .
     # .nf
     #
-    # fisher rm simple
+    # fisher rm thefuck
     # .
     # .fi
     # .

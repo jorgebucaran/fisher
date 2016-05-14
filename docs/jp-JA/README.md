@@ -4,16 +4,16 @@
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg
 
 [organization]: https://github.com/fisherman
-[fish-shell]: https://github.com/fish-shell/fish-shell
+[fish]: https://github.com/fish-shell/fish-shell
 [fisherman]: http://fisherman.sh
 [ウェブサイト]: http://fisherman.sh/#search
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
-# [fisherman] - fish plugin manager
+# [fisherman]
 
-fisherman とは [fish-shell]のための並列処理パッケージマネージャーです。
+fisherman とは [fish]のための並列処理パッケージマネージャーです。
 
 ## 理由
 
@@ -40,13 +40,13 @@ curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 プラグインをインストール:
 
 ```
-fisher simple
+fisher real
 ```
 
 様々な所からもインストール:
 
 ```
-fisher z fzf omf/{grc,thefuck}
+fisher z fzf edc/bass omf/thefuck
 ```
 
 URL からインストール:
@@ -64,7 +64,7 @@ fisher https://gist.github.com/username/1f40e1c6e0551b2666b2
 ディレクトリをインストール:
 
 ```sh
-fisher ~/my_aliases
+fisher ~/plugin
 ```
 
 vundleのように 「fishfile」というファイルにプラグインたちを追加して `fisher` でインストール：
@@ -80,8 +80,8 @@ fisher
 
 ```ApacheConf
 fisher ls
-@ my_aliases    # ローカルディレクトリ
-* simple        # 現在のテーマ
+@ plugin    # ローカルディレクトリ
+* real        # 現在のテーマ
   bass
   fzf
   grc
@@ -104,7 +104,7 @@ fisher up bass z fzf thefuck
 プラグインを削除：
 
 ```
-fisher rm simple
+fisher rm thefuck
 ```
 
 すべてのプラグインを削除：
@@ -121,7 +121,7 @@ fisher help z
 
 ## FAQ
 
-### 1. fishの必要なバージョンとは？
+### fishの必要なバージョンとは？
 
 fish >= 2.3.0 が必要です。まだ 2.2.0 を使っているのならば [snippets](#8-プラグインとは) の対応のため次のコードを `~/.config/fish/config.fish` に追記してください。
 
@@ -131,7 +131,7 @@ for file in ~/.config/fish/conf.d/*.fish
 end
 ```
 
-### 2. フィッシュシェルをデフォルトのシェルにするには？
+### フィッシュシェルをデフォルトのシェルにするには？
 
 システムの */etc/shells* ファイルに、fish を追加:
 
@@ -140,7 +140,7 @@ echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
 chsh -s /usr/local/bin/fish
 ```
 
-### 3. fishermanを削除する方法とは？
+### fishermanを削除する方法とは？
 
 ```fish
 fisher self-uninstall
@@ -152,22 +152,22 @@ fisher self-uninstall
 npm un -g fisherman
 ```
 
-### 4. oh-my-fishのプラグインとテーマに対応ですか？
+### oh-my-fishのプラグインとテーマに対応ですか？
 
 対応してます
 
-### 5. fishermanのファイル等は、どこに保存されますか？
+### fishermanのファイル等は、どこに保存されますか？
 
 fisherman 自体は *~/.config/fish/functions/fisher.fish* に作成されます。そしてキャシュは*~/.cache/fisherman*に、コンフィグディレクトリは *~/.config/fisherman* に。fishfileは*~/.config/fish/fishfile*に保存されます
 
-### 6. fishfileとは？
+### fishfileとは？
 
 fishfile（*~/.config/fish/fishfile*）に現在インストールされているプラグインが書かれています。
 
 fisherman で自動的にこのファイルを更新するか、手動でプラグインを追加して `fisher`を入力してインストールすることも可能です。
 
 ```
-fisherman/simple
+fisherman/real
 fisherman/z
 omf/thefuck
 omf/grc
@@ -175,11 +175,11 @@ omf/grc
 
 この仕組はプラグインと、そのプラグインが依存しているものをインストールすることができます。プラグインを削除するために、`fisher rm`を使ってください。
 
-### 7. フィッシュシェルのプラグインはどこにありますか？
+### フィッシュシェルのプラグインはどこにありますか？
 
 fisherman の [organization] や [ウェブサイト] 等で、プラグインを検索できます。
 
-### 8. プラグインとは？
+### プラグインとは？
 
 プラグインとは
 
@@ -189,7 +189,7 @@ fisherman の [organization] や [ウェブサイト] 等で、プラグイン�
 
 3. スニペット。つまり、1以上の*.fish*ファイルを*conf.d*といディレクトリに。こちらのファイルがフィッシュシェルがスタートする際に実行されます。
 
-### 9. 自分のプラグインを、他のプラグインのデペンデンシーにしたい場合は？
+### 自分のプラグインを、他のプラグインのデペンデンシーにしたい場合は？
 
 プラグイン root ディレクトリの *fishfile* 編集してそのプラグインを追加してください。
 

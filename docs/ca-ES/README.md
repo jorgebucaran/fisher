@@ -4,7 +4,7 @@
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg
 
 [organització]: https://github.com/fisherman
-[fish-shell]: https://github.com/fish-shell/fish-shell
+[fish]: https://github.com/fish-shell/fish-shell
 [fisherman]: http://fisherman.sh
 [en línia]: http://fisherman.sh/#search
 
@@ -13,19 +13,9 @@
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
-# [fisherman] - fish plugin manager
+# [fisherman]
 
-fisherman és un gestor de complements per a [fish-shell].
-
-## Prestacions
-
-* Sense configuració
-
-* Sense dependencies externes
-
-* No afecta als temps d'arrencada de la consola de comandes
-
-* Només l'essencial, instal·lar, actualitzar, esborrar, llistar i ajuda
+fisherman és un gestor de complements per a [fish].
 
 ## Instal·la
 
@@ -35,24 +25,18 @@ Amb curl.
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 ```
 
-Si encara estàs fent anar la versió 1.5 i vols actualitzar a >2.0 sense mes preocupació.
-
-```
-curl -L git.io/fisher-up-me | fish
-```
-
 ## Mode d'ús
 
 Instal·la un complement.
 
 ```
-fisher simple
+fisher real
 ```
 
 Instal·la des de múltiples fonts.
 
 ```
-fisher z fzf omf/{grc,thefuck}
+fisher z fzf edc/bass omf/thefuck
 ```
 
 Instal·la des de una URL.
@@ -70,7 +54,7 @@ fisher https://gist.github.com/username/1f40e1c6e0551b2666b2
 Instal·la des de un directori local.
 
 ```sh
-fisher ~/my_aliases
+fisher ~/plugin
 ```
 
 Edita el teu arxiu fishfile i executa `fisher` per a aplicar els canvis.
@@ -86,8 +70,8 @@ Fes un cop d'ull al que tens instal·lat.
 
 ```ApacheConf
 fisher ls
-@ my_aliases    # aquest complement esta dins un directori local
-* simple        # aquest complement es el tema actual
+@ plugin      # aquest complement esta dins un directori local
+* real        # aquest complement es el tema actual
   bass
   fzf
   grc
@@ -116,7 +100,7 @@ fisher up bass z fzf thefuck
 Esborra alguns complements.
 
 ```
-fisher rm simple
+fisher rm thefuck
 ```
 
 Esborra tots els complements.
@@ -133,7 +117,7 @@ fisher help z
 
 ## FAQ
 
-### 1. Quina es la versió necessaria de fish?
+### Quina es la versió necessaria de fish?
 
 fisherman va ésser construït per a fish >= 2.3.0. Si estàs fent anar la versió 2.2.0,
 afegeix el següent codi al teu arxiu `~/.config/fish/config.fish` per a donar suport a [retalls](#8-que-es-un-complement).
@@ -144,7 +128,7 @@ for file in ~/.config/fish/conf.d/*.fish
 end
 ```
 
-### 2. Com converteixo fish en la meva consola de comandes per defecte?
+### Com converteixo fish en la meva consola de comandes per defecte?
 
 Afegeix fish a la llista de consoles de comandes dins de l'arxiu */etc/shells* i converteix-la en la teva consola de comandes per defecte.
 
@@ -153,7 +137,7 @@ echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
 chsh -s /usr/local/bin/fish
 ```
 
-### 3. Com des-instal·lo fisherman?
+### Com des-instal·lo fisherman?
 
 ```fish
 fisher self-uninstall
@@ -165,11 +149,11 @@ o
 npm un -g fisherman
 ```
 
-### 4. És fisherman compatible amb els temes i complements de oh my fish?
+### És fisherman compatible amb els temes i complements de oh my fish?
 
 Si.
 
-### 5. On deixa fisherman les seves coses?
+### On deixa fisherman les seves coses?
 
 fisherman es guarda al directori *~/.config/fish/functions/fisher.fish*.
 
@@ -177,14 +161,14 @@ La caché i configuracions són creades dins de *~/.cache/fisherman* i *~/.confi
 
 El arxiu fishfile es guarda a *~/.config/fish/fishfile*.
 
-### 6. Que és un arxiu fishfile i com el faig anar?
+### Que és un arxiu fishfile i com el faig anar?
 
 El arxiu fishfile *~/.config/fish/fishfile* llista tots els complements instal·lats.
 
 Pots deixar que en fisherman s'encarregui d'aquest arxiu per tu automaticament, o be escriure a dins els complements que vols instal·lar i llavors executar `fisher` per a aplicar els canvis.
 
 ```
-fisherman/simple
+fisherman/real
 fisherman/z
 omf/thefuck
 omf/grc
@@ -192,11 +176,11 @@ omf/grc
 
 Aquest procediment només instal·la complements i dependències. Per esborrar complements, fes anar `fisher rm` al seu lloc.
 
-### 7. On puc trobar una llista de complements de fish?
+### On puc trobar una llista de complements de fish?
 
 Busca dins de l'[organització] o fes anar la busqueda [en línia] per descobrir contingut.
 
-### 8. Que es un complement?
+### Que es un complement?
 
 Un complement es:
 
@@ -206,7 +190,7 @@ Un complement es:
 
 3. un retall, p.e., un o mes arxius *.fish* dins un directori anomenat *conf.d* que es evaluat per fish a l'arrencada de la consola de comandes.
 
-### 9. Com puc llistar complements com dependencies del meu complement?
+### Com puc llistar complements com dependencies del meu complement?
 
 Crea un nou arxiu *fishfile* a l'arrel del teu i escriu a dins les dependències del teu complement.
 
