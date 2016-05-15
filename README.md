@@ -3,10 +3,8 @@
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg
 
-[organization]: https://github.com/fisherman
 [fish]: https://fish.sh
 [fisherman]: http://fisherman.sh
-[online]: http://fisherman.sh/#search
 
 [日本語]: docs/jp-JA
 [简体中文]: docs/zh-CN
