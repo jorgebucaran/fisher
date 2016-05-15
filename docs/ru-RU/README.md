@@ -5,20 +5,15 @@
 
 [fish]: https://github.com/fish-shell/fish-shell
 [fisherman]: https://github.com/fisherman.sh
-[fishfile]: #6-Что-такое-fishfile-и-как-я-могу-его-использовать
-[организации]: https://github.com/fisherman
-[онлайн]: http://fisherman.sh/#search
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
 # [fisherman]
 
-fisherman это параллельный менеджер плагинов для [fish].
+Менеджер плагинов для [fish].
 
 ## Установка
-
-Используя curl:
 
 ```sh
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
@@ -38,12 +33,6 @@ fisher real
 fisher z fzf edc/bass omf/thefuck
 ```
 
-Установка по ссылке URL.
-
-```
-fisher https://github.com/edc/bass
-```
-
 Установка из gist.
 
 ```
@@ -56,10 +45,10 @@ fisher https://gist.github.com/username/1f40e1c6e0551b2666b2
 fisher ~/plugin
 ```
 
-Отредактируйте [fishfile] и запустите `fisher`, чтобы изменения вступили в силу.
+Отредактируйте [fishfile](#Что-такое-fishfile-и-как-я-могу-его-использовать) и запустите `fisher`, чтобы изменения вступили в силу.
 
 ```sh
-$EDITOR fishfile # добавьте плагины
+$EDITOR ~/.config/fish/fishfile
 fisher
 ```
 
@@ -67,11 +56,10 @@ fisher
 
 ```ApacheConf
 fisher ls
-@ plugin      # этот плагин представляет собой локальный каталог
-* real        # этот плагин является текущим оформлением командной строки
+@ plugin      # локальный плагин
+* real        # текущее оформление командной строки
   bass
   fzf
-  grc
   thefuck
   z
 ```
@@ -91,7 +79,7 @@ fisher up
 Обновление отдельных плагинов.
 
 ```
-fisher up bass z fzf thefuck
+fisher up bass z fzf
 ```
 
 Удаление плагинов.
@@ -112,31 +100,24 @@ fisher ls | fisher rm
 fisher help z
 ```
 
+Удаление fisherman.
+
+```
+fisher self-uninstall
+```
+
 ## Часто задаваемые вопросы
 
 ### Какая версия fish необходима?
 
-fisherman был разработан для fish >= 2.3.0. Если вы используете 2.2.0, добавьте следующий код в ваш `~/.config/fish/config.fish` для поддержки [cниппетов](#8-Что-такое-плагин).
+\>=2.2.0.
+
+Для поддержки [cниппетов](#Что-такое-плагин) обновите fish до версии >= 2.3.0 или добавьте следующий код в ваш `~/.config/fish/config.fish`:
 
 ```fish
 for file in ~/.config/fish/conf.d/*.fish
     source $file
 end
-```
-
-### Как сделать fish основной командной оболочкой?
-
-Добавьте fish в список командных оболочек */etc/shells* и сделайте её оболочкой по умолчанию.
-
-```sh
-echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
-chsh -s /usr/local/bin/fish
-```
-
-### Как мне удалить fisherman?
-
-```fish
-fisher self-uninstall
 ```
 
 ### Совместим ли fisherman с темами и плагинами oh my fish?
@@ -145,9 +126,7 @@ fisher self-uninstall
 
 ### Где fisherman хранит данные?
 
-Скрипт fisherman находится в *~/.config/fish/functions/fisher.fish*.
-
-Кэш и настройки плагинов создаются в *~/.cache/fisherman* и *~/.config/fisherman* соответственно.
+Кэш и настройки плагинов находятся в *~/.cache/fisherman* и *~/.config/fisherman* соответственно.
 
 fishfile сохраняется в *~/.config/fish/fishfile*.
 
@@ -157,18 +136,7 @@ fishfile сохраняется в *~/.config/fish/fishfile*.
 
 fisherman обновляет этот файл автоматически, но вы также можете добавить плагины в список вручную и запустить `fisher`, чтобы эти изменения вступили в силу.
 
-```
-fisherman/real
-fisherman/z
-omf/thefuck
-omf/grc
-```
-
 Этот механизм только устанавливает плагины и отсутствующие зависимости. Чтобы удалить плагин, используйте `fisher rm`.
-
-### Где я могу найти список плагинов для fish?
-
-Используйте поиск по Github [организации] или [онлайн] поиск на сайте.
 
 ### Что такое плагин?
 
@@ -183,9 +151,3 @@ omf/grc
 ### Как я могу объявить зависимости моего плагина?
 
 Создайте новый *fishfile* в корне вашего проекта со списком зависимостей.
-
-```fish
-owner/repo
-https://github.com/owner/repo
-https://gist.github.com/owner/c256586044fea832e62f02bc6f6daf32
-```
