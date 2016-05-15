@@ -951,14 +951,14 @@ function __fisher_remote_index_update
         curl --max-time 10 -s 'https://api.github.com/orgs/fisherman/repos?per_page=100' | awk -v ORS='' '
 
             {
-                gsub(/[{}\[\]]|^[\t ]*/, \"\")
+                gsub(/[{}\[\]]/, \"\")
 
             } //
 
         ' | awk '
 
             {
-                n = split(\$0, a, /,\"/)
+                n = split(\$0, a, /,[\t ]*\"/)
 
                 for (i = 1; i <= n; i++) {
                     gsub(/\"/, \"\", a[i])
