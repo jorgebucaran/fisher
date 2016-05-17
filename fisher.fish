@@ -1861,7 +1861,11 @@ switch (command uname)
                 set elapsed 0
             end
 
-            perl -MTime::HiRes -e 'printf("%.0f\n", (Time::HiRes::time() * 1000) - '$elapsed')'
+            if command -s perl > /dev/null
+                perl -MTime::HiRes -e 'printf("%.0f\n", (Time::HiRes::time() * 1000) - '$elapsed')'
+            else
+                math (command date "+%s") - $elapsed
+            end
         end
 
     case \*
