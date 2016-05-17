@@ -720,6 +720,7 @@ function __fisher_plugin_enable -a path
 
         switch "$base"
             case {,fish_{,user_}}key_bindings.fish
+                __fisher_key_bindings_remove "$plugin_name"
                 __fisher_key_bindings_append "$plugin_name" "$file"
                 continue
         end
@@ -1353,7 +1354,7 @@ function __fisher_key_bindings_append -a plugin_name file
     command touch "$user_key_bindings"
 
     set -l key_bindings_source (
-        fish_indent < "$user_key_bindings" | awk '
+        fish_indent < "$user_key_bindings" | command awk '
 
             /^function fish_user_key_bindings/ {
                 reading_function_source = 1
@@ -1365,7 +1366,7 @@ function __fisher_key_bindings_append -a plugin_name file
             }
 
             reading_function_source {
-                print $0
+                print($0)
                 next
             }
 
@@ -1373,7 +1374,7 @@ function __fisher_key_bindings_append -a plugin_name file
     )
 
     set -l plugin_key_bindings_source (
-        fish_indent < "$file" | awk -v name="$plugin_name" '
+        fish_indent < "$file" | command awk -v name="$plugin_name" '
 
             BEGIN {
                 printf("### %s ###\n", name)
@@ -1403,7 +1404,7 @@ function __fisher_key_bindings_append -a plugin_name file
 
     printf "%s\n" $plugin_key_bindings_source | source ^ /dev/null
 
-    printf "%s\n" $key_bindings_source $plugin_key_bindings_source | awk '
+    printf "%s\n" $key_bindings_source $plugin_key_bindings_source | command awk '
 
         BEGIN {
             print "function fish_user_key_bindings"
