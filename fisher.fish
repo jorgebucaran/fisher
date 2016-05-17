@@ -1835,7 +1835,7 @@ end
 
 
 switch (command uname)
-    case Darwin
+    case Darwin FreeBSD
         function __fisher_get_epoch_in_ms -a elapsed
             if test -z "$elapsed"
                 set elapsed 0
