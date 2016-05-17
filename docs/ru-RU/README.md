@@ -24,7 +24,7 @@ curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 Установка отдельного плагина.
 
 ```
-fisher real
+fisher sol 
 ```
 
 Установка из нескольких источников.
@@ -57,7 +57,7 @@ fisher
 ```ApacheConf
 fisher ls
 @ plugin      # локальный плагин
-* real        # текущее оформление командной строки
+* sol         # текущее оформление командной строки
   bass
   fzf
   thefuck

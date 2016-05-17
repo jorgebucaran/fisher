@@ -28,7 +28,7 @@ curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 Instalar um plugin.
 
 ```
-fisher real
+fisher sol 
 ```
 
 Instalar através de  múltiplas fontes.
@@ -69,7 +69,7 @@ Mostrar os plugins instalados actualmente.
 ```ApacheConf
 fisher ls
 @ plugin      # este plugin é uma pasta local
-* real        # este plugin é o Tema da consola
+* sol         # este plugin é o Tema da consola
   bass
   fzf
   grc
@@ -158,7 +158,7 @@ O ficheiro fishfile *~/.config/fish/fishfile* contém todos os plugins instalado
 Pode deixar que fisherman tome conta deste ficheiro automaticamente, ou se quiser, pode adicionar os plugins manualmente ao ficheiro e no fim executar `fisher` para aplicar as alterações.
 
 ```
-fisherman/real
+fisherman/sol 
 fisherman/z
 omf/thefuck
 omf/grc

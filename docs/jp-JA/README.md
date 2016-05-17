@@ -40,7 +40,7 @@ curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 プラグインをインストール:
 
 ```
-fisher real
+fisher sol 
 ```
 
 様々な所からもインストール:
@@ -81,7 +81,7 @@ fisher
 ```ApacheConf
 fisher ls
 @ plugin    # ローカルディレクトリ
-* real        # 現在のテーマ
+* sol         # 現在のテーマ
   bass
   fzf
   grc
@@ -167,7 +167,7 @@ fishfile（*~/.config/fish/fishfile*）に現在インストールされてい�
 fisherman で自動的にこのファイルを更新するか、手動でプラグインを追加して `fisher`を入力してインストールすることも可能です。
 
 ```
-fisherman/real
+fisherman/sol 
 fisherman/z
 omf/thefuck
 omf/grc

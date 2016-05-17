@@ -30,7 +30,7 @@ curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 Instal·la un complement.
 
 ```
-fisher real
+fisher sol 
 ```
 
 Instal·la des de múltiples fonts.
@@ -71,7 +71,7 @@ Fes un cop d'ull al que tens instal·lat.
 ```ApacheConf
 fisher ls
 @ plugin      # aquest complement esta dins un directori local
-* real        # aquest complement es el tema actual
+* sol         # aquest complement es el tema actual
   bass
   fzf
   grc
@@ -168,7 +168,7 @@ El arxiu fishfile *~/.config/fish/fishfile* llista tots els complements instal·
 Pots deixar que en fisherman s'encarregui d'aquest arxiu per tu automaticament, o be escriure a dins els complements que vols instal·lar i llavors executar `fisher` per a aplicar els canvis.
 
 ```
-fisherman/real
+fisherman/sol 
 fisherman/z
 omf/thefuck
 omf/grc

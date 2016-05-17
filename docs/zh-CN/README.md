@@ -28,7 +28,7 @@ curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 安装插件。
 
 ```
-fisher real
+fisher sol 
 ```
 
 从多个源安装插件。
@@ -63,7 +63,7 @@ fisher
 ```ApacheConf
 fisher ls
 @ plugin      # 该插件是一个本地插件
-* real        # 该插件是当前的命令行提示符插件
+* sol         # 该插件是当前的命令行提示符插件
   bass
   fzf
   grc
@@ -140,7 +140,7 @@ fishfile *~/.config/fish/fishfile* 列出了所有已安装的插件。
 fisherman 安装插件时，会自动写入这个文件，或者你可以手动写入你想装的插件，然后运行 `fisher` 来安装插件
 
 ```
-fisherman/real
+fisherman/sol 
 fisherman/z
 omf/thefuck
 omf/grc

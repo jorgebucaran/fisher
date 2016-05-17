@@ -42,7 +42,7 @@ curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 Instalar paquetes.
 
 ```
-fisher real
+fisher sol 
 ```
 
 Instalar desde múltiples fuentes.
@@ -83,7 +83,7 @@ Muestra que tienes instalado actualmente.
 ```ApacheConf
 fisher ls
 @ plugin    # este paquete esta en un directorio
-* real        # este paquete es el tema actual
+* sol         # este paquete es el tema actual
   bass
   fzf
   grc
@@ -181,7 +181,7 @@ El archivo fishfile *~/.config/fish/fishfile* contiene todos los paquetes que es
 Puedes dejar que fisherman se encargue de este archivo automáticamente, o incluir los paquetes que necesitas y ejecutar `fisher` para aplicar los cambios.
 
 ```
-fisherman/real
+fisherman/sol 
 fisherman/z
 omf/thefuck
 omf/grc
