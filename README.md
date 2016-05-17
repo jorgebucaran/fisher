@@ -34,7 +34,7 @@ curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 Install a plugin.
 
 ```
-fisher real
+fisher sol 
 ```
 
 Install from multiple sources.
@@ -67,7 +67,7 @@ List what you've installed.
 ```ApacheConf
 fisher ls
 @ plugin     # a local plugin
-* real       # current prompt
+* sol        # current prompt
   bass
   fzf
   thefuck

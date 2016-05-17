@@ -40,7 +40,7 @@ curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 플러그인 설치:
 
 ```
-fisher real
+fisher sol 
 ```
 
 여러 출처로 부터 한꺼번에 설치:
@@ -81,7 +81,7 @@ fisher
 ```ApacheConf
 fisher ls
 @ plugin      # 로컬 디렉토리 설치 플러그인
-* real        # 현재 사용되고 있는 프롬프트 스타일 플러그인
+* sol         # 현재 사용되고 있는 프롬프트 스타일 플러그인
   bass
   fzf
   grc
@@ -171,7 +171,7 @@ fishfile은 *~/.config/fish/fishfile* 위치하며 모든 설치 플러그인의
 fisherman 명령어를 통해 플러그인을 설치/제거하면 자동으로 fishfile이 관리됩니다. 혹은, fishfile에 직접 플러그인을 추가하고 `fisher` 명령어를 입력하면 변경사항이 적용됩니다.
 
 ```
-fisherman/real
+fisherman/sol 
 fisherman/z
 omf/thefuck
 omf/grc
