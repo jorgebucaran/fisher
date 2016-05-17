@@ -1361,7 +1361,7 @@ function __fisher_key_bindings_append -a plugin_name file
                 next
             }
 
-            /^end$/ {
+            /^end$/ && reading_function_source {
                 exit
             }
 
@@ -1404,6 +1404,26 @@ function __fisher_key_bindings_append -a plugin_name file
 
     printf "%s\n" $plugin_key_bindings_source | source ^ /dev/null
 
+    fish_indent < "$user_key_bindings" | command awk '
+        {
+
+            if ($0 ~ /^function fish_user_key_bindings/) {
+                reading_function_source = 1
+                next
+            } else if ($0 ~ /^end$/ && reading_function_source) {
+                reading_function_source = 0
+                next
+            }
+
+            if (!reading_function_source) {
+                print($0)
+            }
+        }
+
+    ' > "$user_key_bindings-copy"
+
+    command mv -f "$user_key_bindings-copy" "$user_key_bindings"
+
     printf "%s\n" $key_bindings_source $plugin_key_bindings_source | command awk '
 
         BEGIN {
@@ -1416,7 +1436,7 @@ function __fisher_key_bindings_append -a plugin_name file
             print "end"
         }
 
-    ' | fish_indent > "$user_key_bindings"
+    ' | fish_indent >> "$user_key_bindings"
 end
 
 
