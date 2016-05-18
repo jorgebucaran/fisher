@@ -15,7 +15,7 @@ function fisher
             return 1
     end
 
-    set -g fisher_version "2.7.1"
+    set -g fisher_version "2.7.2"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
     function __fisher_show_spinner
@@ -931,9 +931,40 @@ function __fisher_get_plugin_name_from_gist -a url
 end
 
 
+function __fisher_remote_parse_header
+    command awk '
+
+        function get_page_count(s, rstart, rlength,    pages) {
+            if (split(substr(s, rstart, rlength), pages, "=")) {
+                return pages[2]
+            }
+        }
+
+        BEGIN {
+            FS = " <|>; |, <"
+        }
+
+        /^Link: / {
+            if (match($2, "&page=[0-9]*")) {
+                url = substr($2, 1, RSTART - 1)
+                page_next = get_page_count($2, RSTART, RLENGTH)
+
+                if (page_next) {
+                    page_last = get_page_count($4, RSTART, RLENGTH)
+
+                    printf("%s\n%s\n%s", url, page_next, page_last)
+                }
+            }
+        }
+
+    '
+end
+
+
 function __fisher_remote_index_update
     set -l index "$fisher_cache/.index"
     set -l interval 3240
+    set -l players "fisherman" "oh-my-fish"
 
     if test ! -z "$fisher_index_update_interval"
         set interval "$fisher_index_update_interval"
@@ -947,31 +978,69 @@ function __fisher_remote_index_update
         end
     end
 
-    fish -c "
-
-        curl --max-time 10 -s 'https://api.github.com/orgs/fisherman/repos?per_page=100' | awk -v ORS='' '
-
-            {
-                gsub(/[{}\[\]]/, \"\")
-
-            } //
-
-        ' | awk '
-
-            {
-                n = split(\$0, a, /,[\t ]*\"/)
-
-                for (i = 1; i <= n; i++) {
-                    gsub(/\"/, \"\", a[i])
-                    print(a[i])
-                }
-            }
-
-        ' > '$index'
-
-    " &
+    for i in $players
+        curl -u$GITHUB_USER:$GITHUB_TOKEN -Is "https://api.github.com/orgs/$i/repos?per_page=100" > "$index-header-$i" &
+    end
 
     __fisher_jobs_await (__fisher_jobs_get -l)
+
+    for i in $players
+        set -l url "https://api.github.com/orgs/$i/repos?per_page=100"
+        set -l next
+        set -l last
+        set -l data
+
+        if test -s "$index-header-$i"
+            __fisher_remote_parse_header < "$index-header-$i" | read -az data
+            command rm -f "$index-header-$i"
+        end
+
+        if set -q data[3]
+            set -l url "$data[1]"
+            set -l next "$data[2]"
+            set -l last "$data[3]"
+        end
+
+        for page in "" (seq "$next" "$last")
+            if test "$page" = 0
+                continue
+            end
+
+            set -l next_url "$url"
+
+            if test ! -z "$page"
+                set next_url "$url&page=$page"
+            end
+
+            curl -u$GITHUB_USER:$GITHUB_TOKEN --max-time 10 -s "$next_url" | command awk -v ORS='' '
+
+                {
+                    gsub(/[{}[]]/, "")
+
+                } //
+
+            ' | command awk '
+
+                {
+                    n = split($0, a, /,[\t ]*"/)
+
+                    for (i = 1; i <= n; i++) {
+                        gsub(/"/, "", a[i])
+                        print(a[i])
+                    }
+                }
+
+            ' > "$index-$i-$page" &
+        end
+    end
+
+    __fisher_jobs_await (__fisher_jobs_get -l)
+
+    for i in $players
+        command cat "$index-$i-"*
+    end > "$index"
+
+    command rm "$index"-*
 
     if test ! -s "$index"
         return 1
@@ -1015,18 +1084,56 @@ function __fisher_remote_index_update
             quicksort(list, j + 1, hi)
         }
 
-        {
-            name = ($0 ~ /^name: /) ? substr($0, 7) : name
-            info = ($0 ~ /^description: /) ? substr($0, 14) : info
-            stars = ($0 ~ /^stargazers_count: /) ? substr($0, 19) : stars
+        function reset_vars() {
+            name = info = stars = url = ""
+        }
 
-            if (name && stars != "") {
+        {
+            if ($0 ~ /^name: /) {
+                name = substr($0, 7)
+            }
+
+            if ($0 ~ /^description: /) {
+                info = substr($0, 14)
+            }
+
+            if ($0 ~ /^stargazers_count: /) {
+                stars = substr($0, 19)
+            }
+
+            if (name != "" && stars != "") {
+                if (name ~ /oh-my-fish/) {
+                    reset_vars()
+                    next
+                }
+
                 url = "github.com/fisherman/" name
-                info = info ? info : url
+
+                if (name ~ /^(plugin|theme)-/) {
+                    gsub(/^plugin-/, "", name)
+
+                    if (seen_names[name]) {
+                        reset_vars()
+                        next
+                    }
+
+                    url = "github.com/oh-my-fish/" name
+                    name = "omf/" name
+
+                } else {
+                    seen_names[name]++
+                }
+
+                if (info == "" || info == "null") {
+                    info = url
+                }
+
+                if (info ~ /\.$/) {
+                    info = substr(info, 1, length(info) - 1)
+                }
 
                 records[++record_count] = name "\t" info "\t" url "\t" stars
-
-                name = info = stars = ""
+                reset_vars()
             }
         }
 
@@ -1042,7 +1149,6 @@ function __fisher_remote_index_update
 
     if test ! -s "$index-tab"
         command rm "$index"
-
         return 1
     end
 
@@ -1801,7 +1907,6 @@ function __fisher_complete
                 case fisherman\*
                 case \*
                     set -l name (__fisher_plugin_get_names "$i")[1]
-
                     complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$name" -d "$i"
             end
         end
