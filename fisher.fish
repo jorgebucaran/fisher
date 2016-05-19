@@ -1819,6 +1819,7 @@ function __fisher_read_bundle_file
         }
 
         {
+            sub(/\.git$/, "")
             sub("^[@* \t]*", "")
 
             if (!dedupe[$0]++) {
