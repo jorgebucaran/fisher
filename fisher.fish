@@ -493,7 +493,7 @@ function __fisher_plugin_fetch_items
         if test -z "$names[2]"
             if test -d "$src"
                 if test ! -d "$fisher_config/$names[1]"
-                    __fisher_log info "Fetch @$names[1]@" "$__fisher_stderr"
+                    __fisher_log okay "Fetch @$names[1]@" "$__fisher_stderr"
                 end
 
                 if test -L "$src"
@@ -510,7 +510,7 @@ function __fisher_plugin_fetch_items
 
                 if test "$real_namespace" = "$names[2]"
                     if test ! -d "$fisher_config/$names[1]"
-                        __fisher_log info "Fetch @$names[1]@" "$__fisher_stderr"
+                        __fisher_log okay "Fetch @$names[1]@" "$__fisher_stderr"
                     end
 
                     command cp -Rf "$src" "$fisher_config"
