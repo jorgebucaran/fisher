@@ -604,19 +604,20 @@ function __fisher_update
     end
 
     for i in $argv
-        set -l path "$fisher_config/$i"
+        set -l name (__fisher_plugin_get_names "$i")[1]
+        set -l path "$fisher_config/$name"
 
         if test -d "$path"
-            set updated $updated "$i"
+            set updated $updated "$name"
 
-            if test -L "$fisher_config/$i"
+            if test -L "$fisher_config/$name"
                 set links (math "$links + 1")
                 continue
             end
 
-            set jobs $jobs (__fisher_update_path_async "$i" "$path")
+            set jobs $jobs (__fisher_update_path_async "$name" "$path")
         else
-            __fisher_log error "Skipped @$i@"
+            __fisher_log error "Skipped @$name@"
         end
     end
 
