@@ -889,7 +889,7 @@ function __fisher_remove
         __fisher_show_spinner
         __fisher_plugin_decrement_ref_count "$name"
 
-        if test -f "$fisher_config/$i/fishfile"
+        if test -s "$fisher_config/$name/fishfile"
             while read -l i
                 set -l name (__fisher_plugin_get_names "$i")[1]
 
@@ -900,7 +900,7 @@ function __fisher_remove
                 end
 
                 __fisher_show_spinner
-            end < "$fisher_config/$i/fishfile"
+            end < "$fisher_config/$name/fishfile"
         end
 
         __fisher_plugin_disable "$fisher_config/$name"
