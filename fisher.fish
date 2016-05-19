@@ -2,12 +2,14 @@ if not set -q fisher_cmd_name
     status --current-filename | command awk '
 
         {
+            cmd = "fisher"
+
             if (n = split($0, parts, "/")) {
                 gsub(/\.fish$/, "", parts[n])
                 print(parts[n])
-            } else {
-                print("fisher")
             }
+
+            print(cmd)
         }
 
     ' | read -gx fisher_cmd_name
@@ -2138,7 +2140,7 @@ function __fisher_self_uninstall -a yn
 
     __fisher_show_spinner
 
-    echo "fisher ls | fisher rm -q" | source ^ /dev/null
+    echo "$fisher_cmd_name ls | $fisher_cmd_name rm -q" | source ^ /dev/null
 
     __fisher_show_spinner
 
