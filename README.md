@@ -34,7 +34,7 @@ curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
 Install a plugin.
 
 ```
-fisher sol 
+fisher sol
 ```
 
 Install from multiple sources.
