@@ -1,4 +1,19 @@
-function fisher
+if not set -q fisher_cmd_name
+    status --current-filename | command awk '
+
+        {
+            if (n = split($0, parts, "/")) {
+                gsub(/\.fish$/, "", parts[n])
+                print(parts[n])
+            } else {
+                print("fisher")
+            }
+        }
+
+    ' | read -gx fisher_cmd_name
+end
+
+function $fisher_cmd_name
     switch "$FISH_VERSION"
         case 2.1.2 2.1.1 2.1.0 2.0.0
             __fisher_log error "You need fish @2.2.0@ or higher to use fisherman."
@@ -82,10 +97,10 @@ function fisher
         return 1
     end
 
-    set -l completions "$fish_config/completions/fisher.fish"
+    set -l completions "$fish_config/completions/$fisher_cmd_name.fish"
 
     if test ! -e "$completions"
-        echo "fisher --complete" > "$completions"
+        echo "$fisher_cmd_name --complete" > "$completions"
         __fisher_complete
     end
 
@@ -154,7 +169,7 @@ function fisher
             return
 
         case -\*\?
-            printf "fisher: '%s' is not a valid option\n" "$argv[1]" > /dev/stderr
+            printf "$fisher_cmd_name: '%s' is not a valid option\n" "$argv[1]" > /dev/stderr
             __fisher_usage > /dev/stderr
             return 1
 
@@ -182,7 +197,7 @@ function fisher
                 " $__fisher_stderr
 
                 __fisher_log info "
-                    See @fisher help@ for usage instructions.
+                    See @$fisher_cmd_name help@ for usage instructions.
                 " $__fisher_stderr
                 return
             end
@@ -336,7 +351,7 @@ function fisher
             end
     end
 
-    complete -c fisher --erase
+    complete -c $fisher_cmd_name --erase
 
     __fisher_complete
 end
@@ -622,11 +637,11 @@ end
 function __fisher_self_update
     set -l file (status --current-filename)
 
-    if test "$file" != "$fish_config/functions/fisher.fish"
+    if test "$file" != "$fish_config/functions/$fisher_cmd_name.fish"
         return 1
     end
 
-    set -l completions "$fish_config/completions/fisher.fish"
+    set -l completions "$fish_config/completions/$fisher_cmd_name.fish"
     set -l raw_url "https://raw.githubusercontent.com/fisherman/fisherman/master/fisher.fish"
     set -l fake_qs (date "+%s")
 
@@ -642,11 +657,11 @@ function __fisher_self_update
 
     builtin source "$file" ^ /dev/null
 
-    fisher -v > /dev/null
+    echo "$fisher_cmd_name -v" | source > /dev/null
 
     set -l new_version "$fisher_version"
 
-    echo "fisher --complete" > "$completions"
+    echo "$fisher_cmd_name --complete" > "$completions"
     builtin source "$completions" ^ /dev/null
 
     if test "$previous_version" = "$fisher_version"
@@ -905,7 +920,7 @@ function __fisher_get_plugin_name_from_gist -a url
     set -l gist_id (printf "%s\n" "$url" | command sed 's|.*/||')
     set -l name (fish -c "
 
-        fisher -v > /dev/null
+        $fisher_cmd_name -v > /dev/null
         curl -Ss https://api.github.com/gists/$gist_id &
 
         __fisher_jobs_await (__fisher_jobs_get -l)
@@ -1636,7 +1651,7 @@ function __fisher_plugin_get_missing
         if test "$name" = fisherman
 
             __fisher_log info "
-                Run @fisher update@ to update fisherman.
+                Run @$fisher_cmd_name update@ to update fisherman.
             " > /dev/stderr
             continue
         end
@@ -1846,24 +1861,26 @@ end
 
 
 function __fisher_complete
-    complete -xc fisher -n "__fish_use_subcommand" -a install   -d "Install plugins"
-    complete -xc fisher -n "__fish_use_subcommand" -a update    -d "Update plugins and self"
-    complete -xc fisher -n "__fish_use_subcommand" -a rm        -d "Remove plugins"
-    complete -xc fisher -n "__fish_use_subcommand" -a ls        -d "List what you've installed"
-    complete -xc fisher -n "__fish_use_subcommand" -a ls-remote -d "List everything that's available"
-    complete -xc fisher -n "__fish_use_subcommand" -a help      -d "Show help"
+    complete -xc $fisher_cmd_name -n "__fish_use_subcommand" -a install   -d "Install plugins"
+    complete -xc $fisher_cmd_name -n "__fish_use_subcommand" -a update    -d "Update plugins and self"
+    complete -xc $fisher_cmd_name -n "__fish_use_subcommand" -a rm        -d "Remove plugins"
+    complete -xc $fisher_cmd_name -n "__fish_use_subcommand" -a ls        -d "List what you've installed"
+    complete -xc $fisher_cmd_name -n "__fish_use_subcommand" -a ls-remote -d "List everything that's available"
+    complete -xc $fisher_cmd_name -n "__fish_use_subcommand" -a help      -d "Show help"
 
-    complete -xc fisher -n "__fish_use_subcommand" -s h -l help     -d "Show usage help"
-    complete -xc fisher -n "__fish_use_subcommand" -s v -l version  -d "Show version information"
-    complete -xc fisher -s q -l quiet -d "Enable quiet mode"
+    complete -xc $fisher_cmd_name -n "__fish_use_subcommand" -s h -l help     -d "Show usage help"
+    complete -xc $fisher_cmd_name -n "__fish_use_subcommand" -s v -l version  -d "Show version information"
+    complete -xc $fisher_cmd_name -s q -l quiet -d "Enable quiet mode"
+
+    complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from ls-remote" -l "format" -d "Customize format with verbs: %name, %url, %info and %stars"
 
     set -l config_glob "$fisher_config"/*
     set -l config (printf "%s\n" $config_glob | command sed "s|.*/||")
 
     if test ! -s "$fisher_cache/.index"
         if test ! -z "$config"
-            complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$config"
-            complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$fisher_active_prompt" -d "Prompt"
+            complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$config"
+            complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$fisher_active_prompt" -d "Prompt"
         end
         return
     end
@@ -1874,7 +1891,7 @@ function __fisher_complete
         set -l path (command readlink "$name")
         set -l name (command basename "$name" | sed "s|$real_home|~|")
 
-        complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$name" -d "$path"
+        complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$name" -d "$path"
     end
 
     set -l IFS \t
@@ -1892,12 +1909,12 @@ function __fisher_complete
                 continue
         end
 
-        complete -xc fisher -n "__fish_seen_subcommand_from info ls-remote" -a "$name" -d "$info"
+        complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from info ls-remote" -a "$name" -d "$info"
 
         if contains -- "$name" $config
-            complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$name" -d "$info"
+            complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$name" -d "$info"
         else
-            complete -xc fisher -n "__fish_seen_subcommand_from i in install" -a "$name" -d "$info"
+            complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from i in install" -a "$name" -d "$info"
         end
     end
 
@@ -1907,7 +1924,7 @@ function __fisher_complete
                 case fisherman\*
                 case \*
                     set -l name (__fisher_plugin_get_names "$i")[1]
-                    complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$name" -d "$i"
+                    complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$name" -d "$i"
             end
         end
     end
@@ -1999,24 +2016,6 @@ function __fisher_parse_column_output
 end
 
 
-function __fisher_parse_comments_from_function
-    command awk '
-
-        /^[\t ]*# ?/ {
-            sub(/^[\t ]*# ?/, "")
-            a[++n] = $0
-        }
-
-        END {
-            for (i = 1; i <= n; i++) {
-                printf("%s\n", a[i])
-            }
-        }
-
-    '
-end
-
-
 function __fisher_get_file_age -a file
     if type -q perl
         perl -e "printf(\"%s\n\", time - (stat ('$file'))[9])" ^ /dev/null
@@ -2031,7 +2030,7 @@ function __fisher_usage
     set -l u (set_color -u)
     set -l nc (set_color normal)
 
-    echo "Usage: fisher [<command>] [<plugins>]"
+    echo "Usage: $fisher_cmd_name [<command>] [<plugins>]"
     echo
     echo "where <command> is one of:"
     echo "       "$u"i"$nc"nstall (default)"
@@ -2051,7 +2050,7 @@ end
 
 function __fisher_help -a cmd number
     if test -z "$argv"
-        set -l page "$fisher_cache/fisher.1"
+        set -l page "$fisher_cache/$fisher_cmd_name.1"
 
         if test ! -s "$page"
             __fisher_man_page_write > "$page"
@@ -2094,7 +2093,7 @@ end
 function __fisher_self_uninstall -a yn
     set -l file (status --current-filename)
 
-    if test -z "$fish_config" -o -z "$fisher_cache" -o -z "$fisher_config" -o -L "$fisher_cache" -o -L "$fisher_config" -o "$file" != "$fish_config/functions/fisher.fish"
+    if test -z "$fish_config" -o -z "$fisher_cache" -o -z "$fisher_config" -o -L "$fisher_cache" -o -L "$fisher_config" -o "$file" != "$fish_config/functions/$fisher_cmd_name.fish"
         __fisher_log info "Abort: Non-standard setup detected."
 
         return 1
@@ -2112,8 +2111,8 @@ function __fisher_self_uninstall -a yn
 
                 $fisher_cache
                 $fisher_config
-                $fish_config/functions/fisher.fish
-                $fish_config/completions/fisher.fish
+                $fish_config/functions/$fisher_cmd_name.fish
+                $fish_config/completions/$fisher_cmd_name.fish
 
             " /dev/stderr
 
@@ -2134,16 +2133,16 @@ function __fisher_self_uninstall -a yn
             end
     end
 
-    complete -c fisher --erase
+    complete -c $fisher_cmd_name --erase
 
     __fisher_show_spinner
 
-    fisher ls | fisher rm -q
+    echo "__fisher_ls | fisher rm -q" | source ^ /dev/null
 
     __fisher_show_spinner
 
     command rm -rf "$fisher_cache" "$fisher_config"
-    command rm -f "$fish_config"/{functions,completions}/fisher.fish "$fisher_file"
+    command rm -f "$fish_config"/{functions,completions}/$fisher_cmd_name.fish "$fisher_file"
 
     set -e fish_config
     set -e fisher_active_prompt
@@ -2157,268 +2156,266 @@ function __fisher_self_uninstall -a yn
 
     set -l funcs (functions -a | command grep __fisher)
 
-    functions -e $funcs fisher
+    functions -e $funcs $fisher_cmd_name
 end
 
 
 function __fisher_man_page_write
-    functions __fisher_man_page_write | fish_indent | __fisher_parse_comments_from_function
+    echo  '.
+.TH "FISHERMAN" "1" "May 2016" "" "fisherman"
+.
+.SH "NAME"
+\fBfisherman\fR \- fish plugin manager
+.
+.SH "SYNOPSIS"
+'"$fisher_cmd_name"' [(\-q | \-\-quiet)] [(\fBi\fRnstall | \fBu\fRpdate | \fBl\fRs[\-remote] | \fBr\fRm | \fBh\fRelp) PLUGINS]
+.
+.br
+.
+.SH "DESCRIPTION"
+A plugin manager for fish\.
+.
+.SH "OPTIONS"
+.
+.IP "\(bu" 4
+\-v, \-\-version: Show version information\.
+.
+.IP "\(bu" 4
+\-h, \-\-help: Show usage help\. Use the long form to display this page\.
+.
+.IP "\(bu" 4
+\-q, \-\-quiet: Enable quiet mode\. Use to suppress output\.
+.
+.IP "" 0
+.
+.SH "USAGE"
+Install a plugin\.
+.
+.IP "" 4
+.
+.nf
 
-    # .
-    # .TH "FISHERMAN" "1" "May 2016" "" "fisherman"
-    # .
-    # .SH "NAME"
-    # \fBfisherman\fR \- fish plugin manager
-    # .
-    # .SH "SYNOPSIS"
-    # fisher [(\-q | \-\-quiet)] [(\fBi\fRnstall | \fBu\fRpdate | \fBl\fRs[\-remote] | \fBr\fRm | \fBh\fRelp)] [PLUGIN\.\.\.]
-    # .
-    # .br
-    # .
-    # .SH "DESCRIPTION"
-    # A plugin manager for fish\.
-    # .
-    # .SH "OPTIONS"
-    # .
-    # .IP "\(bu" 4
-    # \-v, \-\-version: Show version information\.
-    # .
-    # .IP "\(bu" 4
-    # \-h, \-\-help: Show usage help\. Use the long form to display this page\.
-    # .
-    # .IP "\(bu" 4
-    # \-q, \-\-quiet: Enable quiet mode\. Use to suppress output\.
-    # .
-    # .IP "" 0
-    # .
-    # .SH "USAGE"
-    # Install a plugin\.
-    # .
-    # .IP "" 4
-    # .
-    # .nf
-    #
-    # fisher sol
-    # .
-    # .fi
-    # .
-    # .IP "" 0
-    # .
-    # .P
-    # Install plugins from multiple sources\.
-    # .
-    # .IP "" 4
-    # .
-    # .nf
-    #
-    # fisher z fzf edc/bass omf/tab
-    # .
-    # .fi
-    # .
-    # .IP "" 0
-    # .
-    # .P
-    # Install a gist\.
-    # .
-    # .IP "" 4
-    # .
-    # .nf
-    #
-    # fisher https://gist\.github\.com/username/1f40e1c6e0551b2666b2
-    # .
-    # .fi
-    # .
-    # .IP "" 0
-    # .
-    # .P
-    # Install a local directory as a plugin\.
-    # .
-    # .IP "" 4
-    # .
-    # .nf
-    #
-    # fisher ~/plugin
-    # .
-    # .fi
-    # .
-    # .IP "" 0
-    # .
-    # .P
-    # Edit your \fIfishfile\fR and run \fBfisher\fR to satisfy changes\.
-    # .
-    # .IP "" 4
-    # .
-    # .nf
-    #
-    # $EDITOR ~/\.config/fish/fishfile
-    # fisher
-    # .
-    # .fi
-    # .
-    # .IP "" 0
-    # .
-    # .P
-    # List what you\'ve installed\.
-    # .
-    # .IP "" 4
-    # .
-    # .nf
-    #
-    # fisher ls
-    # @ plugin     # a local directory
-    # * sol        # the current prompt
-    #   bass
-    #   fzf
-    #   tab
-    #   z
-    # .
-    # .fi
-    # .
-    # .IP "" 0
-    # .
-    # .P
-    # List everything that\'s available\.
-    # .
-    # .IP "" 4
-    # .
-    # .nf
-    #
-    # fisher ls\-remote
-    # .
-    # .fi
-    # .
-    # .IP "" 0
-    # .
-    # .P
-    # Update everything\.
-    # .
-    # .IP "" 4
-    # .
-    # .nf
-    #
-    # fisher up
-    # .
-    # .fi
-    # .
-    # .IP "" 0
-    # .
-    # .P
-    # Update some plugins\.
-    # .
-    # .IP "" 4
-    # .
-    # .nf
-    #
-    # fisher up bass z fzf
-    # .
-    # .fi
-    # .
-    # .IP "" 0
-    # .
-    # .P
-    # Remove plugins\.
-    # .
-    # .IP "" 4
-    # .
-    # .nf
-    #
-    # fisher rm thefuck
-    # .
-    # .fi
-    # .
-    # .IP "" 0
-    # .
-    # .P
-    # Remove all the plugins\.
-    # .
-    # .IP "" 4
-    # .
-    # .nf
-    #
-    # fisher ls | fisher rm
-    # .
-    # .fi
-    # .
-    # .IP "" 0
-    # .
-    # .P
-    # Get help\.
-    # .
-    # .IP "" 4
-    # .
-    # .nf
-    #
-    # fisher help z
-    # .
-    # .fi
-    # .
-    # .IP "" 0
-    # .
-    # .P
-    # Uninstall fisherman\.
-    # .
-    # .IP "" 4
-    # .
-    # .nf
-    #
-    # fisher self\-uninstall
-    # .
-    # .fi
-    # .
-    # .IP "" 0
-    # .
-    # .SH "FAQ"
-    # .
-    # .SS "What is the required fish version?"
-    # >=2\.2\.0\.
-    # .
-    # .P
-    # For \fIsnippet\fR support, upgrade to >=2\.3\.0 or append the following code to your \fI~/\.config/fish/config\.fish\fR\.
-    # .
-    # .IP "" 4
-    # .
-    # .nf
-    #
-    # for file in ~/\.config/fish/conf\.d/*\.fish
-    #     source $file
-    # end
-    # .
-    # .fi
-    # .
-    # .IP "" 0
-    # .
-    # .SS "Is fisherman compatible with oh\-my\-fish themes and plugins?"
-    # Yes\.
-    # .
-    # .SS "Where does fisherman put stuff?"
-    # The cache and configuration go in \fI~/\.cache/fisherman\fR and \fI~/\.config/fisherman\fR respectively\.
-    # .
-    # .P
-    # The fishfile is saved to \fI~/\.config/fish/fishfile\fR\.
-    # .
-    # .SS "What is a fishfile and how do I use it?"
-    # The fishfile lists all the installed plugins\.
-    # .
-    # .P
-    # You can let fisherman take care of this file for you automatically, or write in the plugins you want and run \fBfisher\fR to satisfy the changes\.
-    # .
-    # .P
-    # This mechanism only installs plugins and missing dependencies\. To remove plugins, use \fBfisher rm\fR\.
-    # .
-    # .SS "What is a plugin?"
-    # A plugin is:
-    # .
-    # .IP "1." 4
-    # a directory or git repo with one or more \fI\.fish\fR functions either at the root level of the project or inside a \fIfunctions\fR directory
-    # .
-    # .IP "2." 4
-    # a theme or prompt, i\.e, a \fIfish_prompt\.fish\fR, \fIfish_right_prompt\.fish\fR or both files
-    # .
-    # .IP "3." 4
-    # a snippet, i\.e, one or more \fI\.fish\fR files inside a directory named \fIconf\.d\fR, evaluated by fish at the start of the session
-    # .
-    # .IP "" 0
-    # .
-    # .SS "How can I list plugins as dependencies to my plugin?"
-    # Create a new \fIfishfile\fR file at the root level of your project and write in your plugin dependencies\.
+'"$fisher_cmd_name"' sol
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Install plugins from multiple sources\.
+.
+.IP "" 4
+.
+.nf
+
+'"$fisher_cmd_name"' z fzf edc/bass omf/tab
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Install a gist\.
+.
+.IP "" 4
+.
+.nf
+
+'"$fisher_cmd_name"' https://gist\.github\.com/username/1f40e1c6e0551b2666b2
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Install a local directory as a plugin\.
+.
+.IP "" 4
+.
+.nf
+
+'"$fisher_cmd_name"' ~/plugin
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Edit your \fIfishfile\fR and run \fB'"$fisher_cmd_name"'\fR to satisfy changes\.
+.
+.IP "" 4
+.
+.nf
+
+$EDITOR ~/\.config/fish/fishfile
+'"$fisher_cmd_name"'
+.
+.fi
+.
+.IP "" 0
+.
+.P
+List what you\'ve installed\.
+.
+.IP "" 4
+.
+.nf
+
+'"$fisher_cmd_name"' ls
+@ plugin     # a local directory
+* sol        # the current prompt
+  bass
+  fzf
+  tab
+  z
+.
+.fi
+.
+.IP "" 0
+.
+.P
+List everything that\'s available\.
+.
+.IP "" 4
+.
+.nf
+
+'"$fisher_cmd_name"' ls\-remote
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Update everything\.
+.
+.IP "" 4
+.
+.nf
+
+'"$fisher_cmd_name"' up
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Update some plugins\.
+.
+.IP "" 4
+.
+.nf
+
+'"$fisher_cmd_name"' up bass z fzf
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Remove plugins\.
+.
+.IP "" 4
+.
+.nf
+
+'"$fisher_cmd_name"' rm thefuck
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Remove all the plugins\.
+.
+.IP "" 4
+.
+.nf
+
+'"$fisher_cmd_name"' ls | '"$fisher_cmd_name"' rm
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Get help\.
+.
+.IP "" 4
+.
+.nf
+
+'"$fisher_cmd_name"' help z
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Uninstall fisherman\.
+.
+.IP "" 4
+.
+.nf
+
+'"$fisher_cmd_name"' self\-uninstall
+.
+.fi
+.
+.IP "" 0
+.
+.SH "FAQ"
+.
+.SS "What is the required fish version?"
+>=2\.2\.0\.
+.
+.P
+For \fIsnippet\fR support, upgrade to >=2\.3\.0 or append the following code to your \fI~/\.config/fish/config\.fish\fR\.
+.
+.IP "" 4
+.
+.nf
+
+for file in ~/\.config/fish/conf\.d/*\.fish
+    source $file
+end
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Is fisherman compatible with oh\-my\-fish themes and plugins?"
+Yes\.
+.
+.SS "Where does fisherman put stuff?"
+The cache and configuration go in \fI~/\.cache/fisherman\fR and \fI~/\.config/fisherman\fR respectively\.
+.
+.P
+The fishfile is saved to \fI~/\.config/fish/fishfile\fR\.
+.
+.SS "What is a fishfile and how do I use it?"
+The fishfile lists all the installed plugins\.
+.
+.P
+You can let fisherman take care of this file for you automatically, or write in the plugins you want and run \fBfisher\fR to satisfy the changes\.
+.
+.P
+This mechanism only installs plugins and missing dependencies\. To remove plugins, use \fBfisher rm\fR\.
+.
+.SS "What is a plugin?"
+A plugin is:
+.
+.IP "1." 4
+a directory or git repo with one or more \fI\.fish\fR functions either at the root level of the project or inside a \fIfunctions\fR directory
+.
+.IP "2." 4
+a theme or prompt, i\.e, a \fIfish_prompt\.fish\fR, \fIfish_right_prompt\.fish\fR or both files
+.
+.IP "3." 4
+a snippet, i\.e, one or more \fI\.fish\fR files inside a directory named \fIconf\.d\fR, evaluated by fish at the start of the session
+.
+.IP "" 0
+.
+.SS "How can I list plugins as dependencies to my plugin?"
+Create a new \fIfishfile\fR file at the root level of your project and write in your plugin dependencies\.'
 end
