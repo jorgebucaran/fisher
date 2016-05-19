@@ -30,7 +30,7 @@ function $fisher_cmd_name
             return 1
     end
 
-    set -g fisher_version "2.7.5"
+    set -g fisher_version "2.7.6"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
     function __fisher_show_spinner
