@@ -18,10 +18,10 @@ end
 function $fisher_cmd_name
     switch "$FISH_VERSION"
         case 2.1.2 2.1.1 2.1.0 2.0.0
-            __fisher_log error "You need fish @2.2.0@ or higher to use fisherman."
+            __fisher_log error "You need fish &2.2.0& or higher to use fisherman."
 
             if command -s brew > /dev/null
-                __fisher_log info "Run @brew up; brew upgrade --HEAD fish@"
+                __fisher_log info "Run &brew up; brew upgrade --HEAD fish&"
             else
                 __fisher_log info "
                     Refer to your package manager documentation for
@@ -198,7 +198,7 @@ function $fisher_cmd_name
                 " > /dev/stderr
 
                 __fisher_log info "
-                    See @$fisher_cmd_name help@ for usage instructions.
+                    See &$fisher_cmd_name help& for usage instructions.
                 " > /dev/stderr
                 return
             end
@@ -216,7 +216,7 @@ function $fisher_cmd_name
 
                 __fisher_log info "
                     Please install git and try again.
-                    Visit <@https://git-scm.com@> for more information.
+                    Visit <&https://git-scm.com&> for more information.
                 " > /dev/stderr
 
                 return 1
@@ -240,7 +240,7 @@ function $fisher_cmd_name
     switch "$cmd"
         case install
             if __fisher_install $items
-                __fisher_log info "Done in @"(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"@" "$__fisher_stderr"
+                __fisher_log info "Done in &"(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"&" "$__fisher_stderr"
             end
 
         case update
@@ -257,7 +257,7 @@ function $fisher_cmd_name
 
             __fisher_update $items
 
-            __fisher_log info "Done in @"(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"@" "$__fisher_stderr"
+            __fisher_log info "Done in &"(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"&" "$__fisher_stderr"
 
         case ls
             if test "$argv" -ge 0 -o "$argv" = -
@@ -313,11 +313,11 @@ function $fisher_cmd_name
                         set -l real_path (command readlink "$fisher_config/$name")
 
                         __fisher_log error "
-                            I can't remove @$name@ without its real path.
+                            I can't remove &$name& without its real path.
                         " "$__fisher_stderr"
 
                         __fisher_log info "
-                            Restore @$real_path@ and try again.
+                            Restore &$real_path& and try again.
                         " "$__fisher_stderr"
                     else
                         __fisher_log info "You can only remove plugins you've installed." "$__fisher_stderr"
@@ -329,8 +329,8 @@ function $fisher_cmd_name
 
             if test ! -z "$items"
                 __fisher_remove $items
-                __fisher_log info "Done in @"(
-                    __fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"@" "$__fisher_stderr"
+                __fisher_log info "Done in &"(
+                    __fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"&" "$__fisher_stderr"
             end
     end
 
@@ -409,11 +409,11 @@ function __fisher_install
         end
     else
         __fisher_log error "
-            There was an error installing @$fetched@ or more plugin/s.
+            There was an error installing &$fetched& or more plugin/s.
         " "$__fisher_stderr"
 
         __fisher_log info "
-            Try using a namespace before the plugin name: @xxx@/$fetched
+            Try using a namespace before the plugin name: &owner&/$fetched
         " "$__fisher_stderr"
 
         return 1
@@ -440,23 +440,23 @@ function __fisher_plugin_fetch_items
                     set -l home ~
                     set -l name (printf "%s\n" "$argv[1]" | command sed "s|$home|~|")
 
-                    __fisher_log info "Installing @""$name""@ " "$__fisher_stderr"
+                    __fisher_log info "Installing &$name& " "$__fisher_stderr"
                 else
                     set -l name (printf "%s\n" "$argv[1]" | command sed "s|$PWD/||")
 
-                    __fisher_log info "Installing @""$name""@ " "$__fisher_stderr"
+                    __fisher_log info "Installing &$name& " "$__fisher_stderr"
                 end
             else
-                __fisher_log info "Installing @$count@ plugin/s" "$__fisher_stderr"
+                __fisher_log info "Installing &$count& plugin/s" "$__fisher_stderr"
             end
 
             set -g __fisher_fetch_plugins_state "fetching"
 
         case "fetching"
             if test "$count" -eq 1
-                __fisher_log info "Installing @1@ dependency" "$__fisher_stderr"
+                __fisher_log info "Installing &1& dependency" "$__fisher_stderr"
             else
-                __fisher_log info "Installing @$count@ dependencies" "$__fisher_stderr"
+                __fisher_log info "Installing &$count& dependencies" "$__fisher_stderr"
             end
 
             set -g __fisher_fetch_plugins_state "done"
@@ -465,6 +465,7 @@ function __fisher_plugin_fetch_items
     end
 
     for i in $argv
+        echo "[[[$i]]]" > /dev/stderr
         set -l names
 
         switch "$i"
@@ -472,8 +473,8 @@ function __fisher_plugin_fetch_items
                 __fisher_log okay "Resolving gist name."
                 if not set names (__fisher_get_plugin_name_from_gist "$i") ""
                     __fisher_log error "
-                        I couldn't clone your gist:
-                        @$i@
+                        I couldn't clone this gist:
+                        &$i&
                     "
                     continue
                 end
@@ -493,7 +494,7 @@ function __fisher_plugin_fetch_items
         if test -z "$names[2]"
             if test -d "$src"
                 if test ! -d "$fisher_config/$names[1]"
-                    __fisher_log okay "Fetch @$names[1]@" "$__fisher_stderr"
+                    __fisher_log okay "Fetch &$names[1]&" "$__fisher_stderr"
                 end
 
                 if test -L "$src"
@@ -510,7 +511,7 @@ function __fisher_plugin_fetch_items
 
                 if test "$real_namespace" = "$names[2]"
                     if test ! -d "$fisher_config/$names[1]"
-                        __fisher_log okay "Fetch @$names[1]@" "$__fisher_stderr"
+                        __fisher_log okay "Fetch &$names[1]&" "$__fisher_stderr"
                     end
 
                     command cp -Rf "$src" "$fisher_config"
@@ -598,9 +599,9 @@ function __fisher_update
     end
 
     if test "$count" -eq 1
-        __fisher_log info "Updating @$count@ plugin" "$__fisher_stderr"
+        __fisher_log info "Updating &$count& plugin" "$__fisher_stderr"
     else
-        __fisher_log info "Updating @$count@ plugins" "$__fisher_stderr"
+        __fisher_log info "Updating &$count& plugins" "$__fisher_stderr"
     end
 
     for i in $argv
@@ -617,7 +618,7 @@ function __fisher_update
 
             set jobs $jobs (__fisher_update_path_async "$name" "$path")
         else
-            __fisher_log error "Skipped @$name@"
+            __fisher_log error "Skipped &$name&"
         end
     end
 
@@ -631,7 +632,7 @@ function __fisher_update
     end
 
     if test "$links" -gt 0
-        __fisher_log info "Synced @$links@ symlink/s" "$__fisher_stderr"
+        __fisher_log info "Synced &$links& symlink/s" "$__fisher_stderr"
     end
 end
 
@@ -669,7 +670,7 @@ function __fisher_self_update
     if test "$previous_version" = "$fisher_version"
         __fisher_log okay "fisherman is up to date" "$__fisher_stderr"
     else
-        __fisher_log okay "You are running fisherman @$fisher_version@" "$__fisher_stderr"
+        __fisher_log okay "You are running fisherman &$fisher_version&" "$__fisher_stderr"
         __fisher_log info "See github.com/fisherman/fisherman/releases" "$__fisher_stderr"
     end
 end
@@ -737,7 +738,7 @@ function __fisher_plugin_enable -a path
         if test -e "$target" -a ! -L "$target"
             set -l backup_target "$fish_config/$dir/copy-$base"
 
-            __fisher_log info "Backup @$base@" "$__fisher_stderr"
+            __fisher_log info "Backup &$base&" "$__fisher_stderr"
 
             command mv -f "$target" "$backup_target" ^ /dev/null
         end
@@ -913,7 +914,7 @@ function __fisher_remove
     end
 
     for i in $removed
-        __fisher_log info "Remove @$i@" "$__fisher_stderr"
+        __fisher_log info "Remove &$i&" "$__fisher_stderr"
     end
 end
 
@@ -1359,10 +1360,10 @@ function __fisher_log -a log message fd
             sub(/^[ ]+/, "")
             gsub("``", "  ")
 
-            if (/@[^@]+@/) {
-                n = match($0, /@[^@]+@/)
+            if (/&[^&]+&/) {
+                n = match($0, /&[^&]+&/)
                 if (n) {
-                    sub(/@[^@]+@/, "'"$$log"'" substr($0, RSTART + 1, RLENGTH - 2) "'"$nc"'", $0)
+                    sub(/&[^&]+&/, "'"$$log"'" substr($0, RSTART + 1, RLENGTH - 2) "'"$nc"'", $0)
                 }
             }
 
@@ -1657,7 +1658,7 @@ function __fisher_plugin_get_missing
         if test "$name" = fisherman
 
             __fisher_log info "
-                Run @$fisher_cmd_name update@ to update fisherman.
+                Run &$fisher_cmd_name update& to update fisherman.
             " > /dev/stderr
             continue
         end
@@ -2086,7 +2087,7 @@ function __fisher_help -a cmd number
 
                 set -l url (__fisher_plugin_get_url_info -- "$fisher_config/$cmd")
 
-                __fisher_log info "Try online: <@github.com/$url@>" "$__fisher_stderr"
+                __fisher_log info "Try online: <&github.com/$url&>" "$__fisher_stderr"
             else
                 __fisher_log error "You can only check plugins you've installed." "$__fisher_stderr"
             end
