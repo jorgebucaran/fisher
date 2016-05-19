@@ -1319,6 +1319,10 @@ end
 
 
 function __fisher_log -a log message fd
+    if test -z "$log"
+        return
+    end
+
     set -l nc (set_color normal)
     set -l okay (set_color $fish_color_match)
     set -l info (set_color $fish_color_match)
@@ -1340,7 +1344,7 @@ function __fisher_log -a log message fd
 
     printf "%s\n" "$message" | command awk '
         function okay(s) {
-            printf("'$okay'%s'$nc' %s\n", "OK", s)
+            printf("'"$okay"'%s'"$nc"' %s\n", "OK", s)
         }
 
         function info(s) {
@@ -1348,7 +1352,7 @@ function __fisher_log -a log message fd
         }
 
         function error(s) {
-            printf("'$error'%s'$nc' %s\n", "!", s)
+            printf("'"$error"'%s'"$nc"' %s\n", "!", s)
         }
 
         {
@@ -1358,7 +1362,7 @@ function __fisher_log -a log message fd
             if (/@[^@]+@/) {
                 n = match($0, /@[^@]+@/)
                 if (n) {
-                    sub(/@[^@]+@/, "'"$$log"'" substr($0, RSTART + 1, RLENGTH - 2) "'$nc'", $0)
+                    sub(/@[^@]+@/, "'"$$log"'" substr($0, RSTART + 1, RLENGTH - 2) "'"$nc"'", $0)
                 }
             }
 
@@ -1374,7 +1378,7 @@ function __fisher_log -a log message fd
                 if (s[i] == "") {
                     print
                 } else {
-                    '$log'(s[i])
+                    '"$log"'(s[i])
                 }
             }
         }
