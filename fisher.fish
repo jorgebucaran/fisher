@@ -1003,8 +1003,8 @@ function __fisher_remote_index_update
 
     for i in $players
         set -l url "https://api.github.com/orgs/$i/repos?per_page=100"
-        set -l next
-        set -l last
+        set -l next 0
+        set -l last 0
         set -l data
 
         if test -s "$index-header-$i"
