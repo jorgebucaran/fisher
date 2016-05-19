@@ -34,6 +34,8 @@ function $fisher_cmd_name
 
     set -g fisher_version "2.7.6"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
+    set -g __fisher_stdout /dev/stdout
+    set -g __fisher_stderr /dev/stderr
 
     function __fisher_show_spinner
         if not set -q __fisher_fg_spinner[1]
@@ -105,9 +107,6 @@ function $fisher_cmd_name
         echo "$fisher_cmd_name --complete" > "$completions"
         __fisher_complete
     end
-
-    set -g __fisher_stdout /dev/stdout
-    set -g __fisher_stderr /dev/stderr
 
     for i in -q --quiet
         if set -l index (builtin contains --index -- $i $argv)
