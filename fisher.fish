@@ -1878,7 +1878,7 @@ function __fisher_complete
     complete -xc $fisher_cmd_name -n "__fish_use_subcommand" -s v -l version  -d "Show version information"
     complete -xc $fisher_cmd_name -s q -l quiet -d "Enable quiet mode"
 
-    complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from ls-remote" -l "format" -d "Customize format with verbs: %name, %url, %info and %stars"
+    complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from ls-remote" -l "format" -d "Format with verbs: %name, %url, %info and %stars"
 
     set -l config_glob "$fisher_config"/*
     set -l config (printf "%s\n" $config_glob | command sed "s|.*/||")
@@ -2036,14 +2036,14 @@ function __fisher_usage
     set -l u (set_color -u)
     set -l nc (set_color normal)
 
-    echo "Usage: $fisher_cmd_name [<command>] [<plugins>]"
+    echo "Usage: $fisher_cmd_name [COMMAND] [PLUGINS]"
     echo
-    echo "where <command> is one of:"
-    echo "       "$u"i"$nc"nstall (default)"
-    echo "       "$u"u"$nc"pdate"
-    echo "       "$u"r"$nc"m"
-    echo "       "$u"l"$nc"s (or ls-remote)"
-    echo "       "$u"h"$nc"elp"
+    echo "where COMMAND is one of:"
+    echo "      "$u"i"$nc"nstall (default)"
+    echo "      "$u"u"$nc"pdate"
+    echo "      "$u"r"$nc"m"
+    echo "      "$u"l"$nc"s (or ls-remote [--format FMT])"
+    echo "      "$u"h"$nc"elp"
 end
 
 
