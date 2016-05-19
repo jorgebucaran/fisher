@@ -736,9 +736,9 @@ function __fisher_plugin_enable -a path
         if test -e "$target" -a ! -L "$target"
             set -l backup_target "$fish_config/$dir/copy-$base"
 
-            __fisher_log info "Save old @$base@" "$__fisher_stderr"
+            __fisher_log info "Backup @$base@" "$__fisher_stderr"
 
-            command mv "$target" "$backup_target" ^ /dev/stderr
+            command mv -f "$target" "$backup_target" ^ /dev/null
         end
 
         command ln -sf "$file" "$target"
@@ -819,7 +819,7 @@ function __fisher_plugin_disable -a path
 
         if test -e "$backup_source"
             command mv "$backup_source" "$target"
-            builtin source "$target" ^ /dev/stderr
+            builtin source "$target" ^ /dev/null
         end
 
         if test "$base" = "set_color_custom.fish"
