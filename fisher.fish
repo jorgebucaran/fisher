@@ -2137,7 +2137,7 @@ function __fisher_self_uninstall -a yn
 
     __fisher_show_spinner
 
-    echo "__fisher_ls | fisher rm -q" | source ^ /dev/null
+    echo "fisher ls | fisher rm -q" | source ^ /dev/null
 
     __fisher_show_spinner
 
