@@ -32,7 +32,7 @@ function $fisher_cmd_name
             return 1
     end
 
-    set -g fisher_version "2.7.7"
+    set -g fisher_version "2.7.8"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
     set -g __fisher_stdout /dev/stdout
     set -g __fisher_stderr /dev/stderr
