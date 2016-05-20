@@ -320,7 +320,7 @@ function $fisher_cmd_name
                             Restore &$real_path& and try again.
                         " "$__fisher_stderr"
                     else
-                        __fisher_log info "You can only remove plugins you've installed." "$__fisher_stderr"
+                        __fisher_log error "Plugin &$name& is not installed." "$__fisher_stderr"
                     end
 
                     break
@@ -465,8 +465,8 @@ function __fisher_plugin_fetch_items
     end
 
     for i in $argv
-        echo "[[[$i]]]" > /dev/stderr
         set -l names
+        set -l branch
 
         switch "$i"
             case \*gist.github.com\*
@@ -480,6 +480,7 @@ function __fisher_plugin_fetch_items
                 end
 
             case \*
+                printf "%s\n" "$i" | sed 's/[@:]\(.*\)/ \1/' | read i branch
                 set names (__fisher_plugin_get_names "$i")
         end
 
@@ -492,9 +493,9 @@ function __fisher_plugin_fetch_items
         set -l src "$fisher_cache/$names[1]"
 
         if test -z "$names[2]"
-            if test -d "$src"
+            if test -d "$src" -a -z "$branch"
                 if test ! -d "$fisher_config/$names[1]"
-                    __fisher_log okay "Fetch &$names[1]&" "$__fisher_stderr"
+                    __fisher_log okay "Copy &$names[1]&" "$__fisher_stderr"
                 end
 
                 if test -L "$src"
@@ -503,23 +504,23 @@ function __fisher_plugin_fetch_items
                     command cp -Rf "$src" "$fisher_config"
                 end
             else
-                set jobs $jobs (__fisher_plugin_url_clone_async "$i" "$names[1]")
+                set jobs $jobs (__fisher_plugin_url_clone_async "$i" "$names[1]" "$branch")
             end
         else
-            if test -d "$src"
+            if test -d "$src" -a -z "$branch"
                 set -l real_namespace (__fisher_plugin_get_url_info --dirname "$src")
 
                 if test "$real_namespace" = "$names[2]"
                     if test ! -d "$fisher_config/$names[1]"
-                        __fisher_log okay "Fetch &$names[1]&" "$__fisher_stderr"
+                        __fisher_log okay "Copy &$names[1]&" "$__fisher_stderr"
                     end
 
                     command cp -Rf "$src" "$fisher_config"
                 else
-                    set jobs $jobs (__fisher_plugin_url_clone_async "$i" "$names[1]")
+                    set jobs $jobs (__fisher_plugin_url_clone_async "$i" "$names[1]" "$branch")
                 end
             else
-                set jobs $jobs (__fisher_plugin_url_clone_async "$i" "$names[1]")
+                set jobs $jobs (__fisher_plugin_url_clone_async "$i" "$names[1]" "$branch")
             end
         end
 
@@ -554,7 +555,7 @@ function __fisher_plugin_fetch_items
 end
 
 
-function __fisher_plugin_url_clone_async -a url name
+function __fisher_plugin_url_clone_async -a url name branch
     switch "$url"
         case https://\*
         case github.com/\*
@@ -573,10 +574,19 @@ function __fisher_plugin_url_clone_async -a url name
 
     set -l hm_url (printf "%s\n" "$url" | command sed 's|^https://||')
 
+    if test ! -z "$branch"
+        set hm_url "$hm_url ($branch)"
+        set branch -b "$branch"
+    end
+
     fish -c "
             set -lx GIT_ASKPASS /bin/echo
 
-            if command git clone -q --depth 1 '$url' '$fisher_cache/$name' ^ /dev/null
+            if test -d '$fisher_cache/$name'
+                command rm -rf '$fisher_cache/$name'
+            end
+
+            if command git clone $branch -q --depth 1 '$url' '$fisher_cache/$name' ^ /dev/null
                   printf '$okay""OK""$nc Fetch $okay%s$nc %s\n' '$name' '$hm_url' > $__fisher_stderr
                   command cp -Rf '$fisher_cache/$name' '$fisher_config'
             else
@@ -685,21 +695,32 @@ function __fisher_update_path_async -a name path
 
         pushd $path
 
-        if not command git fetch -q origin master ^ /dev/null
+        set -l branch (basename (command git symbolic-ref HEAD ^ /dev/null))
+        set -l hm_branch
+
+        if test -z \"\$branch\"
+            set branch master
+        end
+
+        if test \"\$branch\" != master
+            set hm_branch \" (\$branch)\"
+        end
+
+        if not command git fetch -q origin \$branch ^ /dev/null
             printf '$error""!""$nc Fetch $error%s$nc\n' '$name' > $__fisher_stderr
             exit
         end
 
-        set -l commits (command git rev-list --left-right --count master..FETCH_HEAD ^ /dev/null | cut -d\t -f2)
+        set -l commits (command git rev-list --left-right --count \$branch..FETCH_HEAD ^ /dev/null | cut -d\t -f2)
 
         command git reset -q --hard FETCH_HEAD ^ /dev/null
         command git clean -qdfx
         command cp -Rf '$path/.' '$fisher_cache/$name'
 
         if test -z \"\$commits\" -o \"\$commits\" -eq 0
-            printf '$okay""OK""$nc Latest $okay%s$nc\n' '$name' > $__fisher_stderr
+            printf '$okay""OK""$nc Latest $okay%s$nc%s\n' '$name' \$hm_branch > $__fisher_stderr
         else
-            printf '$okay""OK""$nc Pulled $okay%s$nc new commit/s $okay%s$nc\n' \$commits '$name' > $__fisher_stderr
+            printf '$okay""OK""$nc Pulled $okay%s$nc new commit/s $okay%s$nc%s\n' \$commits '$name' \$hm_branch > $__fisher_stderr
         end
 
     " > /dev/stderr &
@@ -2089,7 +2110,7 @@ function __fisher_help -a cmd number
 
                 __fisher_log info "Try online: <&github.com/$url&>" "$__fisher_stderr"
             else
-                __fisher_log error "You can only check plugins you've installed." "$__fisher_stderr"
+                __fisher_log error "This plugin is not installed." "$__fisher_stderr"
             end
 
             return 1
