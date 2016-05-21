@@ -15,7 +15,7 @@ if not set -q fisher_cmd_name
     ' | read -gx fisher_cmd_name
 end
 
-function $fisher_cmd_name
+function $fisher_cmd_name -d "fish plugin manager"
     switch "$FISH_VERSION"
         case 2.1.2 2.1.1 2.1.0 2.0.0
             __fisher_log error "You need fish &2.2.0& or higher to use fisherman."
@@ -32,7 +32,7 @@ function $fisher_cmd_name
             return 1
     end
 
-    set -g fisher_version "2.7.8"
+    set -g fisher_version "2.7.9"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
     set -g __fisher_stdout /dev/stdout
     set -g __fisher_stderr /dev/stderr
@@ -246,9 +246,14 @@ function $fisher_cmd_name
         case update
             if isatty
                 if test -z "$items"
-                    __fisher_self_update
-
                     set items (__fisher_list | command sed 's/^[@* ]*//')
+
+                    if not __fisher_self_update
+                        if test -z "$items"
+                            __fisher_log info "Use your package manager to update fisherman."
+                            return 1
+                        end
+                    end
                 end
             else
                 __fisher_parse_column_output | __fisher_read_bundle_file | read -laz _items
@@ -2123,8 +2128,7 @@ function __fisher_self_uninstall -a yn
     set -l file (status --current-filename)
 
     if test -z "$fish_config" -o -z "$fisher_cache" -o -z "$fisher_config" -o -L "$fisher_cache" -o -L "$fisher_config" -o "$file" != "$fish_config/functions/$fisher_cmd_name.fish"
-        __fisher_log info "Abort: Non-standard setup detected."
-
+        __fisher_log info "Use your package manager to uninstall fisherman."
         return 1
     end
 
