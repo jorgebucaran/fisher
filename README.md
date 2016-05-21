@@ -25,8 +25,17 @@ Translations: [日本語], [简体中文], [한국어], [Русский], [Catal
 
 ## Install
 
+Manually
+
 ```sh
 curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
+```
+
+With brew
+
+```
+brew tap fisherman/tap
+brew install fisherman
 ```
 
 ## Usage
