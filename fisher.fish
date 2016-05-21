@@ -2078,7 +2078,7 @@ end
 function __fisher_version
     set -l real_home ~
     printf "fisherman version $fisher_version %s\n" (
-        __fisher_plugin_normalize_path (status -f) | command sed "s|$real_home|~|")
+        __fisher_plugin_normalize_path (status -f) | command sed "s|$real_home|~|;s|$__fish_datadir|\$__fish_datadir|")
 end
 
 
