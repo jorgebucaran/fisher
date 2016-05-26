@@ -29,7 +29,7 @@ Translations: [日本語], [简体中文], [한국어], [Русский], [Portu
 Manually
 
 ```sh
-curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
+curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher
 ```
 
 With brew
@@ -72,7 +72,7 @@ $EDITOR ~/.config/fish/fishfile
 fisher
 ```
 
-Show what you've installed.
+Show everything you've installed.
 
 ```ApacheConf
 fisher ls
@@ -123,10 +123,11 @@ fisher help z
 ## FAQ
 
 ### What is the required fish version?
+[2.3.0]: https://github.com/fish-shell/fish-shell/releases/tag/2.3.0
 
 \>=2.2.0.
 
-For [snippet](#what-is-a-plugin) support, upgrade to >=2.3.0 or append the following code to your ~/.config/fish/config.fish.
+For [snippet](#what-is-a-plugin) support, upgrade to >=[2.3.0] or append the following code to your ~/.config/fish/config.fish.
 
 ```fish
 for file in ~/.config/fish/conf.d/*.fish
@@ -138,17 +139,11 @@ end
 
 Yes.
 
-### Where does fisherman put stuff?
-
-The cache and configuration go in ~/.cache/fisherman and ~/.config/fisherman respectively.
-
-The fishfile is saved to ~/.config/fish/fishfile.
-
 ### What is a fishfile and how do I use it?
 
 The fishfile ~/.config/fish/fishfile lists what plugins you've installed.
 
-This file is updated automatically as you use fisherman to install and remove plugins. You can also edit this file and run `fisher` to commit changes.
+This file is updated automatically as you install / remove plugins. You can also edit this file and run `fisher` to commit changes.
 
 This mechanism only installs plugins and missing dependencies. To remove plugins, use `fisher rm`.
 

@@ -88,18 +88,8 @@ function $fisher_cmd_name -d "fish plugin manager"
             return
     end
 
-    if not command mkdir -p "$fish_config/"{conf.d,functions,completions} "$fisher_config" "$fisher_cache"
-        __fisher_log error "
-            I couldn't create the fisherman configuration.
-            You need write permissions in these directories:
-
-            $fish_config
-            $fisher_config
-            $fisher_cache
-        " > /dev/stderr
-
-        return 1
-    end
+    command mkdir -p "$fish_config/"{conf.d,functions,completions} "$fisher_config" "$fisher_cache"
+    or return 1
 
     set -l completions "$fish_config/completions/$fisher_cmd_name.fish"
 
@@ -576,7 +566,6 @@ function __fisher_plugin_url_clone_async -a url name branch
     set -l nc (set_color normal)
     set -l error (set_color $fish_color_error)
     set -l okay (set_color $fish_color_match)
-
     set -l hm_url (printf "%s\n" "$url" | command sed 's|^https://||')
 
     if test ! -z "$branch"
@@ -815,12 +804,18 @@ end
 function __fisher_plugin_disable -a path
     set -l plugin_name (basename $path)
 
+    for i in "$path/functions/uninstall.fish" "$path/uninstall.fish"
+        if test -s "$i"
+            builtin source "$i" ^ /dev/null
+            break
+        end
+    end
+
     for file in $path/{functions/*,}*.fish
         set -l name (basename "$file" .fish)
         set -l base "$name.fish"
 
         if test "$base" = "uninstall.fish"
-            builtin source "$file" ^ /dev/null
             continue
         end
 
@@ -937,10 +932,6 @@ function __fisher_remove
 
     for i in $orphans
         __fisher_remove "$i" > /dev/stderr
-    end
-
-    for i in $removed
-        __fisher_log info "Remove &$i&" "$__fisher_stderr"
     end
 end
 
@@ -1913,8 +1904,8 @@ function __fisher_complete
 
     if test ! -s "$fisher_cache/.index"
         if test ! -z "$config"
-            complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$config"
-            complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$fisher_active_prompt" -d "Prompt"
+            complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from l ls list u up update r rm remove h help" -a "$config"
+            complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from l ls list u up update r rm remove h help" -a "$fisher_active_prompt" -d "Prompt"
         end
         return
     end
@@ -1925,7 +1916,7 @@ function __fisher_complete
         set -l path (command readlink "$name")
         set -l name (command basename "$name" | sed "s|$real_home|~|")
 
-        complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$name" -d "$path"
+        complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from l ls list u up update r rm remove h help" -a "$name" -d "$path"
     end
 
     set -l IFS \t
@@ -1946,7 +1937,7 @@ function __fisher_complete
         complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from info ls-remote" -a "$name" -d "$info"
 
         if contains -- "$name" $config
-            complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$name" -d "$info"
+            complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from l ls list u up update r rm remove h help" -a "$name" -d "$info"
         else
             complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from i in install" -a "$name" -d "$info"
         end
@@ -1958,7 +1949,7 @@ function __fisher_complete
                 case fisherman\*
                 case \*
                     set -l name (__fisher_plugin_get_names "$i")[1]
-                    complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from l ls list u up update r rm remove" -a "$name" -d "$i"
+                    complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from l ls list u up update r rm remove h help" -a "$name" -d "$i"
             end
         end
     end
@@ -1966,7 +1957,7 @@ end
 
 
 function __fisher_humanize_duration
-    awk '
+    command awk '
         function hmTime(time,   stamp) {
             split("h:m:s:ms", units, ":")
 
@@ -1992,12 +1983,9 @@ end
 
 function __fisher_get_key
     stty -icanon -echo ^ /dev/null
-
     printf "$argv" > /dev/stderr
-
     while true
         dd bs=1 count=1 ^ /dev/null | read -p "" -l yn
-
         switch "$yn"
             case y Y n N
                 printf "\n" > /dev/stderr
@@ -2005,7 +1993,6 @@ function __fisher_get_key
                 break
         end
     end
-
     stty icanon echo > /dev/stderr ^ /dev/null
 end
 
@@ -2029,7 +2016,6 @@ switch (command uname)
             if test -z "$elapsed"
                 set elapsed 0
             end
-
             math (command date "+%s%3N") - $elapsed
         end
 end
@@ -2038,13 +2024,11 @@ end
 function __fisher_parse_column_output
     command awk -v FS=\t '
         {
-
             for (i = 1; i <= NF; i++) {
                 if ($i != "") {
                     print $i
                 }
             }
-
         }
     '
 end
@@ -2070,7 +2054,7 @@ function __fisher_usage
     echo "      "$u"i"$nc"nstall (default)"
     echo "      "$u"u"$nc"pdate"
     echo "      "$u"r"$nc"m"
-    echo "      "$u"l"$nc"s (or ls-remote [--format FMT])"
+    echo "      "$u"l"$nc"s (or ls-remote [--format=FORMAT])"
     echo "      "$u"h"$nc"elp"
 end
 
@@ -2097,7 +2081,6 @@ function __fisher_help -a cmd number
         end
 
         man -P "$pager" -- "$page"
-
         command rm -f "$page"
 
     else
