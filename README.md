@@ -22,7 +22,7 @@
 
 A plugin manager for [fish].
 
-Translations: [日本語], [简体中文], [한국어], [Русский], [Català], [Português], [Español], [Deutsch].
+Translations: [日本語], [简体中文], [한국어], [Русский], [Português], [Español], [Català], [Deutsch].
 
 ## Install
 
@@ -47,7 +47,7 @@ Install a plugin.
 fisher mono
 ```
 
-Install from multiple sources.
+Install some plugins.
 
 ```
 fisher z fzf edc/bass omf/thefuck
@@ -59,32 +59,32 @@ Install a gist.
 fisher https://gist.github.com/username/1f40e1c6e0551b2666b2
 ```
 
-Install from a local directory.
+Install a local directory.
 
 ```sh
-fisher ~/plugin
+fisher ~/my/plugin
 ```
 
-Edit your [fishfile](#what-is-a-fishfile-and-how-do-i-use-it) and run `fisher` to apply changes.
+Edit your [fishfile](#what-is-a-fishfile-and-how-do-i-use-it) and run `fisher` to commit changes.
 
 ```sh
 $EDITOR ~/.config/fish/fishfile
 fisher
 ```
 
-List what you've installed.
+Show what you've installed.
 
 ```ApacheConf
 fisher ls
 @ plugin     # a local plugin
-* mono       # current prompt
+* mono       # current theme
   bass
   fzf
   thefuck
   z
 ```
 
-List everything that's available.
+Show everything that's available.
 
 ```
 fisher ls-remote
@@ -120,19 +120,13 @@ Get help.
 fisher help z
 ```
 
-Uninstall fisherman.
-
-```
-fisher self-uninstall
-```
-
 ## FAQ
 
 ### What is the required fish version?
 
 \>=2.2.0.
 
-For [snippet](#what-is-a-plugin) support, upgrade to >=2.3.0 or append the following code to your *~/.config/fish/config.fish*.
+For [snippet](#what-is-a-plugin) support, upgrade to >=2.3.0 or append the following code to your ~/.config/fish/config.fish.
 
 ```fish
 for file in ~/.config/fish/conf.d/*.fish
@@ -146,15 +140,15 @@ Yes.
 
 ### Where does fisherman put stuff?
 
-The cache and configuration go in *~/.cache/fisherman* and *~/.config/fisherman* respectively.
+The cache and configuration go in ~/.cache/fisherman and ~/.config/fisherman respectively.
 
-The fishfile is saved to *~/.config/fish/fishfile*.
+The fishfile is saved to ~/.config/fish/fishfile.
 
 ### What is a fishfile and how do I use it?
 
-The fishfile *~/.config/fish/fishfile* lists all the installed plugins.
+The fishfile ~/.config/fish/fishfile lists what plugins you've installed.
 
-You can let fisherman take care of this file for you automatically, or write in the plugins you want and run `fisher` to satisfy the changes.
+This file is updated automatically as you use fisherman to install and remove plugins. You can also edit this file and run `fisher` to commit changes.
 
 This mechanism only installs plugins and missing dependencies. To remove plugins, use `fisher rm`.
 
@@ -162,12 +156,12 @@ This mechanism only installs plugins and missing dependencies. To remove plugins
 
 A plugin is:
 
-1. a directory or git repo with one or more *.fish* functions either at the root level of the project or inside a *functions* directory
+1. a directory or git repo with one or more .fish functions either at the root level of the project or inside a functions directory
 
-2. a theme or prompt, i.e, a *fish_prompt.fish*, *fish_right_prompt.fish* or both files
+2. a theme or prompt, i.e, a fish_prompt.fish, fish_right_prompt.fish or both files
 
-3. a snippet, i.e, one or more *.fish* files inside a directory named *conf.d*, evaluated by fish at the start of the session
+3. a snippet, i.e, one or more .fish files inside a directory named *conf.d*, evaluated by fish at the start of the session
 
 ### How can I list plugins as dependencies to my plugin?
 
-Create a new *fishfile* file at the root level of your project and write in the plugins you'd like to depend on.
+Create a new fishfile file at the root level of your project and write the plugin URL such as *github.com/owner/repo*.
