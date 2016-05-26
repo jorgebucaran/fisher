@@ -2126,12 +2126,6 @@ end
 
 function __fisher_self_uninstall -a yn
     set -l file (status --current-filename)
-
-    if test -z "$fish_config" -o -z "$fisher_cache" -o -z "$fisher_config" -o -L "$fisher_cache" -o -L "$fisher_config" -o "$file" != "$fish_config/functions/$fisher_cmd_name.fish"
-        __fisher_log info "Use your package manager to uninstall fisherman."
-        return 1
-    end
-
     set -l u (set_color -u)
     set -l nc (set_color normal)
 
@@ -2149,7 +2143,7 @@ function __fisher_self_uninstall -a yn
 
             " /dev/stderr
 
-            echo -sn "Shall we to continue? [Y/n] " > /dev/stderr
+            echo -sn "Continue? [Y/n] " > /dev/stderr
 
             __fisher_get_key | read -l yn
 
@@ -2201,7 +2195,7 @@ function __fisher_man_page_write
 \fBfisherman\fR \- fish plugin manager
 .
 .SH "SYNOPSIS"
-'"$fisher_cmd_name"' [(\-q | \-\-quiet)] [(\fBi\fRnstall | \fBu\fRpdate | \fBl\fRs[\-remote] | \fBr\fRm | \fBh\fRelp) PLUGINS]
+'"$fisher_cmd_name"' [(\fBi\fRnstall | \fBu\fRpdate | \fBl\fRs[\-remote] | \fBr\fRm | \fBh\fRelp) PLUGINS]
 .
 .br
 .
@@ -2228,14 +2222,14 @@ Install a plugin\.
 .
 .nf
 
-'"$fisher_cmd_name"' sol
+'"$fisher_cmd_name"' mono
 .
 .fi
 .
 .IP "" 0
 .
 .P
-Install plugins from multiple sources\.
+Install some plugins\.
 .
 .IP "" 4
 .
@@ -2261,20 +2255,20 @@ Install a gist\.
 .IP "" 0
 .
 .P
-Install a local directory as a plugin\.
+Install a local directory\.
 .
 .IP "" 4
 .
 .nf
 
-'"$fisher_cmd_name"' ~/plugin
+'"$fisher_cmd_name"' ~/my/plugin
 .
 .fi
 .
 .IP "" 0
 .
 .P
-Edit your \fIfishfile\fR and run \fB'"$fisher_cmd_name"'\fR to satisfy changes\.
+Edit your \fIfishfile\fR and run \fB'"$fisher_cmd_name"'\fR to commit changes\.
 .
 .IP "" 4
 .
@@ -2288,7 +2282,7 @@ $EDITOR ~/\.config/fish/fishfile
 .IP "" 0
 .
 .P
-List what you\'ve installed\.
+Show everything you\'ve installed\.
 .
 .IP "" 4
 .
@@ -2296,10 +2290,10 @@ List what you\'ve installed\.
 
 '"$fisher_cmd_name"' ls
 @ plugin     # a local directory
-* sol        # the current prompt
+* mono       # the current prompt
   bass
   fzf
-  tab
+  thefuck
   z
 .
 .fi
@@ -2307,7 +2301,7 @@ List what you\'ve installed\.
 .IP "" 0
 .
 .P
-List everything that\'s available\.
+Show everything that\'s available\.
 .
 .IP "" 4
 .
@@ -2384,19 +2378,6 @@ Get help\.
 .
 .IP "" 0
 .
-.P
-Uninstall fisherman\.
-.
-.IP "" 4
-.
-.nf
-
-'"$fisher_cmd_name"' self\-uninstall
-.
-.fi
-.
-.IP "" 0
-.
 .SH "FAQ"
 .
 .SS "What is the required fish version?"
@@ -2427,10 +2408,10 @@ The cache and configuration go in \fI~/\.cache/fisherman\fR and \fI~/\.config/fi
 The fishfile is saved to \fI~/\.config/fish/fishfile\fR\.
 .
 .SS "What is a fishfile and how do I use it?"
-The fishfile lists all the installed plugins\.
+The fishfile \fI~/\.config/fish/fishfile\fR lists what plugins you\'ve installed\.
 .
 .P
-You can let fisherman take care of this file for you automatically, or write in the plugins you want and run \fBfisher\fR to satisfy the changes\.
+This file is updated automatically as you install / remove plugins. You can also edit this file and run \fBfisher\fR to commit changes\.
 .
 .P
 This mechanism only installs plugins and missing dependencies\. To remove plugins, use \fBfisher rm\fR\.
@@ -2450,5 +2431,5 @@ a snippet, i\.e, one or more \fI\.fish\fR files inside a directory named \fIconf
 .IP "" 0
 .
 .SS "How can I list plugins as dependencies to my plugin?"
-Create a new \fIfishfile\fR file at the root level of your project and write in your plugin dependencies\.'
+Create a new \fIfishfile\fR file at the root level of your project and write in the plugins\.'
 end
