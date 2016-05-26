@@ -14,6 +14,7 @@
 [Português]: https://github.com/fisherman/fisherman/wiki/Portugu%C3%AAs
 [Español]: https://github.com/fisherman/fisherman/wiki/Espa%C3%B1ol
 [Deutsch]: https://github.com/fisherman/fisherman/wiki/Deutsch
+[فارسی]: https://github.com/fisherman/fisherman/wiki/%D9%81%D8%A7%D8%B1%D8%B3%DB%8C
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
@@ -22,7 +23,7 @@
 
 A plugin manager for [fish].
 
-Translations: [日本語], [简体中文], [한국어], [Русский], [Português], [Español], [Català], [Deutsch].
+Translations: [日本語], [简体中文], [한국어], [Русский], [Português], [Español], [Català], [Deutsch], [فارسی].
 
 ## Install
 
