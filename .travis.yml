@@ -6,3 +6,5 @@ before_install:
 script:
     - curl -Lo ~/.config/fish/functions/f.fish --create-dirs git.io/fisherman
     - fish -c "f --version"
+    - fish -c "f mono; f ls"
+    - fish -c "f ls-remote"
