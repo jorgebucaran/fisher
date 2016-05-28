@@ -131,13 +131,23 @@ end
 
 Yes.
 
+### Where does fisherman put stuff?
+
+The configuration and cache are saved to ~/.config/fisherman and ~/.cache/fisherman respectively.
+
+The fishfile and plugins are saved to ~/.config/fish by default.
+
+To customize this location:
+
+```fish
+set fish_path ~/my/path
+```
+
 ### What is a fishfile and how do I use it?
 
-The fishfile ~/.config/fish/fishfile lists what plugins you've installed.
+The fishfile lists what you've installed, and it's automatically updated as you install / remove plugins.
 
-This file is updated automatically as you install / remove plugins. You can also edit this file and run `fisher` to commit changes.
-
-This mechanism only installs plugins and missing dependencies. To remove plugins, use `fisher rm`.
+If you prefer, you can edit this file and run `fisher` to install missing plugins and dependencies.
 
 ### What is a plugin?
 
@@ -151,4 +161,4 @@ A plugin is:
 
 ### How can I list plugins as dependencies to my plugin?
 
-Create a new fishfile file at the root level of your project and write the plugin URL such as *github.com/owner/repo*.
+Create a new fishfile at the root level of your project and write the plugin URL such as *github.com/owner/repo*.
