@@ -28,7 +28,7 @@ Translations: [日本語], [简体中文], [한국어], [Русский], [Portu
 ## Install
 
 ```sh
-curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisherman
+curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher
 ```
 
 ## Usage
