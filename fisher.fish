@@ -1226,7 +1226,7 @@ function __fisher_list_remote -a format
             gsub(/%url/, url, fmt)
             gsub(/%info/, info, fmt)
 
-            printf(fmt)
+            printf("%s", fmt)
         }
 
         BEGIN {
