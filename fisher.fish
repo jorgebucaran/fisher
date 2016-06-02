@@ -479,7 +479,7 @@ function __fisher_plugin_fetch_items
                 end
 
             case \*
-                printf "%s\n" "$i" | sed 's/[@:]\(.*\)/ \1/' | read i branch
+                printf "%s\n" "$i" | sed 's/[@]\(.*\)/ \1/' | read i branch
                 set names (__fisher_plugin_get_names "$i")
         end
 
@@ -1606,7 +1606,7 @@ function __fisher_plugin_get_names
         {
             sub(/\/$/, "")
             n = split($0, s, "/")
-            sub(/^(omf|omf-theme|omf-plugin|plugin|theme|fish|fisher)-/, "", s[n])
+            sub(/^(omf|omf-theme|omf-plugin|plugin|theme|fish|fisher|fish-plugin|fish-theme)-/, "", s[n])
 
             printf("%s\n%s\n", s[n], s[n - 1])
         }
