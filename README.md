@@ -114,19 +114,6 @@ fisher help z
 
 ## FAQ
 
-### What is the required fish version?
-[2.3.0]: https://github.com/fish-shell/fish-shell/releases/tag/2.3.0
-
-\>=2.2.0.
-
-For [snippet](#what-is-a-plugin) support, upgrade to >=[2.3.0] or append the following code to your ~/.config/fish/config.fish.
-
-```fish
-for file in ~/.config/fish/conf.d/*.fish
-    source $file
-end
-```
-
 ### Is fisherman compatible with oh-my-fish themes and plugins?
 
 Yes.
@@ -165,22 +152,9 @@ Create a new fishfile at the root level of your project and write the plugin URL
 
 ### Why am I receiving errors when running `fisher ls-remote`?
 
-If you are consistently seeing the following error while repeatedly running `fisher ls-remote`:
-
-```
-! I could not update the remote index.
-
-This is most likely a problem with http://api.github.com/
-or a connection timeout. If the problem persists, open an
-issue in: <github.com/fisherman/fisherman/issues>
-```
-
-You may need to set the GITHUB_USER and GITHUB_TOKEN environment variables in your shell, to prevent github's search api from
-throttling/rejecting anonymous requests:
+You may need to set the GITHUB_USER and GITHUB_TOKEN environment variables in your shell, to prevent github's search api from throttling/rejecting anonymous requests:
 
 ```
 set -x GITHUB_USER your_username
 set -x GITHUB_TOKEN your_github_api_token_for_fisherman
 ```
-
-For instructions on creating an api token, [see Step 1 of this help guide from Christopher Anderson](https://gist.github.com/christopheranderton/8644743#step-1---create-a-personal-access-token-for-homebrew)
