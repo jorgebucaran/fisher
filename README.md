@@ -142,9 +142,9 @@ A plugin is:
 
 1. a directory or git repo with one or more .fish functions either at the root level of the project or inside a functions directory
 
-2. a theme or prompt, i.e, a fish_prompt.fish, fish_right_prompt.fish or both files
+2. a theme or prompt: a fish_prompt.fish and/or fish_right_prompt.fish
 
-3. a snippet, i.e, one or more .fish files inside a directory named *conf.d*, evaluated by fish at the start of the session
+3. a snippet: one or more .fish files inside a directory named *conf.d*, run by fish at the start of the session
 
 ### How can I list plugins as dependencies to my plugin?
 
@@ -152,9 +152,9 @@ Create a new fishfile at the root level of your project and write the plugin URL
 
 ### Why am I receiving errors when running `fisher ls-remote`?
 
-You may need to set the GITHUB_USER and GITHUB_TOKEN environment variables in your shell, to prevent github's search api from throttling/rejecting anonymous requests:
+You can export the GITHUB_USER and GITHUB_TOKEN environment variables in your shell, to prevent GitHub's search API from rejecting anonymous requests:
 
-```
+```fish
 set -x GITHUB_USER your_username
 set -x GITHUB_TOKEN your_github_api_token_for_fisherman
 ```
