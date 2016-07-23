@@ -88,7 +88,7 @@ Update everything.
 fisher up
 ```
 
-Update some plugins.
+Update plugins.
 
 ```
 fisher up bass z fzf
