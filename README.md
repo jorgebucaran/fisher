@@ -7,6 +7,7 @@
 [fisherman]: http://fisherman.sh
 
 [日本語]: https://github.com/fisherman/fisherman/wiki/%E6%97%A5%E6%9C%AC%E8%AA%9E
+[繁體中文]: https://github.com/fisherman/fisherman/wiki/%E7%B9%81%E9%AB%94%E4%B8%AD%E6%96%87
 [简体中文]: https://github.com/fisherman/fisherman/wiki/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87
 [한국어]: https://github.com/fisherman/fisherman/wiki/%ED%95%9C%EA%B5%AD%EC%96%B4
 [Русский]: https://github.com/fisherman/fisherman/wiki/%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9
@@ -23,7 +24,7 @@
 
 A plugin manager for [fish].
 
-Translations: [日本語], [简体中文], [한국어], [Русский], [Português], [Español], [Català], [Deutsch], [فارسی].
+Translations: [日本語], [繁體中文], [简体中文], [한국어], [Русский], [Português], [Español], [Català], [Deutsch], [فارسی].
 
 ## Install
 
