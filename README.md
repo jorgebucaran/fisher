@@ -141,7 +141,7 @@ If you prefer, you can edit this file and run `fisher` to install missing plugin
 
 A plugin is:
 
-1. a directory or git repo with one or more .fish functions either at the root level of the project or inside a functions directory
+1. a directory with one or more .fish functions either at the root level of the project or inside a functions directory
 
 2. a theme or prompt: a fish_prompt.fish and/or fish_right_prompt.fish
 
