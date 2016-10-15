@@ -554,8 +554,8 @@ end
 
 function __fisher_plugin_url_clone_async -a url name branch
     switch "$url"
-        case https://\*
-        case github.com/\*
+        case http://\* https://\*
+        case {gitlab.com,github.com,bitbucket.org}\*
             set url "https://$url"
 
         case \?\*/\?\*
