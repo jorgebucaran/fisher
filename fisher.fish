@@ -30,7 +30,7 @@ function $fisher_cmd_name -d "fish plugin manager"
             return 1
     end
 
-    set -g fisher_version "2.10.0"
+    set -g fisher_version "2.11.0"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
     set -g __fisher_stdout /dev/stdout
     set -g __fisher_stderr /dev/stderr
