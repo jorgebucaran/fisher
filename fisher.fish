@@ -1,18 +1,16 @@
 if not set -q fisher_cmd_name
     status --current-filename | command awk '
-
         {
-            cmd = "fisher"
-
             if (n = split($0, parts, "/")) {
                 gsub(/\.fish$/, "", parts[n])
                 print(parts[n])
             }
-
-            print(cmd)
         }
-
     ' | read -gx fisher_cmd_name
+end
+
+if test -z "$fisher_cmd_name"
+    set -gx fisher_cmd_name "fisher"
 end
 
 function $fisher_cmd_name -d "fish plugin manager"
