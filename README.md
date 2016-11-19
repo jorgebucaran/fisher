@@ -84,6 +84,12 @@ Show everything that's available.
 fisher ls-remote
 ```
 
+Show a plugin's description.
+
+```
+fisher ls-remote fzf
+```
+
 Update everything.
 
 ```
