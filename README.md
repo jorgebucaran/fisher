@@ -84,6 +84,12 @@ Show everything that's available.
 fisher ls-remote
 ```
 
+Show additional information about available plugins:
+
+```
+fisher ls-remote --format="%name(%stars): %info [%url]\n"
+```
+
 Update everything.
 
 ```
