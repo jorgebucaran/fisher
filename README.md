@@ -39,13 +39,13 @@ curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher
 Install a plugin.
 
 ```
-fisher mono
+fisher z
 ```
 
-Install some plugins.
+Install more plugins.
 
 ```
-fisher z fzf edc/bass omf/thefuck
+fisher z fzf edc/bass omf/thefuck omf/theme-bobthefish
 ```
 
 Install a gist.
@@ -54,10 +54,10 @@ Install a gist.
 fisher https://gist.github.com/username/1f40e1c6e0551b2666b2
 ```
 
-Install a local directory.
+Install a local plugin.
 
 ```sh
-fisher ~/my/plugin
+fisher ~/my/awesome/plugin
 ```
 
 Edit your [fishfile](#what-is-a-fishfile-and-how-do-i-use-it) and run `fisher` to commit changes.
@@ -71,21 +71,21 @@ Show everything you've installed.
 
 ```ApacheConf
 fisher ls
-@ plugin     # a local plugin
-* mono       # current theme
+@ plugin        # a local plugin
+* bobthefish    # current theme
   bass
   fzf
   thefuck
   z
 ```
 
-Show everything that's available.
+Show everything available to install.
 
 ```
 fisher ls-remote
 ```
 
-Show additional information about available plugins:
+Show additional information about plugins:
 
 ```
 fisher ls-remote --format="%name(%stars): %info [%url]\n"
@@ -97,7 +97,7 @@ Update everything.
 fisher up
 ```
 
-Update plugins.
+Update specific plugins.
 
 ```
 fisher up bass z fzf
@@ -143,21 +143,21 @@ set -U fish_path ~/my/path
 
 The fishfile lists what you've installed, and it's automatically updated as you install / remove plugins.
 
-If you prefer, you can edit this file and run `fisher` to install missing plugins and dependencies.
+You can edit this file and run `fisher` to install missing plugins and dependencies.
 
 ### What is a plugin?
 
 A plugin is:
 
-1. a directory with one or more .fish functions either at the root level of the project or inside a functions directory
+1. a directory with one or more .fish functions at the root level of the project or inside a functions/ directory
 
 2. a theme or prompt: a fish_prompt.fish and/or fish_right_prompt.fish
 
-3. a snippet: one or more .fish files inside a directory named *conf.d*, run by fish at the start of the session
+3. a snippet: one or more .fish files inside a conf.d/ directory, run by fish at the start of the session
 
 ### How can I list plugins as dependencies to my plugin?
 
-Create a new fishfile at the root level of your project and write the plugin URL such as *github.com/owner/repo*.
+Create a new fishfile at the root level of your project and write the plugin URL like so *github.com/owner/repo*.
 
 ### Why am I receiving errors when running `fisher ls-remote`?
 
