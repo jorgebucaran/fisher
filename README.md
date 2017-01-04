@@ -57,7 +57,7 @@ fisher https://gist.github.com/username/1f40e1c6e0551b2666b2
 Install a local plugin.
 
 ```sh
-fisher ~/my/awesome/my_plugin
+fisher ~/path/to/my_plugin
 ```
 
 Edit your [fishfile](#what-is-a-fishfile-and-how-do-i-use-it) and run `fisher` to commit changes.
