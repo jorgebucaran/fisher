@@ -1,10 +1,11 @@
 sudo: required
 before_install:
-    - sudo add-apt-repository -y ppa:fish-shell/release-2
+    - sudo add-apt-repository -y ppa:fish-shell/nightly-master
     - sudo apt-get update
     - sudo apt-get -y install fish
 script:
     - curl -Lo ~/.config/fish/functions/f.fish --create-dirs git.io/fisher
     - fish -c "f --version"
-    - fish -c "f mono; f ls"
+    - fish -c "f -h"
+    - fish -c "f z; f ls"
     - fish -c "f ls-remote"
