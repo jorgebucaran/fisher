@@ -45,7 +45,7 @@ fisher z
 Install more plugins.
 
 ```
-fisher z fzf edc/bass omf/thefuck omf/theme-bobthefish
+fisher fzf edc/bass omf/thefuck omf/theme-bobthefish
 ```
 
 Install a gist.
@@ -57,7 +57,7 @@ fisher https://gist.github.com/username/1f40e1c6e0551b2666b2
 Install a local plugin.
 
 ```sh
-fisher ~/my/awesome/plugin
+fisher ~/my/awesome/my_plugin
 ```
 
 Edit your [fishfile](#what-is-a-fishfile-and-how-do-i-use-it) and run `fisher` to commit changes.
@@ -71,7 +71,7 @@ Show everything you've installed.
 
 ```ApacheConf
 fisher ls
-@ plugin        # a local plugin
+@ my_plugin     # a local plugin
 * bobthefish    # current theme
   bass
   fzf
