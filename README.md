@@ -1,11 +1,3 @@
-[slack-link]: https://fisherman-wharf.herokuapp.com
-[slack-badge]: https://fisherman-wharf.herokuapp.com/badge.svg
-[travis-link]: https://travis-ci.org/fisherman/fisherman
-[travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg
-
-[fish]: https://fish.sh
-[fisherman]: http://fisherman.sh
-
 [日本語]: https://github.com/fisherman/fisherman/wiki/%E6%97%A5%E6%9C%AC%E8%AA%9E
 [繁體中文]: https://github.com/fisherman/fisherman/wiki/%E7%B9%81%E9%AB%94%E4%B8%AD%E6%96%87
 [简体中文]: https://github.com/fisherman/fisherman/wiki/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87
@@ -19,10 +11,10 @@
 [Français]: https://github.com/fisherman/fisherman/wiki/Fran%C3%A7ais
 [Türkçe]: https://github.com/fisherman/fisherman/wiki/T%C3%BCrk%C3%A7e
 
+# [fisherman]
+
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
-
-# [fisherman]
 
 A plugin manager for [fish].
 
@@ -167,3 +159,11 @@ You can export the GITHUB_USER and GITHUB_TOKEN environment variables in your sh
 set -x GITHUB_USER your_username
 set -x GITHUB_TOKEN your_github_api_token_for_fisherman
 ```
+
+[slack-link]: https://fisherman-wharf.herokuapp.com
+[slack-badge]: https://fisherman-wharf.herokuapp.com/badge.svg
+[travis-link]: https://travis-ci.org/fisherman/fisherman
+[travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg
+
+[fish]: https://fish.sh
+[fisherman]: http://fisherman.sh
