@@ -166,4 +166,4 @@ set -x GITHUB_TOKEN your_github_api_token_for_fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg
 
 [fish]: https://fish.sh
-[fisherman]: http://fisherman.github.io
+[fisherman]: https://fisherman.github.io
