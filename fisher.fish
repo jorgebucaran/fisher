@@ -30,7 +30,7 @@ function $fisher_cmd_name -d "fish plugin manager"
             return 1
     end
 
-    set -g fisher_version "2.11.0"
+    set -g fisher_version "2.12.0"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
     set -g __fisher_stdout /dev/stdout
     set -g __fisher_stderr /dev/stderr
@@ -257,7 +257,7 @@ function $fisher_cmd_name -d "fish plugin manager"
             __fisher_log info "Done in &"(__fisher_get_epoch_in_ms $elapsed | __fisher_humanize_duration)"&" "$__fisher_stderr"
 
         case ls
-            if test "$argv" -ge 0 -o "$argv" = -
+            if test (count "$argv") -ge 0 -o "$argv" = -
                 if isatty stdout
                     __fisher_list | column -c$argv
                 else
