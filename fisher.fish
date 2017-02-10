@@ -28,6 +28,30 @@ function $fisher_cmd_name -d "fish plugin manager"
             end
 
             return 1
+
+        case 2.2.0
+            __fisher_log info "
+                You need fish 2.3.0 or higher to take advantage of snippets.
+                Without it some plugins might not work.
+            "
+
+            if type -q brew
+                __fisher_log info "Please run &brew upgrade fish&"
+            else
+                __fisher_log info "
+
+                    Refer to your package manager documentation
+                    for instructions on how to upgrade your fish build.
+
+                    If you can not upgrade, append the following code
+                    to your ~/.config/fish/config.fish:
+
+                    &for file in ~/.config/fish/conf.d/*.fish&
+                    	&source $file&
+                    &end&
+
+                "
+            end
     end
 
     set -g fisher_version "2.12.0"
