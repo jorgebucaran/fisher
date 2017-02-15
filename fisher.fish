@@ -2252,6 +2252,32 @@ Install some plugins\.
 .IP "" 0
 .
 .P
+Install a specific branch\.
+.
+.IP "" 4
+.
+.nf
+
+'"$fisher_cmd_name"' edc/bass:master
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Install a specific tag\.
+.
+.IP "" 4
+.
+.nf
+
+'"$fisher_cmd_name"' done@1.2.0
+.
+.fi
+.
+.IP "" 0
+.
+.P
 Install a gist\.
 .
 .IP "" 4
