@@ -40,6 +40,16 @@ Install more plugins.
 fisher fzf edc/bass omf/thefuck omf/theme-bobthefish
 ```
 
+Install a specific branch.
+```sh
+fisher edc/bass:master
+```
+
+Install a specific tag.
+```sh
+fisher edc/bass@1.2.0
+```
+
 Install a gist.
 
 ```
