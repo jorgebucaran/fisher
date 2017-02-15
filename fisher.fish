@@ -16,18 +16,42 @@ end
 function $fisher_cmd_name -d "fish plugin manager"
     switch "$FISH_VERSION"
         case 2.1.2 2.1.1 2.1.0 2.0.0
-            __fisher_log error "You need fish &2.2.0& or higher to use fisherman."
+            echo "You need fish 2.2.0 or higher to use fisherman."
 
-            if command -s brew > /dev/null
-                __fisher_log info "Run &brew up; brew upgrade --HEAD fish&"
+            if type brew >/dev/null 2>&1
+                echo "Run: brew upgrade fish"
             else
-                __fisher_log info "
+                echo "
                     Refer to your package manager documentation for
                     instructions on how to upgrade your fish build.
                 "
             end
 
             return 1
+
+        case 2.2.0
+            __fisher_log info "
+                You need fish 2.3.0 or higher to take advantage of snippets.
+                Without it some plugins might not work.
+            "
+
+            if type -q brew
+                __fisher_log info "Please run &brew upgrade fish&"
+            else
+                __fisher_log info "
+
+                    Refer to your package manager documentation
+                    for instructions on how to upgrade your fish build.
+
+                    If you can not upgrade, append the following code
+                    to your ~/.config/fish/config.fish:
+
+                    &for file in ~/.config/fish/conf.d/*.fish&
+                    	&source $file&
+                    &end&
+
+                "
+            end
     end
 
     set -g fisher_version "2.12.0"
