@@ -62,7 +62,7 @@ Install a local plugin.
 fisher ~/path/to/my_plugin
 ```
 
-Edit your [fishfile](#what-is-a-fishfile-and-how-do-i-use-it) and run `fisher` to commit changes.
+Edit your [**fishfile**](#what-is-a-fishfile-and-how-do-i-use-it) and run `fisher` to commit changes, e.g. install missing plugins.
 
 ```sh
 $EDITOR ~/.config/fish/fishfile
