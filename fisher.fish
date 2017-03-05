@@ -1644,26 +1644,28 @@ function __fisher_plugin_get_url_info -a option
         return
     end
 
-    command cat {$argv}/.git/config ^ /dev/null | command awk -v option="$option" '
-        /url/ {
-            n = split($3, s, "/")
+    for dir in $argv
+        git -C $dir config remote.origin.url ^ /dev/null | command awk -v option="$option" '
+            {
+                n = split($0, s, "/")
 
-            if ($3 ~ /https:\/\/gist/) {
-                printf("# %s\n", $3)
-                next
+                if ($0 ~ /https:\/\/gist/) {
+                    printf("# %s\n", $0)
+                    next
+                }
+
+                if (option == "--dirname") {
+                    printf("%s\n", s[n - 1])
+
+                } else if (option == "--basename") {
+                    printf("%s\n", s[n])
+
+                } else {
+                    printf("%s/%s\n", s[n - 1], s[n])
+                }
             }
-
-            if (option == "--dirname") {
-                printf("%s\n", s[n - 1])
-
-            } else if (option == "--basename") {
-                printf("%s\n", s[n])
-
-            } else {
-                printf("%s/%s\n", s[n - 1], s[n])
-            }
-        }
-    '
+        '
+    end
 end
 
 
