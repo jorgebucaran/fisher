@@ -16,7 +16,7 @@
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
-A concurrent plugin manager for [fish].
+The [fish-shell] plugin manager.
 
 Translations: [日本語], [繁體中文], [简体中文], [한국어], [Русский], [Português], [Türkçe], [Español], [Français], [Català], [Deutsch], [فارسی].
 
@@ -34,7 +34,7 @@ Install a plugin.
 fisher z
 ```
 
-Install more plugins.
+Install several plugins concurrently.
 
 ```
 fisher fzf edc/bass omf/thefuck omf/theme-bobthefish
@@ -175,5 +175,6 @@ set -x GITHUB_TOKEN your_github_api_token_for_fisherman
 [travis-link]: https://travis-ci.org/fisherman/fisherman
 [travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg
 
-[fish]: https://fish.sh
+[fish]: https://github.com/fish-shell/fish-shell
+[fish-shell]: https://github.com/fish-shell/fish-shell
 [fisherman]: https://fisherman.github.io
