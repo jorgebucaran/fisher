@@ -127,7 +127,11 @@ fisher help z
 
 ### Is fisherman compatible with oh-my-fish themes and plugins?
 
-Yes.
+Yes!
+
+### How can I contribute to fisherman?
+
+You are welcome to join the organization. Just [ask](https://fisherman-wharf.herokuapp.com/) and someone will send you an invite.
 
 ### Where does fisherman put stuff?
 
@@ -156,6 +160,10 @@ A plugin is:
 2. a theme or prompt: a fish_prompt.fish and/or fish_right_prompt.fish
 
 3. a snippet: one or more .fish files inside a conf.d/ directory, run by fish at the start of the session
+
+### How do I create my own plugins?
+
+You can use [fishkit](https://github.com/fisherman/fishkit) to help you scaffold out a new project from scratch.
 
 ### How can I list plugins as dependencies to my plugin?
 
