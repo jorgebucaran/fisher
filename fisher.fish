@@ -1510,7 +1510,7 @@ function __fisher_key_bindings_remove -a plugin_name
             exit 1
         }
 
-    ' < "$user_key_bindings" -a ! -L "$user_key_bindings"
+    ' < "$user_key_bindings"; and test ! -L "$user_key_bindings"
 
         command rm -f "$user_key_bindings"
     end
