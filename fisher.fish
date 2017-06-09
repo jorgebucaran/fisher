@@ -1492,7 +1492,9 @@ function __fisher_key_bindings_remove -a plugin_name
 
     fish_indent < "$user_key_bindings" | command sed -n "/### $plugin_name ###/,/### $plugin_name ###/{s/^ *bind /bind -e /p;};" | builtin source ^ /dev/null
 
-    command sed --follow-symlinks -i "/### $plugin_name ###/,/### $plugin_name ###/d" "$user_key_bindings"
+    command sed "/### $plugin_name ###/,/### $plugin_name ###/d" < "$user_key_bindings" > "$user_key_bindings.$tmp"
+    command cat "$user_key_bindings.$tmp" > "$user_key_bindings"
+    command rm "$user_key_bindings.$tmp"
 
     if command awk '
         /^$/ { next }
