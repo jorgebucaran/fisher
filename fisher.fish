@@ -47,7 +47,7 @@ function $fisher_cmd_name -d "fish plugin manager"
                     to your ~/.config/fish/config.fish:
 
                     &for file in ~/.config/fish/conf.d/*.fish&
-                    	&source $file&
+                    	&source \$file&
                     &end&
 
                 "
