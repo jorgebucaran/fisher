@@ -117,7 +117,7 @@ function $fisher_cmd_name -d "fish plugin manager"
     command mkdir -p {"$fish_path","$fish_config"}/{conf.d,functions,completions} "$fisher_config" "$fisher_cache"
     or return 1
 
-    set -l completions "$fish_config/completions/$fisher_cmd_name.fish"
+    set -l completions "$fish_path/completions/$fisher_cmd_name.fish"
 
     if test ! -e "$completions"
         echo "$fisher_cmd_name --complete" > "$completions"
