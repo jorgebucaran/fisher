@@ -56,15 +56,31 @@ function $fisher_cmd_name -d "fish plugin manager"
 
     set -g fisher_version "2.13.0"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
-    set -g __fisher_stdout /dev/stdout
-    set -g __fisher_stderr /dev/stderr
+
+    if [ -e /dev/stdout ]
+      set -g __fisher_stdout /dev/stdout
+    else if [ -e /proc/self/fd/1 ]
+      set -g __fisher_stdout /proc/self/fd/1
+    else
+      echo "No suitable stdout"
+      return 1
+    end
+
+    if [ -e /dev/stderr ]
+      set -g __fisher_stderr /dev/stderr
+    else if [ -e /proc/self/fd/2 ]
+      set -g __fisher_stderr /proc/self/fd/2
+    else
+      echo "No suitable stderr"
+      return 1
+    end
 
     function __fisher_show_spinner
         if not set -q __fisher_fg_spinner[1]
             set -g __fisher_fg_spinner $fisher_spinners
         end
 
-        printf "  $__fisher_fg_spinner[1]\r" > /dev/stderr
+        printf "  $__fisher_fg_spinner[1]\r" >&2
 
         set -e __fisher_fg_spinner[1]
     end
@@ -110,7 +126,7 @@ function $fisher_cmd_name -d "fish plugin manager"
             return
 
         case -h
-            __fisher_usage > /dev/stderr
+            __fisher_usage >&2
             return
     end
 
@@ -186,8 +202,8 @@ function $fisher_cmd_name -d "fish plugin manager"
             return
 
         case -\*\?
-            printf "$fisher_cmd_name: '%s' is not a valid option\n" "$argv[1]" > /dev/stderr
-            __fisher_usage > /dev/stderr
+            printf "$fisher_cmd_name: '%s' is not a valid option\n" "$argv[1]" >&2
+            __fisher_usage >&2
             return 1
 
         case \*
@@ -211,11 +227,11 @@ function $fisher_cmd_name -d "fish plugin manager"
             if test -z "$items"
                 __fisher_log info "
                     No plugins to install or dependencies missing.
-                " > /dev/stderr
+                " >&2
 
                 __fisher_log info "
                     See &$fisher_cmd_name help& for usage instructions.
-                " > /dev/stderr
+                " >&2
                 return
             end
         else
@@ -228,12 +244,12 @@ function $fisher_cmd_name -d "fish plugin manager"
             if not command -s git > /dev/null
                 __fisher_log error "
                     git is required to download plugin repositories.
-                " > /dev/stderr
+                " >&2
 
                 __fisher_log info "
                     Please install git and try again.
                     Visit <&https://git-scm.com&> for more information.
-                " > /dev/stderr
+                " >&2
 
                 return 1
             end
@@ -242,12 +258,12 @@ function $fisher_cmd_name -d "fish plugin manager"
             if not command -s curl > /dev/null
                 __fisher_log error "
                     curl is required to query the GitHub API.
-                " > /dev/stderr
+                " >&2
 
                 __fisher_log info "
                     Please install curl and try again.
                     Refer to your package manager documentation for instructions.
-                " > /dev/stderr
+                " >&2
 
                 return 1
             end
@@ -612,7 +628,7 @@ function __fisher_plugin_url_clone_async -a url name branch
             else
                   printf '$error""!""$nc Fetch $error%s$nc %s\n' '$name' '$hm_url' > $__fisher_stderr
             end
-      " > /dev/stderr &
+      " >&2
 
     __fisher_jobs_get -l
 end
@@ -743,7 +759,7 @@ function __fisher_update_path_async -a name path
             printf '$okay""OK""$nc Pulled $okay%s$nc new commit/s $okay%s$nc%s\n' \$commits '$name' \$hm_branch > $__fisher_stderr
         end
 
-    " > /dev/stderr &
+    " >&2 &
 
     __fisher_jobs_get -l
 end
@@ -913,7 +929,7 @@ function __fisher_plugin_disable -a path
         builtin source $__fish_datadir/functions/fish_prompt.fish ^ /dev/null
     end
 
-    command rm -rf "$path" > /dev/stderr
+    command rm -rf "$path" >&2
 end
 
 
@@ -957,7 +973,7 @@ function __fisher_remove
     end
 
     for i in $orphans
-        __fisher_remove "$i" > /dev/stderr
+        __fisher_remove "$i" >&2
     end
 end
 
@@ -1372,7 +1388,7 @@ function __fisher_log -a log message fd
             return
 
         case "" "/dev/stderr"
-            set fd "/dev/stderr"
+            set fd $__fisher_stderr
 
         case \*
             set nc ""
@@ -1455,7 +1471,7 @@ function __fisher_jobs_await
 
     while true
         for spinner in $fisher_spinners
-            printf "  $spinner  \r" > /dev/stderr
+            printf "  $spinner  \r" >&2
             sleep 0.05
         end
 
@@ -1704,7 +1720,7 @@ function __fisher_plugin_get_missing
 
             __fisher_log info "
                 Run &$fisher_cmd_name update& to update fisherman.
-            " > /dev/stderr
+            " >&2
             continue
         end
 
@@ -2008,15 +2024,14 @@ function __fisher_humanize_duration
     '
 end
 
-
 function __fisher_get_key
     stty -icanon -echo ^ /dev/null
-    printf "$argv" > /dev/stderr
+    printf "$argv" >&2
     while true
         dd bs=1 count=1 ^ /dev/null | read -p "" -l yn
         switch "$yn"
             case y Y n N
-                printf "\n" > /dev/stderr
+                printf "\n" >&2
                 printf "%s\n" $yn > /dev/stdout
                 break
         end
@@ -2093,7 +2108,6 @@ function __fisher_version
         __fisher_plugin_normalize_path (status -f) | command sed "s|$real_home|~|;s|$__fish_datadir|\$__fish_datadir|")
 end
 
-
 function __fisher_help -a cmd number
     if test -z "$argv"
         set -l page "$fisher_cache/$fisher_cmd_name.1"
@@ -2102,13 +2116,22 @@ function __fisher_help -a cmd number
             __fisher_man_page_write > "$page"
         end
 
-        set -l pager "/usr/bin/less -s"
+        if [ "$PREFIX" = "/data/data/com.termux/files/usr" ]
 
-        if test ! -z "$PAGER"
-            set pager "$PAGER"
+          mandoc -a "$page"
+
+        else
+
+          set -l pager "/usr/bin/less -s"
+
+          if test ! -z "$PAGER"
+              set pager "$PAGER"
+          end
+
+          man -P "$pager" -- "$page"
+
         end
 
-        man -P "$pager" -- "$page"
         command rm -f "$page"
 
     else
@@ -2152,9 +2175,9 @@ function __fisher_self_uninstall -a yn
                 $fish_config/functions/$fisher_cmd_name.fish
                 $fish_config/completions/$fisher_cmd_name.fish
 
-            " /dev/stderr
+            " &2
 
-            echo -sn "Continue? [Y/n] " > /dev/stderr
+            echo -sn "Continue? [Y/n] " >&2
 
             __fisher_get_key | read -l yn
 
