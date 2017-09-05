@@ -2175,7 +2175,7 @@ function __fisher_self_uninstall -a yn
                 $fish_config/functions/$fisher_cmd_name.fish
                 $fish_config/completions/$fisher_cmd_name.fish
 
-            " &2
+            " >&2
 
             echo -sn "Continue? [Y/n] " >&2
 
