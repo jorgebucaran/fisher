@@ -145,7 +145,7 @@ To customize this location:
 set -U fish_path ~/my/path
 ```
 
-### How do I have fisherman copy plugin files instead of linking
+### How do I have fisherman copy plugin files instead of linking?
 
 By default, fisherman will create symlinks to plugin files.
 
