@@ -116,6 +116,10 @@ function $fisher_cmd_name -d "fish plugin manager"
         set -g fisher_file "$fish_path/fishfile"
     end
 
+    if test -z "$fisher_copy"
+        set -g fisher_copy false
+    end
+
     switch "$argv[1]"
         case --complete
             __fisher_complete
@@ -800,7 +804,11 @@ function __fisher_plugin_enable -a path
             command mv -f "$target" "$backup_target" ^ /dev/null
         end
 
-        command ln -sf "$file" "$target"
+        if eval $fisher_copy
+            command cp -Rf "$file" "$target"
+        else
+            command ln -sf "$file" "$target"
+        end
 
         builtin source "$target" ^ /dev/null
 
@@ -815,19 +823,31 @@ function __fisher_plugin_enable -a path
 
     for file in $path/{functions/,}*.{py,awk}
         set -l base (basename "$file")
-        command ln -sf "$file" "$fish_path/functions/$base"
+        if eval $fisher_copy
+            command cp -Rf "$file" "$fish_path/functions/$base"
+        else
+            command ln -sf "$file" "$fish_path/functions/$base"
+        end
     end
 
     for file in $path/conf.d/*.{py,awk}
         set -l base (basename "$file")
-        command ln -sf "$file" "$fish_path/conf.d/$base"
+        if eval $fisher_copy
+            command cp -Rf "$file" "$fish_path/conf.d/$base"
+        else
+            command ln -sf "$file" "$fish_path/conf.d/$base"
+        end
     end
 
     for file in $path/conf.d/*.fish
         set -l base (basename "$file")
         set -l target "$fish_path/conf.d/$base"
 
-        command ln -sf "$file" "$target"
+        if eval $fisher_copy
+            command cp -Rf "$file" "$target"
+        else
+            command ln -sf "$file" "$target"
+        end
         builtin source "$target" ^ /dev/null
     end
 
@@ -835,7 +855,11 @@ function __fisher_plugin_enable -a path
         set -l base (basename "$file")
         set -l target "$fish_path/completions/$base"
 
-        command ln -sf "$file" "$target"
+        if eval $fisher_copy
+            command cp -Rf "$file" "$target"
+        else
+            command ln -sf "$file" "$target"
+        end
         builtin source "$target" ^ /dev/null
     end
 
