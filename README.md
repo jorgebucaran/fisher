@@ -145,6 +145,16 @@ To customize this location:
 set -U fish_path ~/my/path
 ```
 
+### How do I have fisherman copy plugin files instead of linking
+
+By default, fisherman will create symlinks to plugin files.
+
+To have fisherman copy files:
+
+```fish
+set -U fisher_copy true
+```
+
 ### What is a fishfile and how do I use it?
 
 The fishfile lists what you've installed, and it's automatically updated as you install / remove plugins.
