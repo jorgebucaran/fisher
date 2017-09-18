@@ -804,7 +804,7 @@ function __fisher_plugin_enable -a path
             command mv -f "$target" "$backup_target" ^ /dev/null
         end
 
-        if eval $fisher_copy
+        if test $fisher_copy = true
             command cp -Rf "$file" "$target"
         else
             command ln -sf "$file" "$target"
@@ -823,7 +823,7 @@ function __fisher_plugin_enable -a path
 
     for file in $path/{functions/,}*.{py,awk}
         set -l base (basename "$file")
-        if eval $fisher_copy
+        if test $fisher_copy = true
             command cp -Rf "$file" "$fish_path/functions/$base"
         else
             command ln -sf "$file" "$fish_path/functions/$base"
@@ -832,7 +832,7 @@ function __fisher_plugin_enable -a path
 
     for file in $path/conf.d/*.{py,awk}
         set -l base (basename "$file")
-        if eval $fisher_copy
+        if test $fisher_copy = true
             command cp -Rf "$file" "$fish_path/conf.d/$base"
         else
             command ln -sf "$file" "$fish_path/conf.d/$base"
@@ -843,7 +843,7 @@ function __fisher_plugin_enable -a path
         set -l base (basename "$file")
         set -l target "$fish_path/conf.d/$base"
 
-        if eval $fisher_copy
+        if test $fisher_copy = true
             command cp -Rf "$file" "$target"
         else
             command ln -sf "$file" "$target"
@@ -855,7 +855,7 @@ function __fisher_plugin_enable -a path
         set -l base (basename "$file")
         set -l target "$fish_path/completions/$base"
 
-        if eval $fisher_copy
+        if test $fisher_copy = true
             command cp -Rf "$file" "$target"
         else
             command ln -sf "$file" "$target"
