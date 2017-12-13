@@ -686,11 +686,11 @@ end
 function __fisher_self_update
     set -l file (status --current-filename)
 
-    if test "$file" != "$fish_config/functions/$fisher_cmd_name.fish"
+    if test "$file" != "$fish_path/functions/$fisher_cmd_name.fish"
         return 1
     end
 
-    set -l completions "$fish_config/completions/$fisher_cmd_name.fish"
+    set -l completions "$fish_path/completions/$fisher_cmd_name.fish"
     set -l raw_url "https://raw.githubusercontent.com/fisherman/fisherman/master/fisher.fish"
     set -l fake_qs (date "+%s")
 
