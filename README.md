@@ -139,10 +139,17 @@ The configuration and cache are saved to ~/.config/fisherman and ~/.cache/fisher
 
 The fishfile and plugins are saved to ~/.config/fish by default.
 
-To customize this location:
+To customize this location, add the following to your ~/.config/fish/config.fish file:
 
 ```fish
 set -U fish_path ~/my/path
+
+for file in $fish_path/conf.d/*.fish
+  builtin source $file ^ /dev/null
+end
+
+set fish_function_path $fish_path/functions $fish_function_path
+set fish_complete_path $fish_path/completions $fish_complete_path
 ```
 
 ### What is a fishfile and how do I use it?
