@@ -142,7 +142,7 @@ The fishfile and plugins are saved to ~/.config/fish by default.
 To customize this location, add the following to your ~/.config/fish/config.fish file:
 
 ```fish
-set -g fish_path ~/my/path
+set -U fish_path ~/my/path
 
 for file in $fish_path/conf.d/*.fish
   builtin source $file ^ /dev/null
