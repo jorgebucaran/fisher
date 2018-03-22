@@ -1166,16 +1166,16 @@ function __fisher_remote_index_update
         }
 
         {
-            if ($0 ~ /^name: /) {
-                name = substr($0, 7)
+            if (match($0, /^name:[[:blank:]]*/)) {
+                name = substr($0, RLENGTH+1)
             }
 
-            if ($0 ~ /^description: /) {
-                info = substr($0, 14)
+            if (match($0, /^description:[[:blank:]]*/)) {
+                description = substr($0, RLENGTH+1)
             }
 
-            if ($0 ~ /^stargazers_count: /) {
-                stars = substr($0, 19)
+            if (match($0, /^stargazers_count:[[:blank:]]*/)) {
+                stars = substr($0, RLENGTH+1)
             }
 
             if (name != "" && stars != "") {
