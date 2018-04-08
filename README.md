@@ -184,6 +184,7 @@ You can export the GITHUB_USER and GITHUB_TOKEN environment variables in your sh
 set -x GITHUB_USER your_username
 set -x GITHUB_TOKEN your_github_api_token_for_fisherman
 ```
+If you don't have a GitHub API token, you can [generate one from account settings](https://blog.github.com/2013-05-16-personal-api-tokens/)
 
 [slack-link]: https://fisherman-wharf.herokuapp.com
 [slack-badge]: https://fisherman-wharf.herokuapp.com/badge.svg
