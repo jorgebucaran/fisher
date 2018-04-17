@@ -1171,7 +1171,7 @@ function __fisher_remote_index_update
             }
 
             if (match($0, /^description:[[:blank:]]*/)) {
-                description = substr($0, RLENGTH+1)
+                info = substr($0, RLENGTH+1)
             }
 
             if (match($0, /^stargazers_count:[[:blank:]]*/)) {
