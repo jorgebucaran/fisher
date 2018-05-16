@@ -145,7 +145,7 @@ To customize this location, add the following to your ~/.config/fish/config.fish
 set -U fish_path ~/my/path
 
 for file in $fish_path/conf.d/*.fish
-  builtin source $file ^ /dev/null
+  builtin source $file 2> /dev/null
 end
 
 set fish_function_path $fish_path/functions $fish_function_path
