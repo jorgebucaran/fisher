@@ -626,7 +626,7 @@ function __fisher_plugin_url_clone_async -a url name branch
                 command rm -rf '$fisher_cache/$name'
             end
 
-            if command git clone $branch -q --depth 1 '$url' '$fisher_cache/$name' ^ /dev/null
+            if command git clone $branch -q --depth 1 '$url' '$fisher_cache/$name' 2> /dev/null
                   printf '$okay""OK""$nc Fetch $okay%s$nc %s\n' '$name' '$hm_url' > $__fisher_stderr
                   command cp -Rf '$fisher_cache/$name' '$fisher_config'
             else
@@ -708,14 +708,14 @@ function __fisher_self_update
         command mv "$file.$fake_qs" "$file"
     end
 
-    builtin source "$file" ^ /dev/null
+    builtin source "$file" 2> /dev/null
 
     echo "$fisher_cmd_name -v" | source > /dev/null
 
     set -l new_version "$fisher_version"
 
     echo "$fisher_cmd_name --complete" > "$completions"
-    builtin source "$completions" ^ /dev/null
+    builtin source "$completions" 2> /dev/null
 
     if test "$previous_version" = "$fisher_version"
         __fisher_log okay "fisherman is up to date" "$__fisher_stderr"
@@ -735,7 +735,7 @@ function __fisher_update_path_async -a name path
 
         pushd $path
 
-        set -l branch (basename (command git symbolic-ref HEAD ^ /dev/null))
+        set -l branch (basename (command git symbolic-ref HEAD 2> /dev/null))
         set -l hm_branch
 
         if test -z \"\$branch\"
@@ -746,14 +746,14 @@ function __fisher_update_path_async -a name path
             set hm_branch \" (\$branch)\"
         end
 
-        if not command git fetch -q origin \$branch ^ /dev/null
+        if not command git fetch -q origin \$branch 2> /dev/null
             printf '$error""!""$nc Fetch $error%s$nc\n' '$name' > $__fisher_stderr
             exit
         end
 
-        set -l commits (command git rev-list --left-right --count \$branch..FETCH_HEAD ^ /dev/null | cut -d\t -f2)
+        set -l commits (command git rev-list --left-right --count \$branch..FETCH_HEAD 2> /dev/null | cut -d\t -f2)
 
-        command git reset -q --hard FETCH_HEAD ^ /dev/null
+        command git reset -q --hard FETCH_HEAD 2> /dev/null
         command git clean -qdfx
         command cp -Rf '$path/.' '$fisher_cache/$name'
 
@@ -801,7 +801,7 @@ function __fisher_plugin_enable -a path
 
             __fisher_log info "Backup &$base&" "$__fisher_stderr"
 
-            command mv -f "$target" "$backup_target" ^ /dev/null
+            command mv -f "$target" "$backup_target" 2> /dev/null
         end
 
         if test $fisher_copy = true
@@ -810,7 +810,7 @@ function __fisher_plugin_enable -a path
             command ln -sf "$file" "$target"
         end
 
-        builtin source "$target" ^ /dev/null
+        builtin source "$target" 2> /dev/null
 
         if test "$base" = "set_color_custom.fish"
             if test ! -s "$fish_path/fish_colors"
@@ -848,7 +848,7 @@ function __fisher_plugin_enable -a path
         else
             command ln -sf "$file" "$target"
         end
-        builtin source "$target" ^ /dev/null
+        builtin source "$target" 2> /dev/null
     end
 
     for file in $path/completions/*.fish
@@ -860,7 +860,7 @@ function __fisher_plugin_enable -a path
         else
             command ln -sf "$file" "$target"
         end
-        builtin source "$target" ^ /dev/null
+        builtin source "$target" 2> /dev/null
     end
 
     return 0
@@ -872,7 +872,7 @@ function __fisher_plugin_disable -a path
 
     for i in "$path/functions/uninstall.fish" "$path/uninstall.fish"
         if test -s "$i"
-            builtin source "$i" ^ /dev/null
+            builtin source "$i" 2> /dev/null
             break
         end
     end
@@ -908,7 +908,7 @@ function __fisher_plugin_disable -a path
 
         if test -e "$backup_source"
             command mv "$backup_source" "$target"
-            builtin source "$target" ^ /dev/null
+            builtin source "$target" 2> /dev/null
         end
 
         if test "$base" = "set_color_custom.fish"
@@ -919,7 +919,7 @@ function __fisher_plugin_disable -a path
                 continue
             end
 
-            __fisher_restore_fish_colors < $fish_colors_config | builtin source ^ /dev/null
+            __fisher_restore_fish_colors < $fish_colors_config | builtin source 2> /dev/null
 
             command rm -f $fish_colors_config
         end
@@ -950,7 +950,7 @@ function __fisher_plugin_disable -a path
 
     if __fisher_plugin_is_prompt "$path"
         set -U fisher_active_prompt
-        builtin source $__fish_datadir/functions/fish_prompt.fish ^ /dev/null
+        builtin source $__fish_datadir/functions/fish_prompt.fish 2> /dev/null
     end
 
     command rm -rf "$path" >&2
@@ -1320,8 +1320,8 @@ function __fisher_list
     end
 
     set -l white
-    set -l links (command find $config -maxdepth 0 -type l ! -name "$fisher_active_prompt" ^ /dev/null)
-    set -l names (command find $config -maxdepth 0 -type d ! -name "$fisher_active_prompt" ^ /dev/null)
+    set -l links (command find $config -maxdepth 0 -type l ! -name "$fisher_active_prompt" 2> /dev/null)
+    set -l names (command find $config -maxdepth 0 -type d ! -name "$fisher_active_prompt" 2> /dev/null)
 
     if test ! -z "$links"
         set white "  "
@@ -1530,7 +1530,7 @@ function __fisher_key_bindings_remove -a plugin_name
 
     set -l tmp (date "+%s")
 
-    fish_indent < "$user_key_bindings" | command sed -n "/### $plugin_name ###/,/### $plugin_name ###/{s/^ *bind /bind -e /p;};" | builtin source ^ /dev/null
+    fish_indent < "$user_key_bindings" | command sed -n "/### $plugin_name ###/,/### $plugin_name ###/{s/^ *bind /bind -e /p;};" | builtin source 2> /dev/null
 
     command sed "/### $plugin_name ###/,/### $plugin_name ###/d" < "$user_key_bindings" > "$user_key_bindings.$tmp"
     command mv -f "$user_key_bindings.$tmp" "$user_key_bindings"
@@ -1613,7 +1613,7 @@ function __fisher_key_bindings_append -a plugin_name file
         '
     )
 
-    printf "%s\n" $plugin_key_bindings_source | source ^ /dev/null
+    printf "%s\n" $plugin_key_bindings_source | source 2> /dev/null
 
     fish_indent < "$user_key_bindings" | command awk '
         {
@@ -1685,7 +1685,7 @@ function __fisher_plugin_get_url_info -a option
     end
 
     for dir in $argv
-        git -C $dir config remote.origin.url ^ /dev/null | command awk -v option="$option" '
+        git -C $dir config remote.origin.url 2> /dev/null | command awk -v option="$option" '
             {
                 n = split($0, s, "/")
 
@@ -1980,7 +1980,7 @@ function __fisher_complete
 
     set -l real_home ~
 
-    for name in (command find $config_glob -maxdepth 0 -type l ^ /dev/null)
+    for name in (command find $config_glob -maxdepth 0 -type l 2> /dev/null)
         set -l path (command readlink "$name")
         set -l name (command basename "$name" | sed "s|$real_home|~|")
 
@@ -1995,7 +1995,7 @@ function __fisher_complete
             print($1, $2)
         }
 
-    ' "$fisher_cache/.index" ^ /dev/null | while read -l name info
+    ' "$fisher_cache/.index" 2> /dev/null | while read -l name info
 
         switch "$name"
             case fisherman\*
@@ -2049,10 +2049,10 @@ function __fisher_humanize_duration
 end
 
 function __fisher_get_key
-    stty -icanon -echo ^ /dev/null
+    stty -icanon -echo 2> /dev/null
     printf "$argv" >&2
     while true
-        dd bs=1 count=1 ^ /dev/null | read -p "" -l yn
+        dd bs=1 count=1 2> /dev/null | read -p "" -l yn
         switch "$yn"
             case y Y n N
                 printf "\n" >&2
@@ -2060,7 +2060,7 @@ function __fisher_get_key
                 break
         end
     end
-    stty icanon echo > /dev/stderr ^ /dev/null
+    stty icanon echo > /dev/stderr 2> /dev/null
 end
 
 
@@ -2103,10 +2103,10 @@ end
 
 function __fisher_get_file_age -a file
     if type -q perl
-        perl -e "printf(\"%s\n\", time - (stat ('$file'))[9])" ^ /dev/null
+        perl -e "printf(\"%s\n\", time - (stat ('$file'))[9])" 2> /dev/null
 
     else if type -q python
-        python -c "from __future__ import print_function; import os, time; print(int(time.time() - os.path.getmtime('$file')))" ^ /dev/null
+        python -c "from __future__ import print_function; import os, time; print(int(time.time() - os.path.getmtime('$file')))" 2> /dev/null
     end
 end
 
@@ -2165,7 +2165,7 @@ function __fisher_help -a cmd number
 
         set -l page "$fisher_config/$cmd/man/man$number/$cmd.$number"
 
-        if not man "$page" ^ /dev/null
+        if not man "$page" 2> /dev/null
             if test -d "$fisher_config/$cmd"
                 __fisher_log info "There's no manual for this plugin." "$__fisher_stderr"
 
@@ -2222,7 +2222,7 @@ function __fisher_self_uninstall -a yn
 
     __fisher_show_spinner
 
-    echo "$fisher_cmd_name ls | $fisher_cmd_name rm -q" | source ^ /dev/null
+    echo "$fisher_cmd_name ls | $fisher_cmd_name rm -q" | source 2> /dev/null
 
     __fisher_show_spinner
 
