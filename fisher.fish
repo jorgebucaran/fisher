@@ -54,7 +54,7 @@ function $fisher_cmd_name -d "fish plugin manager"
             end
     end
 
-    set -g fisher_version "2.13.2"
+    set -g fisher_version "2.13.3"
     set -g fisher_spinners ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 
     if [ -e /dev/stdout ]
@@ -114,6 +114,10 @@ function $fisher_cmd_name -d "fish plugin manager"
 
     if test -z "$fisher_file"
         set -g fisher_file "$fish_path/fishfile"
+    end
+
+    if test -z "$fisher_copy"
+        set -g fisher_copy false
     end
 
     switch "$argv[1]"
@@ -800,7 +804,11 @@ function __fisher_plugin_enable -a path
             command mv -f "$target" "$backup_target" 2> /dev/null
         end
 
-        command ln -sf "$file" "$target"
+        if test $fisher_copy = true
+            command cp -Rf "$file" "$target"
+        else
+            command ln -sf "$file" "$target"
+        end
 
         builtin source "$target" 2> /dev/null
 
@@ -815,19 +823,31 @@ function __fisher_plugin_enable -a path
 
     for file in $path/{functions/,}*.{py,awk}
         set -l base (basename "$file")
-        command ln -sf "$file" "$fish_path/functions/$base"
+        if test $fisher_copy = true
+            command cp -Rf "$file" "$fish_path/functions/$base"
+        else
+            command ln -sf "$file" "$fish_path/functions/$base"
+        end
     end
 
     for file in $path/conf.d/*.{py,awk}
         set -l base (basename "$file")
-        command ln -sf "$file" "$fish_path/conf.d/$base"
+        if test $fisher_copy = true
+            command cp -Rf "$file" "$fish_path/conf.d/$base"
+        else
+            command ln -sf "$file" "$fish_path/conf.d/$base"
+        end
     end
 
     for file in $path/conf.d/*.fish
         set -l base (basename "$file")
         set -l target "$fish_path/conf.d/$base"
 
-        command ln -sf "$file" "$target"
+        if test $fisher_copy = true
+            command cp -Rf "$file" "$target"
+        else
+            command ln -sf "$file" "$target"
+        end
         builtin source "$target" 2> /dev/null
     end
 
@@ -835,7 +855,11 @@ function __fisher_plugin_enable -a path
         set -l base (basename "$file")
         set -l target "$fish_path/completions/$base"
 
-        command ln -sf "$file" "$target"
+        if test $fisher_copy = true
+            command cp -Rf "$file" "$target"
+        else
+            command ln -sf "$file" "$target"
+        end
         builtin source "$target" 2> /dev/null
     end
 
@@ -1171,7 +1195,7 @@ function __fisher_remote_index_update
             }
 
             if (match($0, /^description:[[:blank:]]*/)) {
-                description = substr($0, RLENGTH+1)
+                info = substr($0, RLENGTH+1)
             }
 
             if (match($0, /^stargazers_count:[[:blank:]]*/)) {
