@@ -11,13 +11,12 @@
 [Français]: https://github.com/fisherman/fisherman/wiki/Fran%C3%A7ais
 [Türkçe]: https://github.com/fisherman/fisherman/wiki/T%C3%BCrk%C3%A7e
 
-# [fisherman]
-[![fisherman-logo]]
+![fisherman-logo]
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
-The [fish-shell] plugin manager.
+[fisherman] is a [fish-shell] plugin manager.
 
 Translations: [日本語], [繁體中文], [简体中文], [한국어], [Русский], [Português], [Türkçe], [Español], [Français], [Català], [Deutsch], [فارسی].
 
