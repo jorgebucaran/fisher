@@ -12,7 +12,7 @@
 [Türkçe]: https://github.com/fisherman/fisherman/wiki/T%C3%BCrk%C3%A7e
 
 # [fisherman]
-[fisherman-logo]
+[![fisherman-logo]]
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
@@ -205,4 +205,4 @@ If you don't have a GitHub API token, you can [generate one from account setting
 [fish]: https://github.com/fish-shell/fish-shell
 [fish-shell]: https://github.com/fish-shell/fish-shell
 [fisherman]: https://fisherman.github.io
-[fisherman-logo]: https://raw.githubusercontent.com/fisherman/logo/master/fisherman.svg
+[fisherman-logo]: https://raw.githubusercontent.com/fisherman/logo/master/fisherman.svg?sanitize=true
