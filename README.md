@@ -11,12 +11,12 @@
 [Français]: https://github.com/fisherman/fisherman/wiki/Fran%C3%A7ais
 [Türkçe]: https://github.com/fisherman/fisherman/wiki/T%C3%BCrk%C3%A7e
 
-# [fisherman]
+![fisherman-logo]
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
-The [fish-shell] plugin manager.
+[fisherman] is a [fish-shell] plugin manager.
 
 Translations: [日本語], [繁體中文], [简体中文], [한국어], [Русский], [Português], [Türkçe], [Español], [Français], [Català], [Deutsch], [فارسی].
 
@@ -204,3 +204,4 @@ If you don't have a GitHub API token, you can [generate one from account setting
 [fish]: https://github.com/fish-shell/fish-shell
 [fish-shell]: https://github.com/fish-shell/fish-shell
 [fisherman]: https://fisherman.github.io
+[fisherman-logo]: https://raw.githubusercontent.com/fisherman/logo/master/fisherman.svg?sanitize=true
