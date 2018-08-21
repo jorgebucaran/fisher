@@ -2492,6 +2492,22 @@ The cache and configuration go in \fI~/\.cache/fisherman\fR and \fI~/\.config/fi
 .P
 The fishfile is saved to \fI~/\.config/fish/fishfile\fR\.
 .
+.SS "How do I have fisherman copy plugin files instead of linking?"
+By default, fisherman will create symlinks to plugin files.
+.
+.P
+To have fisherman copy files:
+.
+.IP "" 4
+.
+.nf=
+
+set -U fisher_copy true
+.
+.fi
+.
+.IP "" 0
+.
 .SS "What is a fishfile and how do I use it?"
 The fishfile \fI~/\.config/fish/fishfile\fR lists what plugins you\'ve installed\.
 .
