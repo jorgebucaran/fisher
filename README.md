@@ -144,12 +144,12 @@ To customize this location, add the following to your ~/.config/fish/config.fish
 ```fish
 set -U fish_path ~/my/path
 
+set fish_function_path $fish_path/functions $fish_function_path
+set fish_complete_path $fish_path/completions $fish_complete_path
+
 for file in $fish_path/conf.d/*.fish
   builtin source $file 2> /dev/null
 end
-
-set fish_function_path $fish_path/functions $fish_function_path
-set fish_complete_path $fish_path/completions $fish_complete_path
 ```
 
 ### How do I have fisherman copy plugin files instead of linking?
