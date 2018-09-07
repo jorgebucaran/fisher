@@ -1,7 +1,9 @@
+# [fisherman]
+
 [![Build Status][travis-badge]][travis-link]
 [![Slack][slack-badge]][slack-link]
 
-[fisherman] is a [fish-shell] plugin manager.
+Fisherman is a [fish-shell] plugin manager.
 
 ## Install
 
