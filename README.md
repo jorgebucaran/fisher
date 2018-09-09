@@ -1,7 +1,6 @@
 # [fisherman]
 
 [![Build Status][travis-badge]][travis-link]
-[![Slack][slack-badge]][slack-link]
 
 Fisherman is a [fish-shell] plugin manager.
 
