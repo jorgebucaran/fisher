@@ -1,19 +1,4 @@
-if not set -q fisher_cmd_name
-    status --current-filename | command awk '
-        {
-            if (n = split($0, parts, "/")) {
-                gsub(/\.fish$/, "", parts[n])
-                print(parts[n])
-            }
-        }
-    ' | read -gx fisher_cmd_name
-end
-
-if test -z "$fisher_cmd_name"
-    set -gx fisher_cmd_name "fisher"
-end
-
-function $fisher_cmd_name -d "fish plugin manager"
+function fisher -d "fish plugin manager"
     switch "$FISH_VERSION"
         case 2.1.2 2.1.1 2.1.0 2.0.0
             echo "You need fish 2.2.0 or higher to use fisherman."
@@ -137,10 +122,10 @@ function $fisher_cmd_name -d "fish plugin manager"
     command mkdir -p {"$fish_path","$fish_config"}/{conf.d,functions,completions} "$fisher_config" "$fisher_cache"
     or return 1
 
-    set -l completions "$fish_path/completions/$fisher_cmd_name.fish"
+    set -l completions "$fish_path/completions/fisher.fish"
 
     if test ! -e "$completions"
-        echo "$fisher_cmd_name --complete" > "$completions"
+        echo "fisher --complete" > "$completions"
         __fisher_complete
     end
 
@@ -206,7 +191,7 @@ function $fisher_cmd_name -d "fish plugin manager"
             return
 
         case -\*\?
-            printf "$fisher_cmd_name: '%s' is not a valid option\n" "$argv[1]" >&2
+            printf "fisher: '%s' is not a valid option\n" "$argv[1]" >&2
             __fisher_usage >&2
             return 1
 
@@ -234,7 +219,7 @@ function $fisher_cmd_name -d "fish plugin manager"
                 " >&2
 
                 __fisher_log info "
-                    See &$fisher_cmd_name help& for usage instructions.
+                    See &fisher help& for usage instructions.
                 " >&2
                 return
             end
@@ -393,7 +378,7 @@ function $fisher_cmd_name -d "fish plugin manager"
             end
     end
 
-    complete -c $fisher_cmd_name --erase
+    complete -c fisher --erase
 
     __fisher_complete
 end
@@ -690,11 +675,11 @@ end
 function __fisher_self_update
     set -l file (status --current-filename)
 
-    if test "$file" != "$fish_path/functions/$fisher_cmd_name.fish"
+    if test "$file" != "$fish_path/functions/fisher.fish"
         return 1
     end
 
-    set -l completions "$fish_path/completions/$fisher_cmd_name.fish"
+    set -l completions "$fish_path/completions/fisher.fish"
     set -l raw_url "https://raw.githubusercontent.com/fisherman/fisherman/master/fisher.fish"
     set -l fake_qs (date "+%s")
 
@@ -710,11 +695,11 @@ function __fisher_self_update
 
     builtin source "$file" 2> /dev/null
 
-    echo "$fisher_cmd_name -v" | source > /dev/null
+    echo "fisher -v" | source > /dev/null
 
     set -l new_version "$fisher_version"
 
-    echo "$fisher_cmd_name --complete" > "$completions"
+    echo "fisher --complete" > "$completions"
     builtin source "$completions" 2> /dev/null
 
     if test "$previous_version" = "$fisher_version"
@@ -1006,7 +991,7 @@ function __fisher_get_plugin_name_from_gist -a url
     set -l gist_id (printf "%s\n" "$url" | command sed 's|.*/||')
     set -l name (fish -c "
 
-        $fisher_cmd_name -v > /dev/null
+        fisher -v > /dev/null
         curl -Ss https://api.github.com/gists/$gist_id &
 
         __fisher_jobs_await (__fisher_jobs_get -l)
@@ -1743,7 +1728,7 @@ function __fisher_plugin_get_missing
         if test "$name" = fisherman
 
             __fisher_log info "
-                Run &$fisher_cmd_name update& to update fisherman.
+                Run &fisher update& to update fisherman.
             " >&2
             continue
         end
@@ -1954,26 +1939,26 @@ end
 
 
 function __fisher_complete
-    complete -xc $fisher_cmd_name -n "__fish_use_subcommand" -a install   -d "Install plugins"
-    complete -xc $fisher_cmd_name -n "__fish_use_subcommand" -a update    -d "Update plugins and self"
-    complete -xc $fisher_cmd_name -n "__fish_use_subcommand" -a rm        -d "Remove plugins"
-    complete -xc $fisher_cmd_name -n "__fish_use_subcommand" -a ls        -d "List what you've installed"
-    complete -xc $fisher_cmd_name -n "__fish_use_subcommand" -a ls-remote -d "List everything that's available"
-    complete -xc $fisher_cmd_name -n "__fish_use_subcommand" -a help      -d "Show help"
+    complete -xc fisher -n "__fish_use_subcommand" -a install   -d "Install plugins"
+    complete -xc fisher -n "__fish_use_subcommand" -a update    -d "Update plugins and self"
+    complete -xc fisher -n "__fish_use_subcommand" -a rm        -d "Remove plugins"
+    complete -xc fisher -n "__fish_use_subcommand" -a ls        -d "List what you've installed"
+    complete -xc fisher -n "__fish_use_subcommand" -a ls-remote -d "List everything that's available"
+    complete -xc fisher -n "__fish_use_subcommand" -a help      -d "Show help"
 
-    complete -xc $fisher_cmd_name -n "__fish_use_subcommand" -s h -l help     -d "Show usage help"
-    complete -xc $fisher_cmd_name -n "__fish_use_subcommand" -s v -l version  -d "Show version information"
-    complete -xc $fisher_cmd_name -s q -l quiet -d "Enable quiet mode"
+    complete -xc fisher -n "__fish_use_subcommand" -s h -l help     -d "Show usage help"
+    complete -xc fisher -n "__fish_use_subcommand" -s v -l version  -d "Show version information"
+    complete -xc fisher -s q -l quiet -d "Enable quiet mode"
 
-    complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from ls-remote" -l "format" -d "Format with verbs: %name, %url, %info and %stars"
+    complete -xc fisher -n "__fish_seen_subcommand_from ls-remote" -l "format" -d "Format with verbs: %name, %url, %info and %stars"
 
     set -l config_glob "$fisher_config"/*
     set -l config (printf "%s\n" $config_glob | command sed "s|.*/||")
 
     if test ! -s "$fisher_cache/.index"
         if test ! -z "$config"
-            complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from l ls list u up update r rm remove h help" -a "$config"
-            complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from l ls list u up update r rm remove h help" -a "$fisher_active_prompt" -d "Prompt"
+            complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove h help" -a "$config"
+            complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove h help" -a "$fisher_active_prompt" -d "Prompt"
         end
         return
     end
@@ -1984,7 +1969,7 @@ function __fisher_complete
         set -l path (command readlink "$name")
         set -l name (command basename "$name" | sed "s|$real_home|~|")
 
-        complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from l ls list u up update r rm remove h help" -a "$name" -d "$path"
+        complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove h help" -a "$name" -d "$path"
     end
 
     set -l IFS \t
@@ -2002,12 +1987,12 @@ function __fisher_complete
                 continue
         end
 
-        complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from info ls-remote" -a "$name" -d "$info"
+        complete -xc fisher -n "__fish_seen_subcommand_from info ls-remote" -a "$name" -d "$info"
 
         if contains -- "$name" $config
-            complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from l ls list u up update r rm remove h help" -a "$name" -d "$info"
+            complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove h help" -a "$name" -d "$info"
         else
-            complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from i in install" -a "$name" -d "$info"
+            complete -xc fisher -n "__fish_seen_subcommand_from i in install" -a "$name" -d "$info"
         end
     end
 
@@ -2017,7 +2002,7 @@ function __fisher_complete
                 case fisherman\*
                 case \*
                     set -l name (__fisher_plugin_get_names "$i")[1]
-                    complete -xc $fisher_cmd_name -n "__fish_seen_subcommand_from l ls list u up update r rm remove h help" -a "$name" -d "$i"
+                    complete -xc fisher -n "__fish_seen_subcommand_from l ls list u up update r rm remove h help" -a "$name" -d "$i"
             end
         end
     end
@@ -2115,7 +2100,7 @@ function __fisher_usage
     set -l u (set_color -u)
     set -l nc (set_color normal)
 
-    echo "Usage: $fisher_cmd_name [COMMAND] [PLUGINS]"
+    echo "Usage: fisher [COMMAND] [PLUGINS]"
     echo
     echo "where COMMAND is one of:"
     echo "      "$u"i"$nc"nstall (default)"
@@ -2134,7 +2119,7 @@ end
 
 function __fisher_help -a cmd number
     if test -z "$argv"
-        set -l page "$fisher_cache/$fisher_cmd_name.1"
+        set -l page "$fisher_cache/fisher.1"
 
         if test ! -s "$page"
             __fisher_man_page_write > "$page"
@@ -2196,8 +2181,8 @@ function __fisher_self_uninstall -a yn
 
                 $fisher_cache
                 $fisher_config
-                $fish_config/functions/$fisher_cmd_name.fish
-                $fish_config/completions/$fisher_cmd_name.fish
+                $fish_config/functions/fisher.fish
+                $fish_config/completions/fisher.fish
 
             " >&2
 
@@ -2218,16 +2203,16 @@ function __fisher_self_uninstall -a yn
             end
     end
 
-    complete -c $fisher_cmd_name --erase
+    complete -c fisher --erase
 
     __fisher_show_spinner
 
-    echo "$fisher_cmd_name ls | $fisher_cmd_name rm -q" | source 2> /dev/null
+    echo "fisher ls | fisher rm -q" | source 2> /dev/null
 
     __fisher_show_spinner
 
     command rm -rf "$fisher_cache" "$fisher_config"
-    command rm -f "$fish_config"/{functions,completions}/$fisher_cmd_name.fish "$fisher_file"
+    command rm -f "$fish_config"/{functions,completions}/fisher.fish "$fisher_file"
 
     set -e fish_config
     set -e fish_path
@@ -2242,7 +2227,7 @@ function __fisher_self_uninstall -a yn
 
     set -l funcs (functions -a | command grep __fisher)
 
-    functions -e $funcs $fisher_cmd_name
+    functions -e $funcs fisher
 end
 
 
@@ -2254,7 +2239,7 @@ function __fisher_man_page_write
 \fBfisherman\fR \- fish plugin manager
 .
 .SH "SYNOPSIS"
-'"$fisher_cmd_name"' [(\fBi\fRnstall | \fBu\fRpdate | \fBl\fRs[\-remote] | \fBr\fRm | \fBh\fRelp) PLUGINS]
+'"fisher"' [(\fBi\fRnstall | \fBu\fRpdate | \fBl\fRs[\-remote] | \fBr\fRm | \fBh\fRelp) PLUGINS]
 .
 .br
 .
@@ -2281,7 +2266,7 @@ Install a plugin\.
 .
 .nf
 
-'"$fisher_cmd_name"' mono
+'"fisher"' mono
 .
 .fi
 .
@@ -2294,7 +2279,7 @@ Install some plugins\.
 .
 .nf
 
-'"$fisher_cmd_name"' z fzf edc/bass omf/tab
+'"fisher"' z fzf edc/bass omf/tab
 .
 .fi
 .
@@ -2307,7 +2292,7 @@ Install a specific branch\.
 .
 .nf
 
-'"$fisher_cmd_name"' edc/bass:master
+'"fisher"' edc/bass:master
 .
 .fi
 .
@@ -2320,7 +2305,7 @@ Install a specific tag\.
 .
 .nf
 
-'"$fisher_cmd_name"' done@1.2.0
+'"fisher"' done@1.2.0
 .
 .fi
 .
@@ -2333,7 +2318,7 @@ Install a gist\.
 .
 .nf
 
-'"$fisher_cmd_name"' https://gist\.github\.com/username/1f40e1c6e0551b2666b2
+'"fisher"' https://gist\.github\.com/username/1f40e1c6e0551b2666b2
 .
 .fi
 .
@@ -2346,21 +2331,21 @@ Install a local directory\.
 .
 .nf
 
-'"$fisher_cmd_name"' ~/my/plugin
+'"fisher"' ~/my/plugin
 .
 .fi
 .
 .IP "" 0
 .
 .P
-Edit your \fIfishfile\fR and run \fB'"$fisher_cmd_name"'\fR to commit changes\.
+Edit your \fIfishfile\fR and run \fB'"fisher"'\fR to commit changes\.
 .
 .IP "" 4
 .
 .nf
 
 $EDITOR ~/\.config/fish/fishfile
-'"$fisher_cmd_name"'
+'"fisher"'
 .
 .fi
 .
@@ -2373,7 +2358,7 @@ Show everything you\'ve installed\.
 .
 .nf
 
-'"$fisher_cmd_name"' ls
+'"fisher"' ls
 @ plugin     # a local directory
 * mono       # the current prompt
   bass
@@ -2392,7 +2377,7 @@ Show everything that\'s available\.
 .
 .nf
 
-'"$fisher_cmd_name"' ls\-remote
+'"fisher"' ls\-remote
 .
 .fi
 .
@@ -2405,7 +2390,7 @@ Update everything\.
 .
 .nf
 
-'"$fisher_cmd_name"' up
+'"fisher"' up
 .
 .fi
 .
@@ -2418,7 +2403,7 @@ Update some plugins\.
 .
 .nf
 
-'"$fisher_cmd_name"' up bass z fzf
+'"fisher"' up bass z fzf
 .
 .fi
 .
@@ -2431,7 +2416,7 @@ Remove plugins\.
 .
 .nf
 
-'"$fisher_cmd_name"' rm thefuck
+'"fisher"' rm thefuck
 .
 .fi
 .
@@ -2444,7 +2429,7 @@ Remove all the plugins\.
 .
 .nf
 
-'"$fisher_cmd_name"' ls | '"$fisher_cmd_name"' rm
+'"fisher"' ls | '"fisher"' rm
 .
 .fi
 .
@@ -2457,7 +2442,7 @@ Get help\.
 .
 .nf
 
-'"$fisher_cmd_name"' help z
+'"fisher"' help z
 .
 .fi
 .

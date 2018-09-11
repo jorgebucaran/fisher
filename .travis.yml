@@ -8,4 +8,3 @@ script:
     - fish -c "f --version"
     - fish -c "f -h"
     - fish -c "f z; f ls"
-    - fish -c "f ls-remote"
