@@ -1,203 +1,278 @@
-# [fisherman]
+# Fisher
 
-[![Build Status][travis-badge]][travis-link]
+[![Build Status](https://img.shields.io/travis/jorgebucaran/fisher.svg)](https://travis-ci.org/jorgebucaran/fisher)
+[![Releases](https://img.shields.io/github/release/jorgebucaran/fisher.svg?label=latest)](https://github.com/jorgebucaran/fisher/releases)
 
-Fisherman is a [fish-shell] plugin manager.
+Fisher is a package manager for the [fish shell](https://fishshell.com). It defines a common interface for package authors to build and distribute their shell scripts in a portable way. You can use it to extend your shell capabilities, change the look of your prompt and create repeatable configurations across different systems effortlessly.
 
-## Install
+## Features
 
-```sh
-curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs https://git.io/fisher
+- Zero configuration
+- Oh My Fish package support
+- High-speed concurrent package downloads⌁!
+- If you've installed a package before, then it can be installed again offline
+- Add, update and remove functions, completions, keybindings and configuration snippets from a variety of sources using the command line or editing your [fishfile](#using-the-fishfile)
+
+## Installation
+
+Download fisher to your fish functions directory or any directory in your $fish_function_path.
+
+<!-- Notice we're just copying a file to a directory—this is not a curlpipe installer. -->
+
+```fish
+curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
+```
+
+If the [XDG_CONFIG_HOME](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html#variables) environment variable is defined on your system, use $XDG_CONFIG_HOME/fish to resolve the path to your fish configuration directory instead of ~/.config/fish.
+
+### Dependencies
+
+- [fish](https://github.com/fish-shell/fish-shell) 2.0+ (prefer 2.3 or newer)
+- [curl](https://github.com/curl/curl) 7.10.3+
+- [git](https://github.com/git/git) 1.7.12+
+
+### Legacy fish support
+
+Stuck in legacy fish and can't upgrade your shell? You'll need to run some code on startup to support packages that use [configuration snippets](#configuration-snippets). Open your ~/.config/fish/config.fish and add the following code at the beginning of the file.
+
+```fish
+set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
+for file in $XDG_CONFIG_HOME/conf.d/*.fish
+    builtin source $file 2>/dev/null
+end
+```
+
+### Bootstrap installation
+
+To automate installing fisher on a new system, add the following code to your ~/.config/fish/config.fish. This will download fisher and install all the packages listed in your [fishfile](#using-the-fishfile) (if there is one).
+
+```fish
+if not functions -q fisher
+    echo "Installing fisher for the first time..." >&2
+    set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
+    curl https://git.io/fisher --create-dirs -sLo $XDG_CONFIG_HOME/fish/functions/fisher.fish
+    fisher
+end
+```
+
+### Changing the installation prefix
+
+Use the `$fisher_path` environment variable to change the prefix location where functions, completions, and configuration snippets will be copied to when a package is installed. The default location is where fisher itself is installed. If you followed the installation instructions above it should be in ~/.config/fish.
+
+Make sure to append your functions and completions directories to the `$fish_function_path` and `$fish_complete_path` environment variables so that they can be autoloaded by fish in future sessions and to source every fish file inside your conf.d directory to run configuration snippets on startup.
+
+Here is a boilerplate configuration you can add to your ~/.config/fish/config.fish file to get you started.
+
+```fish
+set -g fisher_path ~/another/path
+
+set fish_function_path $fish_function_path $fisher_path/functions
+set fish_complete_path $fish_complete_path $fisher_path/completions
+
+for file in $fisher_path/conf.d/*.fish
+    builtin source $file 2> /dev/null
+end
 ```
 
 ## Usage
 
-Install a plugin.
+You've found an interesting utility you'd like to try out. Or perhaps you've [created a package](#creating-your-own-package) yourself. How do you install it on your system? You may want to update or remove it later too. How do you do that?
+
+You can use fisher to add, update and remove packages interactively, taking advantage of fish tab completions and syntax highlighting. Or [edit your fishfile](#using-the-fishfile) and commit your changes. Do you prefer a CLI-centered approach, text-based approach, or both?
+
+### Adding packages
+
+Install packages using the `add` command.
 
 ```
-fisher z
+fisher add jethrokuan/z rafaelrinaldi/pure
 ```
 
-Install several plugins concurrently.
+Packages will be downloaded from GitHub if the name of the host is not specified. To install a package hosted anywhere else use the address of the remote server and the path to the repository.
 
 ```
-fisher fzf edc/bass omf/thefuck omf/theme-bobthefish
+fisher add gitlab.com/owner/foobar bitbucket.org/owner/fumbam
 ```
 
-Install a specific branch.
-```sh
-fisher edc/bass:master
-```
-
-Install a specific tag.
-```sh
-fisher edc/bass@1.2.0
-```
-
-Install a gist.
+Install a package from a tag or a branch.
 
 ```
-fisher https://gist.github.com/username/1f40e1c6e0551b2666b2
+fisher add jethrokuan/z@pre27
 ```
 
-Install a local plugin.
+Install a package from a local directory. Local packages are managed through [symbolic links](https://en.wikipedia.org/wiki/Symbolic_link), so you can develop and use them at the same time.
 
-```sh
-fisher ~/path/to/my_plugin
+```
+fisher add ~/myfish/mypkg
 ```
 
-Edit your [**fishfile**](#what-is-a-fishfile-and-how-do-i-use-it) and run `fisher` to commit changes, e.g. install missing plugins.
+Notice you can only install one package version at a time. If two packages depend on a different version of the same package, the first one that gets installed will take precedence over the other.
 
-```sh
-$EDITOR ~/.config/fish/fishfile
-fisher
+### Listing packages
+
+List all the packages that are currently installed using the `ls` command. This includes packages you didn't install yourself but were installed on your system as a dependency of another package.
+
 ```
-
-Show everything you've installed.
-
-```ApacheConf
 fisher ls
-@ my_plugin     # a local plugin
-* bobthefish    # current theme
-  bass
-  fzf
-  thefuck
-  z
+jethrokuan/z@pre27
+rafaelrinaldi/pure
+~/myfish/mypkg
+gitlab.com/owner/foobar
+bitbucket.org/owner/fumbam
 ```
 
-Show everything available to install.
+### Removing packages
+
+Remove packages using the `rm` command. If a package has dependencies, they too will be removed. If any dependencies are still shared by other packages, they will remain installed.
 
 ```
-fisher ls-remote
+fisher rm rafaelrinaldi/pure
 ```
 
-Show additional information about plugins:
+You can remove everything that is currently installed in one sweep using the following pipeline.
 
-```
-fisher ls-remote --format="%name(%stars): %info [%url]\n"
-```
-
-Update everything.
-
-```
-fisher up
-```
-
-Update specific plugins.
-
-```
-fisher up bass z fzf
-```
-
-Remove plugins.
-
-```
-fisher rm thefuck
-```
-
-Remove all the plugins.
-
-```
+```sh
 fisher ls | fisher rm
 ```
 
-Get help.
+### Updating packages
+
+Run `fisher` to update everything you've installed. There is no dedicated update command. Using the command line to add and remove packages is a facade for modifying and committing changes to your fishfile in a single step.
+
+If you are looking for a way to update fisher itself, use the `self-update` command.
 
 ```
-fisher help z
+fisher self-update
 ```
 
-## Bootstrap
+### Other commands
 
-If you want to automate installing fisherman in a new system when it isn't already installed, add the following at the top of your ~/.config/fish/config.fish.
+To display usage help use the `help` command.
 
-This will install fisherman and download all the plugins listed in your _fishfile_.
+```
+fisher help
+```
+
+Last but not least use the `version` command to display the current version of fisher.
+
+```
+fisher version
+```
+
+### Using the fishfile
+
+Whenever you add or remove a package from the command line we'll create a text file in ~/.config/fish/fishfile. This is your fishfile. It lists every package that is currently installed on your system. You should add this file to your dotfiles or version control if you want to reproduce your configuration on a different system.
+
+You can edit this file to add or remove packages and then run `fisher` to commit your changes. Only packages listed in the file will be installed after fisher returns. If a package is already installed it will be updated. Empty lines and everything after a `#` (comments) will be ignored.
 
 ```fish
-if not test -f ~/.config/fish/functions/fisher.fish
-  curl -sLo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher
-  fisher
+vi ~/.config/fish/fishfile
+```
+
+```fish
+rafaelrinaldi/pure
+jethrokuan/z@pre27
+
+# my local packages
+~/myfish/mypkg
+```
+
+```
+fisher
+```
+
+## Package concepts
+
+Packages help you organize shell scripts into reusable, independent components that can be shared through a git URL or the path to a local directory. Even if your package is not meant to be shared with others, you can benefit from composition and the ability to depend on other packages.
+
+A package is uniquely identified by the name of its host, owner and root directory. Alas, the lack of private function scope in fish causes all package functions to share the same namespace. A good rule of thumb is to prefix functions intended for private use with the name of your package to reduce the possibility of conflicts.
+
+The structure of a package can be adopted from the fictional project described below. These are the files that fisher looks for when installing or uninstalling a package. Of course, you can elaborate on this to add tests, documentation, and other files, e.g. README and LICENSE files. The name of the root directory can be anything you wish. I recommend using a naming convention such as fish-_package-name_ for easier classification.
+
+```
+fish-fly
+├── fishfile
+├── functions
+│   └── fly.fish
+├── completions
+│   └── fly.fish
+└── conf.d
+    └── fly.fish
+```
+
+If your project depends on other packages, it should list them as dependencies in a fishfile. There is no need for a fishfile otherwise. The rules concerning the usage of the fishfile are the same rules we've already covered in [using the fishfile](#using-the-fishfile).
+
+While some packages contain every kind of file, some packages contain only functions or configuration snippets. You are not limited to a single file per directory either. There can be as many files as you need or only one as in the next example.
+
+```
+fish-fly
+└── fly.fish
+```
+
+### Creating your own package
+
+The best way to show you how to create your own package is by building one together. Our first example will be a function that prints the raw non-rendered markdown source of a README file from GitHub to standard output. Its inputs will be the name of the owner, repository, and branch. If no branch is specified, we'll use the master branch.
+
+Create the following directory structure and function file. Make sure the function name matches the file name, otherwise fish won't be able to autoload it the first time you try to use it.
+
+```
+fish-readme
+└── readme.fish
+```
+
+```fish
+function readme --argument owner repo branch
+    if test -z "$branch"
+        set branch master
+    end
+    curl -s https://raw.githubusercontent.com/$owner/$repo/$branch/README.md
 end
 ```
 
-## FAQ
+You can install it with the `add` command followed by the path to the directory. Local packages are symlinked to your `$fisher_path` so that code changes are instantly reflected during development.
 
-### Is fisherman compatible with oh-my-fish themes and plugins?
+```
+fisher add /absolute/path/to/fish-readme
+```
 
-Yes!
+The next logical step is to share it with others. How do you do that? Fisher is not a package registry. Its function is to fetch fish scripts and put them in place so that your shell can find them. To publish a package put your code online. You can use GitHub, GitLab or BitBucket or anywhere you like.
 
-### How can I contribute to fisherman?
+Now let's install the package again, this time from its new location. Open your ~/.config/fish/fishfile and replace the local version of the package we previously installed with the URL of the remote repository. Save your changes and run `fisher`. You can leave off the github.com part of the URL when adding or removing packages hosted on GitHub.
 
-You are welcome to join the organization. Just [ask](https://fisherman-wharf.herokuapp.com/) and someone will send you an invite.
+### Configuration snippets
 
-### Where does fisherman put stuff?
+Configuration snippets consist of any fish files in your ~/.config/fish/conf.d directory. They are evaluated on [shell startup](http://fishshell.com/docs/current/index.html#initialization) and often used to modify the shell environment, create key bindings, etc.
 
-The configuration and cache are saved to ~/.config/fisherman and ~/.cache/fisherman respectively.
+Unlike functions or completions, which can be erased programmatically, we can't undo a fish file that has been sourced without creating a new shell session. For this reason, packages that use configuration snippets provide custom uninstall logic through an uninstall [event handler](https://fishshell.com/docs/current/#event).
 
-The fishfile and plugins are saved to ~/.config/fish by default.
+Let's walk through an example that uses this feature to add a new key binding. Key bindings (or keyboard shortcuts) are sequences of one or more keys mapped to a fish command, builtin or function. The following package maps the sequence `Control-g` to opening your fishfile in the `vi` editor.
 
-To customize this location, add the following to your ~/.config/fish/config.fish file:
+```
+fish-fishfile-quick-edit
+└── conf.d
+    └── fishfile-quick-edit.fish
+```
 
 ```fish
-set -U fish_path ~/my/path
+bind \cg "vi ~/.config/fish/fishfile"
 
-set fish_function_path $fish_path/functions $fish_function_path
-set fish_complete_path $fish_path/completions $fish_complete_path
-
-for file in $fish_path/conf.d/*.fish
-  builtin source $file 2> /dev/null
+function fishfile-quick-edit_uninstall --event fishfile-quick-edit_uninstall
+    bind -e \cg
 end
 ```
 
-### How do I have fisherman copy plugin files instead of linking?
+When you uninstall this package, we'll emit a _package-name_\_uninstall event that will call your eponymously named event handler function where the key binding will be erased.
 
-By default, fisherman will create symlinks to plugin files.
+> **Note**: Custom key bindings on shell startup are only available on fish 3.0 or newer. To make this package compatible with older versions of fish, you need to add custom key bindings via [jorgebucaran/fish-custom-key-bindings]().
 
-To have fisherman copy files:
+## Uninstalling
 
-```fish
-set -U fisher_copy true
-```
-
-### What is a fishfile and how do I use it?
-
-The fishfile lists what you've installed, and it's automatically updated as you install / remove plugins.
-
-You can edit this file and run `fisher` to install missing plugins and dependencies.
-
-### What is a plugin?
-
-A plugin is:
-
-1. a directory with one or more .fish functions at the root level of the project or inside a functions/ directory
-
-2. a theme or prompt: a fish_prompt.fish and/or fish_right_prompt.fish
-
-3. a snippet: one or more .fish files inside a conf.d/ directory, run by fish at the start of the session
-
-### How do I create my own plugins?
-
-You can use [fishkit](https://github.com/fisherman/fishkit) to help you scaffold out a new project from scratch.
-
-### How can I list plugins as dependencies to my plugin?
-
-Create a new fishfile at the root level of your project and write the plugin URL like so *github.com/owner/repo*.
-
-### Why am I receiving errors when running `fisher ls-remote`?
-
-You can export the GITHUB_USER and GITHUB_TOKEN environment variables in your shell, to prevent GitHub's search API from rejecting anonymous requests:
+You wish to know how to uninstall fisher and everything you've installed with it from your system. Or perhaps something went wrong and you want to start over. This will uninstall all the packages, purge the cache and then remove fisher from your fish functions directory.
 
 ```fish
-set -x GITHUB_USER your_username
-set -x GITHUB_TOKEN your_github_api_token_for_fisherman
+fisher self-uninstall
 ```
-If you don't have a GitHub API token, you can [generate one from account settings](https://blog.github.com/2013-05-16-personal-api-tokens/)
 
-[slack-link]: https://fisherman-wharf.herokuapp.com
-[slack-badge]: https://fisherman-wharf.herokuapp.com/badge.svg
-[travis-link]: https://travis-ci.org/fisherman/fisherman
-[travis-badge]: https://img.shields.io/travis/fisherman/fisherman.svg
+## License
 
-[fish]: https://github.com/fish-shell/fish-shell
-[fish-shell]: https://github.com/fish-shell/fish-shell
-[fisherman]: https://fisherman.github.io
+Fisher is MIT licensed. See the [LICENSE](LICENSE.md) for details.
