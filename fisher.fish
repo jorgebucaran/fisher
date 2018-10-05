@@ -194,12 +194,15 @@ function _fisher_pkg_fetch_all
                 if test -e "$path"
                     set local_pkgs $local_pkgs $path
                 else
-                    echo "cannot install $name -- is this a valid file?" >&2
+                    echo "cannot install \"$name\" -- is this a valid file?" >&2
                 end
                 continue
             case https://\* ssh://\* {github,gitlab}.com/\* bitbucket.org/\*
-            case \*
+            case \*/\*
                 set name "github.com/$name"
+            case \*
+                echo "cannot install \"$name\" -- should be <owner>/$name" >&2
+                continue
         end
 
         echo $name | command awk '{
