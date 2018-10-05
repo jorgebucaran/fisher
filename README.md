@@ -263,7 +263,7 @@ end
 
 When you uninstall this package, we'll emit a _package-name_\_uninstall event that will call your eponymously named event handler function where the key binding will be erased.
 
-> **Note**: Custom key bindings on shell startup are only available on fish 3.0 or newer. To make this package compatible with older versions of fish, you need to add custom key bindings via [jorgebucaran/fish-custom-key-bindings]().
+> **Note**: Custom key bindings on shell startup are only available on fish 3.0 or newer. To make this package compatible with older versions of fish, you need to add custom key bindings via [jorgebucaran/fish-custom-key-bindings](https://github.com/jorgebucaran/fisher/issues/448).
 
 ## Uninstalling
 
