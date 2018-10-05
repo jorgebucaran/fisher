@@ -48,16 +48,19 @@ function fisher -a cmd -d "fish package manager"
             _fisher_self_complete
         case self-uninstall
             _fisher_self_uninstall
-        case "" add rm
-            if not isatty
-                while read -l i
-                    set argv $argv $i
+        case add rm ""
+            if test ! -z "$argv"
+                if not isatty
+                    while read -l i
+                        set argv $argv $i
+                    end
                 end
             end
             _fisher_commit $argv; or return
             _fisher_self_complete
         case \*
-            echo "unknown flag or command \"$cmd\" -- try fisher help" >&2
+            echo "error: unknown flag or command \"$cmd\"" >&2
+            _fisher_help >&2
             return 1
     end
 end
@@ -91,7 +94,7 @@ function _fisher_help
     echo "       fisher rm  <PACKAGES>    remove packages"
     echo "       fisher ls                list installed packages"
     echo "       fisher self-update       update fisher"
-    echo "       fisher self-uninstall    uninstall fisher and all packages"
+    echo "       fisher self-uninstall    uninstall fisher & all packages"
     echo "       fisher help              show this help"
     echo "       fisher version           show version"
     echo
@@ -141,28 +144,21 @@ end
 
 function _fisher_commit
     set -l elapsed (_fisher_now)
-    set -l fishfile $fish_config/fishfile
-    set -l added_pkgs
-    set -l updated_pkgs
-    set -l removed_pkgs
-
-    if test -z "$cmd" -a ! -e "$fishfile"
-        echo "fishfile not found -- need help? try fisher help" | command sed "s|$HOME|~|" >&2
-        return 1
-    end
-    command touch $fishfile
-
-    _fisher_fishfile_indent (echo -s $argv\;) < $fishfile > $fishfile@
-
-    command mv -f $fishfile@ $fishfile
-    command rm -f $fishfile@
-
-    set removed_pkgs (_fisher_pkg_remove_all $fisher_config/*/*/*)
+    set -l removed_pkgs (_fisher_pkg_remove_all $fisher_config/*/*/*)
     command rm -rf $fisher_config
     command mkdir -p $fisher_config
 
-    set added_pkgs (_fisher_pkg_fetch_all (_fisher_fishfile_load < $fishfile))
-    set updated_pkgs (
+    set -l fishfile $fish_config/fishfile
+    if test ! -e "$fishfile"
+        command touch $fishfile
+        echo "created empty fishfile in $fishfile" | command sed "s|$HOME|~|" >&2
+    end
+    _fisher_fishfile_indent (echo -s $argv\;) < $fishfile > $fishfile@
+    command mv -f $fishfile@ $fishfile
+    command rm -f $fishfile@
+
+    set -l added_pkgs (_fisher_pkg_fetch_all (_fisher_fishfile_load < $fishfile))
+    set -l updated_pkgs (
         for pkg in $removed_pkgs
             set pkg (echo $pkg | command sed "s|$fisher_config/||")
             if contains -- $pkg $added_pkgs
@@ -170,9 +166,12 @@ function _fisher_commit
             end
         end)
 
-    if test ! -z "$added_pkgs$updated_pkgs$removed_pkgs"
-        echo (count $added_pkgs) (count $updated_pkgs) (count $removed_pkgs) (_fisher_now $elapsed) | _fisher_status_report >&2
+    if test -z "$added_pkgs$updated_pkgs$removed_pkgs" -a ! -s "$fishfile"
+        echo "nothing to commit -- try adding some packages" >&2
+        return 1
     end
+
+    echo (count $added_pkgs) (count $updated_pkgs) (count $removed_pkgs) (_fisher_now $elapsed) | _fisher_status_report >&2
 end
 
 function _fisher_pkg_remove_all
