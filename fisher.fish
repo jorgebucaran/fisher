@@ -130,21 +130,26 @@ function _fisher_self_update -a file
 end
 
 function _fisher_self_uninstall
-    printf "removing %s\n" $fisher_config $fisher_cache $fish_config/fishfile $fisher_path/{functions,completions}/fisher.fish | command sed "s|$HOME|~|"
-    _fisher_pkg_remove_all $fisher_config/*/*/* >/dev/null
+    set -l current_pkgs $fisher_config/*/*/*
+    set -l removed_pkgs (_fisher_pkg_remove_all $current_pkgs)
+    printf "removing %s\n" $removed_pkgs $fisher_config $fisher_cache $fisher_path/{functions,completions}/fisher.fish $fish_config/fishfile | command sed "s|$HOME|~|"
+
     command rm -rf $fisher_config $fisher_cache 2>/dev/null
     command rm $fisher_path/{functions,completions}/fisher.fish $fish_config/fishfile 2>/dev/null
+
     set -e fisher_cache
     set -e fisher_config
     set -e fisher_path
     set -e fisher_version
+
     complete -c fisher --erase
     functions -e (functions -a | command awk '/^_fisher/') fisher
 end
 
 function _fisher_commit
     set -l elapsed (_fisher_now)
-    set -l removed_pkgs (_fisher_pkg_remove_all $fisher_config/*/*/*)
+    set -l current_pkgs $fisher_config/*/*/*
+    set -l removed_pkgs (_fisher_pkg_remove_all $current_pkgs)
     command rm -rf $fisher_config
     command mkdir -p $fisher_config
 
