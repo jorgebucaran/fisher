@@ -20,7 +20,7 @@ Download fisher to your fish functions directory or any directory in your $fish_
 <!-- Notice we're just copying a file to a directory—this is not a curlpipe installer. -->
 
 ```fish
-curl https://raw.githubusercontent.com/jorgebucaran/fisher/master/fisher.fish --create-dirs -sLo ~/.config/fish/functions/fisher.fish
+curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 ```
 
 If the [XDG_CONFIG_HOME](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html#variables) environment variable is defined on your system, use $XDG_CONFIG_HOME/fish to resolve the path to your fish configuration directory instead of ~/.config/fish.

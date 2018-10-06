@@ -4,5 +4,5 @@ before_install:
     - sudo apt-get update
     - sudo apt-get -y install fish
 script:
-    - curl https://raw.githubusercontent.com/jorgebucaran/fisher/master/fisher.fish --create-dirs -so ~/.config/fish/functions/fisher.fish
+    - curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
     - fish -c "fisher version"
