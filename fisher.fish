@@ -163,7 +163,8 @@ function _fisher_commit
     command mv -f $fishfile@ $fishfile
     command rm -f $fishfile@
 
-    set -l added_pkgs (_fisher_pkg_fetch_all (_fisher_fishfile_load < $fishfile))
+    set -l expected_pkgs (_fisher_fishfile_load < $fishfile)
+    set -l added_pkgs (_fisher_pkg_fetch_all $expected_pkgs)
     set -l updated_pkgs (
         for pkg in $removed_pkgs
             set pkg (echo $pkg | command sed "s|$fisher_config/||")
@@ -172,7 +173,7 @@ function _fisher_commit
             end
         end)
 
-    if test -z "$added_pkgs$updated_pkgs$removed_pkgs" -a ! -s "$fishfile"
+    if test -z "$added_pkgs$updated_pkgs$removed_pkgs$expected_pkgs"
         echo "nothing to commit -- try adding some packages" >&2
         return 1
     end
