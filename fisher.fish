@@ -286,7 +286,8 @@ end
 
 function _fisher_pkg_install -a pkg
     set -l name (echo $pkg | command sed "s|^.*/||")
-    for source in $pkg/{functions,completions,conf.d,}/*.fish
+    set -l files $pkg/{functions,completions,conf.d}/* $pkg/*.fish
+    for source in $files
         set -l target (echo "$source" | command sed 's|^.*/||')
         switch $source
             case $pkg/conf.d\*
@@ -305,35 +306,45 @@ function _fisher_pkg_install -a pkg
         end
         echo "linking $target" | command sed "s|$HOME|~|" >&2
         command ln -f $source $target
-        source $target >/dev/null 2>/dev/null
+        switch $target
+            case \*.fish
+                source $target >/dev/null 2>/dev/null
+        end
     end
 end
 
 function _fisher_pkg_uninstall -a pkg
     set -l name (echo $pkg | command sed "s|^.*/||")
-    for source in $pkg/{conf.d,completions,functions,}/*.fish
+    set -l files $pkg/{conf.d,completions,functions}/* $pkg/*.fish
+    for source in $files
         set -l target (echo "$source" | command sed 's|^.*/||')
         set -l filename (echo "$target" | command sed 's|.fish||')
         switch $source
             case $pkg/conf.d\*
-                emit {$filename}_uninstall
-                command rm -f $fisher_path/conf.d/$target
+                if test "$filename.fish" = "$target"
+                    emit "$filename"_uninstall
+                end
+                set target conf.d/$target
             case $pkg/completions\*
-                command rm -f $fisher_path/completions/$target
-                complete -ec $filename
+                if functions -q "$filename"
+                    complete -ec $filename
+                end
+                set target completions/$target
             case $pkg/{,functions}\*
                 switch $target
                     case uninstall.fish
                         source $source
                         continue
                     case init.fish key_bindings.fish
-                        set target $fisher_path/conf.d/$name\_$target
+                        set target conf.d/$name\_$target
                     case \*
-                        set target $fisher_path/functions/$target
+                        set target functions/$target
                 end
-                command rm -f $target
-                functions -e $filename
+                if functions -q "$filename"
+                    functions -e $filename
+                end
         end
+        command rm -f $fisher_path/$target
     end
     if not functions -q fish_prompt
         source "$__fish_datadir/functions/fish_prompt.fish"
