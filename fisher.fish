@@ -193,7 +193,7 @@ function _fisher_pkg_fetch_all
     set -l pkg_jobs
     set -l local_pkgs
     set -l actual_pkgs
-    set -l fetched_pkgs
+    set -l expected_pkgs
 
     for name in $argv
         switch $name
@@ -227,29 +227,31 @@ function _fisher_pkg_fetch_all
             ) "\t" pkg
         }' | read -l url pkg
 
-        fish -c "
-            echo fetching $url >&2
-            command mkdir -p \"$fisher_config/$pkg\"
+        if test ! -d "$fisher_config/$pkg"
+            fish -c "
+                echo fetching $url >&2
+                command mkdir -p \"$fisher_config/$pkg\"
 
-            if curl -Ss $url 2>&1 | tar -xzf- -C \"$fisher_config/$pkg\" --strip-components=1 2>/dev/null
-                command mkdir -p \"$fisher_cache/$pkg\"
-                command cp -Rf \"$fisher_config/$pkg\" \"$fisher_cache/$pkg/..\"
-            else if test -d \"$fisher_cache/$pkg\"
-                echo cannot connect to server -- using data from \"$fisher_cache/$pkg\" | command sed 's|$HOME|~|' >&2
-                command cp -Rf \"$fisher_cache/$pkg\" \"$fisher_config/$pkg/..\"
-            else
-                command rm -rf \"$fisher_config/$pkg\"
-                echo cannot install \"$pkg\" -- are you offline\? >&2
-            end
-        " >/dev/null &
+                if curl -Ss $url 2>&1 | tar -xzf- -C \"$fisher_config/$pkg\" --strip-components=1 2>/dev/null
+                    command mkdir -p \"$fisher_cache/$pkg\"
+                    command cp -Rf \"$fisher_config/$pkg\" \"$fisher_cache/$pkg/..\"
+                else if test -d \"$fisher_cache/$pkg\"
+                    echo cannot connect to server -- using data from \"$fisher_cache/$pkg\" | command sed 's|$HOME|~|' >&2
+                    command cp -Rf \"$fisher_cache/$pkg\" \"$fisher_config/$pkg/..\"
+                else
+                    command rm -rf \"$fisher_config/$pkg\"
+                    echo cannot install \"$pkg\" -- are you offline\? >&2
+                end
+            " >/dev/null &
 
-        set pkg_jobs $pkg_jobs (_fisher_jobs --last)
-        set fetched_pkgs $fetched_pkgs "$pkg"
+            set pkg_jobs $pkg_jobs (_fisher_jobs --last)
+            set expected_pkgs $expected_pkgs "$pkg"
+        end
     end
 
     if test ! -z "$pkg_jobs"
         _fisher_wait $pkg_jobs
-        for pkg in $fetched_pkgs
+        for pkg in $expected_pkgs
             if test -d "$fisher_config/$pkg"
                 set actual_pkgs $actual_pkgs $pkg
                 _fisher_pkg_install $fisher_config/$pkg
@@ -269,8 +271,8 @@ function _fisher_pkg_fetch_all
     end
 
     if test ! -z "$actual_pkgs"
-        printf "%s\n" $actual_pkgs
         _fisher_pkg_fetch_all (_fisher_pkg_get_deps $actual_pkgs | command sort --unique)
+        printf "%s\n" $actual_pkgs
     end
 end
 
