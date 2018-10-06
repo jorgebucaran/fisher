@@ -2,14 +2,15 @@ set -g fisher_version 3.0.3
 
 type source >/dev/null; or function source; . $argv; end
 
-if command which perl >/dev/null
-    function _fisher_now -a elapsed
-        command perl -MTime::HiRes -e 'printf("%.0f\n", (Time::HiRes::time() * 1000) - $ARGV[0])' $elapsed
-    end
-else
-    function _fisher_now -a elapsed
-        command date "+%s%3N" | command awk "{ sub(/3N\$/,\"000\"); print \$0 - 0$elapsed }"
-    end
+switch (command uname)
+    case Darwin FreeBSD
+        function _fisher_now -a elapsed
+            command perl -MTime::HiRes -e 'printf("%.0f\n", (Time::HiRes::time() * 1000) - $ARGV[0])' $elapsed
+        end
+    case \*
+        function _fisher_now -a elapsed
+            command date "+%s%3N" | command awk "{ sub(/3N\$/,\"500\"); print \$0 - 0$elapsed }"
+        end
 end
 
 function fisher -a cmd -d "fish package manager"
