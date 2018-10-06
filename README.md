@@ -74,6 +74,17 @@ for file in $fisher_path/conf.d/*.fish
 end
 ```
 
+### Migrating from V2 to V3
+
+The easiest way to upgrade to V3 from V2 is to uninstall V2 first using:
+
+```
+fisher self-uninstall
+``` 
+
+...and install V3 from scratch using the recommended [installation instructions](https://github.com/jorgebucaran/fisher#installation). See [#450](https://github.com/jorgebucaran/fisher/issues/450) for more options.
+
+
 ## Usage
 
 You've found an interesting utility you'd like to try out. Or perhaps you've [created a package](#creating-your-own-package) yourself. How do you install it on your system? You may want to update or remove it later too. How do you do that?
