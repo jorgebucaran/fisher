@@ -209,7 +209,7 @@ function _fisher_pkg_fetch_all
             case \*/\*
                 set name "github.com/$name"
             case \*
-                echo "cannot install \"$name\" -- should be <owner>/$name" >&2
+                echo "cannot install \"$name\" without a prefix -- should be <owner>/$name" >&2
                 continue
         end
 
