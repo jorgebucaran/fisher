@@ -324,16 +324,13 @@ function _fisher_pkg_uninstall -a pkg
         set -l filename (echo "$target" | command sed 's|.fish||')
         switch $source
             case $pkg/conf.d\*
-                if test "$filename.fish" = "$target"
-                    emit "$filename"_uninstall
-                end
+                test "$filename.fish" = "$target"; and emit "$filename"_uninstall
                 set target conf.d/$target
             case $pkg/completions\*
-                if functions -q "$filename"
-                    complete -ec $filename
-                end
+                test "$filename.fish" = "$target"; and complete -ec $filename
                 set target completions/$target
             case $pkg/{,functions}\*
+                test "$filename.fish" = "$target"; and functions -e $filename
                 switch $target
                     case uninstall.fish
                         source $source
@@ -342,9 +339,6 @@ function _fisher_pkg_uninstall -a pkg
                         set target conf.d/$name\_$target
                     case \*
                         set target functions/$target
-                end
-                if functions -q "$filename"
-                    functions -e $filename
                 end
         end
         command rm -f $fisher_path/$target
