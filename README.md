@@ -17,9 +17,7 @@ Fisher is a package manager for the [fish shell](https://fishshell.com). It defi
 
 Download fisher to your fish functions directory or any directory in your $fish_function_path.
 
-<!-- Notice we're just copying a file to a directory—this is not a curlpipe installer. -->
-
-```fish
+```sh
 curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 ```
 
