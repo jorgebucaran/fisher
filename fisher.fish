@@ -159,6 +159,8 @@ function _fisher_commit
     if test ! -e "$fishfile"
         command touch $fishfile
         echo "created empty fishfile in $fishfile" | command sed "s|$HOME|~|" >&2
+    else if test -L "$fishfile"
+        set fishfile (command readlink $fishfile)
     end
     _fisher_fishfile_indent (echo -s $argv\;) < $fishfile > $fishfile@
     command mv -f $fishfile@ $fishfile
