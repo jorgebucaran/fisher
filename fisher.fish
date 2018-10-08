@@ -9,7 +9,7 @@ switch (command uname)
         end
     case \*
         function _fisher_now -a elapsed
-            command date "+%s%3N" | command awk "{ sub(/3N\$/,\"500\"); print \$0 - 0$elapsed }"
+            command date "+%s%3N" | command awk "{ sub(/3N\$/,\"000\"); print \$0 - 0$elapsed }"
         end
 end
 
