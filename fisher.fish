@@ -83,7 +83,7 @@ function _fisher_ls
     set -l pkgs $fisher_config/*/*/*
     for pkg in $pkgs
         command readlink $pkg; and continue; or echo $pkg
-    end | command sed "s|$fisher_config/||;s|github\.com/||"
+    end | command sed "s|$fisher_config/*||;s|github\.com/||"
 end
 
 function _fisher_version -a file
@@ -170,7 +170,7 @@ function _fisher_commit
     set -l added_pkgs (_fisher_pkg_fetch_all $expected_pkgs)
     set -l updated_pkgs (
         for pkg in $removed_pkgs
-            set pkg (echo $pkg | command sed "s|$fisher_config/||")
+            set pkg (echo $pkg | command sed "s|$fisher_config/*||")
             if contains -- $pkg $added_pkgs
                 echo $pkg
             end
