@@ -408,14 +408,7 @@ function _fisher_status_report
 end
 
 function _fisher_jobs
-    jobs $argv | command awk -v FS=\t '
-        /[0-9]+\t/ {
-            jobs[++n] = $1
-        } END {
-            for (i in jobs) print(jobs[i])
-            exit n == 0
-        }
-    '
+    jobs $argv | command awk '/[0-9]+\t/ { print $1 }'
 end
 
 function _fisher_wait
