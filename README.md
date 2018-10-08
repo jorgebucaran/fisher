@@ -88,19 +88,19 @@ Install packages using the `add` command.
 fisher add jethrokuan/z rafaelrinaldi/pure
 ```
 
-Packages will be downloaded from GitHub if the name of the host is not specified. To install a package hosted anywhere else use the address of the remote server and the path to the repository.
+Packages will be downloaded from GitHub if the name of the host is not specified. To install a package from anywhere else use the address of the remote server and the path to the repository.
 
 ```
 fisher add gitlab.com/owner/foobar
 ```
 
-Install a package from a tag, branch.
+You can install packages from a tag, branch or a [commit-ish](https://git-scm.com/docs/gitglossary#gitglossary-aiddefcommit-ishacommit-ishalsocommittish). If none is specified we'll use the latest code.
 
 ```
-fisher add jethrokuan/z@pre27
+fisher add edc/bass@20f73ef jethrokuan/z@pre27
 ```
 
-Install a package from a local directory. Local packages are managed through [symbolic links](https://en.wikipedia.org/wiki/Symbolic_link), so you can develop and use them at the same time.
+You can also install packages from a local directory. Local packages are managed through [symbolic links](https://en.wikipedia.org/wiki/Symbolic_link), so you can develop and use them at the same time.
 
 ```
 fisher add ~/myfish/mypkg
@@ -117,6 +117,7 @@ fisher ls
 jethrokuan/z
 rafaelrinaldi/pure
 gitlab.com/owner/foobar
+edc/bass
 ~/myfish/mypkg
 ```
 
