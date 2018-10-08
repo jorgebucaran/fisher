@@ -342,7 +342,7 @@ function _fisher_pkg_uninstall -a pkg
         command rm -f $fisher_path/$target
     end
     if not functions -q fish_prompt
-        source "$__fish_datadir/functions/fish_prompt.fish"
+        source "$__fish_datadir$__fish_data_dir/functions/fish_prompt.fish"
     end
 end
 
