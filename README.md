@@ -3,6 +3,8 @@
 [![Build Status](https://img.shields.io/travis/jorgebucaran/fisher.svg)](https://travis-ci.org/jorgebucaran/fisher)
 [![Releases](https://img.shields.io/github/release/jorgebucaran/fisher.svg?label=latest)](https://github.com/jorgebucaran/fisher/releases)
 
+> **Notice**: Psst! Migrating from V2 to V3? Please see our [**migration guide**](https://github.com/jorgebucaran/fisher/issues/450) and happy upgrading! :wave:
+
 Fisher is a package manager for the [fish shell](https://fishshell.com). It defines a common interface for package authors to build and distribute their shell scripts in a portable way. You can use it to extend your shell capabilities, change the look of your prompt and create repeatable configurations across different systems effortlessly.
 
 ## Features
@@ -72,17 +74,6 @@ for file in $fisher_path/conf.d/*.fish
 end
 ```
 
-### Migrating from V2 to V3
-
-The easiest way to upgrade to V3 from V2 is to uninstall V2 first using:
-
-```
-fisher self-uninstall
-``` 
-
-...and install V3 from scratch using the recommended [installation instructions](https://github.com/jorgebucaran/fisher#installation). See [#450](https://github.com/jorgebucaran/fisher/issues/450) for more options.
-
-
 ## Usage
 
 You've found an interesting utility you'd like to try out. Or perhaps you've [created a package](#creating-your-own-package) yourself. How do you install it on your system? You may want to update or remove it later too. How do you do that?
@@ -100,10 +91,10 @@ fisher add jethrokuan/z rafaelrinaldi/pure
 Packages will be downloaded from GitHub if the name of the host is not specified. To install a package hosted anywhere else use the address of the remote server and the path to the repository.
 
 ```
-fisher add gitlab.com/owner/foobar bitbucket.org/owner/fumbam
+fisher add gitlab.com/owner/foobar
 ```
 
-Install a package from a tag or a branch.
+Install a package from a tag, branch.
 
 ```
 fisher add jethrokuan/z@pre27
@@ -123,11 +114,10 @@ List all the packages that are currently installed using the `ls` command. This 
 
 ```
 fisher ls
-jethrokuan/z@pre27
+jethrokuan/z
 rafaelrinaldi/pure
-~/myfish/mypkg
 gitlab.com/owner/foobar
-bitbucket.org/owner/fumbam
+~/myfish/mypkg
 ```
 
 ### Removing packages
