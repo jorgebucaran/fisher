@@ -262,8 +262,8 @@ function _fisher_pkg_fetch_all
     end
 
     for pkg in $local_pkgs
-        set -l path "local/$USER"
-        set -l name (echo "$pkg" | command sed 's|^.*/||')
+        set -l path local/$USER
+        set -l name (command basename $pkg)
 
         command mkdir -p $fisher_config/$path
         command ln -sf $pkg $fisher_config/$path
@@ -290,10 +290,10 @@ function _fisher_pkg_get_deps
 end
 
 function _fisher_pkg_install -a pkg
-    set -l name (echo $pkg | command sed "s|^.*/||")
+    set -l name (command basename $pkg)
     set -l files $pkg/{functions,completions,conf.d}/* $pkg/*.fish
     for source in $files
-        set -l target (echo "$source" | command sed 's|^.*/||')
+        set -l target (command basename $source)
         switch $source
             case $pkg/conf.d\*
                 set target $fisher_path/conf.d/$target
@@ -319,11 +319,11 @@ function _fisher_pkg_install -a pkg
 end
 
 function _fisher_pkg_uninstall -a pkg
-    set -l name (echo $pkg | command sed "s|^.*/||")
+    set -l name (command basename $pkg)
     set -l files $pkg/{conf.d,completions,functions}/* $pkg/*.fish
     for source in $files
-        set -l target (echo "$source" | command sed 's|^.*/||')
-        set -l filename (echo "$target" | command sed 's|.fish||')
+        set -l target (command basename $source)
+        set -l filename (command basename $target .fish)
         switch $source
             case $pkg/conf.d\*
                 test "$filename.fish" = "$target"; and emit "$filename"_uninstall
