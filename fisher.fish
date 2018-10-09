@@ -306,6 +306,7 @@ function _fisher_pkg_install -a pkg
                 end
         end
         echo "linking $target" | command sed "s|$HOME|~|" >&2
+        echo $target >> $fisher_config/installed.txt
         command ln -f $source $target
         switch $target
             case \*.fish
