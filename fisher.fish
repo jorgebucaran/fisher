@@ -349,7 +349,7 @@ end
 function _fisher_fishfile_indent -a pkgs
     command awk -v PWD=$PWD -v HOME=$HOME -v PKGS="$pkgs" '
         function normalize(s) {
-            gsub(/^[ \t]*|[ \t]*$|https?:\/\/|github\.com\/|\.git$|\/$/, "", s)
+            gsub(/^[ \t]*|[ \t]*$|https?:\/\/|^[ \t]*github\.com\/|\.git$|\/$/, "", s)
             sub(/^\.\//, PWD"/", s)
             sub(HOME, "~", s)
             return s
