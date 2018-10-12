@@ -193,25 +193,25 @@ function _fisher_pkg_fetch_all
     set -l actual_pkgs
     set -l expected_pkgs
 
-    for name in $argv
-        switch $name
+    for id in $argv
+        switch $id
             case \~\* /\*
-                set -l path (echo "$name" | command sed "s|~|$HOME|")
+                set -l path (echo "$id" | command sed "s|~|$HOME|")
                 if test -e "$path"
                     set local_pkgs $local_pkgs $path
                 else
-                    echo "cannot install \"$name\" -- is this a valid file?" >&2
+                    echo "cannot install \"$id\" -- is this a valid file?" >&2
                 end
                 continue
             case https://\* ssh://\* {github,gitlab}.com/\* bitbucket.org/\*
             case \*/\*
-                set name "github.com/$name"
+                set id "github.com/$id"
             case \*
-                echo "cannot install \"$name\" without a prefix -- should be <owner>/$name" >&2
+                echo "cannot install \"$id\" without a prefix -- should be <owner>/$id" >&2
                 continue
         end
 
-        echo $name | command awk '{
+        echo $id | command awk '{
             split($0, tmp, /@/)
 
             pkg = tmp[1]
