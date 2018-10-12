@@ -177,7 +177,7 @@ function _fisher_commit
         return 1
     end
 
-    echo (count $added_pkgs) (count $updated_pkgs) (count $removed_pkgs) (_fisher_now $elapsed) | _fisher_status_report >&2
+    _fisher_status (count $added_pkgs) (count $updated_pkgs) (count $removed_pkgs) (_fisher_now $elapsed) >&2
 end
 
 function _fisher_pkg_remove_all
@@ -391,20 +391,21 @@ function _fisher_fishfile_format -a pkgs
     '
 end
 
-
 function _fisher_fishfile_load
     command awk -v FS=\# '!/^#/ && NF { print $1 }'
 end
 
-function _fisher_status_report
-    command awk '
+function _fisher_status -a added updated removed elapsed
+    command awk -v ADDED=$added -v UPDATED=$updated -v REMOVED=$removed -v ELAPSED=$elapsed '
+        BEGIN {
+            if (ADDED = ADDED - UPDATED) res = msg(res, "added", ADDED)
+            if (UPDATED) res = msg(res, "updated", UPDATED)
+            if (REMOVED = REMOVED - UPDATED) res = msg(res, "removed", REMOVED)
+            printf((res ? res : "done") " in %.2fs\n", ELAPSED / 1000)
+        }
         function msg(res, str, n) {
             return (res ? res ", " : "") str " " n " package" (n > 1 ? "s" : "")
         }
-        $1 = $1 - $2 { res = msg(res, "added", $1) }
-                  $2 { res = msg(res, "updated", $2) }
-        $3 = $3 - $2 { res = msg(res, "removed", $3) }
-                     { printf((res ? res : "done") " in %.2fs\n", ($4 / 1000)) }
     '
 end
 
