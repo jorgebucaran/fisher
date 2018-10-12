@@ -160,7 +160,7 @@ function _fisher_commit
         command touch $fishfile
         echo "created empty fishfile in $fishfile" | command sed "s|$HOME|~|" >&2
     end
-    printf "%s\n" (_fisher_fishfile_indent (echo -s $argv\;) < $fishfile) > $fishfile
+    printf "%s\n" (_fisher_fishfile_format (echo -s $argv\;) < $fishfile) > $fishfile
 
     set -l expected_pkgs (_fisher_fishfile_load < $fishfile)
     set -l added_pkgs (_fisher_pkg_fetch_all $expected_pkgs)
@@ -280,7 +280,7 @@ function _fisher_pkg_get_deps
         if test ! -d "$path"
             echo $pkg
         else if test -s "$path/fishfile"
-            _fisher_pkg_get_deps (_fisher_fishfile_indent < $path/fishfile | _fisher_fishfile_load)
+            _fisher_pkg_get_deps (_fisher_fishfile_format < $path/fishfile | _fisher_fishfile_load)
         end
     end
 end
@@ -346,30 +346,20 @@ function _fisher_pkg_uninstall -a pkg
     end
 end
 
-function _fisher_fishfile_indent -a pkgs
+function _fisher_fishfile_format -a pkgs
     command awk -v PWD=$PWD -v HOME=$HOME -v PKGS="$pkgs" '
-        function normalize(s) {
-            gsub(/^[ \t]*|[ \t]*$|https?:\/\/|^[ \t]*github\.com\/|\.git$|\/$/, "", s)
-            sub(/^\.\//, PWD"/", s)
-            sub(HOME, "~", s)
-            return s
-        }
-        function get_pkg_name(s) {
-            split(s, tmp, /[@# ]+/)
-            return tmp[1]
-        }
         BEGIN {
             pkg_count = split(PKGS, pkgs, ";") - 1
             cmd = pkgs[1]
             for (i = 2; i <= pkg_count; i++) {
-                pkg_ids[i - 1] = get_pkg_name( pkgs[i] = normalize(pkgs[i]) )
+                pkg_ids[i - 1] = get_pkg_id( pkgs[i] = normalize(pkgs[i]) )
             }
         } {
             if (NF) {
-                nl = nl > 0 ? "" : nl
-                pkg_id = get_pkg_name( $0 = normalize($0) )
-                if (/^#/) print nl$0
-                else if (!seen[pkg_id]++) {
+                $0 = normalize($0)
+                newln = newln > 0 ? "" : newln
+                if (/^#/) print newln$0
+                else if (!seen[(pkg_id = get_pkg_id($0))]++) {
                     for (i = 1; i < pkg_count; i++) {
                         if (pkg_ids[i] == pkg_id) {
                             if (cmd == "rm") next
@@ -377,10 +367,10 @@ function _fisher_fishfile_indent -a pkgs
                             break
                         }
                     }
-                    print nl$0
+                    print newln$0
                 }
-                nl = NF
-            } else if (nl) nl = (nl > 0 ? "" : nl)"\n"
+                newln = NF
+            } else if (newln) newln = "\n"(newln > 0 ? "" : newln)
         }
         END {
             if (cmd == "rm" || pkg_count <= 1) exit
@@ -388,8 +378,19 @@ function _fisher_fishfile_indent -a pkgs
                 if (!seen[pkg_ids[i - 1]]) print pkgs[i]
             }
         }
+        function normalize(s) {
+            gsub(/^[ \t]*(https?:\/\/)?(github\.com\/)?|[\/ \t]*$/, "")
+            sub(/^\.\//, PWD"/", s)
+            sub(HOME, "~", s)
+            return s
+        }
+        function get_pkg_id(s) {
+            n = split(s, tmp, "@+")
+            return (s ~ /.+@.+\..+:.+/) ? tmp[1]tmp[2] : tmp[1]
+        }
     '
 end
+
 
 function _fisher_fishfile_load
     command awk -v FS=\# '!/^#/ && NF { print $1 }'
