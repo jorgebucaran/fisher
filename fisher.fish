@@ -234,11 +234,11 @@ function _fisher_pkg_fetch_all
                     command mkdir -p \"$fisher_cache/$pkg\"
                     command cp -Rf \"$fisher_config/$pkg\" \"$fisher_cache/$pkg/..\"
                 else if test -d \"$fisher_cache/$pkg\"
-                    echo cannot connect to server -- using data from \"$fisher_cache/$pkg\" | command sed 's|$HOME|~|' >&2
+                    echo cannot connect to server -- searching in \"$fisher_cache/$pkg\" | command sed 's|$HOME|~|' >&2
                     command cp -Rf \"$fisher_cache/$pkg\" \"$fisher_config/$pkg/..\"
                 else
                     command rm -rf \"$fisher_config/$pkg\"
-                    echo cannot install \"$pkg\" -- are you offline\? >&2
+                    echo cannot install \"$pkg\" -- is this a valid package\? >&2
                 end
             " >/dev/null &
 
