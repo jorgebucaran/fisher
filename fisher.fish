@@ -203,34 +203,31 @@ function _fisher_pkg_fetch_all
                     echo "cannot install \"$id\" -- is this a valid file?" >&2
                 end
                 continue
-            case https://\* ssh://\* {github,gitlab}.com/\* bitbucket.org/\*
-            case \*/\*
-                set id "github.com/$id"
-            case \*
-                echo "cannot install \"$id\" without a prefix -- should be <owner>/$id" >&2
-                continue
         end
 
-        echo $id | command awk '{
-            split($0, tmp, /@/)
-
-            pkg = tmp[1]
-            tag = tmp[2] ? tmp[2] : "master"
-            name = tmp[split(pkg, tmp, "/")]
-
-            print (\
-                pkg ~ /^github\.com/ ? "https://codeload."pkg"/tar.gz/"tag : \
-                pkg ~ /^gitlab\.com/ ? "https://"pkg"/-/archive/"tag"/"name"-"tag".tar.gz" : \
-                pkg ~ /^bitbucket\.org/ ? "https://"pkg"/get/"tag".tar.gz" : pkg \
-            ) "\t" pkg
-        }' | read -l url pkg
+        command awk -v ID=$id -v FS=/  'BEGIN {
+            if (split(ID, tmp, /@+|:/) > 2) {
+                if (tmp[4]) sub("@"tmp[4], "", ID)
+                print ID "\t" tmp[2]"/"tmp[1]"/"tmp[3] "\t" (tmp[4] ? tmp[4] : "master")
+            } else {
+                pkg = split(ID, _, "/") <= 2 ? "github.com/"tmp[1] : tmp[1]
+                tag = tmp[2] ? tmp[2] : "master"
+                print (\
+                    pkg ~ /^github/ ? "https://codeload."pkg"/tar.gz/"tag : \
+                    pkg ~ /^gitlab/ ? "https://"pkg"/-/archive/"tag"/"tmp[split(pkg, tmp, "/")]"-"tag".tar.gz" : \
+                    pkg ~ /^bitbucket/ ? "https://"pkg"/get/"tag".tar.gz" : pkg \
+                ) "\t" pkg
+            }
+        }' | read -l url pkg tag
 
         if test ! -d "$fisher_config/$pkg"
             fish -c "
                 echo fetching $url >&2
                 command mkdir -p \"$fisher_config/$pkg\"
-
-                if curl -Ss $url 2>&1 | tar -xzf- -C \"$fisher_config/$pkg\" --strip-components=1 2>/dev/null
+                if test ! -z \"$tag\"
+                    command git clone $url \"$fisher_config/$pkg\" --branch $tag --depth 1 2>/dev/null
+                    or echo cannot clone \"$url\" -- is this a valid url\? >&2
+                else if curl -Ss $url 2>&1 | tar -xzf- -C \"$fisher_config/$pkg\" --strip-components=1 2>/dev/null
                     command mkdir -p \"$fisher_cache/$pkg\"
                     command cp -Rf \"$fisher_config/$pkg\" \"$fisher_cache/$pkg/..\"
                 else if test -d \"$fisher_cache/$pkg\"
@@ -385,8 +382,7 @@ function _fisher_fishfile_format -a pkgs
             return s
         }
         function get_pkg_id(s) {
-            n = split(s, tmp, "@+")
-            return (s ~ /.+@.+\..+:.+/) ? tmp[1]tmp[2] : tmp[1]
+            return (split(s, tmp, /@+|:/) > 2) ? tmp[2]"/"tmp[1]"/"tmp[3] : tmp[1]
         }
     '
 end
