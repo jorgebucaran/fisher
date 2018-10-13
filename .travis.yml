@@ -6,3 +6,5 @@ before_install:
 script:
     - curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
     - fish -c "fisher version; and fisher help"
+notifications:
+  email: false
