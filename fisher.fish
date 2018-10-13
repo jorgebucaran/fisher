@@ -376,7 +376,7 @@ function _fisher_fishfile_format -a pkgs
             }
         }
         function normalize(s) {
-            gsub(/^[ \t]*(https?:\/\/)?(github\.com\/)?|[\/ \t]*$/, "")
+            gsub(/^[ \t]*(https?:\/\/)?(github\.com\/)?|[\/ \t]*$/, "", s)
             sub(/^\.\//, PWD"/", s)
             sub(HOME, "~", s)
             return s
