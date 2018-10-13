@@ -284,7 +284,7 @@ end
 
 function _fisher_pkg_install -a pkg
     set -l name (command basename $pkg)
-    set -l files $pkg/{functions,completions,conf.d}/* $pkg/*.fish
+    set -l files $pkg/{functions,completions,conf.d}/**.* $pkg/*.fish
     for source in $files
         set -l target (command basename $source)
         switch $source
@@ -313,7 +313,7 @@ end
 
 function _fisher_pkg_uninstall -a pkg
     set -l name (command basename $pkg)
-    set -l files $pkg/{conf.d,completions,functions}/* $pkg/*.fish
+    set -l files $pkg/{conf.d,completions,functions}/**.* $pkg/*.fish
     for source in $files
         set -l target (command basename $source)
         set -l filename (command basename $target .fish)
