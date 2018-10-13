@@ -162,7 +162,7 @@ function _fisher_commit
     end
     printf "%s\n" (_fisher_fishfile_format (echo -s $argv\;) < $fishfile) > $fishfile
 
-    set -l expected_pkgs (_fisher_fishfile_load < $fishfile)
+    set -l expected_pkgs (_fisher_fishfile_read < $fishfile)
     set -l added_pkgs (_fisher_pkg_fetch_all $expected_pkgs)
     set -l updated_pkgs (
         for pkg in $removed_pkgs
@@ -257,10 +257,8 @@ function _fisher_pkg_fetch_all
     for pkg in $local_pkgs
         set -l path local/$USER
         set -l name (command basename $pkg)
-
         command mkdir -p $fisher_config/$path
         command ln -sf $pkg $fisher_config/$path
-
         set actual_pkgs $actual_pkgs $path/$name
         _fisher_pkg_install $fisher_config/$path/$name
     end
@@ -277,7 +275,7 @@ function _fisher_pkg_get_deps
         if test ! -d "$path"
             echo $pkg
         else if test -s "$path/fishfile"
-            _fisher_pkg_get_deps (_fisher_fishfile_format < $path/fishfile | _fisher_fishfile_load)
+            _fisher_pkg_get_deps (_fisher_fishfile_format < $path/fishfile | _fisher_fishfile_read)
         end
     end
 end
@@ -343,6 +341,10 @@ function _fisher_pkg_uninstall -a pkg
     end
 end
 
+function _fisher_fishfile_read
+    command awk -v FS=\# '!/^#/ && NF { print $1 }'
+end
+
 function _fisher_fishfile_format -a pkgs
     command awk -v PWD=$PWD -v HOME=$HOME -v PKGS="$pkgs" '
         BEGIN {
@@ -385,10 +387,6 @@ function _fisher_fishfile_format -a pkgs
             return (split(s, tmp, /@+|:/) > 2) ? tmp[2]"/"tmp[1]"/"tmp[3] : tmp[1]
         }
     '
-end
-
-function _fisher_fishfile_load
-    command awk -v FS=\# '!/^#/ && NF { print $1 }'
 end
 
 function _fisher_status -a added updated removed elapsed
