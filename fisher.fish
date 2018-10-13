@@ -227,7 +227,7 @@ function _fisher_pkg_fetch_all
                 if test ! -z \"$tag\"
                     command git clone $url \"$fisher_config/$pkg\" --branch $tag --depth 1 2>/dev/null
                     or echo cannot clone \"$url\" -- is this a valid url\? >&2
-                else if curl -Ss $url 2>&1 | tar -xzf- -C \"$fisher_config/$pkg\" --strip-components=1 2>/dev/null
+                else if command curl -Ss $url 2>&1 | command tar -xzf- -C \"$fisher_config/$pkg\" --strip-components=1 2>/dev/null
                     command mkdir -p \"$fisher_cache/$pkg\"
                     command cp -Rf \"$fisher_config/$pkg\" \"$fisher_cache/$pkg/..\"
                 else if test -d \"$fisher_cache/$pkg\"
