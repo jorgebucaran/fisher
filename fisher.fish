@@ -91,20 +91,23 @@ function _fisher_version -a file
 end
 
 function _fisher_help
-    echo "usage: fisher add <PACKAGES>    add packages"
+    echo "usage: "
+    echo "       fisher add <PACKAGES>    add packages"
     echo "       fisher rm  <PACKAGES>    remove packages"
-    echo "       fisher ls                list installed packages"
-    echo "       fisher self-update       update fisher"
-    echo "       fisher self-uninstall    uninstall fisher & all packages"
+    echo "       fisher                   update installed packages"
+    echo "       fisher ls                show installed packages"
     echo "       fisher help              show this help"
     echo "       fisher version           show version"
+    echo "       fisher self-update       update fisher"
+    echo "       fisher self-uninstall    uninstall fisher"
     echo
     echo "examples:"
     echo "       fisher add jethrokuan/z rafaelrinaldi/pure"
     echo "       fisher add gitlab.com/owner/foobar@v2"
-    echo "       fisher add ~/myfish/mypkg"
+    echo "       fisher add ~/path/to/myfish/pkg"
     echo "       fisher rm rafaelrinaldi/pure"
     echo "       fisher ls | fisher rm"
+    echo "       fisher add < bundle"
 end
 
 function _fisher_self_update -a file
