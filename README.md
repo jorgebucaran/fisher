@@ -171,10 +171,10 @@ vi ~/.config/fish/fishfile
 ```
 
 ```diff
-rafaelrinaldi/pure
-jethrokuan/z@pre27
-- gitlab.com/jorgebucaran/mermaid
-- edc/bass
+- rafaelrinaldi/pure
+- jethrokuan/z@pre27
+gitlab.com/jorgebucaran/mermaid
+edc/bass
 + FabioAntunes/fish-nvm
 
 # my local packages
@@ -184,6 +184,8 @@ jethrokuan/z@pre27
 ```
 fisher
 ```
+
+That will remove **rafaelrinaldi/pure** and **jethrokuan/z**, add **FabioAntunes/fish-nvm** and update the rest.
 
 ## Package concepts
 
