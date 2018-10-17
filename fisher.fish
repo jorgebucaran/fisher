@@ -35,9 +35,21 @@ function fisher -a cmd -d "fish package manager"
         _fisher_self_complete
     end
 
+    if test -e "$fisher_path/conf.d/fisher.fish"
+        command rm -f $fisher_path/conf.d/fisher.fish
+    end
+
+    switch "$version"
+        case \*-\*
+        case 2\*
+            echo "fisher copy-user-key-bindings" > $fisher_path/conf.d/fisher.fish
+    end
+
     switch "$cmd"
         case self-complete
             _fisher_self_complete
+        case copy-user-key-bindings
+            _fisher_copy_user_key_bindings
         case ls
             _fisher_ls | command sed "s|$HOME|~|"
         case -v {,--}version
@@ -76,6 +88,20 @@ function _fisher_self_complete
     complete -xc fisher -n __fish_use_subcommand -a add -d "Add packages"
     for pkg in (_fisher_ls)
         complete -xc fisher -n "__fish_seen_subcommand_from rm" -a $pkg
+    end
+end
+
+function _fisher_copy_user_key_bindings
+    if functions -q fish_user_key_bindings
+        functions -c fish_user_key_bindings fish_user_key_bindings_copy
+    end
+    function fish_user_key_bindings
+        for file in $fisher_path/conf.d/*_key_bindings.fish
+            source $file >/dev/null 2>/dev/null
+        end
+        if functions -q fish_user_key_bindings_copy
+            fish_user_key_bindings_copy
+        end
     end
 end
 
@@ -135,7 +161,7 @@ end
 
 function _fisher_self_uninstall
     set -l current_pkgs $fisher_config/*/*/*
-    for path in $fisher_cache (_fisher_pkg_remove_all $current_pkgs) $fisher_config $fisher_path/{functions,completions}/fisher.fish $fish_config/fishfile
+    for path in $fisher_cache (_fisher_pkg_remove_all $current_pkgs) $fisher_config $fisher_path/{functions,completions,conf.d}/fisher.fish $fish_config/fishfile
         echo "removing $path"
         command rm -rf $path 2>/dev/null
     end | command sed "s|$HOME|~|" >&2
