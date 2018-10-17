@@ -164,15 +164,18 @@ fisher version
 
 Whenever you add or remove a package from the command line we'll write to a text file in ~/.config/fish/fishfile. This is your fishfile. It lists every package that is currently installed on your system. You should add this file to your dotfiles or version control if you want to reproduce your configuration on a different system.
 
-You can edit this file to add or remove packages and then run `fisher` to commit your changes. Only packages listed in the file will be installed after fisher returns. If a package is already installed it will be updated. Empty lines and everything after a `#` symbol (comments) will be ignored.
+You can edit this file to add or remove packages and then run `fisher` to commit your changes. Only the packages listed in this file will be installed after fisher returns. If a package is already installed it will be updated. Empty lines and everything after a `#` symbol (comments) will be ignored.
 
 ```fish
 vi ~/.config/fish/fishfile
 ```
 
-```fish
+```diff
 rafaelrinaldi/pure
 jethrokuan/z@pre27
+- gitlab.com/jorgebucaran/mermaid
+- edc/bass
++ FabioAntunes/fish-nvm
 
 # my local packages
 ~/path/to/myfish/pkg
