@@ -3,7 +3,7 @@
 [![Build Status](https://img.shields.io/travis/jorgebucaran/fisher.svg)](https://travis-ci.org/jorgebucaran/fisher)
 [![Releases](https://img.shields.io/github/release/jorgebucaran/fisher.svg?label=latest)](https://github.com/jorgebucaran/fisher/releases)
 
-> **Notice** : Psst! Migrating from V2 to V3? Please see our [**migration guide**](https://github.com/jorgebucaran/fisher/issues/450) and happy upgrading! :wave:
+> **Notice**: Psst! Migrating from V2 to V3? Please see our [**migration guide**](https://github.com/jorgebucaran/fisher/issues/450) and happy upgrading! :wave:
 
 Fisher is a package manager for the [fish shell](https://fishshell.com). It defines a common interface for package authors to build and distribute their shell scripts in a portable way. You can use it to extend your shell capabilities, change the look of your prompt and create repeatable configurations across different systems effortlessly.
 
@@ -70,7 +70,7 @@ Stuck in fish 2.2 or older and can't upgrade your shell? We got you covered. You
 
 ```fish
 set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
-for file in $XDG_CONFIG_HOME/conf.d/*.fish
+for file in $XDG_CONFIG_HOME/fish/conf.d/*.fish
     builtin source $file 2>/dev/null
 end
 ```
@@ -257,37 +257,21 @@ Configuration snippets consist of all the fish files inside your ~/.config/fish/
 
 Unlike functions or completions which can be erased programmatically, we can't undo a fish file that has been sourced without creating a new shell session. For this reason, packages that use configuration snippets provide custom uninstall logic through an uninstall [event handler](https://fishshell.com/docs/current/#event).
 
-Let's walk through an example that uses this feature to add a new key binding for the Control-G sequence that opens your fishfile in the `vi` editor. When you install the package, `fishfile-quick-edit.fish` will be evaluated, adding the specified key binding and loading the uninstall event handler function. When you uninstall it, we'll emit an uninstall event where the key binding will be erased.
+Let's walk through an example that uses this feature to add a new key binding for the Control-G sequence that opens your fishfile in the `vi` editor. When you install the package, `fishfile_quick_edit_key_bindings.fish` will be evaluated, adding the specified key binding and loading the event handler function. When you uninstall it, we'll emit an uninstall event where the key binding will be erased.
 
 ```
 fish-fishfile-quick-edit
 └── conf.d
-    └── fishfile-quick-edit.fish
+    └── fishfile_quick_edit_key_bindings.fish
 ```
 
 ```fish
 bind \cg "vi ~/.config/fish/fishfile"
 
-function fishfile-quick-edit_uninstall --event fishfile-quick-edit_uninstall
+set -l name (basename (status -f) .fish){_uninstall}
+
+function $name --event $name
     bind -e \cg
-end
-```
-
-Notice that custom key bindings on shell startup are only supported in fish 3.0 or newer. To make our package compatible with older versions of fish you can install a [third-party package](https://github.com/???/fish-key-bindings-shim) or add the following code to your ~/.config/fish/config.fish.
-
-```fish
-if functions -q fish_user_key_bindings
-    functions -c fish_user_key_bindings fish_user_key_bindings_copy
-end
-
-function fish_user_key_bindings
-    set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
-    for file in $XDG_CONFIG_HOME/fish/conf.d/*_key_bindings.fish
-        source $file >/dev/null 2>/dev/null
-    end
-    if functions -q fish_user_key_bindings_copy
-        fish_user_key_bindings_copy
-    end
 end
 ```
 
