@@ -1,4 +1,4 @@
-set -g fisher_version 3.0.9
+set -g fisher_version 3.1.0
 
 type source >/dev/null; or function source; . $argv; end
 
