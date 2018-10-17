@@ -49,7 +49,7 @@ end
 
 Use the `$fisher_path` environment variable to change the prefix location where functions, completions, and configuration snippets will be copied to when a package is installed. The default location is where fisher itself is installed. If you followed the installation instructions above it should be in ~/.config/fish.
 
-Make sure to append your functions and completions directories to the `$fish_function_path` and `$fish_complete_path` environment variables so that they can be autoloaded by fish in future sessions and to source [configuration snippets](#configuration-snippets) on startup. Here is a boilerplate configuration you can use in your ~/.config/fish/config.fish.
+Make sure to append your functions and completions directories to the `$fish_function_path` and `$fish_complete_path` environment variables so that they can be autoloaded by fish in future sessions and to run [configuration snippets](#configuration-snippets) on shell startup. Here is a boilerplate configuration you can use in your own fish configuration.
 
 ```fish
 set -g fisher_path /path/to/another/location
@@ -92,7 +92,7 @@ fisher add jethrokuan/z rafaelrinaldi/pure
 A username or organization name is required. To install a package from anywhere else, use the address of the server and the path to the repository. HTTPS is always assumed so you don't need to specify the protocol.
 
 ```
-fisher add gitlab.com/jorgebucaran/kraken
+fisher add gitlab.com/jorgebucaran/mermaid
 ```
 
 To install a package from a tag, branch or a [commit-ish](https://git-scm.com/docs/gitglossary#gitglossary-aiddefcommit-ishacommit-ishalsocommittish), specify the reference following an `@` symbol after the package name. If none is given, we'll use the latest code.
@@ -117,7 +117,7 @@ List all the packages that are currently installed using the `ls` command. This 
 fisher ls
 jethrokuan/z
 rafaelrinaldi/pure
-gitlab.com/jorgebucaran/kraken
+gitlab.com/jorgebucaran/mermaid
 edc/bass
 ~/path/to/myfish/pkg
 ```
@@ -186,19 +186,17 @@ fisher
 
 Packages help you organize shell scripts into reusable, independent components that can be shared through a git URL or the path to a local directory. Even if your package is not meant to be shared with others, you can benefit from composition and the ability to depend on other packages.
 
-A package is uniquely identified by the name of its host, owner and root directory. Alas, the lack of private function scope in fish causes all package functions to share the same namespace. A good rule of thumb is to prefix functions intended for private use with the name of your package to reduce the possibility of conflicts.
-
-The structure of a package can be adopted from the fictional project described below. These are the files that fisher looks for when installing or uninstalling a package. Of course, you can elaborate on this to add tests, documentation, and other files such as README and LICENSE files. The name of the root directory can be anything you wish.
+The structure of a package can be adopted from the fictional project described below. These are the files that fisher looks for when installing or uninstalling a package. Of course, you can elaborate on this to add tests, documentation, and other files such as README and LICENSE files. The name of the root directory can be anything you like.
 
 ```
-fish-fly
+fish-kraken
 ├── fishfile
 ├── functions
-│   └── fly.fish
+│   └── kraken.fish
 ├── completions
-│   └── fly.fish
+│   └── kraken.fish
 └── conf.d
-    └── fly.fish
+    └── kraken.fish
 ```
 
 If your project depends on other packages, it should list them as dependencies in a fishfile. There is no need for a fishfile otherwise. The rules concerning the usage of the fishfile are the same rules we've already covered in [using the fishfile](#using-the-fishfile).
@@ -206,9 +204,11 @@ If your project depends on other packages, it should list them as dependencies i
 While some packages contain every kind of file, some packages contain only functions or configuration snippets. You are not limited to a single file per directory either. There can be as many files as you need or only one as in the next example.
 
 ```
-fish-fly
-└── fly.fish
+fish-kraken
+└── kraken.fish
 ```
+
+The lack of private function scope in fish causes all package functions to share the same namespace. A good rule of thumb is to prefix functions intended for private use with the name of your package to reduce the possibility of conflicts.
 
 ### Creating your own package
 
@@ -238,7 +238,7 @@ fisher add /absolute/path/to/fish-readme
 
 The next logical step is to share it with others. How do you do that? Fisher is not a package registry. Its function is to fetch fish scripts and put them in place so that your shell can find them. To publish a package put your code online. You can use GitHub, GitLab or BitBucket or anywhere you like.
 
-Now let's install the package again, this time from its new location. Open your ~/.config/fish/fishfile and replace the local version of the package we previously installed with the URL of the remote repository. Save your changes and run `fisher`.
+Now let's install the package again, this time from its new location. Open your ~/.config/fish/fishfile and replace the local version of the package we previously added with the URL of the remote repository. Save your changes and run `fisher`.
 
 ```diff
 - /absolute/path/to/fish-readme
@@ -257,7 +257,7 @@ Configuration snippets consist of all the fish files inside your ~/.config/fish/
 
 Unlike functions or completions which can be erased programmatically, we can't undo a fish file that has been sourced without creating a new shell session. For this reason, packages that use configuration snippets provide custom uninstall logic through an uninstall [event handler](https://fishshell.com/docs/current/#event).
 
-Let's walk through an example that uses this feature to add a new key binding for the Control-G sequence that opens your fishfile in the `vi` editor. When you install the package, `fishfile_quick_edit_key_bindings.fish` will be evaluated, adding the specified key binding and loading the event handler function. When you uninstall it, we'll emit an uninstall event where the key binding will be erased.
+Let's walk through an example that uses this feature to add a new key binding for the Control-G sequence that opens your fishfile in the `vi` editor. When you install the package, `fishfile_quick_edit_key_bindings.fish` will be sourced, adding the specified key binding and loading the event handler function. When you uninstall it, we'll emit an uninstall event where the key binding will be erased.
 
 ```
 fish-fishfile-quick-edit
@@ -277,7 +277,7 @@ end
 
 ## Uninstalling
 
-You wish to know how to uninstall fisher and everything you've installed with it from your system. Or perhaps something went wrong and you want to start over. This will uninstall all the packages, purge the cache and then remove fisher from your fish functions directory.
+You wish to know how to uninstall fisher and everything you've installed with it from your system. Or perhaps something went wrong and you want to start over. This command will uninstall all the packages, purge the cache, and remove fisher from your fish functions directory.
 
 ```fish
 fisher self-uninstall
