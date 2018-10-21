@@ -189,7 +189,10 @@ function _fisher_commit
         command touch $fishfile
         echo "created empty fishfile in $fishfile" | command sed "s|$HOME|~|" >&2
     end
-    printf "%s\n" (_fisher_fishfile_format (echo -s $argv\;) (echo -s $removed_pkgs\;) < $fishfile) > $fishfile
+    printf "%s\n" (_fisher_fishfile_format (
+        echo -s $argv\;) (
+        echo -s $removed_pkgs\;
+    ) < $fishfile) > $fishfile
 
     set -l expected_pkgs (_fisher_fishfile_read < $fishfile)
     set -l added_pkgs (_fisher_pkg_fetch_all $expected_pkgs)
