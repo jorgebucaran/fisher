@@ -387,7 +387,7 @@ function _fisher_fishfile_format -a pkgs
                 $0 = normalize($0)
                 newln = newln > 0 ? "" : newln
                 if (/^#/) print newln$0
-                else if (!seen[(pkg_id = get_pkg_id($0))]++) {
+                else if (!seen_pkgs[(pkg_id = get_pkg_id($0))]++) {
                     for (i = 1; i < pkg_count; i++) {
                         if (pkg_ids[i] == pkg_id) {
                             if (cmd == "rm") next
@@ -403,7 +403,7 @@ function _fisher_fishfile_format -a pkgs
         END {
             if (cmd == "rm" || pkg_count <= 1) exit
             for (i = 2; i <= pkg_count; i++) {
-                if (!seen[pkg_ids[i - 1]]) print pkgs[i]
+                if (!seen_pkgs[pkg_ids[i - 1]]) print pkgs[i]
             }
         }
         function normalize(s) {
