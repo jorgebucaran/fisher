@@ -3,7 +3,7 @@
 [![Build Status](https://img.shields.io/travis/jorgebucaran/fisher.svg)](https://travis-ci.org/jorgebucaran/fisher)
 [![Releases](https://img.shields.io/github/release/jorgebucaran/fisher.svg?label=latest)](https://github.com/jorgebucaran/fisher/releases)
 
-> **Notice**: Psst! Migrating from V2 to V3? Please see our [**migration guide**](https://github.com/jorgebucaran/fisher/issues/450) and happy upgrading! :wave:
+> ✋ Psst! Migrating from V2 to V3? See our [**migration guide**](https://github.com/jorgebucaran/fisher/issues/450) & happy upgrading!
 
 Fisher is a package manager for the [fish shell](https://fishshell.com). It defines a common interface for package authors to build and distribute their shell scripts in a portable way. You can use it to extend your shell capabilities, change the look of your prompt and create repeatable configurations across different systems effortlessly.
 
@@ -17,13 +17,15 @@ Fisher is a package manager for the [fish shell](https://fishshell.com). It defi
 
 ## Installation
 
-Download fisher to your fish functions directory or any directory in your $fish_function_path.
+Download `fisher` to your fish functions directory or any directory in the fish function path.
 
 ```sh
 curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 ```
 
-If the [XDG_CONFIG_HOME](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html#variables) environment variable is defined on your system, use $XDG_CONFIG_HOME/fish to resolve the path to your fish configuration directory instead of ~/.config/fish.
+Your shell can take a few seconds before refreshing the function path. If `fisher` is not immediately available after the download is complete, you can launch a new session, or [replace the current session](https://fishshell.com/docs/current/commands.html#exec) with a new one.
+
+> **Note:** If the [`XDG_CONFIG_HOME`](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html#variables) environment variable is defined on your system, use `$XDG_CONFIG_HOME/fish` to resolve the path to your fish configuration directory.
 
 ### Dependencies
 
@@ -33,9 +35,7 @@ If the [XDG_CONFIG_HOME](https://specifications.freedesktop.org/basedir-spec/bas
 
 ### Bootstrap installation
 
-To automate installing fisher on a new system, add the following code to your ~/.config/fish/config.fish. This will download fisher and install all the packages listed in your [fishfile](#using-the-fishfile).
-
-Your shell may take a few seconds before refreshing your functions path. By running fisher in its own shell we make sure it will be available immediately after the download is complete.
+To automate installing Fisher and the packages listed in your [fishfile](#using-the-fishfile) on a new system, add the following code to your fish configuration file.
 
 ```fish
 if not functions -q fisher
@@ -47,7 +47,7 @@ end
 
 ### Changing the installation prefix
 
-Use the `$fisher_path` environment variable to change the prefix location where functions, completions, and configuration snippets will be copied to when a package is installed. The default location is where fisher itself is installed. If you followed the installation instructions above it should be in ~/.config/fish.
+Use the `$fisher_path` environment variable to change the prefix location where functions, completions, and configuration snippets will be copied to when a package is installed. The default location will be your fish configuration directory or `~/.config/fish` if you followed the instructions above.
 
 Make sure to append your functions and completions directories to the `$fish_function_path` and `$fish_complete_path` environment variables so that they can be autoloaded by fish in future sessions and to run [configuration snippets](#configuration-snippets) on shell startup. Here is a boilerplate configuration you can use in your own fish configuration.
 
@@ -62,11 +62,11 @@ for file in $fisher_path/conf.d/*.fish
 end
 ```
 
-Do I need this? It depends. If you want to keep your own functions, completions, and configuration snippets separate from packages installed with fisher, you can customize the installation prefix. If you prefer to keep everything in the same place, you can skip this. If you are not sure, feel free to create an issue and ask.
+Do I need this? It depends. If you want to keep your own functions, completions, and configuration snippets separate from packages installed with Fisher, you can customize the installation prefix. If you prefer to keep everything in the same place, you can skip this. If you are not sure, feel free to create an issue and ask.
 
 ### Legacy fish support
 
-Stuck in fish 2.2 or older and can't upgrade your shell? We got you covered. You'll need to run [configuration snippets](#configuration-snippets) manually on shell startup. Open your ~/.config/fish/config.fish and add the following code to the beginning of the file.
+Stuck in fish 2.2 or older and can't upgrade your shell? We got you covered. You'll need to run [configuration snippets](#configuration-snippets) manually on shell startup. Open your fish configuration file and add the following code to the beginning of the file.
 
 ```fish
 set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
@@ -79,7 +79,7 @@ end
 
 You've found an interesting utility you'd like to try out. Or perhaps you've [created a package](#creating-your-own-package) yourself. How do you install it on your system? You may want to update or remove it later too. How do you do that?
 
-You can use fisher to add, update and remove packages interactively, taking advantage of fish tab completions and syntax highlighting. Or [edit your fishfile](#using-the-fishfile) and commit your changes. Do you prefer a CLI-centered approach, text-based approach, or both?
+You can use Fisher to add, update, and remove packages interactively, taking advantage of fish tab completion and syntax highlighting. Or [edit your fishfile](#using-the-fishfile) and commit your changes. Do you prefer a CLI-centered approach, text-based approach, or both?
 
 ### Adding packages
 
@@ -162,9 +162,9 @@ fisher version
 
 ### Using the fishfile
 
-Whenever you add or remove a package from the command line we'll write to a text file in ~/.config/fish/fishfile. This is your fishfile. It lists every package that is currently installed on your system. You should add this file to your dotfiles or version control if you want to reproduce your configuration on a different system.
+Whenever you add or remove a package from the command line we'll write to a text file in `~/.config/fish/fishfile`. This is your fishfile. It lists every package that is currently installed on your system. You should add this file to your dotfiles or version control if you want to reproduce your configuration on a different system.
 
-You can edit this file to add or remove packages and then run `fisher` to commit your changes. Only the packages listed in this file will be installed after fisher returns. If a package is already installed it will be updated. Empty lines and everything after a `#` symbol (comments) will be ignored.
+You can edit this file to add or remove packages and then run `fisher` to commit your changes. Only the packages listed in this file will be installed after `fisher` returns. If a package is already installed, it will be updated. Empty lines and anything after a `#` symbol (comments) will be ignored.
 
 ```fish
 vi ~/.config/fish/fishfile
@@ -243,7 +243,7 @@ fisher add /absolute/path/to/fish-readme
 
 The next logical step is to share it with others. How do you do that? Fisher is not a package registry. Its function is to fetch fish scripts and put them in place so that your shell can find them. To publish a package put your code online. You can use GitHub, GitLab or BitBucket or anywhere you like.
 
-Now let's install the package again, this time from its new location. Open your ~/.config/fish/fishfile and replace the local version of the package we previously added with the URL of the remote repository. Save your changes and run `fisher`.
+Now let's install the package again, this time from its new location. Open your [fishfile](#using-the-fishfile) and replace the local version of the package we previously added with the URL of the remote repository. Save your changes and run `fisher`.
 
 ```diff
 - /absolute/path/to/fish-readme
@@ -258,7 +258,7 @@ You can leave off the github.com part of the URL when adding or removing package
 
 ### Configuration snippets
 
-Configuration snippets consist of all the fish files inside your ~/.config/fish/conf.d directory. They are evaluated on [shell startup](http://fishshell.com/docs/current/index.html#initialization) and generally used to set environment variables, add new key bindings, etc.
+Configuration snippets consist of all the fish files inside your `~/.config/fish/conf.d` directory. They are evaluated on [shell startup](http://fishshell.com/docs/current/index.html#initialization) and generally used to set environment variables, add new key bindings, etc.
 
 Unlike functions or completions which can be erased programmatically, we can't undo a fish file that has been sourced without creating a new shell session. For this reason, packages that use configuration snippets provide custom uninstall logic through an uninstall [event handler](https://fishshell.com/docs/current/#event).
 
