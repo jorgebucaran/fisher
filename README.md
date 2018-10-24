@@ -25,7 +25,7 @@ curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fi
 
 Your shell can take a few seconds before refreshing the function path. If `fisher` is not immediately available after the download is complete, you can launch a new session, or [replace the current session](https://fishshell.com/docs/current/commands.html#exec) with a new one.
 
-> **Note:** If the [`XDG_CONFIG_HOME`](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html#variables) environment variable is defined on your system, use `$XDG_CONFIG_HOME/fish` to resolve the path to your fish configuration directory.
+> **Note:** If the [`XDG_CONFIG_HOME`](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html#variables) environment variable is defined on your system, use `$XDG_CONFIG_HOME/fish` to find the path to your fish configuration directory.
 
 ### Dependencies
 
