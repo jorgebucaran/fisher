@@ -5,7 +5,7 @@
 
 > ✋ Psst! Migrating from V2 to V3? See our [**migration guide**](https://github.com/jorgebucaran/fisher/issues/450) & happy upgrading!
 
-Fisher is a package manager for the [fish shell](https://fishshell.com). It defines a common interface for package authors to build and distribute their shell scripts in a portable way. You can use it to extend your shell capabilities, change the look of your prompt and create repeatable configurations across different systems effortlessly.
+Fisher is a package manager for the [fish shell](https://fishshell.com). It defines a common interface for package authors to build and distribute their shell scripts in a portable way. You can use it to extend your shell capabilities, change the look of your prompt and create repeatable configurations across different systems effortlessly. You can find some featured packages in the [awesome-fish-shell list](https://github.com/jorgebucaran/awesome-fish-shell).
 
 ## Features
 
