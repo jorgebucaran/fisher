@@ -47,15 +47,13 @@ end
 
 ### Changing the installation prefix
 
-Use the `$fisher_path` environment variable to change the prefix location where functions, completions, and configuration snippets will be copied to when a package is installed. The default location will be your fish configuration directory or `~/.config/fish` if you followed the instructions above.
-
-Make sure to append your functions and completions directories to the `$fish_function_path` and `$fish_complete_path` environment variables so that they can be autoloaded by fish in future sessions and to run [configuration snippets](#configuration-snippets) on shell startup. Here is a boilerplate configuration you can use in your own fish configuration.
+Use the `$fisher_path` environment variable to change the location where functions, completions, and [configuration snippets](#configuration-snippets) will be copied to when a package is installed. The default location will be your fish configuration directory.
 
 ```fish
 set -g fisher_path /path/to/another/location
 
-set fish_function_path $fish_function_path $fisher_path/functions
-set fish_complete_path $fish_complete_path $fisher_path/completions
+set fish_function_path $fish_function_path[1] $fisher_path/functions $fish_function_path
+set fish_complete_path $fish_complete_path[1] $fisher_path/completions $fish_complete_path
 
 for file in $fisher_path/conf.d/*.fish
     builtin source $file 2> /dev/null
