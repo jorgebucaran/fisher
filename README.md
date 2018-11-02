@@ -52,17 +52,18 @@ Use the `$fisher_path` environment variable to change the prefix location where 
 Make sure to append your functions and completions directories to the `$fish_function_path` and `$fish_complete_path` environment variables so that they can be autoloaded by fish in future sessions and to run [configuration snippets](#configuration-snippets) on shell startup. Here is a boilerplate configuration you can use in your own fish configuration.
 
 ```fish
+set -l my_fish ~/.config/fish
 set -g fisher_path /path/to/another/location
 
-set fish_function_path $fish_function_path $fisher_path/functions
-set fish_complete_path $fish_complete_path $fisher_path/completions
+set fish_function_path $my_fish/functions $fisher_path/functions $fish_function_path
+set fish_complete_path $my_fish/completions $fisher_path/completions $fish_complete_path
 
 for file in $fisher_path/conf.d/*.fish
     builtin source $file 2> /dev/null
 end
 ```
 
-Do I need this? It depends. If you want to keep your own functions, completions, and configuration snippets separate from packages installed with Fisher, you can customize the installation prefix. If you prefer to keep everything in the same place, you can skip this. If you are not sure, feel free to create an issue and ask.
+Do I need this? It depends. If you want to keep your own functions, completions, and configuration snippets separate from packages installed with Fisher, you can customize the installation prefix. Especially if your own files are tracked by Git, but you don't want Fisher's to be. If you prefer to keep everything in the same place, you can skip this. If you are not sure, feel free to create an issue and ask.
 
 ### Legacy fish support
 
