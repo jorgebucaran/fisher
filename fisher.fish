@@ -1,7 +1,5 @@
 set -g fisher_version 3.1.1
 
-type source >/dev/null; or function source; . $argv; end
-
 switch (command uname)
     case Darwin FreeBSD
         function _fisher_now -a elapsed
@@ -14,35 +12,37 @@ switch (command uname)
 end
 
 function fisher -a cmd -d "fish package manager"
-    if not command which curl >/dev/null
-        echo "curl is required to use fisher -- install curl and try again" >&2
-        return 1
-    end
-
-    test -z "$XDG_CACHE_HOME"; and set XDG_CACHE_HOME ~/.cache
-    test -z "$XDG_CONFIG_HOME"; and set XDG_CONFIG_HOME ~/.config
+    set -q XDG_CACHE_HOME; or set XDG_CACHE_HOME ~/.cache
+    set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
 
     set -g fish_config $XDG_CONFIG_HOME/fish
     set -g fisher_cache $XDG_CACHE_HOME/fisher
     set -g fisher_config $XDG_CONFIG_HOME/fisher
 
-    test -z "$fisher_path"; and set -g fisher_path $fish_config
+    set -q fisher_path; or set -g fisher_path $fish_config
 
-    command mkdir -p {$fish_config,$fisher_path}/{functions,completions,conf.d} $fisher_cache
+    for dir in {$fish_config,$fisher_path}/{functions,completions,conf.d} $fisher_cache
+        if test ! -e $dir
+            command mkdir -p $dir
+        end
+    end
 
     if test ! -e "$fisher_path/completions/fisher.fish"
         echo "fisher self-complete" > $fisher_path/completions/fisher.fish
         _fisher_self_complete
     end
 
-    if test -e "$fisher_path/conf.d/fisher.fish"
-        command rm -f $fisher_path/conf.d/fisher.fish
-    end
+    if test ! -e "$fisher_path/conf.d/fisher.fish"
+        switch "$version"
+            case 2\*
+                echo "fisher copy-user-key-bindings" > $fisher_path/conf.d/fisher.fish
+        end
 
-    switch "$version"
-        case \*-\*
-        case 2\*
-            echo "fisher copy-user-key-bindings" > $fisher_path/conf.d/fisher.fish
+    else
+        switch "$version"
+            case \*-\* 3\*
+                command rm -f $fisher_path/conf.d/fisher.fish
+        end
     end
 
     switch "$cmd"
@@ -140,7 +140,12 @@ function _fisher_self_update -a file
     set -l url "https://raw.githubusercontent.com/jorgebucaran/fisher/master/fisher.fish"
     echo "fetching $url" >&2
 
-    curl -s "$url?nocache" >$file@
+    if not type -p curl >/dev/null 2>&1
+        echo "curl is required to update fisher -- install curl and try again" >&2
+        return 1
+    end
+
+    command curl -s "$url?nocache" >$file@
 
     set -l next_version (awk 'NR == 1 { print $4; exit }' < $file@)
     switch "$next_version"
@@ -224,6 +229,11 @@ function _fisher_pkg_fetch_all
     set -l local_pkgs
     set -l actual_pkgs
     set -l expected_pkgs
+
+    if not type -p curl >/dev/null 2>&1
+        echo "curl is required to use fisher -- install curl and try again" >&2
+        return 1
+    end
 
     for id in $argv
         switch $id
