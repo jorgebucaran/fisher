@@ -1,16 +1,5 @@
 set -g fisher_version 3.1.1
 
-switch (command uname)
-    case Darwin FreeBSD
-        function _fisher_now -a elapsed
-            command perl -MTime::HiRes -e 'printf("%.0f\n", (Time::HiRes::time() * 1000) - $ARGV[0])' $elapsed
-        end
-    case \*
-        function _fisher_now -a elapsed
-            command date "+%s%3N" | command awk -v ELAPSED="$elapsed" '{ sub(/%?3N$/, "000") } $0 -= ELAPSED'
-        end
-end
-
 function fisher -a cmd -d "fish package manager"
     set -q XDG_CACHE_HOME; or set XDG_CACHE_HOME ~/.cache
     set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
@@ -449,5 +438,14 @@ function _fisher_wait
     while for job in $argv
             contains -- $job (_fisher_jobs); and break
         end
+    end
+end
+
+function _fisher_now -a elapsed
+    switch (command uname)
+        case Darwin FreeBSD
+            command perl -MTime::HiRes -e 'printf("%.0f\n", (Time::HiRes::time() * 1000) - $ARGV[0])' $elapsed
+        case \*
+            command date "+%s%3N" | command awk -v ELAPSED="$elapsed" '{ sub(/%?3N$/, "000") } $0 -= ELAPSED'
     end
 end
