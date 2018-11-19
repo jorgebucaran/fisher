@@ -40,7 +40,8 @@ function fisher -a cmd -d "fish package manager"
 
     else
         switch "$version"
-            case \*-\* 3\*
+            case 2\*
+            case \*
                 command rm -f $fisher_path/conf.d/fisher.fish
         end
     end
@@ -140,11 +141,6 @@ function _fisher_self_update -a file
     set -l url "https://raw.githubusercontent.com/jorgebucaran/fisher/master/fisher.fish"
     echo "fetching $url" >&2
 
-    if not type -p curl >/dev/null 2>&1
-        echo "curl is required to update fisher -- install curl and try again" >&2
-        return 1
-    end
-
     command curl -s "$url?nocache" >$file@
 
     set -l next_version (awk 'NR == 1 { print $4; exit }' < $file@)
@@ -229,11 +225,6 @@ function _fisher_pkg_fetch_all
     set -l local_pkgs
     set -l actual_pkgs
     set -l expected_pkgs
-
-    if not type -p curl >/dev/null 2>&1
-        echo "curl is required to use fisher -- install curl and try again" >&2
-        return 1
-    end
 
     for id in $argv
         switch $id
