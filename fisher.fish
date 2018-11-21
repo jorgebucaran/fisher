@@ -23,13 +23,13 @@ function fisher -a cmd -d "fish package manager"
 
     if test ! -e "$fisher_path/conf.d/fisher.fish"
         switch "$version"
-            case 2\*
+            case 2\* \*-\*
                 echo "fisher copy-user-key-bindings" > $fisher_path/conf.d/fisher.fish
         end
 
     else
         switch "$version"
-            case 2\*
+            case 2\* \*-\*
             case \*
                 command rm -f $fisher_path/conf.d/fisher.fish
         end
