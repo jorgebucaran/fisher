@@ -1,48 +1,38 @@
 set -g fisher_version 3.1.1
 
-type source >/dev/null; or function source; . $argv; end
-
-switch (command uname)
-    case Darwin FreeBSD
-        function _fisher_now -a elapsed
-            command perl -MTime::HiRes -e 'printf("%.0f\n", (Time::HiRes::time() * 1000) - $ARGV[0])' $elapsed
-        end
-    case \*
-        function _fisher_now -a elapsed
-            command date "+%s%3N" | command awk -v ELAPSED="$elapsed" '{ sub(/%?3N$/, "000") } $0 -= ELAPSED'
-        end
-end
-
 function fisher -a cmd -d "fish package manager"
-    if not command which curl >/dev/null
-        echo "curl is required to use fisher -- install curl and try again" >&2
-        return 1
-    end
-
-    test -z "$XDG_CACHE_HOME"; and set XDG_CACHE_HOME ~/.cache
-    test -z "$XDG_CONFIG_HOME"; and set XDG_CONFIG_HOME ~/.config
+    set -q XDG_CACHE_HOME; or set XDG_CACHE_HOME ~/.cache
+    set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
 
     set -g fish_config $XDG_CONFIG_HOME/fish
     set -g fisher_cache $XDG_CACHE_HOME/fisher
     set -g fisher_config $XDG_CONFIG_HOME/fisher
 
-    test -z "$fisher_path"; and set -g fisher_path $fish_config
+    set -q fisher_path; or set -g fisher_path $fish_config
 
-    command mkdir -p {$fish_config,$fisher_path}/{functions,completions,conf.d} $fisher_cache
+    for dir in {$fish_config,$fisher_path}/{functions,completions,conf.d} $fisher_cache
+        if test ! -e $dir
+            command mkdir -p $dir
+        end
+    end
 
     if test ! -e "$fisher_path/completions/fisher.fish"
         echo "fisher self-complete" > $fisher_path/completions/fisher.fish
         _fisher_self_complete
     end
 
-    if test -e "$fisher_path/conf.d/fisher.fish"
-        command rm -f $fisher_path/conf.d/fisher.fish
-    end
+    if test ! -e "$fisher_path/conf.d/fisher.fish"
+        switch "$version"
+            case 2\* \*-\*
+                echo "fisher copy-user-key-bindings" > $fisher_path/conf.d/fisher.fish
+        end
 
-    switch "$version"
-        case \*-\*
-        case 2\*
-            echo "fisher copy-user-key-bindings" > $fisher_path/conf.d/fisher.fish
+    else
+        switch "$version"
+            case 2\* \*-\*
+            case \*
+                command rm -f $fisher_path/conf.d/fisher.fish
+        end
     end
 
     switch "$cmd"
@@ -140,7 +130,7 @@ function _fisher_self_update -a file
     set -l url "https://raw.githubusercontent.com/jorgebucaran/fisher/master/fisher.fish"
     echo "fetching $url" >&2
 
-    curl -s "$url?nocache" >$file@
+    command curl -s "$url?nocache" >$file@
 
     set -l next_version (awk 'NR == 1 { print $4; exit }' < $file@)
     switch "$next_version"
@@ -440,5 +430,14 @@ function _fisher_wait
     while for job in $argv
             contains -- $job (_fisher_jobs); and break
         end
+    end
+end
+
+function _fisher_now -a elapsed
+    switch (command uname)
+        case Darwin FreeBSD
+            command perl -MTime::HiRes -e 'printf("%.0f\n", (Time::HiRes::time() * 1000) - $ARGV[0])' $elapsed
+        case \*
+            command date "+%s%3N" | command awk -v ELAPSED="$elapsed" '{ sub(/%?3N$/, "000") } $0 -= ELAPSED'
     end
 end
