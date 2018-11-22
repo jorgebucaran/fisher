@@ -151,7 +151,7 @@ end
 
 function _fisher_self_uninstall
     set -l current_pkgs $fisher_config/*/*/*
-    for path in $fisher_cache (_fisher_pkg_remove_all $current_pkgs) $fisher_config $fisher_path/{functions,completions,conf.d}/fisher.fish $fish_config/fishfile
+    for path in $fisher_cache (_fisher_pkg_remove_all $current_pkgs) $fisher_config $fisher_path/{functions,completions,conf.d}/fisher.fish $fisher_path/fishfile
         echo "removing $path"
         command rm -rf $path 2>/dev/null
     end | command sed "s|$HOME|~|" >&2
@@ -174,7 +174,7 @@ function _fisher_commit
     command rm -rf $fisher_config
     command mkdir -p $fisher_config
 
-    set -l fishfile $fish_config/fishfile
+    set -l fishfile $fisher_path/fishfile
     if test ! -e "$fishfile"
         command touch $fishfile
         echo "created empty fishfile in $fishfile" | command sed "s|$HOME|~|" >&2
