@@ -332,7 +332,7 @@ function _fisher_fetch
         if test ! -d "$fisher_config/$pkg"
             fish -c "
                 echo fetching $url >&2
-                command mkdir -p {$fisher_config,$fisher_cache}/$pkg
+                command mkdir -p $fisher_config/$pkg $fisher_cache/(dirname $pkg)
                 if test ! -z \"$branch\"
                      command git clone $url $fisher_config/$pkg --branch $branch --depth 1 2>/dev/null
                      or echo cannot clone \"$url\" -- is this a valid url\? >&2
