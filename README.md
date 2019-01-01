@@ -29,7 +29,7 @@ Your shell can take a few seconds before refreshing the function path. If `fishe
 
 ### Dependencies
 
-- [fish](https://github.com/fish-shell/fish-shell) 2.0+ (prefer 2.3 or newer)
+- [fish](https://github.com/fish-shell/fish-shell) 2.1+ (prefer 2.3 or newer)
 - [curl](https://github.com/curl/curl) 7.10.3+
 - [git](https://github.com/git/git) 1.7.12+
 
@@ -81,31 +81,35 @@ You can use Fisher to add, update, and remove packages interactively, taking adv
 
 ### Adding packages
 
-Install packages using the `add` command followed by the path to the repository on GitHub.
+Add packages using the `add` command followed by the path to the repository on GitHub.
 
 ```
 fisher add jethrokuan/z rafaelrinaldi/pure
 ```
 
-A username or organization name is required. To install a package from anywhere else, use the address of the server and the path to the repository. HTTPS is always assumed so you don't need to specify the protocol.
+To add a package from anywhere other than GitHub, use the address of the server and the path to the repository. HTTPS is always assumed so you don't need to specify the protocol.
 
 ```
 fisher add gitlab.com/jorgebucaran/mermaid
 ```
 
-To install a package from a tag, branch or a [commit-ish](https://git-scm.com/docs/gitglossary#gitglossary-aiddefcommit-ishacommit-ishalsocommittish), specify the reference following an `@` symbol after the package name. If none is given, we'll use the latest code.
+To add a specific version of a package use an `@` symbol after the package name followed by the tag, branch or [commit-ish](https://git-scm.com/docs/gitglossary#gitglossary-aiddefcommit-ishacommit-ishalsocommittish) you want. Only one package version can be installed at any given time.
 
 ```
 fisher add edc/bass@20f73ef jethrokuan/z@pre27
 ```
 
-You can also install packages from a local directory. Local packages are managed through [symbolic links](https://en.wikipedia.org/wiki/Symbolic_link) so that they can be developed and used at the same time.
+To add a package from a private repository set the `fisher_user_api_token` variable to your username followed by a colon and your authorization token or password.
+
+```fish
+set -g fisher_user_api_token jorgebucaran:ce04da9bd93ddb5e729cfff4a58c226322c8d142
+```
+
+You can also add packages from a local directory. Local packages will be copied as [symbolic links](https://en.wikipedia.org/wiki/Symbolic_link) so changes in the original files will be reflected in future shell sessions without the need to run `fisher` again.
 
 ```
-fisher add ~/path/to/myfish/pkg
+fisher add ~/path/to/local/pkg
 ```
-
-You can only install one package version at a time. If two packages depend on a different version of the same package, the first one that gets installed will take precedence over the other.
 
 ### Listing packages
 
@@ -162,7 +166,7 @@ fisher version
 
 Whenever you add or remove a package from the command line we'll write to a text file in `~/.config/fish/fishfile`. This is your fishfile. It lists every package that is currently installed on your system. You should add this file to your dotfiles or version control if you want to reproduce your configuration on a different system.
 
-You can edit this file to add or remove packages and then run `fisher` to commit your changes. Only the packages listed in this file will be installed after `fisher` returns. If a package is already installed, it will be updated. Empty lines and anything after a `#` symbol (comments) will be ignored.
+You can edit this file to add or remove packages and run `fisher` to commit your changes. Only the packages listed in this file will be installed after `fisher` returns. If a package is already installed, it will be updated. Everything after a `#` symbol (comments) will be ignored.
 
 ```fish
 vi ~/.config/fish/fishfile
@@ -174,8 +178,6 @@ vi ~/.config/fish/fishfile
 gitlab.com/jorgebucaran/mermaid
 edc/bass
 + FabioAntunes/fish-nvm
-
-# my local packages
 ~/path/to/myfish/pkg
 ```
 
@@ -273,7 +275,7 @@ bind \cg "vi ~/.config/fish/fishfile"
 
 set -l name (basename (status -f) .fish){_uninstall}
 
-function $name --on-event $name
+function $name --event $name
     bind -e \cg
 end
 ```
