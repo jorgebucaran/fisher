@@ -1,11 +1,13 @@
+> ###### ✋ Psst! Migrating from V2 to V3? We got you. Check our [**migration guide**](https://github.com/jorgebucaran/fisher/issues/450) and happy upgrading!
+
 # Fisher
 
 [![Build Status](https://img.shields.io/travis/jorgebucaran/fisher.svg)](https://travis-ci.org/jorgebucaran/fisher)
 [![Releases](https://img.shields.io/github/release/jorgebucaran/fisher.svg?label=latest)](https://github.com/jorgebucaran/fisher/releases)
 
-> ✋ Psst! Migrating from V2 to V3? See our [**migration guide**](https://github.com/jorgebucaran/fisher/issues/450) & happy upgrading!
+Fisher is a package manager for the [fish shell](https://fishshell.com). It defines a common interface for package authors to build and distribute their shell scripts in a portable way. You can use it to extend your shell capabilities, change the look of your prompt and create repeatable configurations across different systems effortlessly.
 
-Fisher is a package manager for the [fish shell](https://fishshell.com). It defines a common interface for package authors to build and distribute their shell scripts in a portable way. You can use it to extend your shell capabilities, change the look of your prompt and create repeatable configurations across different systems effortlessly. You can find some featured packages in the [awesome-fish-shell list](https://github.com/jorgebucaran/awesome-fish-shell).
+Looking for packages? Browse the [awesome fish shell](https://github.com/jorgebucaran/awesome-fish-shell) list to get started.
 
 ## Features
 
@@ -60,11 +62,11 @@ for file in $fisher_path/conf.d/*.fish
 end
 ```
 
-Do I need this? It depends. If you want to keep your own functions, completions, and configuration snippets separate from packages installed with Fisher, you can customize the installation prefix. If you prefer to keep everything in the same place, you can skip this. If you are not sure, feel free to create an issue and ask.
+Do I need this? It depends. If you want to keep your own functions, completions, and configuration snippets separate from packages installed with Fisher, you can customize the installation prefix. If you prefer to keep everything in the same place, you can skip this.
 
 ### Legacy fish support
 
-Stuck in fish 2.2 or older and can't upgrade your shell? We got you covered. You'll need to run [configuration snippets](#configuration-snippets) manually on shell startup. Open your fish configuration file and add the following code to the beginning of the file.
+Stuck in fish 2.2 and can't upgrade your shell? We got you covered. You'll need to run [configuration snippets](#configuration-snippets) manually on shell startup. Open your fish configuration file and add this code to the beginning of the file.
 
 ```fish
 set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
@@ -75,9 +77,9 @@ end
 
 ## Usage
 
-You've found an interesting utility you'd like to try out. Or perhaps you've [created a package](#creating-your-own-package) yourself. How do you install it on your system? You may want to update or remove it later too. How do you do that?
+You've found an interesting utility you'd like to try out. Or perhaps you've [created a package](#creating-your-own-package) yourself. How do you install it on your system? Now you want to update or remove it. How do you do that?
 
-You can use Fisher to add, update, and remove packages interactively, taking advantage of fish tab completion and syntax highlighting. Or [edit your fishfile](#using-the-fishfile) and commit your changes. Do you prefer a CLI-centered approach, text-based approach, or both?
+You can use Fisher to add, update, and remove packages interactively, taking advantage of fish tab completion and syntax highlighting. Or [edit your fishfile](#using-the-fishfile) and commit your changes. Do you prefer a CLI-centered approach, text-based approach, or a mix of both?
 
 ### Adding packages
 
@@ -187,7 +189,7 @@ fisher
 
 That will remove **rafaelrinaldi/pure** and **jethrokuan/z**, add **FabioAntunes/fish-nvm** and update the rest.
 
-## Package concepts
+## Packages
 
 Packages help you organize shell scripts into reusable, independent components that can be shared through a git URL or the path to a local directory. Even if your package is not meant to be shared with others, you can benefit from composition and the ability to depend on other packages.
 
@@ -282,7 +284,7 @@ end
 
 ## Uninstalling
 
-You wish to know how to uninstall fisher and everything you've installed with it from your system. Or perhaps something went wrong and you want to start over. This command will uninstall all the packages, purge the cache, and remove fisher from your fish functions directory.
+You want to know how to uninstall Fisher and everything you've installed with it from your system. This command will purge all packages, cache, configuration and related files—all in the same session.
 
 ```fish
 fisher self-uninstall
