@@ -7,7 +7,7 @@
 
 Fisher is a package manager for the [fish shell](https://fishshell.com). It defines a common interface for package authors to build and distribute their shell scripts in a portable way. You can use it to extend your shell capabilities, change the look of your prompt and create repeatable configurations across different systems effortlessly.
 
-Looking for packages? Browse the [awesome fish shell](https://github.com/jorgebucaran/awesome-fish-shell) list to get started.
+Looking for packages? Go to the [awesome fish shell](https://github.com/jorgebucaran/awesome-fish-shell) repository to get started.
 
 ## Features
 
