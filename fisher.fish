@@ -237,7 +237,7 @@ function _fisher_commit -a cmd
 end
 
 function _fisher_fmt
-    command sed "s|^[ \t]*||;s|^$fisher_config/||;s|^$HOME|~|;s|^\.\/|$PWD/|;s|^github\.com/||;s|^https*://||;s|/*\$||"
+    command sed "s|^[[:space:]]*||;s|^$fisher_config/||;s|^$HOME|~|;s|^\.\/|$PWD/|;s|^github\.com/||;s|^https*://||;s|/*\$||"
 end
 
 function _fisher_read -a cmd
