@@ -53,7 +53,7 @@ function fisher -a cmd -d "fish package manager"
         case -h {,--}help
             _fisher_help
         case ""
-            _fisher_commit -- $argv
+            _fisher_commit --
         case add rm
             if not isatty
                 while read -l arg
