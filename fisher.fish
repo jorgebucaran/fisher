@@ -76,7 +76,7 @@ function fisher -a cmd -d "fish package manager"
 end
 
 function _fisher_self_complete
-    complete -c fisher --erase
+    complete -ec fisher
     complete -xc fisher -n __fish_use_subcommand -a add -d "Add packages"
     complete -xc fisher -n __fish_use_subcommand -a rm -d "Remove packages"
     complete -xc fisher -n __fish_use_subcommand -a ls -d "List added packages"
