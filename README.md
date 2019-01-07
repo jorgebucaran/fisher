@@ -79,7 +79,7 @@ end
 
 You've found an interesting utility you'd like to try out. Or perhaps you've [created a package](#creating-your-own-package) yourself. How do you install it on your system? Now you want to update or remove it. How do you do that?
 
-You can use Fisher to add, update, and remove packages interactively, taking advantage of fish tab completion and syntax highlighting. Or [edit your fishfile](#using-the-fishfile) and commit your changes. Do you prefer a CLI-centered approach, text-based approach, or a mix of both?
+You can use Fisher to add, update, and remove packages interactively, taking advantage of fish [tab completion](https://fishshell.com/docs/current/index.html#completion) and syntax highlighting. Or [edit your fishfile](#using-the-fishfile) and commit your changes. Do you prefer a CLI-centered approach, text-based approach, or a mix of both?
 
 ### Adding packages
 
