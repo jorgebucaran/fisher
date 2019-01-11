@@ -95,19 +95,19 @@ To add a package from anywhere other than GitHub, use the address of the server 
 fisher add gitlab.com/jorgebucaran/mermaid
 ```
 
-To add a specific version of a package use an `@` symbol after the package name followed by the tag, branch or [commit-ish](https://git-scm.com/docs/gitglossary#gitglossary-aiddefcommit-ishacommit-ishalsocommittish) you want. Only one package version can be installed at any given time.
-
-```
-fisher add edc/bass@20f73ef jethrokuan/z@pre27
-```
-
 To add a package from a private repository set the `fisher_user_api_token` variable to your username followed by a colon and your authorization token or password.
 
 ```fish
 set -g fisher_user_api_token jorgebucaran:ce04da9bd93ddb5e729cfff4a58c226322c8d142
 ```
 
-You can also add packages from a local directory. Local packages will be copied as [symbolic links](https://en.wikipedia.org/wiki/Symbolic_link) so changes in the original files will be reflected in future shell sessions without the need to run `fisher` again.
+For a specific version of a package add an `@` symbol after the package name followed by the tag, branch or [commit-ish](https://git-scm.com/docs/gitglossary#gitglossary-aiddefcommit-ishacommit-ishalsocommittish) you want. Only one package version can be installed at any given time.
+
+```
+fisher add edc/bass@20f73ef jethrokuan/z@pre27
+```
+
+You can add packages from a local directory too. Local packages will be copied as [symbolic links](https://en.wikipedia.org/wiki/Symbolic_link) so changes in the original files will be reflected in future shell sessions without having to run `fisher` again.
 
 ```
 fisher add ~/path/to/local/pkg
