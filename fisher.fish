@@ -314,20 +314,22 @@ function _fisher_fetch
                 continue
         end
 
-        command awk -v NAME=$i -v FS=/ 'BEGIN {
-            if (split(NAME, tmp, /@+|:/) > 2) {
-                if (tmp[4]) sub("@"tmp[4], "", NAME)
-                print NAME "\t" tmp[2]"/"tmp[1]"/"tmp[3] "\t" (tmp[4] ? tmp[4] : "master")
-            } else {
-                pkg = split(NAME, _, "/") <= 2 ? "github.com/"tmp[1] : tmp[1]
-                tag = tmp[2] ? tmp[2] : "master"
-                print (\
-                    pkg ~ /^github/ ? "https://codeload."pkg"/tar.gz/"tag : \
-                    pkg ~ /^gitlab/ ? "https://"pkg"/-/archive/"tag"/"tmp[split(pkg, tmp, "/")]"-"tag".tar.gz" : \
-                    pkg ~ /^bitbucket/ ? "https://"pkg"/get/"tag".tar.gz" : pkg \
-                ) "\t" pkg
+        command awk -v NAME=$i -v FS=/ '
+            BEGIN {
+                if (split(NAME, tmp, /@+|:/) > 2) {
+                    if (tmp[4]) sub("@"tmp[4], "", NAME)
+                    print NAME "\t" tmp[2]"/"tmp[1]"/"tmp[3] "\t" (tmp[4] ? tmp[4] : "master")
+                } else {
+                    pkg = split(NAME, _, "/") <= 2 ? "github.com/"tmp[1] : tmp[1]
+                    tag = tmp[2] ? tmp[2] : "master"
+                    print (\
+                        pkg ~ /^github/ ? "https://codeload."pkg"/tar.gz/"tag : \
+                        pkg ~ /^gitlab/ ? "https://"pkg"/-/archive/"tag"/"tmp[split(pkg, tmp, "/")]"-"tag".tar.gz" : \
+                        pkg ~ /^bitbucket/ ? "https://"pkg"/get/"tag".tar.gz" : pkg \
+                    ) "\t" pkg
+                }
             }
-        }' | read -l url pkg branch
+        ' | read -l url pkg branch
 
         if test ! -d "$fisher_config/$pkg"
             fish -c "
