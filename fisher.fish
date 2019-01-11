@@ -242,7 +242,7 @@ end
 
 function _fisher_read -a cmd
     set -e argv[1]
-    command awk -v FS=\# -v CMD="$cmd" -v ARGS="$argv" '
+    command awk -v FS="[[:space:]]*#" -v CMD="$cmd" -v ARGS="$argv" '
         BEGIN {
             split(ARGS, args, " ")
             for (i in args) {
