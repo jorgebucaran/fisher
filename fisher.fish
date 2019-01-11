@@ -455,7 +455,7 @@ function _fisher_rm -a pkg
 end
 
 function _fisher_jobs
-    builtin jobs $argv | command awk '/[0-9]+\t/ { print $1 }'
+    builtin jobs $argv | command awk '/^[0-9]+\t/ { print $1 }'
 end
 
 function _fisher_wait
