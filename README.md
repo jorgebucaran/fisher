@@ -34,6 +34,7 @@ Your shell can take a few seconds before refreshing the function path. If `fishe
 - [fish](https://github.com/fish-shell/fish-shell) 2.1+ (prefer 2.3 or newer)
 - [curl](https://github.com/curl/curl) 7.10.3+
 - [git](https://github.com/git/git) 1.7.12+
+- [gawk](https://savannah.gnu.org/projects/gawk/) 4.2.1+
 
 ### Bootstrap installation
 
