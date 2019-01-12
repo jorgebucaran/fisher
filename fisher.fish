@@ -473,6 +473,6 @@ function _fisher_now -a elapsed
         case Darwin FreeBSD
             command perl -MTime::HiRes -e 'printf("%.0f\n", (Time::HiRes::time() * 1000) - $ARGV[0])' $elapsed
         case \*
-            command date "+%s%3N" | command awk -v ELAPSED="$elapsed" '{ sub(/%?3N$/, "000") } $0 -= ELAPSED'
+            command date "+%s%3N" | command awk -v ELAPSED="$elapsed" '{ print $0 - ELAPSED }'
     end
 end
