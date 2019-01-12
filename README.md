@@ -281,7 +281,7 @@ end
 
 ## Uninstalling
 
-You want to know how to uninstall Fisher and everything you've installed with it from your system. This command will purge all packages, cache, configuration and related files—all in the same session.
+You want to know how to uninstall Fisher and everything you've installed with it from your system. This command will purge all packages, cache, configuration and related files.
 
 ```fish
 fisher self-uninstall

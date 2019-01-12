@@ -188,10 +188,9 @@ function _fisher_self_uninstall
         command rm -Rf $file 2>/dev/null
     end | command sed "s|$HOME|~|" >&2
 
-    set -e fisher_cache
-    set -e fisher_config
-    set -e fisher_path
-    set -e fisher_version
+    for name in (set -n | command awk '/^fisher_/')
+        set -e "$name"
+    end
 
     complete -c fisher --erase
     functions -e (functions -a | command awk '/^_fisher/') fisher
