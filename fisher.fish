@@ -462,8 +462,7 @@ end
 
 function _fisher_wait
     while for job in $argv
-            contains -- $job (_fisher_jobs)
-            and break
+            contains -- $job (_fisher_jobs); and break
         end
     end
 end
