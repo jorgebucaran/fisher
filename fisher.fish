@@ -79,12 +79,15 @@ function _fisher_self_complete
     complete -ec fisher
     complete -xc fisher -n __fish_use_subcommand -a add -d "Add packages"
     complete -xc fisher -n __fish_use_subcommand -a rm -d "Remove packages"
-    complete -xc fisher -n __fish_use_subcommand -a ls -d "List added packages"
+    complete -xc fisher -n __fish_use_subcommand -a ls -d "List installed packages"
     complete -xc fisher -n __fish_use_subcommand -a help -d "Show usage help"
     complete -xc fisher -n __fish_use_subcommand -a version -d "$fisher_version"
     complete -xc fisher -n __fish_use_subcommand -a self-update -d "Update to the latest version"
+    set -l file (_fisher_fmt < $fisher_path/fishfile | _fisher_read)
     for pkg in (_fisher_ls | _fisher_fmt)
-        complete -xc fisher -n "__fish_seen_subcommand_from rm" -a $pkg
+        if contains -- $pkg $file
+            complete -xc fisher -n "__fish_seen_subcommand_from rm" -a $pkg
+        end
     end
 end
 
@@ -260,7 +263,7 @@ function _fisher_read -a cmd
             if (CMD == "rm") {
                 for (pkg in pkgs) {
                     if (!(pkg in file)) {
-                        print "cannot remove \"" pkg "\" -- package not found" > "/dev/stderr"
+                        print "cannot remove \""pkg"\" -- package not listed in fishfile" > "/dev/stderr"
                     }
                 }
             }
