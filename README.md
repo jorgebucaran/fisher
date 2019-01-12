@@ -106,7 +106,7 @@ fisher add ~/path/to/local/pkg
 
 ### Listing packages
 
-List all the packages that are currently installed using the `ls` command. This includes packages you didn't install yourself but were installed on your system as a dependency of another package.
+List all the packages that are currently installed using the `ls` command. This shows only the packages that you've installed yourself, ignoring their dependencies.
 
 ```
 fisher ls
@@ -115,6 +115,12 @@ rafaelrinaldi/pure
 gitlab.com/jorgebucaran/mermaid
 edc/bass
 ~/path/to/myfish/pkg
+```
+
+Is the output too large? This command accepts a regular expression to filter the listed packages.
+
+```
+fisher ls "^gitlab|fish-.*"
 ```
 
 ### Removing packages
