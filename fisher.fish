@@ -43,7 +43,7 @@ function fisher -a cmd -d "fish package manager"
         case copy-user-key-bindings
             _fisher_copy_user_key_bindings
         case ls
-            _fisher_ls | _fisher_fmt
+            _fisher_ls | _fisher_fmt | _fisher_filter
         case self-update
             _fisher_self_update (status -f)
         case self-uninstall
@@ -83,11 +83,8 @@ function _fisher_self_complete
     complete -xc fisher -n __fish_use_subcommand -a help -d "Show usage help"
     complete -xc fisher -n __fish_use_subcommand -a version -d "$fisher_version"
     complete -xc fisher -n __fish_use_subcommand -a self-update -d "Update to the latest version"
-    set -l file (_fisher_fmt < $fisher_path/fishfile | _fisher_read)
-    for pkg in (_fisher_ls | _fisher_fmt)
-        if contains -- $pkg $file
-            complete -xc fisher -n "__fish_seen_subcommand_from rm" -a $pkg
-        end
+    for pkg in (_fisher_ls | _fisher_fmt | _fisher_filter)
+        complete -xc fisher -n "__fish_seen_subcommand_from rm" -a $pkg
     end
 end
 
@@ -106,10 +103,29 @@ function _fisher_copy_user_key_bindings
 end
 
 function _fisher_ls
-    set -l pkgs $fisher_config/*/*/*
-    for pkg in $pkgs
+    for pkg in $fisher_config/*/*/*
         command readlink $pkg; or echo $pkg
     end
+end
+
+function _fisher_fmt
+    command sed "s|^[[:space:]]*||;s|^$fisher_config/||;s|^$HOME|~|;s|^\.\/|$PWD/|;s|^github\.com/||;s|^https*://||;s|/*\$||"
+end
+
+function _fisher_file -a file
+    set -e argv[1]
+    _fisher_fmt < $file | _fisher_read $argv
+end
+
+function _fisher_filter
+    set -l file (_fisher_file $fisher_path/fishfile)
+    command awk -v FILE="$file" '
+        BEGIN {
+            n = split(FILE, file, " ")
+            for (i = 1; i <= n; i++) found[file[i]] = i
+        }
+        found[$0]
+    '
 end
 
 function _fisher_version -a file
@@ -196,7 +212,7 @@ function _fisher_commit -a cmd
     command rm -Rf $fisher_config
     command mkdir -p $fisher_config
 
-    set -l next_pkgs (_fisher_fmt < $fishfile | _fisher_read $cmd (printf "%s\n" $argv | _fisher_fmt))
+    set -l next_pkgs (_fisher_file $fishfile $cmd (printf "%s\n" $argv | _fisher_fmt))
     set -l new_pkgs (_fisher_fetch $next_pkgs)
     set -l old_pkgs
     for pkg in $rm_pkgs
@@ -237,10 +253,6 @@ function _fisher_commit -a cmd
             return (res ? res ", " : "") str " " n " package" (n > 1 ? "s" : "")
         }
     ' >&2
-end
-
-function _fisher_fmt
-    command sed "s|^[[:space:]]*||;s|^$fisher_config/||;s|^$HOME|~|;s|^\.\/|$PWD/|;s|^github\.com/||;s|^https*://||;s|/*\$||"
 end
 
 function _fisher_read -a cmd
