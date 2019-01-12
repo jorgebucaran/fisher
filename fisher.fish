@@ -121,7 +121,7 @@ function _fisher_help
     echo "       fisher add <PACKAGES>    Add packages"
     echo "       fisher rm  <PACKAGES>    Remove packages"
     echo "       fisher                   Update all packages"
-    echo "       fisher ls                List added packages"
+    echo "       fisher ls                List installed packages"
     echo "       fisher help              Show this help"
     echo "       fisher version           Show the current version"
     echo "       fisher self-update       Update to the latest version"

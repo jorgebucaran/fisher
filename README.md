@@ -7,7 +7,7 @@
 
 Fisher is a package manager for the [fish shell](https://fishshell.com). It defines a common interface for package authors to build and distribute their shell scripts in a portable way. You can use it to extend your shell capabilities, change the look of your prompt and create repeatable configurations across different systems effortlessly.
 
-Looking for packages? Go to the [awesome fish shell](https://github.com/jorgebucaran/awesome-fish-shell) repository to get started.
+Looking for packages? Check the [awesome fish shell](https://github.com/jorgebucaran/awesome-fish-shell) repository to get started.
 
 ## Features
 
@@ -31,9 +31,11 @@ Your shell can take a few seconds before refreshing the function path. If `fishe
 
 ### Dependencies
 
-- [fish](https://github.com/fish-shell/fish-shell) 2.1+ (prefer 2.3 or newer)
+- [fish](https://github.com/fish-shell/fish-shell) 2.2+
 - [curl](https://github.com/curl/curl) 7.10.3+
 - [git](https://github.com/git/git) 1.7.12+
+
+Stuck in fish 2.0 and can't upgrade your shell? Check our [legacy fish support guide](https://github.com/jorgebucaran/fisher/issues/510) and good luck!
 
 ### Bootstrap installation
 
@@ -63,17 +65,6 @@ end
 ```
 
 Do I need this? It depends. If you want to keep your own functions, completions, and configuration snippets separate from packages installed with Fisher, you can customize the installation prefix. If you prefer to keep everything in the same place, you can skip this.
-
-### Legacy fish support
-
-Stuck in fish 2.2 and can't upgrade your shell? We got you covered. You'll need to run [configuration snippets](#configuration-snippets) manually on shell startup. Open your fish configuration file and add this code to the beginning of the file.
-
-```fish
-set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
-for file in $XDG_CONFIG_HOME/fish/conf.d/*.fish
-    builtin source $file 2>/dev/null
-end
-```
 
 ## Usage
 
