@@ -43,7 +43,8 @@ function fisher -a cmd -d "fish package manager"
         case copy-user-key-bindings
             _fisher_copy_user_key_bindings
         case ls
-            _fisher_ls | _fisher_fmt | _fisher_filter
+            set -e argv[1]
+            _fisher_ls | _fisher_fmt | _fisher_filter | command awk "/$argv[1]/"
         case self-update
             _fisher_self_update (status -f)
         case self-uninstall
@@ -137,7 +138,7 @@ function _fisher_help
     echo "       fisher add <PACKAGES>    Add packages"
     echo "       fisher rm  <PACKAGES>    Remove packages"
     echo "       fisher                   Update all packages"
-    echo "       fisher ls                List installed packages"
+    echo "       fisher ls  [REGEX]       List installed packages matching REGEX"
     echo "       fisher help              Show this help"
     echo "       fisher version           Show the current version"
     echo "       fisher self-update       Update to the latest version"
@@ -147,8 +148,11 @@ function _fisher_help
     echo "       fisher add jethrokuan/z rafaelrinaldi/pure"
     echo "       fisher add gitlab.com/foo/bar@v2"
     echo "       fisher add ~/path/to/local/pkg"
-    echo "       fisher rm rafaelrinaldi/pure"
     echo "       fisher add < bundle"
+    echo "       fisher rm rafaelrinaldi/pure"
+    echo "       fisher rm rafaelrinaldi/pure"
+    echo "       fisher ls | fisher rm"
+    echo "       fisher ls fish-\*"
 end
 
 function _fisher_self_update -a file
