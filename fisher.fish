@@ -470,7 +470,7 @@ end
 
 function _fisher_now -a elapsed
     switch (command uname)
-        case Darwin FreeBSD
+        case Darwin \*BSD
             command perl -MTime::HiRes -e 'printf("%.0f\n", (Time::HiRes::time() * 1000) - $ARGV[0])' $elapsed
         case \*
             command date "+%s%3N" | command awk -v ELAPSED="$elapsed" '{ print $0 - ELAPSED }'
