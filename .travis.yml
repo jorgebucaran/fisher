@@ -5,6 +5,4 @@ before_install:
     - sudo apt-get -y install fish
 script:
     - curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
-    - fish -c "fisher version; and fisher help"
-notifications:
-  email: false
+    - fish -c "fisher version && fisher help"

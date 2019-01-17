@@ -1,21 +1,19 @@
-> ###### ✋ Psst! Migrating from V2 to V3? We got you. Check our [**migration guide**](https://github.com/jorgebucaran/fisher/issues/450) and happy upgrading!
-
 # Fisher
 
 [![Build Status](https://img.shields.io/travis/jorgebucaran/fisher.svg)](https://travis-ci.org/jorgebucaran/fisher)
 [![Releases](https://img.shields.io/github/release/jorgebucaran/fisher.svg?label=latest)](https://github.com/jorgebucaran/fisher/releases)
 
-Fisher is a package manager for the [fish shell](https://fishshell.com). It defines a common interface for package authors to build and distribute their shell scripts in a portable way. You can use it to extend your shell capabilities, change the look of your prompt and create repeatable configurations across different systems effortlessly.
+Fisher is a package manager for the <a href="https://fishshell.com" title="friendly interactive shell">fish shell</a>. It defines a common interface for package authors to build and distribute shell scripts in a portable way. You can use it to extend your shell capabilities, change the look of your prompt and create repeatable configurations across different systems effortlessly.
 
-Looking for packages? Check the [awesome fish shell](https://github.com/jorgebucaran/awesome-fish-shell) repository to get started.
+Looking for packages? Browse our curated collection at [git.io/awesome-fish](https://git.io/awesome-fish).
 
 ## Features
 
 - Zero configuration
-- Oh My Fish package support
-- High-speed concurrent package downloads⌁!
-- If you've installed a package before, you can install it again offline
-- Add, update and remove functions, completions, key bindings and configuration snippets from a variety of sources using the command line, editing your [fishfile](#using-the-fishfile) or both
+- Oh My Fish! package support
+- High-speed concurrent package downloads
+- Cached downloads—if you've installed a package before, you can install it again offline
+- Add, update and remove functions, completions, key bindings, and configuration snippets from a variety of sources using the command line, editing your [fishfile](#using-the-fishfile) or both
 
 ## Installation
 
@@ -39,7 +37,7 @@ Stuck in fish 2.0 and can't upgrade your shell? Check our [legacy fish support g
 
 ### Bootstrap installation
 
-To automate installing Fisher and the packages listed in your [fishfile](#using-the-fishfile) on a new system, add the following code to your fish configuration file.
+To automate the installation process on a new system and fetch packages in your [fishfile](#using-the-fishfile) for the first time, add the following code to your fish configuration file.
 
 ```fish
 if not functions -q fisher
@@ -117,7 +115,7 @@ edc/bass
 ~/path/to/myfish/pkg
 ```
 
-Is the output too large? This command accepts a regular expression to filter the listed packages.
+Is the output too large? This command accepts a regular expression to refine the listed packages.
 
 ```
 fisher ls "^gitlab|fish-.*"
@@ -190,7 +188,7 @@ That will remove **rafaelrinaldi/pure** and **jethrokuan/z**, add **FabioAntunes
 
 Packages help you organize shell scripts into reusable, independent components that can be shared through a git URL or the path to a local directory. Even if your package is not meant to be shared with others, you can benefit from composition and the ability to depend on other packages.
 
-The structure of a package can be adopted from the fictional project described below. These are the files that fisher looks for when installing or uninstalling a package. Of course, you can elaborate on this to add tests, documentation, and other files such as README and LICENSE files. The name of the root directory can be anything you like.
+The structure of a package can be adopted from the fictional project described below. These are the files that fisher looks for when installing or uninstalling a package. The name of the root directory can be anything you like.
 
 ```
 fish-kraken
@@ -281,7 +279,7 @@ end
 
 ## Uninstalling
 
-You want to know how to remove this package manager and everything you've installed with it from your system.  This command will purge all packages, cache, configuration and related files. We'll miss you.
+You want to know how to remove this package manager and everything you've installed with it from your system. So long, and thanks for all the fish~! This command will purge all packages, cache, configuration and related files.
 
 ```fish
 fisher self-uninstall
@@ -289,4 +287,10 @@ fisher self-uninstall
 
 ## License
 
-Fisher is MIT licensed. See the [LICENSE](LICENSE.md) for details.
+Copyright © 2016-2019 Jorge Bucaran <<https://jorgebucaran.com>>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
