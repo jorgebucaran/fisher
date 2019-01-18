@@ -240,8 +240,7 @@ function _fisher_commit -a cmd
         end
     end
 
-    _fisher_fmt <$fishfile | _fisher_write $cmd $actual_pkgs >$fishfile.
-    command mv -f $fishfile. $fishfile
+    printf "%s\n" (_fisher_fmt <$fishfile | _fisher_write $cmd $actual_pkgs) >$fishfile
 
     _fisher_self_complete
 
