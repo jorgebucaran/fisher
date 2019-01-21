@@ -48,7 +48,7 @@ function fisher -a cmd -d "fish package manager"
                 set -l file (_fisher_fmt <$fisher_path/fishfile | _fisher_diff R)
                 _fisher_ls | _fisher_fmt | command awk -v FILE="$file" "
                     BEGIN { for (n = split(FILE, f); ++i <= n;) file[f[i]] } \$0 in file && /$argv[1]/
-                "
+                " | sed "s|$HOME|~|"
             end
         case self-update
             _fisher_self_update (status -f)
@@ -115,7 +115,7 @@ function _fisher_ls
 end
 
 function _fisher_fmt
-    command sed "s|^[[:space:]]*||;s|^$fisher_config/||;s|^$HOME|~|;s|^\.\/*|$PWD/|;s|^github\.com/||;s|^https*://||;s|/*\$||"
+    command sed "s|^[[:space:]]*||;s|^$fisher_config/||;s|^~|$HOME|;s|^\.\/*|$PWD/|;s|^github\.com/||;s|^https*:/*||;s|/*\$||"
 end
 
 function _fisher_version -a file
@@ -225,7 +225,7 @@ function _fisher_commit -a cmd
         end
     end
 
-    printf "%s\n" (_fisher_fmt <$fishfile | _fisher_diff W $cmd $actual_pkgs) >$fishfile
+    printf "%s\n" (_fisher_fmt <$fishfile | _fisher_diff W $cmd $actual_pkgs | sed "s|$HOME|~|") >$fishfile
 
     _fisher_complete
 
