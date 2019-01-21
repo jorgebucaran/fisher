@@ -242,13 +242,13 @@ end
 
 function _fisher_parse -a mode cmd
     set -e argv[1..2]
-    command awk -v FS="[[:space:]]*#" -v MODE="$mode" -v CMD="$cmd" -v ARGSTR="$argv" '
+    command awk -v FS="[[:space:]]*#+" -v MODE="$mode" -v CMD="$cmd" -v ARGSTR="$argv" '
         BEGIN {
             for (n = split(ARGSTR, a, " "); i++ < n;) pkgs[getkey(a[i])] = a[i]
         }
         { k = getkey($1) }
         MODE == "-R" && !(k in pkgs) && $0 = $1
-        MODE == "-W" && (/^#/ || !NF || (k in pkgs && $0 = pkgs[k]) || CMD != "rm")
+        MODE == "-W" && (/^#/ || k in pkgs || CMD != "rm") { print pkgs[k] (sub($1, "") ? $0 : "") }
         MODE == "-W" || CMD == "rm" { delete pkgs[k] }
         END {
             for (k in pkgs) {
