@@ -48,7 +48,7 @@ function fisher -a cmd -d "fish package manager"
                 set -l file (_fisher_fmt <$fisher_path/fishfile | _fisher_diff R)
                 _fisher_ls | _fisher_fmt | command awk -v FILE="$file" "
                     BEGIN { for (n = split(FILE, f); ++i <= n;) file[f[i]] } \$0 in file && /$argv[1]/
-                " | sed "s|$HOME|~|"
+                " | command sed "s|^$HOME|~|"
             end
         case self-update
             _fisher_self_update (status -f)
@@ -119,7 +119,7 @@ function _fisher_fmt
 end
 
 function _fisher_version -a file
-    echo "fisher version $fisher_version $file" | command sed "s|$HOME|~|"
+    echo "fisher version $fisher_version $file" | command sed "s|^$HOME|~|"
 end
 
 function _fisher_help
@@ -157,7 +157,7 @@ function _fisher_self_update -a file
             end
             echo "fisher is already up-to-date" >&2
         case \*
-            echo "linking $file" | command sed "s|$HOME|~|" >&2
+            echo "linking $file" | command sed "s|^$HOME|~|" >&2
             command mv -f $file. $file
             source $file
             echo "updated to $fisher_version -- hooray!" >&2
@@ -173,7 +173,7 @@ function _fisher_self_uninstall
     for file in $fisher_cache $fisher_config $fisher_path/{functions,completions,conf.d}/fisher.fish $fisher_path/fishfile
         echo "removing $file"
         command rm -Rf $file 2>/dev/null
-    end | command sed "s|$HOME|~|" >&2
+    end | command sed "s|^$HOME|~|" >&2
 
     for name in (set -n | command awk '/^fisher_/')
         set -e "$name"
@@ -190,7 +190,7 @@ function _fisher_commit -a cmd
 
     if test ! -e "$fishfile"
         command touch $fishfile
-        echo "created new fishfile in $fishfile" | command sed "s|$HOME|~|" >&2
+        echo "created new fishfile in $fishfile" | command sed "s|^$HOME|~|" >&2
     end
 
     set -l rm_pkgs (_fisher_ls | _fisher_fmt)
@@ -225,7 +225,7 @@ function _fisher_commit -a cmd
         end
     end
 
-    printf "%s\n" (_fisher_fmt <$fishfile | _fisher_diff W $cmd $actual_pkgs | sed "s|$HOME|~|") >$fishfile
+    printf "%s\n" (_fisher_fmt <$fishfile | _fisher_diff W $cmd $actual_pkgs | command sed "s|^$HOME|~|") >$fishfile
 
     _fisher_complete
 
@@ -272,7 +272,7 @@ function _fisher_fetch
     for i in $argv
         switch $i
             case \~\* /\*
-                set -l path (echo "$i" | command sed "s|~|$HOME|")
+                set -l path (echo "$i" | command sed "s|^~|$HOME|")
                 if test -e "$path"
                     set local_pkgs $local_pkgs $path
                 else
@@ -311,7 +311,7 @@ function _fisher_fetch
                     command rm -Rf $fisher_config/$pkg
                     command cp -Rf {$fisher_cache,$fisher_config}/$pkg
                 else if test -d \"$fisher_cache/$pkg\"
-                    echo fisher: cannot connect to server -- searching in \"$fisher_cache/$pkg\" | command sed 's|$HOME|~|' >&2
+                    echo fisher: cannot connect to server -- looking in \"$fisher_cache/$pkg\" | command sed 's|^$HOME|~|' >&2
                     command cp -Rf $fisher_cache/$pkg $fisher_config/$pkg/..
                 else
                     command rm -Rf $fisher_config/$pkg
@@ -377,7 +377,7 @@ function _fisher_add -a pkg opts
                         set target $fisher_path/functions/$target
                 end
         end
-        echo "linking $target" | command sed "s|$HOME|~|" >&2
+        echo "linking $target" | command sed "s|^$HOME|~|" >&2
         if test -z "$opts"
             command cp -f $src $target
         else
