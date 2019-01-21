@@ -325,7 +325,10 @@ function _fisher_fetch
     end
 
     if test ! -z "$pkg_jobs"
-        _fisher_wait $pkg_jobs
+        while for job in $pkg_jobs
+                contains -- $job (_fisher_jobs); and break
+            end
+        end
         for pkg in $next_pkgs
             if test -d "$pkg"
                 set actual_pkgs $actual_pkgs $pkg
@@ -421,13 +424,6 @@ end
 
 function _fisher_jobs
     jobs $argv | command awk '/^[0-9]+\t/ { print $1 }'
-end
-
-function _fisher_wait
-    while for job in $argv
-            contains -- $job (_fisher_jobs); and break
-        end
-    end
 end
 
 function _fisher_now -a elapsed
