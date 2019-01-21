@@ -45,7 +45,7 @@ function fisher -a cmd -d "fish package manager"
         case ls
             set -e argv[1]
             if test -s "$fisher_path/fishfile"
-                set -l file (_fisher_fmt <$fisher_path/fishfile | _fisher_parse -R)
+                set -l file (_fisher_fmt <$fisher_path/fishfile | _fisher_parse -R | command sed "s|@.*||")
                 _fisher_ls | _fisher_fmt | command awk -v FILE="$file" "
                     BEGIN { for (n = split(FILE, f); ++i <= n;) file[f[i]] } \$0 in file && /$argv[1]/
                 " | command sed "s|^$HOME|~|"
