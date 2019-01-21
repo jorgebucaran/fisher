@@ -359,7 +359,6 @@ function _fisher_deps
 end
 
 function _fisher_add -a pkg opts
-    set -l name (command basename $pkg)
     for src in $pkg/{functions,completions,conf.d}/**.* $pkg/*.fish
         set -l target (command basename $src)
         switch $src
@@ -371,17 +370,17 @@ function _fisher_add -a pkg opts
                 switch $target
                     case uninstall.fish
                         continue
-                    case init.fish key_bindings.fish
-                        set target $fisher_path/conf.d/$name\_$target
+                    case {init,key_bindings}.fish
+                        set target $fisher_path/conf.d/(command basename $pkg)\_$target
                     case \*
                         set target $fisher_path/functions/$target
                 end
         end
         echo "linking $target" | command sed "s|^$HOME|~|" >&2
-        if test -z "$opts"
-            command cp -f $src $target
-        else
+        if set -q opts[1]
             command ln -sf $src $target
+        else
+            command cp -f $src $target
         end
         switch $target
             case \*.fish
@@ -391,7 +390,6 @@ function _fisher_add -a pkg opts
 end
 
 function _fisher_rm -a pkg
-    set -l name (command basename $pkg)
     for src in $pkg/{conf.d,completions,functions}/**.* $pkg/*.fish
         set -l target (command basename $src)
         set -l filename (command basename $target .fish)
@@ -408,8 +406,8 @@ function _fisher_rm -a pkg
                     case uninstall.fish
                         source $src
                         continue
-                    case init.fish key_bindings.fish
-                        set target conf.d/$name\_$target
+                    case {init,key_bindings}.fish
+                        set target conf.d/(command basename $pkg)\_$target
                     case \*
                         set target functions/$target
                 end
