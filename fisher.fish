@@ -246,14 +246,14 @@ function _fisher_parse -a mode cmd
         BEGIN {
             for (n = split(ARGSTR, a, " "); i++ < n;) pkgs[getkey(a[i])] = a[i]
         }
-        { k = getkey($1) }
+        !NF { next } { k = getkey($1) }
         MODE == "-R" && !(k in pkgs) && $0 = $1
         MODE == "-W" && (/^#/ || k in pkgs || CMD != "rm") { print pkgs[k] (sub($1, "") ? $0 : "") }
         MODE == "-W" || CMD == "rm" { delete pkgs[k] }
         END {
             for (k in pkgs) {
                 if (CMD != "rm" || MODE == "-W") print pkgs[k]
-                else print "package not in fishfile: \""k"\"" > "/dev/stderr"
+                else print "fisher: cannot remove \""k"\" -- package is not in fishfile" > "/dev/stderr"
             }
         }
         function getkey(s,  a) {
