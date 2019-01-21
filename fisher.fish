@@ -45,7 +45,7 @@ function fisher -a cmd -d "fish package manager"
         case ls
             set -e argv[1]
             if test -s "$fisher_path/fishfile"
-                set -l file (_fisher_fmt <$fisher_path/fishfile | _fisher_diff R)
+                set -l file (_fisher_fmt <$fisher_path/fishfile | _fisher_parse -R)
                 _fisher_ls | _fisher_fmt | command awk -v FILE="$file" "
                     BEGIN { for (n = split(FILE, f); ++i <= n;) file[f[i]] } \$0 in file && /$argv[1]/
                 " | command sed "s|^$HOME|~|"
@@ -200,7 +200,7 @@ function _fisher_commit -a cmd
     command rm -Rf $fisher_config
     command mkdir -p $fisher_config
 
-    set -l next_pkgs (_fisher_fmt <$fishfile | _fisher_diff R $cmd (printf "%s\n" $argv | _fisher_fmt))
+    set -l next_pkgs (_fisher_fmt <$fishfile | _fisher_parse -R $cmd (printf "%s\n" $argv | _fisher_fmt))
     set -l new_pkgs (_fisher_fetch $next_pkgs)
     set -l old_pkgs
     for pkg in $rm_pkgs
@@ -210,7 +210,7 @@ function _fisher_commit -a cmd
     end
 
     if test -z "$new_pkgs$old_pkgs$rm_pkgs$next_pkgs"
-        echo "nothing to commit -- try adding some packages" >&2
+        echo "fisher: nothing to commit -- try adding some packages" >&2
         return 1
     end
 
@@ -225,7 +225,7 @@ function _fisher_commit -a cmd
         end
     end
 
-    printf "%s\n" (_fisher_fmt <$fishfile | _fisher_diff W $cmd $actual_pkgs | command sed "s|^$HOME|~|") >$fishfile
+    printf "%s\n" (_fisher_fmt <$fishfile | _fisher_parse -W $cmd $actual_pkgs | command sed "s|^$HOME|~|") >$fishfile
 
     _fisher_complete
 
@@ -240,19 +240,19 @@ function _fisher_commit -a cmd
     ' >&2
 end
 
-function _fisher_diff -a diff cmd
+function _fisher_parse -a mode cmd
     set -e argv[1..2]
-    command awk -v FS="[[:space:]]*#" -v DIFF="$diff" -v CMD="$cmd" -v ARGSTR="$argv" '
+    command awk -v FS="[[:space:]]*#" -v MODE="$mode" -v CMD="$cmd" -v ARGSTR="$argv" '
         BEGIN {
             for (n = split(ARGSTR, a, " "); i++ < n;) pkgs[getkey(a[i])] = a[i]
         }
         { k = getkey($1) }
-        DIFF == "R" && !(k in pkgs) && $0 = $1
-        DIFF == "W" && (/^#/ || !NF || (k in pkgs && $0 = pkgs[k]) || CMD != "rm")
-        DIFF == "W" || CMD == "rm" { delete pkgs[k] }
+        MODE == "-R" && !(k in pkgs) && $0 = $1
+        MODE == "-W" && (/^#/ || !NF || (k in pkgs && $0 = pkgs[k]) || CMD != "rm")
+        MODE == "-W" || CMD == "rm" { delete pkgs[k] }
         END {
             for (k in pkgs) {
-                if (CMD != "rm" || DIFF == "W") print pkgs[k]
+                if (CMD != "rm" || MODE == "-W") print pkgs[k]
                 else print "package not in fishfile: \""k"\"" > "/dev/stderr"
             }
         }
@@ -281,7 +281,7 @@ function _fisher_fetch
                 continue
         end
 
-        command awk -v NAME=$i -v FS=/ '
+        command awk -v NAME="$i" -v FS=/ '
             BEGIN {
                 if (split(NAME, tmp, /@+|:/) > 2) {
                     if (tmp[4]) sub("@"tmp[4], "", NAME)
@@ -353,7 +353,7 @@ function _fisher_deps
         if test ! -d "$pkg"
             echo $pkg
         else if test -s "$pkg/fishfile"
-            _fisher_deps (_fisher_fmt < $pkg/fishfile | _fisher_diff R)
+            _fisher_deps (_fisher_fmt < $pkg/fishfile | _fisher_parse -R)
         end
     end
 end
