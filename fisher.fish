@@ -188,7 +188,7 @@ function _fisher_commit -a cmd
         echo "created new fishfile in $fishfile" | command sed "s|$HOME|~|" >&2
     end
 
-    set -l rm_pkgs (_fisher_ls | _fisher_fmt)
+    set -l old_pkgs (_fisher_ls | _fisher_fmt)
     for pkg in (_fisher_ls)
         _fisher_rm $pkg
     end
@@ -196,37 +196,37 @@ function _fisher_commit -a cmd
     command mkdir -p $fisher_config
 
     set -l next_pkgs (_fisher_fmt <$fishfile | _fisher_parse -R $cmd (printf "%s\n" $argv | _fisher_fmt))
-    set -l new_pkgs (_fisher_fetch $next_pkgs)
-    set -l old_pkgs
-    for pkg in $rm_pkgs
-        if contains -- $pkg $new_pkgs
-            set old_pkgs $old_pkgs $pkg
+    set -l actual_pkgs (_fisher_fetch $next_pkgs)
+    set -l updated_pkgs
+    for pkg in $old_pkgs
+        if contains -- $pkg $actual_pkgs
+            set updated_pkgs $updated_pkgs $pkg
         end
     end
 
-    if test -z "$new_pkgs$old_pkgs$rm_pkgs$next_pkgs"
+    if test -z "$actual_pkgs$updated_pkgs$old_pkgs$next_pkgs"
         echo "fisher: nothing to commit -- try adding some packages" >&2
         return 1
     end
 
-    set -l actual_pkgs
+    set -l out_pkgs
     if test "$cmd" = "rm"
-        set actual_pkgs $next_pkgs
+        set out_pkgs $next_pkgs
     else
         for pkg in $next_pkgs
-            if contains -- (echo $pkg | command sed "s|@.*||") $new_pkgs
-                set actual_pkgs $actual_pkgs $pkg
+            if contains -- (echo $pkg | command sed "s|@.*||") $actual_pkgs
+                set out_pkgs $out_pkgs $pkg
             end
         end
     end
 
-    printf "%s\n" (_fisher_fmt <$fishfile | _fisher_parse -W $cmd $actual_pkgs | command sed "s|^$HOME|~|") >$fishfile
+    printf "%s\n" (_fisher_fmt <$fishfile | _fisher_parse -W $cmd $out_pkgs | command sed "s|^$HOME|~|") >$fishfile
 
     _fisher_complete
 
-    command awk -v N=(count $new_pkgs) -v O=(count $old_pkgs) -v R=(count $rm_pkgs) -v E=(_fisher_now $elapsed) '
+    command awk -v A=(count $actual_pkgs) -v U=(count $updated_pkgs) -v O=(count $old_pkgs) -v E=(_fisher_now $elapsed) '
         BEGIN {
-            res = fmt("removed", R - O, fmt("updated", O, fmt("added", N - O)))
+            res = fmt("removed", O - U, fmt("updated", U, fmt("added", A - U)))
             printf((res ? res : "done") " in %.2fs\n", E / 1000)
         }
         function fmt(action, n, s) {
@@ -258,9 +258,9 @@ function _fisher_parse -a mode cmd
 end
 
 function _fisher_fetch
+    set -l out_pkgs
     set -l next_pkgs
     set -l local_pkgs
-    set -l actual_pkgs
     set -q fisher_user_api_token; and set -l curl_opts -u $fisher_user_api_token
 
     for pkg in $argv
@@ -275,13 +275,13 @@ function _fisher_fetch
                 continue
         end
 
-        command awk -v NAME="$pkg" -v FS=/ '
+        command awk -v PKG="$pkg" -v FS=/ '
             BEGIN {
-                if (split(NAME, tmp, /@+|:/) > 2) {
-                    if (tmp[4]) sub("@"tmp[4], "", NAME)
-                    print NAME "\t" tmp[2]"/"tmp[1]"/"tmp[3] "\t" (tmp[4] ? tmp[4] : "master")
+                if (split(PKG, tmp, /@+|:/) > 2) {
+                    if (tmp[4]) sub("@"tmp[4], "", PKG)
+                    print PKG "\t" tmp[2]"/"tmp[1]"/"tmp[3] "\t" (tmp[4] ? tmp[4] : "master")
                 } else {
-                    pkg = split(NAME, _, "/") <= 2 ? "github.com/"tmp[1] : tmp[1]
+                    pkg = split(PKG, _, "/") <= 2 ? "github.com/"tmp[1] : tmp[1]
                     tag = tmp[2] ? tmp[2] : "master"
                     print (\
                         pkg ~ /^github/ ? "https://codeload."pkg"/tar.gz/"tag : \
@@ -323,7 +323,7 @@ function _fisher_fetch
         end
         for pkg in $next_pkgs
             if test -d "$pkg"
-                set actual_pkgs $actual_pkgs $pkg
+                set out_pkgs $out_pkgs $pkg
                 _fisher_add $pkg
             end
         end
@@ -337,19 +337,19 @@ function _fisher_fetch
         set -l target $local_prefix/(command basename $pkg)
         if test ! -L "$target"
             command ln -sf $pkg $target
-            set actual_pkgs $actual_pkgs $pkg
+            set out_pkgs $out_pkgs $pkg
             _fisher_add $pkg --link
         end
     end
 
-    if set -q actual_pkgs[1]
+    if set -q out_pkgs[1]
         _fisher_fetch (
-            for pkg in $actual_pkgs
+            for pkg in $out_pkgs
                 if test -s "$pkg/fishfile"
                     _fisher_fmt < $pkg/fishfile | _fisher_parse -R
                 end
             end)
-        printf "%s\n" $actual_pkgs | _fisher_fmt
+        printf "%s\n" $out_pkgs | _fisher_fmt
     end
 end
 
