@@ -55,7 +55,7 @@ function fisher -a cmd -d "fish package manager"
         case self-uninstall
             _fisher_self_uninstall
         case -v {,--}version
-            _fisher_version (status -f)
+            echo "fisher version $fisher_version" (status -f | command sed "s|^$HOME|~|")
         case -h {,--}help
             _fisher_help
         case ""
@@ -118,10 +118,6 @@ function _fisher_fmt
     command sed "s|^[[:space:]]*||;s|^$fisher_config/||;s|^~|$HOME|;s|^\.\/*|$PWD/|;s|^github\.com/||;s|^https*:/*||;s|/*\$||"
 end
 
-function _fisher_version -a file
-    echo "fisher version $fisher_version $file" | command sed "s|$HOME|~|"
-end
-
 function _fisher_help
     echo "usage:"
     echo "       fisher add <PACKAGES>    Add packages"
@@ -160,7 +156,7 @@ function _fisher_self_update -a file
             echo "linking $file" | command sed "s|$HOME|~|" >&2
             command mv -f $file. $file
             source $file
-            echo "updated to $fisher_version -- hooray!" >&2
+            echo "updated to fisher $fisher_version -- hooray!" >&2
             _fisher_complete
     end
 end
