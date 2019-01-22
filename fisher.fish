@@ -131,7 +131,7 @@ function _fisher_help
     echo "       fisher add jethrokuan/z rafaelrinaldi/pure"
     echo "       fisher add gitlab.com/foo/bar@v2"
     echo "       fisher add ~/path/to/local/pkg"
-    echo "       fisher add < file"
+    echo "       fisher add <file"
     echo "       fisher rm rafaelrinaldi/pure"
     echo "       fisher ls | fisher rm"
     echo "       fisher ls fish-\*"
@@ -142,7 +142,7 @@ function _fisher_self_update -a file
     echo "fetching $url" >&2
     command curl -s "$url?nocache" >$file.
 
-    set -l next_version (command awk '{ print $4 } { exit }' < $file.)
+    set -l next_version (command awk '{ print $4 } { exit }' <$file.)
     switch "$next_version"
         case "" $fisher_version
             command rm -f $file.
@@ -346,7 +346,7 @@ function _fisher_fetch
         _fisher_fetch (
             for pkg in $out_pkgs
                 if test -s "$pkg/fishfile"
-                    _fisher_fmt < $pkg/fishfile | _fisher_parse -R
+                    _fisher_fmt <$pkg/fishfile | _fisher_parse -R
                 end
             end)
         printf "%s\n" $out_pkgs | _fisher_fmt
