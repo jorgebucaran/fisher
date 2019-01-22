@@ -263,25 +263,24 @@ function _fisher_parse -a mode cmd
 end
 
 function _fisher_fetch
-    set -l pkg_jobs
     set -l next_pkgs
     set -l local_pkgs
     set -l actual_pkgs
     set -q fisher_user_api_token; and set -l curl_opts -u $fisher_user_api_token
 
-    for i in $argv
-        switch $i
+    for pkg in $argv
+        switch $pkg
             case \~\* /\*
-                set -l path (echo "$i" | command sed "s|^~|$HOME|")
+                set -l path (echo "$pkg" | command sed "s|^~|$HOME|")
                 if test -e "$path"
                     set local_pkgs $local_pkgs $path
                 else
-                    echo "fisher: cannot add \"$i\" -- is this a valid file?" >&2
+                    echo "fisher: cannot add \"$pkg\" -- is this a valid file?" >&2
                 end
                 continue
         end
 
-        command awk -v NAME="$i" -v FS=/ '
+        command awk -v NAME="$pkg" -v FS=/ '
             BEGIN {
                 if (split(NAME, tmp, /@+|:/) > 2) {
                     if (tmp[4]) sub("@"tmp[4], "", NAME)
@@ -299,6 +298,7 @@ function _fisher_fetch
         ' | read -l url pkg branch
 
         if test ! -d "$fisher_config/$pkg"
+            set next_pkgs $next_pkgs "$fisher_config/$pkg"
             fish -c "
                 echo fetching $url >&2
                 command mkdir -p $fisher_config/$pkg $fisher_cache/(command dirname $pkg)
@@ -318,14 +318,11 @@ function _fisher_fetch
                     echo fisher: cannot add \"$pkg\" -- is this a valid package\? >&2
                 end
             " >/dev/null &
-
-            set pkg_jobs $pkg_jobs (_fisher_jobs --last)
-            set next_pkgs $next_pkgs "$fisher_config/$pkg"
         end
     end
 
-    if test ! -z "$pkg_jobs"
-        while for job in $pkg_jobs
+    if set -l jobs (_fisher_jobs)
+        while for job in $jobs
                 contains -- $job (_fisher_jobs); and break
             end
         end
@@ -337,27 +334,27 @@ function _fisher_fetch
         end
     end
 
-    set -l local_path $fisher_config/local/$USER
-    for src in $local_pkgs
-        command mkdir -p $local_path
-        command ln -sf $src $local_path/(command basename $src)
-        set actual_pkgs $actual_pkgs $src
-        _fisher_add $src --link
+    set -l local_prefix $fisher_config/local/$USER
+    if test ! -d "$local_prefix"
+        command mkdir -p $local_prefix
     end
-
-    if test ! -z "$actual_pkgs"
-        _fisher_fetch (_fisher_deps $actual_pkgs | command awk '!seen[$0]++')
-        printf "%s\n" $actual_pkgs | _fisher_fmt
-    end
-end
-
-function _fisher_deps
-    for pkg in $argv
-        if test ! -d "$pkg"
-            echo $pkg
-        else if test -s "$pkg/fishfile"
-            _fisher_deps (_fisher_fmt < $pkg/fishfile | _fisher_parse -R)
+    for pkg in $local_pkgs
+        set -l target $local_prefix/(command basename $pkg)
+        if test ! -L "$target"
+            command ln -sf $pkg $target
+            set actual_pkgs $actual_pkgs $pkg
+            _fisher_add $pkg --link
         end
+    end
+
+    if set -q actual_pkgs[1]
+        _fisher_fetch (
+            for pkg in $actual_pkgs
+                if test -s "$pkg/fishfile"
+                    _fisher_fmt < $pkg/fishfile | _fisher_parse -R
+                end
+            end)
+        printf "%s\n" $actual_pkgs | _fisher_fmt
     end
 end
 
@@ -423,7 +420,7 @@ function _fisher_rm -a pkg
 end
 
 function _fisher_jobs
-    jobs $argv | command awk '/^[0-9]+\t/ { print $1 }'
+    jobs $argv | command awk '/^[0-9]+\t/ { print (status = $1) } END { exit !status }'
 end
 
 function _fisher_now -a elapsed
