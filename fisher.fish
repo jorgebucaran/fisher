@@ -54,9 +54,9 @@ function fisher -a cmd -d "fish package manager"
             _fisher_self_update (status -f)
         case self-uninstall
             _fisher_self_uninstall
-        case -v {,--}version
+        case {,-}-v{ersion,}
             echo "fisher version $fisher_version" (status -f | command sed "s|^$HOME|~|")
-        case -h {,--}help
+        case {,-}-h{elp,}
             _fisher_help
         case ""
             _fisher_commit --
@@ -86,8 +86,8 @@ function _fisher_complete
     complete -xc fisher -n __fish_use_subcommand -a add -d "Add packages"
     complete -xc fisher -n __fish_use_subcommand -a rm -d "Remove packages"
     complete -xc fisher -n __fish_use_subcommand -a ls -d "List installed packages matching REGEX"
-    complete -xc fisher -n __fish_use_subcommand -a help -d "Show usage help"
-    complete -xc fisher -n __fish_use_subcommand -a version -d "$fisher_version"
+    complete -xc fisher -n __fish_use_subcommand -a --help -d "Show usage help"
+    complete -xc fisher -n __fish_use_subcommand -a --version -d "$fisher_version"
     complete -xc fisher -n __fish_use_subcommand -a self-update -d "Update to the latest version"
     for pkg in (fisher ls)
         complete -xc fisher -n "__fish_seen_subcommand_from rm" -a $pkg
@@ -119,15 +119,14 @@ function _fisher_fmt
 end
 
 function _fisher_help
-    echo "usage:"
-    echo "       fisher add <PACKAGES>    Add packages"
-    echo "       fisher rm  <PACKAGES>    Remove packages"
-    echo "       fisher                   Update all packages"
-    echo "       fisher ls  [REGEX]       List installed packages matching REGEX"
-    echo "       fisher help              Show this help"
-    echo "       fisher version           Show the current version"
-    echo "       fisher self-update       Update to the latest version"
-    echo "       fisher self-uninstall    Uninstall from your system"
+    echo "usage: fisher add <package...>     Add packages"
+    echo "       fisher rm  <package...>     Remove packages"
+    echo "       fisher                      Update all packages"
+    echo "       fisher ls  [<regex>]        List installed packages matching <regex>"
+    echo "       fisher --help               Show this help"
+    echo "       fisher --version            Show the current version"
+    echo "       fisher self-update          Update to the latest version"
+    echo "       fisher self-uninstall       Uninstall from your system"
     echo "examples:"
     echo "       fisher add jethrokuan/z rafaelrinaldi/pure"
     echo "       fisher add gitlab.com/foo/bar@v2"
