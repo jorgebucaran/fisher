@@ -258,6 +258,7 @@ function _fisher_parse -a mode cmd
 end
 
 function _fisher_fetch
+    set -l pkg_jobs
     set -l out_pkgs
     set -l next_pkgs
     set -l local_pkgs
@@ -293,7 +294,6 @@ function _fisher_fetch
         ' | read -l url pkg branch
 
         if test ! -d "$fisher_config/$pkg"
-            set next_pkgs $next_pkgs "$fisher_config/$pkg"
             fish -c "
                 echo fetching $url >&2
                 command mkdir -p $fisher_config/$pkg $fisher_cache/(command dirname $pkg)
@@ -313,11 +313,13 @@ function _fisher_fetch
                     echo fisher: cannot add \"$pkg\" -- is this a valid package\? >&2
                 end
             " >/dev/null &
+            set pkg_jobs $pkg_jobs (_fisher_jobs --last)
+            set next_pkgs $next_pkgs "$fisher_config/$pkg"
         end
     end
 
-    if set -l jobs (_fisher_jobs)
-        while for job in $jobs
+    if set -q pkg_jobs[1]
+        while for job in $pkg_jobs
                 contains -- $job (_fisher_jobs); and break
             end
         end
@@ -415,7 +417,7 @@ function _fisher_rm -a pkg
 end
 
 function _fisher_jobs
-    jobs $argv | command awk '/^[0-9]+\t/ { print (status = $1) } END { exit !status }'
+    jobs $argv | command awk '/^[0-9]+\t/ { print $1 }'
 end
 
 function _fisher_now -a elapsed
