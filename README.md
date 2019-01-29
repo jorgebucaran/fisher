@@ -23,14 +23,14 @@ Download `fisher` to your fish functions directory or any directory in the fish 
 curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 ```
 
-Your shell can take a few seconds before refreshing the function path. If `fisher` is not immediately available after the download is complete, you can launch a new session, or [replace the current session](https://fishshell.com/docs/current/commands.html#exec) with a new one.
+Your shell can take a few seconds before refreshing the function path. If the `fisher` command is not immediately available after downloading, you can launch a new session, or [replace the current session](https://fishshell.com/docs/current/commands.html#exec) with a new one.
 
-> **Note:** If the [`XDG_CONFIG_HOME`](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html#variables) environment variable is defined on your system, use `$XDG_CONFIG_HOME/fish` to find the path to your fish configuration directory.
+> **Note:** If [`XDG_CONFIG_HOME`](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html#variables) is defined on your system, use `$XDG_CONFIG_HOME/fish` to specify the path to your fish configuration directory.
 
 ### Dependencies
 
 - [fish](https://github.com/fish-shell/fish-shell) 2.2+
-- [curl](https://github.com/curl/curl) 7.10.3+
+- [curl](https://github.com/curl/curl) [7.10.3](https://curl.haxx.se/changes.html#7_10_3)+
 - [git](https://github.com/git/git) 1.7.12+
 
 Stuck in fish 2.0 and can't upgrade your shell? Check our [legacy fish support guide](https://github.com/jorgebucaran/fisher/issues/510) and good luck!
@@ -279,7 +279,7 @@ end
 
 ## Uninstalling
 
-You want to know how to remove this package manager and everything you've installed with it from your system. So long, and thanks for all the fish~! This command will purge all packages, cache, configuration and related files.
+You want to know how to remove this package manager and everything you've installed with it. You got it. This command will remove all packages, cache, configuration, and related files.
 
 ```fish
 fisher self-uninstall
@@ -287,10 +287,4 @@ fisher self-uninstall
 
 ## License
 
-Copyright © 2016-2019 Jorge Bucaran <<https://jorgebucaran.com>>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+[MIT](LICENSE.md)
