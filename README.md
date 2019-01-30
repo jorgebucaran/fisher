@@ -10,24 +10,22 @@ Looking for packages? Browse our curated collection at [git.io/awesome-fish](htt
 ## Features
 
 - Zero configuration
-- Oh My Fish! package support
+- Oh My Fish package support
 - High-speed concurrent package downloads
 - Cached downloads—if you've installed a package before, you can install it again offline
 - Add, update and remove functions, completions, key bindings, and configuration snippets from a variety of sources using the command line, editing your [fishfile](#using-the-fishfile) or both
 
 ## Installation
 
-Download `fisher` to your fish functions directory or any directory in the fish function path.
+Download [`fisher.fish`](fisher.fish) to your functions directory or any directory on your function path.
 
-```sh
+```shell
 curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 ```
 
-Your shell can take a few seconds before refreshing the function path. If the `fisher` command is not immediately available after downloading, you can launch a new session, or [replace the current session](https://fishshell.com/docs/current/commands.html#exec) with a new one.
+Your shell can take a few seconds before loading newly added functions. If the `fisher` command is not immediately available, launch a new session or [replace](https://fishshell.com/docs/current/commands.html#exec) the running shell with a new one.
 
-> **Note:** If [`XDG_CONFIG_HOME`](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html#variables) is defined on your system, use `$XDG_CONFIG_HOME/fish` to specify the path to your fish configuration directory.
-
-### Dependencies
+### System Requirements
 
 - [fish](https://github.com/fish-shell/fish-shell) 2.2+
 - [curl](https://github.com/curl/curl) [7.10.3](https://curl.haxx.se/changes.html#7_10_3)+
