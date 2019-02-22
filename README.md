@@ -76,7 +76,7 @@ Add packages using the `add` command followed by the path to the repository on G
 fisher add jethrokuan/z rafaelrinaldi/pure
 ```
 
-To add a package from anywhere other than GitHub, use the address of the server and the path to the repository. HTTPS is always assumed so you don't need to specify the protocol.
+To add a package from anywhere other than GitHub, use the address of the server and the path to the repository. HTTPS is always assumed, so you don't need to specify the protocol.
 
 ```
 fisher add gitlab.com/jorgebucaran/mermaid
@@ -151,7 +151,7 @@ Use the `help` command to display usage help on the command line.
 fisher help
 ```
 
-Last but not least, use the `version` command to display the current version of fisher.
+Last but not least, use the `version` command to display the current version of Fisher.
 
 ```
 fisher version
@@ -159,7 +159,7 @@ fisher version
 
 ### Using the fishfile
 
-Whenever you add or remove a package from the command line we'll write to a text file in `~/.config/fish/fishfile`. This is your fishfile. It lists every package that is currently installed on your system. You should add this file to your dotfiles or version control if you want to reproduce your configuration on a different system.
+Whenever you add or remove a package from the command-line, we'll write to a text file in `~/.config/fish/fishfile`. This is your fishfile. It lists every package that is currently installed on your system. You should add this file to your dotfiles or version control if you want to reproduce your configuration on a different system.
 
 You can edit this file to add or remove packages and run `fisher` to commit your changes. Only the packages listed in this file will be installed after `fisher` returns. If a package is already installed, it will be updated. Everything after a `#` symbol (comments) will be ignored.
 
@@ -186,7 +186,7 @@ That will remove **rafaelrinaldi/pure** and **jethrokuan/z**, add **FabioAntunes
 
 Packages help you organize shell scripts into reusable, independent components that can be shared through a git URL or the path to a local directory. Even if your package is not meant to be shared with others, you can benefit from composition and the ability to depend on other packages.
 
-The structure of a package can be adopted from the fictional project described below. These are the files that fisher looks for when installing or uninstalling a package. The name of the root directory can be anything you like.
+The structure of a package can be adopted from the fictional project described below. These are the files that Fisher looks for when installing or uninstalling a package. The name of the root directory can be anything you like.
 
 ```
 fish-kraken
@@ -201,20 +201,20 @@ fish-kraken
 
 If your project depends on other packages, it should list them as dependencies in a fishfile. There is no need for a fishfile otherwise. The rules concerning the usage of the fishfile are the same rules we've already covered in [using the fishfile](#using-the-fishfile).
 
-While some packages contain every kind of file, some packages contain only functions or configuration snippets. You are not limited to a single file per directory either. There can be as many files as you need or only one as in the next example.
+While some packages contain every kind of file, some packages include only functions or configuration snippets. You are not limited to a single file per directory either. There can be as many files as you need or just one as in the next example.
 
 ```
 fish-kraken
 └── kraken.fish
 ```
 
-The lack of private function scope in fish causes all package functions to share the same namespace. A good rule of thumb is to prefix functions intended for private use with the name of your package to reduce the possibility of conflicts.
+The lack of private scope in fish causes all package functions to share the same namespace. A good rule of thumb is to prefix functions intended for private use with the name of your package to reduce the possibility of conflicts.
 
 ### Creating your own package
 
 The best way to show you how to create your own package is by building one together. Our first example will be a function that prints the raw non-rendered markdown source of a README file from GitHub to standard output. Its inputs will be the name of the owner, repository, and branch. If no branch is specified, we'll use the master branch.
 
-Create the following directory structure and function file. Make sure the function name matches the file name, otherwise fish won't be able to autoload it the first time you try to use it.
+Create the following directory structure and function file. Make sure the function name matches the file name; otherwise fish won't be able to autoload it the first time you try to use it.
 
 ```
 fish-readme
@@ -236,9 +236,9 @@ You can install it with the `add` command followed by the path to the directory.
 fisher add /absolute/path/to/fish-readme
 ```
 
-The next logical step is to share it with others. How do you do that? Fisher is not a package registry. Its function is to fetch fish scripts and put them in place so that your shell can find them. To publish a package put your code online. You can use GitHub, GitLab or BitBucket or anywhere you like.
+The next logical step is to share it with others. How do you do that? Fisher is not a package registry. Its function is to fetch fish scripts and put them in place so that your shell can find them. To publish a package put your code online. You can use GitHub, GitLab or BitBucket, or anywhere you like.
 
-Now let's install the package again, this time from its new location. Open your [fishfile](#using-the-fishfile) and replace the local version of the package we previously added with the URL of the remote repository. Save your changes and run `fisher`.
+Now let's install the package again, this time from its new location. Open your [fishfile](#using-the-fishfile) and replace the local version of the package previously added with the URL of the remote repository. Save your changes and run `fisher`.
 
 ```diff
 - /absolute/path/to/fish-readme
@@ -277,7 +277,7 @@ end
 
 ## Uninstalling
 
-You want to know how to remove this package manager and everything you've installed with it. You got it. This command will remove all packages, cache, configuration, and related files.
+You want to know how to remove this package manager and everything you've installed with it. You got it. This command will delete all packages, cache, configuration, and related files.
 
 ```fish
 fisher self-uninstall
