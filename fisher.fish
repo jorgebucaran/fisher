@@ -300,7 +300,7 @@ function _fisher_fetch
                 if test ! -z \"$branch\"
                      command git clone $url $fisher_config/$pkg --branch $branch --depth 1 2>/dev/null
                      or echo fisher: cannot clone \"$url\" -- is this a valid url\? >&2
-                else if command curl $curl_opts -Ss -w "" $url 2>&1 | command tar -xzf- -C $fisher_config/$pkg 2>/dev/null
+                else if command curl $curl_opts -Ss -w \"\" $url 2>&1 | command tar -xzf- -C $fisher_config/$pkg 2>/dev/null
                     command rm -Rf $fisher_cache/$pkg
                     command mv -f $fisher_config/$pkg/* $fisher_cache/$pkg
                     command rm -Rf $fisher_config/$pkg
