@@ -115,7 +115,7 @@ function _fisher_ls
 end
 
 function _fisher_fmt
-    command sed "s|^[[:space:]]*||;s|^$fisher_config/||;s|^~|$HOME|;s|^\.\/*|$PWD/|;s|^github\.com/||;s|^https*:/*||;s|/*\$||"
+    command sed "s|^[[:space:]]*||;s|^$fisher_config/||;s|^~|$HOME|;s|^\.\/*|$PWD/|;s|^https*:/*||;s|^github\.com/||;s|/*\$||"
 end
 
 function _fisher_help
