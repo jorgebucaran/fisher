@@ -145,16 +145,16 @@ fisher self-update
 
 ### Other commands
 
-Use the `help` command to display usage help on the command line.
+Use the `--help` command to display usage help on the command line.
 
 ```
-fisher help
+fisher --help
 ```
 
-Last but not least, use the `version` command to display the current version of Fisher.
+Last but not least, use the `--version` command to display the current version of Fisher.
 
 ```
-fisher version
+fisher --version
 ```
 
 ### Using the fishfile
