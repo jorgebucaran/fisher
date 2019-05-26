@@ -16,6 +16,17 @@ function fisher -a cmd -d "fish package manager"
         end
     end
 
+    # The fishfile is stored at $fisher_path/fishfile, and _fisher_commit
+    # executes `rm -rf $fisher_config`, so if $fisher_path = $fish_config,
+    # running `fisher` will delete the fishfile before looking for packages,
+    # leading to confusing errors.
+    if test (readlink "$fisher_path") = (readlink "$fisher_config")
+        echo "Error: \$fisher_path ($fisher_path) cannot be $fisher_config"
+        echo "Consider instead:"
+        echo "    set -g fisher_path \"\$HOME/.config/fisher_local\""
+        return 1
+    end
+
     if test ! -e $fisher_path/completions/fisher.fish
         echo "fisher complete" >$fisher_path/completions/fisher.fish
         _fisher_complete
