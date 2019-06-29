@@ -1,19 +1,16 @@
-# Fisher
-
-[![Build Status](https://img.shields.io/travis/jorgebucaran/fisher.svg)](https://travis-ci.org/jorgebucaran/fisher)
-[![Releases](https://img.shields.io/github/release/jorgebucaran/fisher.svg?label=latest)](https://github.com/jorgebucaran/fisher/releases)
+# Fisher [![Releases](https://img.shields.io/github/release/jorgebucaran/fisher.svg?label=&color=0080FF)](https://github.com/jorgebucaran/fisher/releases/latest) [![Travis CI](https://img.shields.io/travis/jorgebucaran/fisher.svg?label=)](https://travis-ci.org/jorgebucaran/fisher)
 
 Fisher is a package manager for the <a href="https://fishshell.com" title="friendly interactive shell">fish shell</a>. It defines a common interface for package authors to build and distribute shell scripts in a portable way. You can use it to extend your shell capabilities, change the look of your prompt and create repeatable configurations across different systems effortlessly.
 
-Looking for packages? Browse our curated collection at [git.io/awesome-fish](https://git.io/awesome-fish).
+Here's why you'll love Fisher:
 
-## Features
+- No configuration.
+- Oh My Fish package support.
+- High-speed concurrent package downloads.
+- Cached downloads—if you've installed a package before, you can install it again offline!
+- Add, update and remove functions, completions, key bindings, and configuration snippets from a variety of sources using the command line, editing your [fishfile](#using-the-fishfile) or both.
 
-- Zero configuration
-- Oh My Fish package support
-- High-speed concurrent package downloads
-- Cached downloads—if you've installed a package before, you can install it again offline
-- Add, update and remove functions, completions, key bindings, and configuration snippets from a variety of sources using the command line, editing your [fishfile](#using-the-fishfile) or both
+Looking for packages? Browse the curated collection at [git.io/awesome-fish](https://git.io/awesome-fish).
 
 ## Installation
 
@@ -62,7 +59,7 @@ end
 
 Do I need this? It depends. If you want to keep your own functions, completions, and configuration snippets separate from packages installed with Fisher, you can customize the installation prefix. If you prefer to keep everything in the same place, you can skip this.
 
-## Usage
+## Getting started
 
 You've found an interesting utility you'd like to try out. Or perhaps you've [created a package](#creating-your-own-package) yourself. How do you install it on your system? Now you want to update or remove it. How do you do that?
 
@@ -157,7 +154,7 @@ Last but not least, use the `--version` command to display the current version o
 fisher --version
 ```
 
-### Using the fishfile
+## Using the fishfile
 
 Whenever you add or remove a package from the command-line, we'll write to a text file in `~/.config/fish/fishfile`. This is your fishfile. It lists every package that is currently installed on your system. You should add this file to your dotfiles or version control if you want to reproduce your configuration on a different system.
 
@@ -182,7 +179,9 @@ fisher
 
 That will remove **rafaelrinaldi/pure** and **jethrokuan/z**, add **FabioAntunes/fish-nvm** and update the rest.
 
-## Packages
+## Digging deeper
+
+### What is a package?
 
 Packages help you organize shell scripts into reusable, independent components that can be shared through a git URL or the path to a local directory. Even if your package is not meant to be shared with others, you can benefit from composition and the ability to depend on other packages.
 
@@ -277,7 +276,7 @@ end
 
 ## Uninstalling
 
-You want to know how to remove this package manager and everything you've installed with it. You got it. This command will delete all packages, cache, configuration, and related files.
+You want to know how to remove this package manager and everything you've installed with it. No problem. This command will delete all packages, cache, configuration, and related files.
 
 ```fish
 fisher self-uninstall
