@@ -4,11 +4,11 @@ Fisher is a package manager for the <a href="https://fishshell.com" title="frien
 
 Here's why you'll love Fisher:
 
-- No configuration.
-- Oh My Fish package support.
-- High-speed concurrent package downloads.
+- Zero configuration.
+- Oh My Fish! package support.
+- Blazing fast concurrent package downloads.
 - Cached downloads—if you've installed a package before, you can install it again offline!
-- Add, update and remove functions, completions, key bindings, and configuration snippets from a variety of sources using the command line, editing your [fishfile](#using-the-fishfile) or both.
+- Add, update and remove functions, completions, key bindings, and [configuration snippets](#configuration-snippets) from a variety of sources using the command line, editing your [fishfile](#using-the-fishfile) or both.
 
 Looking for packages? Browse the curated collection at [git.io/awesome-fish](https://git.io/awesome-fish).
 
@@ -16,7 +16,7 @@ Looking for packages? Browse the curated collection at [git.io/awesome-fish](htt
 
 Download [`fisher.fish`](fisher.fish) to your functions directory or any directory on your function path.
 
-```shell
+```console
 curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 ```
 
@@ -32,7 +32,7 @@ Stuck in fish 2.0 and can't upgrade your shell? Check our [legacy fish support g
 
 ### Bootstrap installation
 
-To automate the installation process on a new system and fetch packages in your [fishfile](#using-the-fishfile) for the first time, add the following code to your fish configuration file.
+To automate the installation process on a new system, installing packages listed in your [fishfile](#using-the-fishfile), add the following code to your fish configuration file.
 
 ```fish
 if not functions -q fisher
@@ -44,7 +44,9 @@ end
 
 ### Changing the installation prefix
 
-Use the `$fisher_path` environment variable to change the location where functions, completions, and [configuration snippets](#configuration-snippets) will be copied to when a package is installed. The default location will be your fish configuration directory.
+Use the `$fisher_path` environment variable to change the location where functions, completions, and configuration snippets will be copied to when a package is installed. The default location will be your fish configuration directory.
+
+> **Note**: Do I need this? If you want to keep your own functions, completions, and configuration snippets separate from packages installed with Fisher, customize the installation prefix. If you prefer to keep everything in the same place, you can skip this.
 
 ```fish
 set -g fisher_path /path/to/another/location
@@ -57,11 +59,9 @@ for file in $fisher_path/conf.d/*.fish
 end
 ```
 
-Do I need this? It depends. If you want to keep your own functions, completions, and configuration snippets separate from packages installed with Fisher, you can customize the installation prefix. If you prefer to keep everything in the same place, you can skip this.
-
 ## Getting started
 
-You've found an interesting utility you'd like to try out. Or perhaps you've [created a package](#creating-your-own-package) yourself. How do you install it on your system? Now you want to update or remove it. How do you do that?
+You've found an interesting utility you'd like to try out. Or maybe you've [created a package](#creating-your-own-package) yourself. How do you install it on your system? How do update or remove it?
 
 You can use Fisher to add, update, and remove packages interactively, taking advantage of fish [tab completion](https://fishshell.com/docs/current/index.html#completion) and syntax highlighting. Or [edit your fishfile](#using-the-fishfile) and commit your changes. Do you prefer a CLI-centered approach, text-based approach, or a mix of both?
 
@@ -69,14 +69,14 @@ You can use Fisher to add, update, and remove packages interactively, taking adv
 
 Add packages using the `add` command followed by the path to the repository on GitHub.
 
-```
+```console
 fisher add jethrokuan/z rafaelrinaldi/pure
 ```
 
-To add a package from anywhere other than GitHub, use the address of the server and the path to the repository. HTTPS is always assumed, so you don't need to specify the protocol.
+To add a package from a different location, use the address of the server and the path to the repository. HTTPS is always assumed, so you don't need to write the protocol.
 
-```
-fisher add gitlab.com/jorgebucaran/mermaid
+```console
+fisher add gitlab.com/jorgebucaran/kraken
 ```
 
 To add a package from a private repository set the `fisher_user_api_token` variable to your username followed by a colon and your authorization token or password.
@@ -85,32 +85,32 @@ To add a package from a private repository set the `fisher_user_api_token` varia
 set -g fisher_user_api_token jorgebucaran:ce04da9bd93ddb5e729cfff4a58c226322c8d142
 ```
 
-For a specific version of a package add an `@` symbol after the package name followed by the tag, branch or [commit-ish](https://git-scm.com/docs/gitglossary#gitglossary-aiddefcommit-ishacommit-ishalsocommittish) you want. Only one package version can be installed at any given time.
+For a specific version of a package add an `@` symbol after the package name followed by the tag, branch or [commit-ish](https://git-scm.com/docs/gitglossary#gitglossary-aiddefcommit-ishacommit-ishalsocommittish). Only one package version can be installed at any given time.
 
-```
+```console
 fisher add edc/bass@20f73ef jethrokuan/z@pre27
 ```
 
-You can add packages from a local directory too. Local packages will be copied as [symbolic links](https://en.wikipedia.org/wiki/Symbolic_link) so changes in the original files will be reflected in future shell sessions without having to run `fisher` again.
+You can add packages from a local directory too. Local packages are installed as [symbolic links](https://en.wikipedia.org/wiki/Symbolic_link) so changes in the original files will be reflected in future shell sessions without having to re-run `fisher`.
 
-```
+```console
 fisher add ~/path/to/local/pkg
 ```
 
 ### Listing packages
 
-List all the packages that are currently installed using the `ls` command. This shows only the packages that you've installed yourself, ignoring their dependencies.
+List all the packages that are currently installed using the `ls` command. This doesn't show package dependencies.
 
-```
+```console
 fisher ls
 jethrokuan/z
 rafaelrinaldi/pure
-gitlab.com/jorgebucaran/mermaid
+gitlab.com/jorgebucaran/kraken
 edc/bass
 ~/path/to/myfish/pkg
 ```
 
-Is the output too large? This command accepts a regular expression to refine the listed packages.
+You can use a regular expression after `ls` to refine the output.
 
 ```
 fisher ls "^gitlab|fish-.*"
@@ -120,23 +120,23 @@ fisher ls "^gitlab|fish-.*"
 
 Remove packages using the `rm` command. If a package has dependencies, they too will be removed. If any dependencies are still shared by other packages, they will remain installed.
 
-```
+```console
 fisher rm rafaelrinaldi/pure
 ```
 
 You can remove everything that is currently installed in one sweep using the following pipeline.
 
-```sh
+```console
 fisher ls | fisher rm
 ```
 
 ### Updating packages
 
-Run `fisher` to update everything you've installed. There is no dedicated update command. Using the command line to add and remove packages is a facade for modifying and committing changes to your fishfile in a single step.
+Run `fisher` to update everything that is currently installed. There is no dedicated update command. Using the command line to add and remove packages is a quick way to modify and commit changes to your fishfile in a single step.
 
 Looking for a way to update fisher itself? Use the `self-update` command.
 
-```
+```console
 fisher self-update
 ```
 
@@ -144,21 +144,21 @@ fisher self-update
 
 Use the `--help` command to display usage help on the command line.
 
-```
+```console
 fisher --help
 ```
 
 Last but not least, use the `--version` command to display the current version of Fisher.
 
-```
+```console
 fisher --version
 ```
 
 ## Using the fishfile
 
-Whenever you add or remove a package from the command-line, we'll write to a text file in `~/.config/fish/fishfile`. This is your fishfile. It lists every package that is currently installed on your system. You should add this file to your dotfiles or version control if you want to reproduce your configuration on a different system.
+Whenever you add or remove a package from the command-line, Fisher writes the exact list of installed packages to `~/.config/fish/fishfile`. This is your fishfile. Add this file to your dotfiles or version control in order to reproduce your configuration on a different system.
 
-You can edit this file to add or remove packages and run `fisher` to commit your changes. Only the packages listed in this file will be installed after `fisher` returns. If a package is already installed, it will be updated. Everything after a `#` symbol (comments) will be ignored.
+You can also edit this file and run `fisher` to commit your changes. Only the packages listed in this file will be installed (or remained installed) after `fisher` returns. If a package is already installed, it will be updated. Everything after a `#` symbol will be ignored.
 
 ```fish
 vi ~/.config/fish/fishfile
@@ -167,13 +167,13 @@ vi ~/.config/fish/fishfile
 ```diff
 - rafaelrinaldi/pure
 - jethrokuan/z@pre27
-gitlab.com/jorgebucaran/mermaid
+gitlab.com/jorgebucaran/kraken
 edc/bass
 + FabioAntunes/fish-nvm
 ~/path/to/myfish/pkg
 ```
 
-```
+```console
 fisher
 ```
 
@@ -187,7 +187,7 @@ Packages help you organize shell scripts into reusable, independent components t
 
 The structure of a package can be adopted from the fictional project described below. These are the files that Fisher looks for when installing or uninstalling a package. The name of the root directory can be anything you like.
 
-```
+```console
 fish-kraken
 ├── fishfile
 ├── functions
@@ -200,14 +200,14 @@ fish-kraken
 
 If your project depends on other packages, it should list them as dependencies in a fishfile. There is no need for a fishfile otherwise. The rules concerning the usage of the fishfile are the same rules we've already covered in [using the fishfile](#using-the-fishfile).
 
-While some packages contain every kind of file, some packages include only functions or configuration snippets. You are not limited to a single file per directory either. There can be as many files as you need or just one as in the next example.
+While some packages contain every kind of file, some packages include only functions or configuration snippets. You are not limited to a single file per directory either. There can be as many files as you need or just one as in the following example.
 
 ```
 fish-kraken
 └── kraken.fish
 ```
 
-The lack of private scope in fish causes all package functions to share the same namespace. A good rule of thumb is to prefix functions intended for private use with the name of your package to reduce the possibility of conflicts.
+The lack of private scope in fish causes all package functions to share the same namespace. A good rule of thumb is to prefix functions intended for private use with the name of your package to prevent conflicts.
 
 ### Creating your own package
 
@@ -231,32 +231,32 @@ end
 
 You can install it with the `add` command followed by the path to the directory.
 
-```
+```console
 fisher add /absolute/path/to/fish-readme
 ```
 
-The next logical step is to share it with others. How do you do that? Fisher is not a package registry. Its function is to fetch fish scripts and put them in place so that your shell can find them. To publish a package put your code online. You can use GitHub, GitLab or BitBucket, or anywhere you like.
+The next logical step is to share it with others. How do you do that? Fisher is not a package registry. Its function is to fetch fish scripts and put them in place so that your shell can find them. To publish a package put your code on GitHub, GitLab, BitBucket, or anywhere you like.
 
-Now let's install the package again, this time from its new location. Open your [fishfile](#using-the-fishfile) and replace the local version of the package previously added with the URL of the remote repository. Save your changes and run `fisher`.
+Now let's install the package from the internet. Open your [fishfile](#using-the-fishfile) and replace the local version of the package you added with the URL of the repository. Save your changes and run `fisher`.
 
 ```diff
 - /absolute/path/to/fish-readme
-+ jorgebucaran/fish-readme
++ gitlab.com/jorgebucaran/fish-readme
 ```
 
-```
+```console
 fisher
 ```
 
-You can leave off the github.com part of the URL when adding or removing packages hosted on GitHub. If your package is hosted anywhere else, the address of the server is required.
+You can leave off the `github.com` part of the URL when adding or removing packages hosted on GitHub. If your package is hosted anywhere else, the address of the server is required.
 
 ### Configuration snippets
 
-Configuration snippets consist of all the fish files inside your `~/.config/fish/conf.d` directory. They are evaluated on [shell startup](http://fishshell.com/docs/current/index.html#initialization) and generally used to set environment variables, add new key bindings, etc.
+Configuration snippets consist of all the fish files inside your `~/.config/fish/conf.d` directory. They run on [shell startup](http://fishshell.com/docs/current/index.html#initialization) and generally used to set environment variables, add new key bindings, etc.
 
 Unlike functions or completions which can be erased programmatically, we can't undo a fish file that has been sourced without creating a new shell session. For this reason, packages that use configuration snippets provide custom uninstall logic through an uninstall [event handler](https://fishshell.com/docs/current/#event).
 
-Let's walk through an example that uses this feature to add a new key binding for the Control-G sequence that opens your fishfile in the `vi` editor. When you install the package, `fishfile_quick_edit_key_bindings.fish` will be sourced, adding the specified key binding and loading the event handler function. When you uninstall it, we'll emit an uninstall event where the key binding will be erased.
+Let's walk through an example that uses this feature to add a new key binding for the Control-G sequence. Let's say we want to use it to open the fishfile in the `vi` editor quickly. When you install the package, `fishfile_quick_edit_key_bindings.fish` will be sourced, adding the specified key binding and loading the event handler function. When you uninstall it, Fisher will emit an uninstall event.
 
 ```
 fish-fishfile-quick-edit
@@ -270,7 +270,7 @@ bind \cg "vi ~/.config/fish/fishfile"
 set -l name (basename (status -f) .fish){_uninstall}
 
 function $name --event $name
-    bind -e \cg
+    bind --erase \cg
 end
 ```
 
@@ -278,7 +278,7 @@ end
 
 You want to know how to remove this package manager and everything you've installed with it. No problem. This command will delete all packages, cache, configuration, and related files.
 
-```fish
+```console
 fisher self-uninstall
 ```
 
