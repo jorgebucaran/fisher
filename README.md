@@ -42,11 +42,11 @@ if not functions -q fisher
 end
 ```
 
-### Changing the installation prefix
+### Setting the installation path
 
-Use the `$fisher_path` environment variable to change the location where functions, completions, and configuration snippets will be copied to when a package is installed. The default location will be your fish configuration directory.
+By default, fisher expands packages into the fish configuration directory, which may cause existing customized files (such as `fish_prompt.fish`) to be overwritten. Use the `$fisher_path` environment variable to change the location where functions, completions, and configuration snippets will be copied to when a package is installed.
 
-> **Note**: Do I need this? If you want to keep your own functions, completions, and configuration snippets separate from packages installed with Fisher, customize the installation prefix. If you prefer to keep everything in the same place, you can skip this.
+> **Note**: Do I need this? If you want to keep your own functions, completions, and configuration snippets separate from packages installed with Fisher, customize the installation path. If you prefer to keep everything in the same place, you can skip this.
 
 ```fish
 set -g fisher_path /path/to/another/location
