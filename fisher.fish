@@ -9,6 +9,7 @@ function fisher -a cmd -d "fish package manager"
     set -g fisher_config $XDG_CONFIG_HOME/fisher
 
     set -q fisher_path; or set -g fisher_path $fish_config
+    set -q fisher_bundle_path; or set -g fisher_bundle_path $fish_config
 
     for path in {$fish_config,$fisher_path}/{functions,completions,conf.d} $fisher_cache
         if test ! -d $path
@@ -37,6 +38,10 @@ function fisher -a cmd -d "fish package manager"
         end
     end
 
+    if test ! -e "$fisher_bundle_path/fish_bundle"; and test -e "$fisher_path/fishfile"
+        command mv "$fisher_path/fishfile" "$fisher_bundle_path/fish_bundle"
+    end
+
     switch "$cmd"
         case {,self-}complete
             _fisher_complete
@@ -44,8 +49,8 @@ function fisher -a cmd -d "fish package manager"
             _fisher_copy_user_key_bindings
         case ls
             set -e argv[1]
-            if test -s "$fisher_path/fishfile"
-                set -l file (_fisher_fmt <$fisher_path/fishfile | _fisher_parse -R | command sed "s|@.*||")
+            if test -s "$fisher_bundle_path/fish_bundle"
+                set -l file (_fisher_fmt <$fisher_bundle_path/fish_bundle | _fisher_parse -R | command sed "s|@.*||")
                 _fisher_ls | _fisher_fmt | command awk -v FILE="$file" "
                     BEGIN { for (n = split(FILE, f); ++i <= n;) file[f[i]] } \$0 in file && /$argv[1]/
                 " | command sed "s|^$HOME|~|"
@@ -165,7 +170,7 @@ function _fisher_self_uninstall
         _fisher_rm $pkg
     end
 
-    for file in $fisher_cache $fisher_config $fisher_path/{functions,completions,conf.d}/fisher.fish $fisher_path/fishfile
+    for file in $fisher_cache $fisher_config $fisher_path/{functions,completions,conf.d}/fisher.fish $fisher_bundle_path/fish_bundle
         echo "removing $file"
         command rm -Rf $file 2>/dev/null
     end | command sed "s|$HOME|~|" >&2
@@ -181,11 +186,10 @@ end
 function _fisher_commit -a cmd
     set -e argv[1]
     set -l elapsed (_fisher_now)
-    set -l fishfile $fisher_path/fishfile
 
-    if test ! -e "$fishfile"
-        command touch $fishfile
-        echo "created new fishfile in $fishfile" | command sed "s|$HOME|~|" >&2
+    if test ! -e "$fisher_bundle_path/fish_bundle"
+        command touch $fisher_bundle_path/fish_bundle
+        echo "created new fish_bundle in $fisher_bundle_path/fish_bundle" | command sed "s|$HOME|~|" >&2
     end
 
     set -l old_pkgs (_fisher_ls | _fisher_fmt)
@@ -195,7 +199,7 @@ function _fisher_commit -a cmd
     command rm -Rf $fisher_config
     command mkdir -p $fisher_config
 
-    set -l next_pkgs (_fisher_fmt <$fishfile | _fisher_parse -R $cmd (printf "%s\n" $argv | _fisher_fmt))
+    set -l next_pkgs (_fisher_fmt <$fisher_bundle_path/fish_bundle | _fisher_parse -R $cmd (printf "%s\n" $argv | _fisher_fmt))
     set -l actual_pkgs (_fisher_fetch $next_pkgs)
     set -l updated_pkgs
     for pkg in $old_pkgs
@@ -220,7 +224,7 @@ function _fisher_commit -a cmd
         end
     end
 
-    printf "%s\n" (_fisher_fmt <$fishfile | _fisher_parse -W $cmd $out_pkgs | command sed "s|^$HOME|~|") >$fishfile
+    printf "%s\n" (_fisher_fmt <$fisher_bundle_path/fish_bundle | _fisher_parse -W $cmd $out_pkgs | command sed "s|^$HOME|~|") >$fisher_bundle_path/fish_bundle
 
     _fisher_complete
 
@@ -248,7 +252,7 @@ function _fisher_parse -a mode cmd
         END {
             for (k in pkgs) {
                 if (CMD != "rm" || MODE == "-W") print pkgs[k]
-                else print "fisher: cannot remove \""k"\" -- package is not in fishfile" > "/dev/stderr"
+                else print "fisher: cannot remove \""k"\" -- package is not in fish_bundle" > "/dev/stderr"
             }
         }
         function getkey(s,  a) {
@@ -347,7 +351,9 @@ function _fisher_fetch
     if set -q out_pkgs[1]
         _fisher_fetch (
             for pkg in $out_pkgs
-                if test -s "$pkg/fishfile"
+                if test -s "$pkg/fish_bundle"
+                    _fisher_fmt <$pkg/fish_bundle | _fisher_parse -R
+                else if test -s "$pkg/fishfile"
                     _fisher_fmt <$pkg/fishfile | _fisher_parse -R
                 end
             end)
