@@ -269,7 +269,7 @@ bind \cg "vi ~/.config/fish/fishfile"
 
 set -l name (basename (status -f) .fish){_uninstall}
 
-function $name --event $name
+function $name --on-event $name
     bind --erase \cg
 end
 ```
