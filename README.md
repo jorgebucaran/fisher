@@ -46,6 +46,8 @@ end
 
 Use the `$fisher_path` environment variable to change the location where functions, completions, and configuration snippets will be copied to when a package is installed. The default location will be your fish configuration directory.
 
+Just one rule: `fisher` owns `$XDG_CONFIG_HOME/fisher`, and uses it for its own purposes. Trying to use this path for your own `fisher` configs will break!
+
 > **Note**: Do I need this? If you want to keep your own functions, completions, and configuration snippets separate from packages installed with Fisher, customize the installation prefix. If you prefer to keep everything in the same place, you can skip this.
 
 ```fish
