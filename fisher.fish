@@ -9,7 +9,7 @@ function fisher -a cmd -d "fish package manager"
     set -g fisher_config $XDG_CONFIG_HOME/fisher
 
     set -q fisher_path; or set -g fisher_path $fish_config
-    set -l fishfile (_fishfile)
+    set -l fishfile "$fish_config/fishfile"
 
     for path in {$fish_config,$fisher_path}/{functions,completions,conf.d} $fisher_cache
         if test ! -d $path
@@ -36,6 +36,11 @@ function fisher -a cmd -d "fish package manager"
             case 2\*
                 echo "fisher copy-user-key-bindings" >$fisher_path/conf.d/fisher.fish
         end
+    end
+
+    # 2019-10-22: temp code, migrates fishfile from old path back to $fish_config
+    if test -e "$fisher_path/fishfile"; and test ! -e "$fish_config/fishfile"
+        command mv -f "$fisher_path/fishfile" "$fish_config/fishfile"
     end
 
     switch "$cmd"
@@ -79,14 +84,6 @@ function fisher -a cmd -d "fish package manager"
             echo "fisher: unknown flag or command \"$cmd\"" >&2
             _fisher_help >&2
             return 1
-    end
-end
-
-function _fishfile
-    if test ! -e "$fish_config/fishfile"; and test -e "$fisher_path/fishfile"
-        echo "$fisher_path/fishfile"
-    else
-        echo "$fish_config/fishfile"
     end
 end
 
@@ -170,13 +167,11 @@ function _fisher_self_update -a file
 end
 
 function _fisher_self_uninstall
-    set -l fishfile (_fishfile)
-
     for pkg in (_fisher_ls)
         _fisher_rm $pkg
     end
 
-    for file in $fisher_cache $fisher_config $fisher_path/{functions,completions,conf.d}/fisher.fish $fishfile
+    for file in $fisher_cache $fisher_config $fisher_path/{functions,completions,conf.d}/fisher.fish $fish_config/fishfile
         echo "removing $file"
         command rm -Rf $file 2>/dev/null
     end | command sed "s|$HOME|~|" >&2
@@ -192,7 +187,7 @@ end
 function _fisher_commit -a cmd
     set -e argv[1]
     set -l elapsed (_fisher_now)
-    set -l fishfile (_fishfile)
+    set -l fishfile $fish_config/fishfile
 
     if test ! -e "$fishfile"
         command touch $fishfile
