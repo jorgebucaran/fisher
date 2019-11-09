@@ -9,6 +9,7 @@ function fisher -a cmd -d "fish package manager"
     set -g fisher_config $XDG_CONFIG_HOME/fisher
 
     set -q fisher_path; or set -g fisher_path $fish_config
+    set -g fishfile $fish_config/fishfile
 
     for path in {$fish_config,$fisher_path}/{functions,completions,conf.d} $fisher_cache
         if test ! -d $path
@@ -37,6 +38,11 @@ function fisher -a cmd -d "fish package manager"
         end
     end
 
+    # 2019-10-22: temp code, migrates fishfile from old path back to $fish_config
+    if test -e "$fisher_path/fishfile"; and test ! -e "$fishfile"
+        command mv -f "$fisher_path/fishfile" "$fishfile"
+    end
+
     switch "$cmd"
         case {,self-}complete
             _fisher_complete
@@ -44,8 +50,8 @@ function fisher -a cmd -d "fish package manager"
             _fisher_copy_user_key_bindings
         case ls
             set -e argv[1]
-            if test -s "$fisher_path/fishfile"
-                set -l file (_fisher_fmt <$fisher_path/fishfile | _fisher_parse -R | command sed "s|@.*||")
+            if test -s "$fishfile"
+                set -l file (_fisher_fmt <$fishfile | _fisher_parse -R | command sed "s|@.*||")
                 _fisher_ls | _fisher_fmt | command awk -v FILE="$file" "
                     BEGIN { for (n = split(FILE, f); ++i <= n;) file[f[i]] } \$0 in file && /$argv[1]/
                 " | command sed "s|^$HOME|~|"
@@ -165,7 +171,7 @@ function _fisher_self_uninstall
         _fisher_rm $pkg
     end
 
-    for file in $fisher_cache $fisher_config $fisher_path/{functions,completions,conf.d}/fisher.fish $fisher_path/fishfile
+    for file in $fisher_cache $fisher_config $fisher_path/{functions,completions,conf.d}/fisher.fish $fishfile
         echo "removing $file"
         command rm -Rf $file 2>/dev/null
     end | command sed "s|$HOME|~|" >&2
@@ -181,7 +187,6 @@ end
 function _fisher_commit -a cmd
     set -e argv[1]
     set -l elapsed (_fisher_now)
-    set -l fishfile $fisher_path/fishfile
 
     if test ! -e "$fishfile"
         command touch $fishfile
