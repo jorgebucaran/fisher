@@ -4,17 +4,17 @@ Fisher is a package manager for the <a href="https://fishshell.com" title="frien
 
 Here's why you'll love Fisher:
 
-- Zero configuration.
+- No configuration needed.
 - Oh My Fish! package support.
 - Blazing fast concurrent package downloads.
 - Cached downloads—if you've installed a package before, you can install it again offline!
-- Add, update and remove functions, completions, key bindings, and [configuration snippets](#configuration-snippets) from a variety of sources using the command line, editing your [fishfile](#using-the-fishfile) or both.
+- Add, update and remove functions, completions, key bindings, and [configuration snippets](#configuration-snippets) from a variety of sources using the command line, editing your [fishfile](#using-the-fishfile) or both!
 
-Looking for packages? Browse the curated collection at [git.io/awesome-fish](https://git.io/awesome-fish).
+Looking for packages? Browse [git.io/awesome-fish](https://git.io/awesome-fish) or [search on GitHub](https://github.com/topics/fish-packages).
 
 ## Installation
 
-Download [`fisher.fish`](fisher.fish) to your functions directory or any directory on your function path.
+Just download [`fisher.fish`](fisher.fish) to your functions directory (or any directory in your function path).
 
 ```console
 curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
@@ -28,11 +28,11 @@ Your shell can take a few seconds before loading newly added functions. If the `
 - [curl](https://github.com/curl/curl) [7.10.3](https://curl.haxx.se/changes.html#7_10_3)+
 - [git](https://github.com/git/git) 1.7.12+
 
-Stuck in fish 2.0 and can't upgrade your shell? Check our [legacy fish support guide](https://github.com/jorgebucaran/fisher/issues/510) and good luck!
+> Stuck in fish 2.0 and can't upgrade your shell? Check our [legacy fish support guide](https://github.com/jorgebucaran/fisher/issues/510) and good luck!
 
 ### Bootstrap installation
 
-To automate the installation process on a new system, installing packages listed in your [fishfile](#using-the-fishfile), add the following code to your fish configuration file.
+To automate the installation process in a new system, installing packages listed in your [fishfile](#using-the-fishfile), add the following code to your fish configuration file.
 
 ```fish
 if not functions -q fisher
@@ -237,9 +237,9 @@ You can install it with the `add` command followed by the path to the directory.
 fisher add /absolute/path/to/fish-readme
 ```
 
-The next logical step is to share it with others. How do you do that? Fisher is not a package registry. Its function is to fetch fish scripts and put them in place so that your shell can find them. To publish a package put your code on GitHub, GitLab, BitBucket, or anywhere you like.
+To publish your pacckage put your code on GitHub, GitLab, BitBucket, or anywhere you like. Fisher is not a package registry. Its function is to fetch fish scripts and put them in place so that your shell can find them. 
 
-Now let's install the package from the internet. Open your [fishfile](#using-the-fishfile) and replace the local version of the package you added with the URL of the repository. Save your changes and run `fisher`.
+Now let's install the package from the net. Open your [fishfile](#using-the-fishfile) and replace the local version of the package you added with the URL of the repository. Save your changes and run `fisher`.
 
 ```diff
 - /absolute/path/to/fish-readme
@@ -278,7 +278,7 @@ end
 
 ## Uninstalling
 
-You want to know how to remove this package manager and everything you've installed with it. No problem. This command will delete all packages, cache, configuration, and related files.
+This command also uninstalls all your packages and removes your fishfile.
 
 ```console
 fisher self-uninstall
