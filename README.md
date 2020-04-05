@@ -284,6 +284,16 @@ This command also uninstalls all your packages and removes your fishfile.
 fisher self-uninstall
 ```
 
+## Bring fisher wherever wherever you go through the ssh
+To bring the fisher with the portable fish shell to the ssh session there is a plugin in [xxh project](https://github.com/xxh/xxh):
+```bash
+xxh +I xxh-plugin-fish-fisher
+xxh myhost +s fish
+myhost~> fisher --help
+usage: fisher ...
+```
+This allow use fisher in ssh session without any installations on the host and root access.
+
 ## License
 
 [MIT](LICENSE.md)
