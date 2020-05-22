@@ -247,7 +247,7 @@ function _fisher_parse -a mode cmd
             for (n = split(ARGSTR, a, " "); i++ < n;) pkgs[getkey(a[i])] = a[i]
         }
         !NF { next } { k = getkey($1) }
-        MODE == "-R" && !(k in pkgs) && $0 = $1
+        MODE == "-R" && !(k in pkgs) && ($0 = $1)
         MODE == "-W" && (/^#/ || k in pkgs || CMD != "rm") { print pkgs[k] (sub($1, "") ? $0 : "") }
         MODE == "-W" || CMD == "rm" { delete pkgs[k] }
         END {
