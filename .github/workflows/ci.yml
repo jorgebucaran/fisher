@@ -1,0 +1,20 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          sudo add-apt-repository -y ppa:fish-shell/nightly-master
+          sudo apt-get update
+          sudo apt-get -y install fish
+      - name: Fetch and validate fisher install
+        run: |
+          curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
+          fish -c "fisher -v && fisher -h"
