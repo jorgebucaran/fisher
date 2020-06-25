@@ -218,9 +218,21 @@ function _fisher_commit -a cmd
     if test "$cmd" = "rm"
         set out_pkgs $next_pkgs
     else
+        set -l current_pkg_name (command basename $argv)
+        set -l current_pkg_name_path $fisher_path/conf.d/$current_pkg_name.fish
+
         for pkg in $next_pkgs
             if contains -- (echo $pkg | command sed "s|@.*||") $actual_pkgs
                 set out_pkgs $out_pkgs $pkg
+
+                set -l pkg_name (command basename $pkg .fish)
+
+                if test "$pkg_name" = "$current_pkg_name"
+                    set -l target (command basename $current_pkg_name_path)
+                    set -l filename (command basename $target .fish)
+
+                    test "$filename.fish" = "$target"; and emit "$filename"_install
+                end
             end
         end
     end
