@@ -256,7 +256,23 @@ You can leave off the `github.com` part of the URL when adding or removing packa
 
 Configuration snippets consist of all the fish files inside your `~/.config/fish/conf.d` directory. They run on [shell startup](http://fishshell.com/docs/current/index.html#initialization) and generally used to set environment variables, add new key bindings, etc.
 
-Unlike functions or completions which can be erased programmatically, we can't undo a fish file that has been sourced without creating a new shell session. For this reason, packages that use configuration snippets provide custom uninstall logic through an uninstall [event handler](https://fishshell.com/docs/current/#event).
+Unlike functions or completions which can be erased programmatically, we can't undo a fish file that has been sourced without creating a new shell session. For this reason, packages that use configuration snippets provide custom install or uninstall logic through [event handlers](https://fishshell.com/docs/current/#event)
+
+#### Install event
+
+Fisher will emit an install event if you define a package's function following the `file_name_install` event nomenclature.
+
+Example:
+
+```fish
+function foobar_install -e foobar_install
+    echo "Installing foobar..."
+end
+```
+
+`foobar_install` function will get called when you install your package via `fisher add foobar`.
+
+#### Uninstall event
 
 Let's walk through an example that uses this feature to add a new key binding for the Control-G sequence. Let's say we want to use it to open the fishfile in the `vi` editor quickly. When you install the package, `fishfile_quick_edit_key_bindings.fish` will be sourced, adding the specified key binding and loading the event handler function. When you uninstall it, Fisher will emit an uninstall event.
 
