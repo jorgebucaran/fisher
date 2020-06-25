@@ -47,6 +47,7 @@ function fisher -a cmd -d "fish package manager"
     # 2020-06-23: temp code, migrates fisher data from XDG_CONFIG_HOME to XDG_DATA_HOME
     set -l fisher_config $XDG_CONFIG_HOME/fisher
     if test -d $fisher_config
+        echo "migrating local data from $fisher_config to $fisher_data"
         command rm -rf $fisher_data
         command mv -f $fisher_config $fisher_data
     end
