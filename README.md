@@ -33,7 +33,9 @@ Your shell can take a few seconds before loading `fisher.fish`. If the `fisher` 
 
 ### Changing the installation path
 
-Fisher expands packages into your fish configuration directory, causing existing files to be overwritten! If you have custom files and want to keep them separate, add the following code to your fish configuration file (`~/.config/fish/config.fish`).
+Fisher expands packages into your fish configuration directory, causing existing files to be overwritten! If you have custom files and want to keep them separate, add the following code to your fish configuration file.
+
+> **Note:** Your fish configuration file is usually in `~/.config/fish/config.fish`.
 
 ```fish
 set -g fisher_path /path/to/another/location
