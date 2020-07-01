@@ -1,4 +1,4 @@
-# Fisher [![Releases](https://img.shields.io/github/release/jorgebucaran/fisher.svg?label=&color=0366d6)](https://github.com/jorgebucaran/fisher/releases/latest) 
+# Fisher [![Releases](https://img.shields.io/github/release/jorgebucaran/fisher.svg?label=&color=0366d6)](https://github.com/jorgebucaran/fisher/releases/latest)
 
 Fisher is a package manager for the <a href="https://fishshell.com" title="friendly interactive shell">fish shell</a>. It defines a common interface for package authors to build and distribute shell scripts in a portable way. You can use it to extend your shell capabilities, change the look of your prompt and create repeatable configurations across different systems effortlessly.
 
@@ -6,6 +6,7 @@ Here's why you'll love Fisher:
 
 - No configuration needed.
 - Oh My Fish! package support.
+- [XDG directory specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) friendly.
 - Blazing fast concurrent package downloads.
 - Cached downloads—if you've installed a package before, you can install it again offline!
 - Add, update and remove functions, completions, key bindings, and [configuration snippets](#configuration-snippets) from a variety of sources using the command line, editing your [fishfile](#using-the-fishfile) or both!
@@ -20,7 +21,7 @@ Just download [`fisher.fish`](fisher.fish) to your functions directory (or any d
 curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 ```
 
-Your shell can take a few seconds before loading newly added functions. If the `fisher` command is not immediately available, launch a new session or [replace](https://fishshell.com/docs/current/commands.html#exec) the running shell with a new one.
+Your shell can take a few seconds before loading `fisher.fish`. If the `fisher` command is not immediately available, launch a new session or [replace](https://fishshell.com/docs/current/commands.html#exec) the running shell with a new one.
 
 ### System Requirements
 
@@ -30,25 +31,11 @@ Your shell can take a few seconds before loading newly added functions. If the `
 
 > Stuck in fish 2.0 and can't upgrade your shell? Check our [legacy fish support guide](https://github.com/jorgebucaran/fisher/issues/510) and good luck!
 
-### Bootstrap installation
+### Changing the installation path
 
-To automate the installation process in a new system, installing packages listed in your [fishfile](#using-the-fishfile), add the following code to your fish configuration file.
+Use the `$fisher_path` environment variable to change the location where functions, completions, and configuration snippets will be copied to when a package is installed. The default location will be your fish configuration directory (`~/.config/fish`).
 
-```fish
-if not functions -q fisher
-    set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
-    curl https://git.io/fisher --create-dirs -sLo $XDG_CONFIG_HOME/fish/functions/fisher.fish
-    fish -c fisher
-end
-```
-
-### Changing the installation prefix
-
-Use the `$fisher_path` environment variable to change the location where functions, completions, and configuration snippets will be copied to when a package is installed. The default location will be your fish configuration directory.
-
-Just one rule: `fisher` owns `$XDG_CONFIG_HOME/fisher`, and uses it for its own purposes. Trying to use this path for your own `fisher` configs will break!
-
-> **Note**: Do I need this? If you want to keep your own functions, completions, and configuration snippets separate from packages installed with Fisher, customize the installation prefix. If you prefer to keep everything in the same place, you can skip this.
+Why? By default, fisher expands packages into the fish configuration directory, which may cause existing files (such as `fish_prompt.fish`) to be overwritten! If you want to keep your own functions, completions, and configuration snippets separate from packages installed with Fisher, customize the installation path. Or just keep everything in the same place.
 
 ```fish
 set -g fisher_path /path/to/another/location
@@ -61,9 +48,21 @@ for file in $fisher_path/conf.d/*.fish
 end
 ```
 
+### Bootstrap installation
+
+To automate the installation process in a new system, installing packages in your [fishfile](#using-the-fishfile), add the following code to your fish configuration file (`~/.config/fish/config.fish`).
+
+```fish
+if not functions -q fisher
+    set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
+    curl https://git.io/fisher --create-dirs -sLo $XDG_CONFIG_HOME/fish/functions/fisher.fish
+    fish -c fisher
+end
+```
+
 ## Getting started
 
-You've found an interesting utility you'd like to try out. Or maybe you've [created a package](#creating-your-own-package) yourself. How do you install it on your system? How do update or remove it?
+You've found an interesting utility you'd like to try out. Or maybe you've [created a new package](#creating-your-own-package). How do you install it? How to update or remove it?
 
 You can use Fisher to add, update, and remove packages interactively, taking advantage of fish [tab completion](https://fishshell.com/docs/current/index.html#completion) and syntax highlighting. Or [edit your fishfile](#using-the-fishfile) and commit your changes. Do you prefer a CLI-centered approach, text-based approach, or a mix of both?
 
