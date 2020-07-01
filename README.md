@@ -33,9 +33,7 @@ Your shell can take a few seconds before loading `fisher.fish`. If the `fisher` 
 
 ### Changing the installation path
 
-Use the `$fisher_path` environment variable to change the location where functions, completions, and configuration snippets will be copied to when installing a package. The default location is your fish configuration directory (`~/.config/fish`).
-
-> **Note:** Why? By default, fisher expands packages into the fish configuration directory, causing existing files (such as `fish_prompt.fish`) to be overwritten! If you want to keep your own custom functions, completions, and configuration snippets away from Fisher, do this. Or just keep everything in the same place.
+Fisher expands packages into your fish configuration directory, causing existing files to be overwritten! If you have custom files and want to keep them separate, add the following code to your fish configuration file (`~/.config/fish/config.fish`).
 
 ```fish
 set -g fisher_path /path/to/another/location
@@ -50,7 +48,7 @@ end
 
 ### Bootstrap installation
 
-To automate the installation process in a new system, installing packages in your [fishfile](#using-the-fishfile), add the following code to your fish configuration file (`~/.config/fish/config.fish`).
+To automate the installation process in a new system, installing packages in your [fishfile](#using-the-fishfile), add the following code to your fish configuration file.
 
 ```fish
 if not functions -q fisher
