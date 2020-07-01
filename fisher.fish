@@ -3,10 +3,11 @@ set -g fisher_version 3.2.11
 function fisher -a cmd -d "fish package manager"
     set -q XDG_CACHE_HOME; or set XDG_CACHE_HOME ~/.cache
     set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
+    set -q XDG_DATA_HOME; or set XDG_DATA_HOME ~/.local/share
 
     set -g fish_config $XDG_CONFIG_HOME/fish
     set -g fisher_cache $XDG_CACHE_HOME/fisher
-    set -g fisher_config $XDG_CONFIG_HOME/fisher
+    set -g fisher_data $XDG_DATA_HOME/fisher
 
     set -q fisher_path; or set -g fisher_path $fish_config
     set -g fishfile $fish_config/fishfile
@@ -41,6 +42,14 @@ function fisher -a cmd -d "fish package manager"
     # 2019-10-22: temp code, migrates fishfile from old path back to $fish_config
     if test -e "$fisher_path/fishfile"; and test ! -e "$fishfile"
         command mv -f "$fisher_path/fishfile" "$fishfile"
+    end
+
+    # 2020-06-23: temp code, migrates fisher data from XDG_CONFIG_HOME to XDG_DATA_HOME
+    set -l fisher_config $XDG_CONFIG_HOME/fisher
+    if test -d $fisher_config
+        echo "migrating local data from $fisher_config to $fisher_data"
+        command rm -rf $fisher_data
+        command mv -f $fisher_config $fisher_data
     end
 
     switch "$cmd"
@@ -115,13 +124,13 @@ function _fisher_copy_user_key_bindings
 end
 
 function _fisher_ls
-    for pkg in $fisher_config/*/*/*
+    for pkg in $fisher_data/*/*/*
         command readlink $pkg; or echo $pkg
     end
 end
 
 function _fisher_fmt
-    command sed "s|^[[:space:]]*||;s|^$fisher_config/||;s|^~|$HOME|;s|^\.\/*|$PWD/|;s|^https*:/*||;s|^github\.com/||;s|/*\$||"
+    command sed "s|^[[:space:]]*||;s|^$fisher_data/||;s|^~|$HOME|;s|^\.\/*|$PWD/|;s|^https*:/*||;s|^github\.com/||;s|/*\$||"
 end
 
 function _fisher_help
@@ -171,7 +180,7 @@ function _fisher_self_uninstall
         _fisher_rm $pkg
     end
 
-    for file in $fisher_cache $fisher_config $fisher_path/{functions,completions,conf.d}/fisher.fish $fishfile
+    for file in $fisher_cache $fisher_data $fisher_path/{functions,completions,conf.d}/fisher.fish $fishfile
         echo "removing $file"
         command rm -Rf $file 2>/dev/null
     end | command sed "s|$HOME|~|" >&2
@@ -197,8 +206,8 @@ function _fisher_commit -a cmd
     for pkg in (_fisher_ls)
         _fisher_rm $pkg
     end
-    command rm -Rf $fisher_config
-    command mkdir -p $fisher_config
+    command rm -Rf $fisher_data
+    command mkdir -p $fisher_data
 
     set -l next_pkgs (_fisher_fmt <$fishfile | _fisher_parse -R $cmd (printf "%s\n" $argv | _fisher_fmt))
     set -l actual_pkgs (_fisher_fetch $next_pkgs)
@@ -298,28 +307,28 @@ function _fisher_fetch
             }
         ' | read -l url pkg branch
 
-        if test ! -d "$fisher_config/$pkg"
+        if test ! -d "$fisher_data/$pkg"
             fish -c "
                 echo fetching $url >&2
-                command mkdir -p $fisher_config/$pkg $fisher_cache/(command dirname $pkg)
+                command mkdir -p $fisher_data/$pkg $fisher_cache/(command dirname $pkg)
                 if test ! -z \"$branch\"
-                     command git clone $url $fisher_config/$pkg --branch $branch --depth 1 2>/dev/null
+                     command git clone $url $fisher_data/$pkg --branch $branch --depth 1 2>/dev/null
                      or echo fisher: cannot clone \"$url\" -- is this a valid url\? >&2
-                else if command curl $curl_opts -Ss -w \"\" $url 2>&1 | command tar -xzf- -C $fisher_config/$pkg 2>/dev/null
+                else if command curl $curl_opts -Ss -w \"\" $url 2>&1 | command tar -xzf- -C $fisher_data/$pkg 2>/dev/null
                     command rm -Rf $fisher_cache/$pkg
-                    command mv -f $fisher_config/$pkg/* $fisher_cache/$pkg
-                    command rm -Rf $fisher_config/$pkg
-                    command cp -Rf {$fisher_cache,$fisher_config}/$pkg
+                    command mv -f $fisher_data/$pkg/* $fisher_cache/$pkg
+                    command rm -Rf $fisher_data/$pkg
+                    command cp -Rf {$fisher_cache,$fisher_data}/$pkg
                 else if test -d \"$fisher_cache/$pkg\"
                     echo fisher: cannot connect to server -- looking in \"$fisher_cache/$pkg\" | command sed 's|$HOME|~|' >&2
-                    command cp -Rf $fisher_cache/$pkg $fisher_config/$pkg/..
+                    command cp -Rf $fisher_cache/$pkg $fisher_data/$pkg/..
                 else
-                    command rm -Rf $fisher_config/$pkg
+                    command rm -Rf $fisher_data/$pkg
                     echo fisher: cannot add \"$pkg\" -- is this a valid package\? >&2
                 end
             " >/dev/null &
             set pkg_jobs $pkg_jobs (_fisher_jobs --last)
-            set next_pkgs $next_pkgs "$fisher_config/$pkg"
+            set next_pkgs $next_pkgs "$fisher_data/$pkg"
         end
     end
 
@@ -336,7 +345,7 @@ function _fisher_fetch
         end
     end
 
-    set -l local_prefix $fisher_config/local/$USER
+    set -l local_prefix $fisher_data/local/$USER
     if test ! -d "$local_prefix"
         command mkdir -p $local_prefix
     end
