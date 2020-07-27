@@ -157,7 +157,7 @@ function _fisher_self_update -a file
     echo "fetching $url" >&2
     command curl -s "$url?nocache" >$file.
 
-    set -l next_version (command awk '{ print $4 } { exit }' <$file.)
+    set -l next_version (command awk '$4 ~ /^[0-9]+\.[0-9]+\.[0-9]+$/ { print v=$4 } { exit !v }' <$file.)
     switch "$next_version"
         case "" $fisher_version
             command rm -f $file.
