@@ -155,9 +155,8 @@ end
 function _fisher_self_update -a file
     set -l url "https://raw.githubusercontent.com/jorgebucaran/fisher/master/fisher.fish"
     echo "fetching $url" >&2
-    set -l curl_response (command curl -fsS "$url?nocache" -o $file. 2>&1)
 
-    if test $status -ne 0
+    if not set -l curl_response (command curl -fsS "$url?nocache" -o $file. 2>&1)
         echo "fisher: cannot update fisher -- $curl_response" >&2
         command rm -f $file.
         return 1
