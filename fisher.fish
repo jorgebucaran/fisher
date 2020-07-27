@@ -155,14 +155,20 @@ end
 function _fisher_self_update -a file
     set -l url "https://raw.githubusercontent.com/jorgebucaran/fisher/master/fisher.fish"
     echo "fetching $url" >&2
-    command curl -s "$url?nocache" >$file.
+    set -l curl_response (command curl -fsS "$url?nocache" -o $file. 2>&1)
+
+    if test $status -ne 0
+        echo "fisher: cannot update fisher -- $curl_response" >&2
+        command rm -f $file.
+        return 1
+    end
 
     set -l next_version (command awk '{ print $4 } { exit }' <$file.)
     switch "$next_version"
         case "" $fisher_version
             command rm -f $file.
             if test -z "$next_version"
-                echo "fisher: cannot update fisher -- are you offline?" >&2
+                echo "fisher: cannot update fisher -- unable to determine remote version" >&2
                 return 1
             end
             echo "fisher is already up-to-date" >&2
