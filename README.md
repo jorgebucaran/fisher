@@ -1,4 +1,4 @@
-# Fisher [![Releases](https://img.shields.io/github/release/jorgebucaran/fisher.svg?label=&color=0366d6)](https://github.com/jorgebucaran/fisher/releases/latest)
+# Fisher
 
 Fisher is a package manager for the <a href="https://fishshell.com" title="friendly interactive shell">fish shell</a>. It defines a common interface for package authors to build and distribute shell scripts in a portable way. You can use it to extend your shell capabilities, change the look of your prompt and create repeatable configurations across different systems effortlessly.
 
