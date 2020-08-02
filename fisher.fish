@@ -292,29 +292,28 @@ function _fisher_fetch
 
         command awk -v PKG="$pkg" -v FS=/ '
             BEGIN {
-                if (split(PKG, tmp, /@+|:/) > 2) {
-                    if (tmp[4]) sub("@"tmp[4], "", PKG)
-                    print PKG "\t" tmp[2]"/"tmp[1]"/"tmp[3] "\t" (tmp[4] ? tmp[4] : "master")
-                } else {
-                    pkg = split(PKG, _, "/") <= 2 ? "github.com/"tmp[1] : tmp[1]
-                    tag = tmp[2] ? tmp[2] : "master"
-                    print (\
-                        pkg ~ /^github/ ? "https://codeload."pkg"/tar.gz/"tag : \
-                        pkg ~ /^gitlab/ ? "https://"pkg"/-/archive/"tag"/"tmp[split(pkg, tmp, "/")]"-"tag".tar.gz" : \
-                        pkg ~ /^bitbucket/ ? "https://"pkg"/get/"tag".tar.gz" : pkg \
-                    ) "\t" pkg
-                }
+                split(PKG, tmp, /@/)
+                pkg = split(PKG, _, "/") <= 2 ? "github.com/"tmp[1] : tmp[1]
+                print pkg "\t" url(pkg, (tmp[2] ? tmp[2] : "main")) "\t" (tmp[2] ? "" : url(pkg, "master"))
             }
-        ' | read -l url pkg branch
+            function url(pkg, tag) {
+                return \
+                    pkg ~ /^github/ ? "https://codeload."pkg"/tar.gz/"tag : \
+                    pkg ~ /^gitlab/ ? "https://"pkg"/-/archive/"tag"/"tmp[split(pkg, tmp, "/")]"-"tag".tar.gz" : \
+                    pkg ~ /^bitbucket/ ? "https://"pkg"/get/"tag".tar.gz" : pkg
+            }
+        ' | read -l pkg url url_fallback
 
         if test ! -d "$fisher_data/$pkg"
             fish -c "
                 echo fetching $url >&2
                 command mkdir -p $fisher_data/$pkg $fisher_cache/(command dirname $pkg)
-                if test ! -z \"$branch\"
-                     command git clone $url $fisher_data/$pkg --branch $branch --depth 1 2>/dev/null
-                     or echo fisher: cannot clone \"$url\" -- is this a valid url\? >&2
-                else if command curl $curl_opts -Ss -w \"\" $url 2>&1 | command tar -xzf- -C $fisher_data/$pkg 2>/dev/null
+                if command curl $curl_opts -Ss -w \"\" $url 2>&1 | command tar -xzf- -C $fisher_data/$pkg 2>/dev/null
+                or begin
+                    test ! -z \"$url_fallback\"
+                    and echo fallback $url_fallback >&2
+                    and command curl $curl_opts -Ss -w \"\" $url_fallback 2>&1 | command tar -xzf- -C $fisher_data/$pkg 2>/dev/null
+                end
                     command rm -Rf $fisher_cache/$pkg
                     command mv -f $fisher_data/$pkg/* $fisher_cache/$pkg
                     command rm -Rf $fisher_data/$pkg
