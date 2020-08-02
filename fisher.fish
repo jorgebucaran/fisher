@@ -153,7 +153,7 @@ function _fisher_help
 end
 
 function _fisher_self_update -a file
-    set -l url "https://raw.githubusercontent.com/jorgebucaran/fisher/master/fisher.fish"
+    set -l url "https://raw.githubusercontent.com/jorgebucaran/fisher/main/fisher.fish"
     echo "fetching $url" >&2
     command curl -s "$url?nocache" >$file.
 
