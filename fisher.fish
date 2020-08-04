@@ -1,4 +1,4 @@
-set -g fisher_version 3.3.0
+set -g fisher_version 3.3.1
 
 function fisher -a cmd -d "fish package manager"
     set -q XDG_CACHE_HOME; or set XDG_CACHE_HOME ~/.cache
