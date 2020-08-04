@@ -294,26 +294,20 @@ function _fisher_fetch
             BEGIN {
                 split(PKG, tmp, /@/)
                 pkg = split(PKG, _, "/") <= 2 ? "github.com/"tmp[1] : tmp[1]
-                print pkg "\t" url(pkg, (tmp[2] ? tmp[2] : "main")) "\t" (tmp[2] ? "" : url(pkg, "master"))
-            }
-            function url(pkg, tag) {
-                return \
+                tag = tmp[2] ? tmp[2] : "HEAD"
+                print pkg "\t" (\
                     pkg ~ /^github/ ? "https://codeload."pkg"/tar.gz/"tag : \
                     pkg ~ /^gitlab/ ? "https://"pkg"/-/archive/"tag"/"tmp[split(pkg, tmp, "/")]"-"tag".tar.gz" : \
-                    pkg ~ /^bitbucket/ ? "https://"pkg"/get/"tag".tar.gz" : pkg
+                    pkg ~ /^bitbucket/ ? "https://"pkg"/get/"tag".tar.gz" : pkg\
+                )
             }
-        ' | read -l pkg url url_fallback
+        ' | read -l pkg url
 
         if test ! -d "$fisher_data/$pkg"
             fish -c "
                 echo fetching $url >&2
                 command mkdir -p $fisher_data/$pkg $fisher_cache/(command dirname $pkg)
                 if command curl $curl_opts -Ss -w \"\" $url 2>&1 | command tar -xzf- -C $fisher_data/$pkg 2>/dev/null
-                or begin
-                    test ! -z \"$url_fallback\"
-                    and echo fallback $url_fallback >&2
-                    and command curl $curl_opts -Ss -w \"\" $url_fallback 2>&1 | command tar -xzf- -C $fisher_data/$pkg 2>/dev/null
-                end
                     command rm -Rf $fisher_cache/$pkg
                     command mv -f $fisher_data/$pkg/* $fisher_cache/$pkg
                     command rm -Rf $fisher_data/$pkg
