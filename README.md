@@ -248,7 +248,7 @@ fish-fishfile-quick-edit
 ```fish
 bind \cg "vi ~/.config/fish/fishfile"
 
-set -l name (basename (status -f) .fish){_uninstall}
+set -l name (basename (status -f) .fish)_uninstall
 
 function $name --on-event $name
     bind --erase \cg
