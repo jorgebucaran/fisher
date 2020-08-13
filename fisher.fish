@@ -1,6 +1,6 @@
 set -g fisher_version 3.3.1
 
-function fisher -a cmd -d "fish package manager"
+function fisher -a cmd -d "fish plugin manager"
     set -q XDG_CACHE_HOME; or set XDG_CACHE_HOME ~/.cache
     set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
     set -q XDG_DATA_HOME; or set XDG_DATA_HOME ~/.local/share
@@ -98,9 +98,9 @@ end
 
 function _fisher_complete
     complete -ec fisher
-    complete -xc fisher -n __fish_use_subcommand -a add -d "Add packages"
-    complete -xc fisher -n __fish_use_subcommand -a rm -d "Remove packages"
-    complete -xc fisher -n __fish_use_subcommand -a ls -d "List installed packages matching REGEX"
+    complete -xc fisher -n __fish_use_subcommand -a add -d "Add plugins"
+    complete -xc fisher -n __fish_use_subcommand -a rm -d "Remove plugins"
+    complete -xc fisher -n __fish_use_subcommand -a ls -d "List installed plugins matching REGEX"
     complete -xc fisher -n __fish_use_subcommand -a --help -d "Show usage help"
     complete -xc fisher -n __fish_use_subcommand -a --version -d "$fisher_version"
     complete -xc fisher -n __fish_use_subcommand -a self-update -d "Update to the latest version"
@@ -134,22 +134,21 @@ function _fisher_fmt
 end
 
 function _fisher_help
-    echo "usage: fisher add <package...>     Add packages"
-    echo "       fisher rm  <package...>     Remove packages"
-    echo "       fisher                      Update all packages"
-    echo "       fisher ls  [<regex>]        List installed packages matching <regex>"
-    echo "       fisher --help               Show this help"
-    echo "       fisher --version            Show the current version"
-    echo "       fisher self-update          Update to the latest version"
-    echo "       fisher self-uninstall       Uninstall from your system"
+    echo "usage: fisher add <plugin...>     Add plugin/s"
+    echo "       fisher rm  <plugin...>     Remove plugin/s"
+    echo "       fisher                     Update all plugins"
+    echo "       fisher ls  [<regex>]       List installed plugins matching <regex>"
+    echo "       fisher --help              Show this help"
+    echo "       fisher --version           Show the current version"
+    echo "       fisher self-update         Update to the latest version"
+    echo "       fisher self-uninstall      Uninstall from your system"
     echo "examples:"
-    echo "       fisher add jethrokuan/z rafaelrinaldi/pure"
+    echo "       fisher add jorgebucaran/z rafaelrinaldi/pure"
     echo "       fisher add gitlab.com/foo/bar@v2"
     echo "       fisher add ~/path/to/local/pkg"
     echo "       fisher add <file"
     echo "       fisher rm rafaelrinaldi/pure"
     echo "       fisher ls | fisher rm"
-    echo "       fisher ls fish-\*"
 end
 
 function _fisher_self_update -a file
@@ -219,7 +218,7 @@ function _fisher_commit -a cmd
     end
 
     if test -z "$actual_pkgs$updated_pkgs$old_pkgs$next_pkgs"
-        echo "fisher: nothing to commit -- try adding some packages" >&2
+        echo "fisher: nothing to commit -- try adding some plugins" >&2
         return 1
     end
 
@@ -244,7 +243,7 @@ function _fisher_commit -a cmd
             printf((res ? res : "done") " in %.2fs\n", E / 1000)
         }
         function fmt(action, n, s) {
-            return n ? (s ? s ", " : s) action " " n " package" (n > 1 ? "s" : "") : s
+            return n ? (s ? s ", " : s) action " " n " plugin" (n > 1 ? "s" : "") : s
         }
     ' >&2
 end
@@ -262,7 +261,7 @@ function _fisher_parse -a mode cmd
         END {
             for (k in pkgs) {
                 if (CMD != "rm" || MODE == "-W") print pkgs[k]
-                else print "fisher: cannot remove \""k"\" -- package is not in fishfile" > "/dev/stderr"
+                else print "fisher: cannot remove \""k"\" -- plugin is not in fishfile" > "/dev/stderr"
             }
         }
         function getkey(s,  a) {
@@ -317,7 +316,7 @@ function _fisher_fetch
                     command cp -Rf $fisher_cache/$pkg $fisher_data/$pkg/..
                 else
                     command rm -Rf $fisher_data/$pkg
-                    echo fisher: cannot add \"$pkg\" -- is this a valid package\? >&2
+                    echo fisher: cannot add \"$pkg\" -- is this a valid plugin\? >&2
                 end
             " >/dev/null &
             set pkg_jobs $pkg_jobs (_fisher_jobs --last)
