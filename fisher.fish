@@ -182,7 +182,7 @@ function _fisher_list
         if test -L $path
             realpath $path
         else 
-            string replace --all $fisher_data/ $path
+            string replace --all $fisher_data/ "" $path
         end 
     end
 end
