@@ -29,7 +29,7 @@ Install plugins using the `install` command followed by the path to the reposito
 fisher install ilancosman/tide
 ```
 
-To get a specific version of a plugin add an `@` symbol after the plugin name followed by a tag, branch, or [commit-ish](https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-aiddefcommit-ishacommit-ishalsocommittish).
+To get a specific version of a plugin add an `@` symbol after the plugin name followed by a tag, branch, or [commit](https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-aiddefcommit-ishacommit-ishalsocommittish).
 
 ```console
 fisher install jorgebucaran/nvm.fish@1.1.0
