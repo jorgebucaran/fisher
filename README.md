@@ -95,7 +95,7 @@ Whenever you install or remove a plugin from the command line, Fisher will write
 You can also edit this file and run `fisher update` to commit your changes. Here's an example:
 
 ```console
-nano ~/.config/fish/fishfile
+nano ~/.config/fish/fish_plugins
 ```
 
 ```diff
