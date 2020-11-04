@@ -12,5 +12,5 @@ jobs:
           sudo apt-get update
           sudo apt-get -y install fish
       - run: |
-          curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
-          fish -c "fisher -v && fisher -h"
+          curl -sL git.io/fisher | source && fisher install jorgebucaran/fisher
+          fisher -v && fisher -h
