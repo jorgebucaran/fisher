@@ -1,4 +1,4 @@
-complete -ec fisher
+complete -c fisher -e
 complete -c fisher -x -l help -d "print usage help"
 complete -c fisher -x -l version -d "print fisher version"
 complete -c fisher -x -n "__fish_use_subcommand" -a install -d "install plugins"

@@ -187,17 +187,15 @@ function _fisher_list
     end
 end
 
-# Handle fisher 4 migration paths:
-# - self-update → source → _fisher_complete
-# - curl | source && fisher install ..
-
+# Migrate to fisher 4 (supports both self-update and new curl | source)
 if functions -q _fisher_self_update || test -e $__fish_config_dir/fishfile
     function _fisher_migrate
         function _fisher_complete
+            if not _fisher_list | string match --entire --regex --quiet -- jorgebucaran/fisher
+                fisher install jorgebucaran/fisher
+            end
             functions -e _fisher_complete
-            fisher install jorgebucaran/fisher
         end
-
         set -q XDG_DATA_HOME || set XDG_DATA_HOME ~/.local/share
         set -q XDG_CACHE_HOME || set XDG_CACHE_HOME ~/.cache
         set -q XDG_CONFIG_HOME || set XDG_CONFIG_HOME ~/.config
@@ -210,9 +208,10 @@ if functions -q _fisher_self_update || test -e $__fish_config_dir/fishfile
         command rm -rf $__fish_config_dir/fishfile $fisher_path/{conf.d,completions}/fisher.fish {$XDG_DATA_HOME,$XDG_CACHE_HOME,$XDG_CONFIG_HOME}/fisher
         functions -e _fisher_migrate _fisher_copy_user_key_bindings _fisher_ls _fisher_fmt _fisher_self_update _fisher_self_uninstall _fisher_commit _fisher_parse _fisher_fetch _fisher_add _fisher_rm _fisher_jobs _fisher_now _fisher_help
 
-        echo "latest changes: https://git.io/fisher-latest" >&2
-        echo "bootstrapping fisher $fisher_version for the first time" >&2
         fisher update
     end
+
+    echo "bootstrapping fisher $fisher_version for the first time, learn more at "(set_color --bold --underline)"https://git.io/fisher-4"(set_color normal) >&2
+
     _fisher_migrate
 end
