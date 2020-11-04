@@ -28,7 +28,7 @@ function fisher -a cmd -d "fish plugin manager"
             set -l pid_list
 
             if not isatty
-                read -lz --list list
+                read -laz list
                 set -a argv $list
             end
 
