@@ -7,6 +7,18 @@ function fisher -a cmd -d "fish plugin manager"
     set -g fish_plugins $__fish_config_dir/fish_plugins
 
     switch "$cmd"
+        case add
+            echo (set_color -o)"fisher: \"$cmd\" is deprecated, use `fisher install ...`"(set_color normal) >&2
+            set cmd install
+        case rm
+            echo (set_color -o)"fisher: \"$cmd\" is deprecated, use `fisher remove ...`"(set_color normal) >&2
+            set cmd remove
+        case ls
+            echo (set_color -o)"fisher: \"$cmd\" is deprecated, use `fisher list`"(set_color normal) >&2
+            set cmd list
+    end
+
+    switch "$cmd"
         case -v --version
             echo "fisher, version $fisher_version"
         case "" -h --help
