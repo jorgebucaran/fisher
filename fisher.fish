@@ -109,8 +109,8 @@ function fisher -a cmd -d "fish plugin manager"
                 set -q files[1] && set files (string replace --all $data $fisher_path $files)
                 set -q funcs[1] && set files (string replace --all $data $fisher_path/functions $funcs) $files
 
-                command cp -Rf $funcs $fisher_path/functions 2>/dev/null
                 command cp -Rf $data/{functions,completions,conf.d} $fisher_path 2>/dev/null
+                command cp -Rf $funcs $fisher_path/functions 2>/dev/null
 
                 for file in $files
                     echo "sourcing $file" >&2
