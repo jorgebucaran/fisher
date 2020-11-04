@@ -3,6 +3,9 @@ name: CI
 on: push
 
 jobs:
+  defaults:
+    run:
+      shell: fish {0}
   build:
     runs-on: ubuntu-latest
     steps:
