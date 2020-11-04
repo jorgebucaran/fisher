@@ -1,19 +1,20 @@
 name: CI
 
 on: push
-
+       
 jobs:
-  defaults:
-    run:
-      shell: fish {0}
-  build:
+  test:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
-      - run: |
-          sudo add-apt-repository -y ppa:fish-shell/nightly-master
+      - name: Install Fish
+        run: |
+          sudo apt-add-repository -yn ppa:fish-shell/release-3
           sudo apt-get update
-          sudo apt-get -y install fish
-      - run: |
-          curl -sL git.io/fisher | source && fisher install jorgebucaran/fisher
-          fisher -v && fisher -h
+          sudo apt-get install -y fish
+
+      - name: Install Fisher
+        run: $GITHUB_WORKSPACE/ && source fisher.fish && fisher install .
+        shell: fish {0}
+
