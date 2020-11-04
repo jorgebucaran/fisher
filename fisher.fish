@@ -97,6 +97,8 @@ function fisher -a cmd -d "fish plugin manager"
             end
             wait $pid_list 2>/dev/null
 
+            command mkdir -p $fisher_path/{functions,completions,conf.d}
+
             for plugin in $install_plugins $update_plugins
                 set -l data $fisher_data/$plugin
                 test -e $plugin && set data $fisher_data/@$USER/(string replace --all --regex '^.*/' "" $plugin)
