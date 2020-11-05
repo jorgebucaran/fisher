@@ -67,15 +67,15 @@ function fisher -a cmd -d "fish plugin manager"
             else
                 for plugin in (_fisher_plugin_parse $argv[2..-1])
                     if contains -- "$plugin" $old_plugins
-                        if test "$cmd" = install || test "$cmd" = update
-                            set -a update_plugins $plugin
-                        else
+                        if test "$cmd" = remove
                             set -a remove_plugins $plugin
+                        else
+                            set -a update_plugins $plugin
                         end
-                    else if test "$cmd" = install
+                    else if test "$cmd" != install
+                        echo "fisher: \"$plugin\" not found -- use `fisher list` to see installed plugins" >&2 && return 1
+                    else
                         set -a install_plugins $plugin
-                    else if test "$cmd" = update || test "$cmd" = remove
-                        echo "fisher: plugin \"$plugin\" not found (is this a valid plugin?)" >&2 && return 1
                     end
                 end
             end
