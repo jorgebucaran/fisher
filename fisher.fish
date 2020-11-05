@@ -46,7 +46,7 @@ function fisher -a cmd -d "fish plugin manager"
 
             if not set -q argv[2]
                 if test "$cmd" != update
-                    echo "fisher: invalid number of arguments (see `fisher -h`)" >&2 && return 1
+                    echo "fisher: invalid number of arguments -- see `fisher -h`" >&2 && return 1
                 end
 
                 test -e $fish_plugins && set -l new_plugins (_fisher_plugin_parse (string trim <$fish_plugins))
@@ -99,7 +99,7 @@ function fisher -a cmd -d "fish plugin manager"
                         command cp -Rf \$tmp/*/* $fisher_data/$plugin
                         command rm -rf \$tmp
                     else
-                        echo fisher: cannot install \"$plugin\" \(is this a valid plugin\?\) >&2
+                        echo fisher: cannot install \"$plugin\" -- is this a valid plugin\? >&2
                     end
                 end
                 " >/dev/null &
@@ -169,7 +169,7 @@ function fisher -a cmd -d "fish plugin manager"
 
             test -s $fish_plugins || test "$cmd" = remove
         case \*
-            echo "fisher: unknown flag or command \"$cmd\" (see `fisher -h)`" >&2
+            echo "fisher: unknown flag or command \"$cmd\" -- see `fisher -h`" >&2
             return 1
     end
 end
