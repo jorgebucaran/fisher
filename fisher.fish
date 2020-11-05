@@ -59,10 +59,10 @@ function fisher -a cmd -d "fish plugin manager"
             else
                 for plugin in (_fisher_plugin_parse $argv[2..-1])
                     if contains -- "$plugin" $old_plugins
-                        if test "$cmd" = remove
-                            set -a remove_plugins $plugin
-                        else
+                        if test "$cmd" = install || test "$cmd" = update
                             set -a update_plugins $plugin
+                        else
+                            set -a remove_plugins $plugin
                         end
                     else if test "$cmd" != install
                         echo "fisher: \"$plugin\" not found -- use `fisher list` to see installed plugins" >&2 && return 1
@@ -146,9 +146,10 @@ function fisher -a cmd -d "fish plugin manager"
 
             functions -q fish_prompt || source $__fish_data_dir/functions/fish_prompt.fish
 
-            source $fisher_path/completions/fisher.fish 2>/dev/null
+            functions -q fisher && source $fisher_path/completions/fisher.fish
 
             _fisher_list >$fish_plugins
+            test -s $fish_plugins || command rm -f $fish_plugins
 
             set -l total (count $install_plugins) (count $update_plugins) (count $remove_plugins)
             if test "$total" != "0 0 0"
@@ -158,8 +159,6 @@ function fisher -a cmd -d "fish plugin manager"
                     test $total[3] = 0 || echo "$total[3] removed") 
                 ) "plugin/s" >&2
             end
-
-            test -s $fish_plugins || test "$cmd" = remove
         case \*
             echo "fisher: unknown flag or command \"$cmd\" -- see `fisher -h`" >&2
             return 1
