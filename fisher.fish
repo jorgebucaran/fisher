@@ -150,8 +150,9 @@ function fisher -a cmd -d "fish plugin manager"
                 command rm -rf $files $data
                 command rm -df (string split --right --max=1 / $data)[1] 2>/dev/null
                 functions -e (string replace --all --regex '^.*/|\.fish$' "" $files)
-                functions -q fish_prompt || source $__fish_data_dir/functions/fish_prompt.fish
             end
+
+            functions -q fish_prompt || source $__fish_data_dir/functions/fish_prompt.fish
 
             source $fisher_path/completions/fisher.fish 2>/dev/null
 
