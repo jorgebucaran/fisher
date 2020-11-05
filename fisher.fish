@@ -144,19 +144,17 @@ function fisher -a cmd -d "fish plugin manager"
 
             functions -q fish_prompt || source $__fish_data_dir/functions/fish_prompt.fish
 
-            functions -q fisher && source $fisher_path/completions/fisher.fish
+            source $fisher_path/completions/fisher.fish 2>/dev/null
 
             _fisher_list >$fish_plugins
             test -s $fish_plugins || command rm -f $fish_plugins
 
             set -l total (count $install_plugins) (count $update_plugins) (count $remove_plugins)
-            if test "$total" != "0 0 0"
-                echo "done," (string join ", " (
-                    test $total[1] = 0 || echo "$total[1] installed") (
-                    test $total[2] = 0 || echo "$total[2] updated") (
-                    test $total[3] = 0 || echo "$total[3] removed") 
-                ) "plugin/s" >&2
-            end
+            test "$total" != "0 0 0" && echo (string join ", " (
+                test $total[1] = 0 || echo "$total[1] installed") (
+                test $total[2] = 0 || echo "$total[2] updated") (
+                test $total[3] = 0 || echo "$total[3] removed")
+            ) "plugin/s" >&2
         case \*
             echo "fisher: unknown flag or command \"$cmd\" -- see `fisher -h`" >&2
             return 1
