@@ -1,14 +1,14 @@
 set -g fisher_version 4.0.0
 
 function fisher -a cmd -d "fish plugin manager"
+    test "$cmd" = add && set cmd install && echo (set_color -o)"fisher: \"$argv[1]\" is deprecated, use `fisher $cmd` instead"(set_color normal) >&2
+    test "$cmd" = rm && set cmd remove && echo (set_color -o)"fisher: \"$argv[1]\" is deprecated, use `fisher $cmd` instead"(set_color normal) >&2
+    test "$cmd" = ls && set cmd list && echo (set_color -o)"fisher: \"$argv[1]\" is deprecated, use `fisher $cmd` instead"(set_color normal) >&2
+
     set -q XDG_DATA_HOME || set XDG_DATA_HOME ~/.local/share
     set -q fisher_path || set -g fisher_path $__fish_config_dir
     set -g fisher_data $XDG_DATA_HOME/fisher
     set -g fish_plugins $__fish_config_dir/fish_plugins
-
-    test "$cmd" = add && set cmd install && echo (set_color -o)"fisher: \"$argv[1]\" is deprecated, use `fisher $cmd`"(set_color normal) >&2
-    test "$cmd" = rm && set cmd remove && echo (set_color -o)"fisher: \"$argv[1]\" is deprecated, use `fisher $cmd`"(set_color normal) >&2
-    test "$cmd" = ls && set cmd list && echo (set_color -o)"fisher: \"$argv[1]\" is deprecated, use `fisher $cmd`"(set_color normal) >&2
 
     switch "$cmd"
         case -v --version
@@ -24,10 +24,10 @@ function fisher -a cmd -d "fish plugin manager"
         case list
             _fisher_list | string match --entire --regex -- "$argv[2]"
         case install update remove
+            set -l old_plugins (_fisher_list)
             set -l install_plugins
             set -l update_plugins
             set -l remove_plugins
-            set -l old_plugins (_fisher_list)
             set -q fisher_user_api_token && set -l curl_opts -u $fisher_user_api_token
             set -l pid_list
 
@@ -192,7 +192,6 @@ function _fisher_list
     end
 end
 
-# Migrate to fisher 4 (supports both self-update and new curl | source)
 if functions -q _fisher_self_update || test -e $__fish_config_dir/fishfile
     function _fisher_migrate
         function _fisher_complete
