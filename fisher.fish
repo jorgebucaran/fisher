@@ -109,6 +109,25 @@ function fisher -a cmd -d "fish plugin manager"
 
             command mkdir -p $fisher_path/{functions,completions,conf.d}
 
+            for plugin in $remove_plugins
+                set -l data $fisher_data/$plugin
+                test -e $plugin && set data $fisher_data/@$USER/(string replace --all --regex '^.*/' "" $plugin)
+
+                set -l funcs $data/*.fish
+                set -l files $data/{conf.d,functions,completions}/*
+                set -q files[1] && set files (string replace --all $data $fisher_path $files)
+                set -q funcs[1] && set files (string replace --all $data $fisher_path/functions $funcs) $files
+
+                for file in $data/conf.d/*.fish
+                    emit (string replace --all --regex '^.*/|\.fish$' "" $file)_uninstall
+                end
+
+                printf "removing %s\n" $files >&2
+                command rm -rf $files $data
+                command rm -df (string split --right --max=1 / $data)[1] 2>/dev/null
+                functions -e (string replace --all --regex '^.*/|\.fish$' "" $files)
+            end
+
             for plugin in $install_plugins $update_plugins
                 set -l data $fisher_data/$plugin
                 test -e $plugin && set data $fisher_data/@$USER/(string replace --all --regex '^.*/' "" $plugin)
@@ -131,25 +150,6 @@ function fisher -a cmd -d "fish plugin manager"
                         emit (string replace --all --regex '^.*/|\.fish$' "" $file)_$event
                     end
                 end
-            end
-
-            for plugin in $remove_plugins
-                set -l data $fisher_data/$plugin
-                test -e $plugin && set data $fisher_data/@$USER/(string replace --all --regex '^.*/' "" $plugin)
-
-                set -l funcs $data/*.fish
-                set -l files $data/{conf.d,functions,completions}/*
-                set -q files[1] && set files (string replace --all $data $fisher_path $files)
-                set -q funcs[1] && set files (string replace --all $data $fisher_path/functions $funcs) $files
-
-                for file in $data/conf.d/*.fish
-                    emit (string replace --all --regex '^.*/|\.fish$' "" $file)_uninstall
-                end
-
-                printf "removing %s\n" $files >&2
-                command rm -rf $files $data
-                command rm -df (string split --right --max=1 / $data)[1] 2>/dev/null
-                functions -e (string replace --all --regex '^.*/|\.fish$' "" $files)
             end
 
             functions -q fish_prompt || source $__fish_data_dir/functions/fish_prompt.fish
