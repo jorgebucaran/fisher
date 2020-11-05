@@ -6,17 +6,9 @@ function fisher -a cmd -d "fish plugin manager"
     set -g fisher_data $XDG_DATA_HOME/fisher
     set -g fish_plugins $__fish_config_dir/fish_plugins
 
-    switch "$cmd"
-        case add
-            echo (set_color -o)"fisher: \"$cmd\" is deprecated, use `fisher install ...`"(set_color normal) >&2
-            set cmd install
-        case rm
-            echo (set_color -o)"fisher: \"$cmd\" is deprecated, use `fisher remove ...`"(set_color normal) >&2
-            set cmd remove
-        case ls
-            echo (set_color -o)"fisher: \"$cmd\" is deprecated, use `fisher list`"(set_color normal) >&2
-            set cmd list
-    end
+    test "$cmd" = add && set cmd install && echo (set_color -o)"fisher: \"$argv[1]\" is deprecated, use `fisher $cmd`"(set_color normal) >&2
+    test "$cmd" = rm && set cmd remove && echo (set_color -o)"fisher: \"$argv[1]\" is deprecated, use `fisher $cmd`"(set_color normal) >&2
+    test "$cmd" = ls && set cmd list && echo (set_color -o)"fisher: \"$argv[1]\" is deprecated, use `fisher $cmd`"(set_color normal) >&2
 
     switch "$cmd"
         case -v --version
