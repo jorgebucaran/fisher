@@ -74,7 +74,7 @@ function fisher -a cmd -d "fish plugin manager"
                 fish -c "
                 if test -e $plugin
                     command mkdir -p $fisher_data/@$USER    
-                    set -l target $fisher_data/@$USER/(string replace --all --regex '^.*/|\.fish\$' \"\" $plugin)
+                    set target $fisher_data/@$USER/(string replace --all --regex '^.*/|\.fish\$' \"\" $plugin)
                     if test ! -L \$target
                         command ln -sf $plugin \$target
                     end
