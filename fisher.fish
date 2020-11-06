@@ -144,8 +144,8 @@ function fisher -a cmd -d "fish plugin manager"
 
             functions -q fish_prompt || source $__fish_data_dir/functions/fish_prompt.fish
 
-            _fisher_list >$fish_plugins
-            test -s $fish_plugins || command rm -f $fish_plugins
+            set -l plugins (_fisher_list)
+            set -q plugins[1] && printf "%s\n" $plugins >$fish_plugins || command rm -f $fish_plugins
 
             set -l total (count $install_plugins) (count $update_plugins) (count $remove_plugins)
             test "$total" != "0 0 0" && echo (string join ", " (
