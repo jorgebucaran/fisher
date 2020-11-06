@@ -96,29 +96,29 @@ function fisher -a cmd -d "fish plugin manager"
             command mkdir -p $fisher_path/{functions,completions,conf.d}
 
             for plugin in $remove_plugins
-                set -l data $fisher_data/$plugin
-                test -e $plugin && set data $fisher_data/@$USER/(string replace --all --regex '^.*/' "" $plugin)
+                set -l src $fisher_data/$plugin
+                test -e $plugin && set src $fisher_data/@$USER/(string replace --all --regex '^.*/' "" $plugin)
 
-                set -l funcs $data/*.fish
-                set -l files $data/{conf.d,functions,completions}/*
-                set -q files[1] && set files (string replace --all $data $fisher_path $files)
-                set -q funcs[1] && set files (string replace --all $data $fisher_path/functions $funcs) $files
+                set -l funcs $src/*.fish
+                set -l files $src/{conf.d,functions,completions}/*
+                set -q files[1] && set files (string replace --all $src $fisher_path $files)
+                set -q funcs[1] && set files (string replace --all $src $fisher_path/functions $funcs) $files
 
-                for file in $data/conf.d/*.fish
+                for file in $src/conf.d/*.fish
                     emit (string replace --all --regex '^.*/|\.fish$' "" $file)_uninstall
                 end
 
                 printf "removing %s\n" $files >&2
-                command rm -rf $files $data
-                command rm -df (string split --right --max=1 / $data)[1] 2>/dev/null
+                command rm -rf $files $src
+                command rm -df (string split --right --max=1 / $src)[1] 2>/dev/null
                 functions -e (string replace --all --regex '^.*/|\.fish$' "" $files)
             end
 
             for plugin in $install_plugins $update_plugins
-                set -l data $fisher_data/$plugin
-                test -e $plugin && set data $fisher_data/@$USER/(string replace --all --regex '^.*/' "" $plugin)
+                set -l src $fisher_data/$plugin
+                test -e $plugin && set src $fisher_data/@$USER/(string replace --all --regex '^.*/' "" $plugin)
 
-                if test ! -e $data
+                if test ! -e $src
                     set -e install_plugins[(contains --index -- $plugin $install_plugins)]
                     echo "fisher: invalid plugin name or host: \"$plugin\"" >&2
                     continue
@@ -126,12 +126,12 @@ function fisher -a cmd -d "fish plugin manager"
 
                 contains -- "$plugin" $install_plugins && set -l event install || set -l event update
 
-                set -l funcs $data/*.fish
-                set -l files $data/{functions,conf.d}/*.fish
-                set -q files[1] && set files (string replace --all $data $fisher_path $files)
-                set -q funcs[1] && set files (string replace --all $data $fisher_path/functions $funcs) $files
+                set -l funcs $src/*.fish
+                set -l files $src/{functions,conf.d}/*.fish
+                set -q files[1] && set files (string replace --all $src $fisher_path $files)
+                set -q funcs[1] && set files (string replace --all $src $fisher_path/functions $funcs) $files
 
-                command cp -Rf $data/{functions,completions,conf.d} $fisher_path 2>/dev/null
+                command cp -Rf $src/{functions,completions,conf.d} $fisher_path 2>/dev/null
                 command cp -Rf $funcs $fisher_path/functions 2>/dev/null
 
                 for file in $files
