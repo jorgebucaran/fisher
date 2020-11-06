@@ -31,7 +31,7 @@ function fisher -a cmd -d "fish plugin manager"
             set -l plugins $argv[2..-1] $list
 
             if set -q plugins[1]
-                for plugin in (_fisher_plugin_parse $argv[2..-1])
+                for plugin in (_fisher_plugin_parse $plugins)
                     if contains -- "$plugin" $old_plugins
                         if test "$cmd" = install || test "$cmd" = update
                             set -a update_plugins $plugin
@@ -70,7 +70,7 @@ function fisher -a cmd -d "fish plugin manager"
                 fish -c "
                 if test -e $plugin
                     command mkdir -p $fisher_data/@$USER    
-                    set target $fisher_data/@$USER/(string replace --all --regex '^.*/|\.fish\$' \"\" $plugin)
+                    set target $fisher_data/@$USER/(string replace --all --regex '^.*/' \"\" $plugin)
                     test -L \$target || command ln -sf $plugin \$target
                 else 
                     set temp (command mktemp -d)
