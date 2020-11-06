@@ -85,8 +85,6 @@ function fisher -a cmd -d "fish plugin manager"
                         command mkdir -p $fisher_data/$plugin
                         command cp -Rf \$temp/*/* $fisher_data/$plugin
                         command rm -rf \$temp
-                    else
-                        echo \"fisher: invalid plugin name or host: \\\"$plugin\\\"\" >&2
                     end
                 end" >/dev/null &
 
@@ -119,7 +117,12 @@ function fisher -a cmd -d "fish plugin manager"
             for plugin in $install_plugins $update_plugins
                 set -l data $fisher_data/$plugin
                 test -e $plugin && set data $fisher_data/@$USER/(string replace --all --regex '^.*/' "" $plugin)
-                test -e $data || continue
+
+                if test ! -e $data
+                    set -e install_plugins[(contains --index -- $plugin $install_plugins)]
+                    echo "fisher: invalid plugin name or host: \"$plugin\"" >&2
+                    continue
+                end
 
                 contains -- "$plugin" $install_plugins && set -l event install || set -l event update
 
