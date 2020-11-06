@@ -23,23 +23,30 @@ function fisher -a cmd -d "fish plugin manager"
         case ls list
             _fisher_list | string match --entire --regex -- "$argv[2]"
         case install update remove rm
-            set -l old_plugins (_fisher_list)
             set -l install_plugins
             set -l update_plugins
             set -l remove_plugins
-            set -q fisher_user_api_token && set -l curl_opts -u $fisher_user_api_token
-            set -l pid_list
+            set -l old_plugins (_fisher_list)
+            isatty || read -laz list
+            set -l plugins $argv[2..-1] $list
 
-            if not isatty
-                read -laz list
-                set -a argv $list
-            end
-
-            if not set -q argv[2]
-                if test "$cmd" != update
-                    echo "fisher: invalid number of arguments -- see `fisher -h`" >&2 && return 1
+            if set -q plugins[1]
+                for plugin in (_fisher_plugin_parse $argv[2..-1])
+                    if contains -- "$plugin" $old_plugins
+                        if test "$cmd" = install || test "$cmd" = update
+                            set -a update_plugins $plugin
+                        else
+                            set -a remove_plugins $plugin
+                        end
+                    else if test "$cmd" != install
+                        echo "fisher: plugin not installed: \"$plugin\"" >&2 && return 1
+                    else
+                        set -a install_plugins $plugin
+                    end
                 end
-
+            else if test "$cmd" != update
+                echo "fisher: not enough arguments for command: \"$cmd\"" >&2 && return 1
+            else
                 test -e $fish_plugins && set -l new_plugins (_fisher_plugin_parse (string trim <$fish_plugins))
 
                 for plugin in $new_plugins
@@ -55,47 +62,37 @@ function fisher -a cmd -d "fish plugin manager"
                         set -a remove_plugins $plugin
                     end
                 end
-            else
-                for plugin in (_fisher_plugin_parse $argv[2..-1])
-                    if contains -- "$plugin" $old_plugins
-                        if test "$cmd" = install || test "$cmd" = update
-                            set -a update_plugins $plugin
-                        else
-                            set -a remove_plugins $plugin
-                        end
-                    else if test "$cmd" != install
-                        echo "fisher: \"$plugin\" not found -- use `fisher list` to see installed plugins" >&2 && return 1
-                    else
-                        set -a install_plugins $plugin
-                    end
-                end
             end
+
+            set -l pid_list
 
             for plugin in $install_plugins $update_plugins
                 fish -c "
                 if test -e $plugin
                     command mkdir -p $fisher_data/@$USER    
                     set target $fisher_data/@$USER/(string replace --all --regex '^.*/|\.fish\$' \"\" $plugin)
-                    if test ! -L \$target
-                        command ln -sf $plugin \$target
-                    end
+                    test -L \$target || command ln -sf $plugin \$target
                 else 
-                    set name_tag (string split \@ $plugin) || set name_tag[2] HEAD
-                    set url https://codeload.github.com/\$name_tag[1]/tar.gz/\$name_tag[2]
-                    set tmp (command mktemp -d)
+                    set temp (command mktemp -d)
+                    set name (string split \@ $plugin) || set name[2] HEAD
+                    set url https://codeload.github.com/\$name[1]/tar.gz/\$name[2]
+                    set -q fisher_user_api_token && set opts -u $fisher_user_api_token
+
                     echo fetching \$url >&2
-                    if command curl $curl_opts -Ss -w \"\" \$url 2>&1 | command tar -xzf- -C \$tmp 2>/dev/null   
+
+                    if command curl $opts -Ss -w \"\" \$url 2>&1 | command tar -xzf- -C \$temp 2>/dev/null
                         command rm -rf $fisher_data/$plugin
                         command mkdir -p $fisher_data/$plugin
-                        command cp -Rf \$tmp/*/* $fisher_data/$plugin
-                        command rm -rf \$tmp
+                        command cp -Rf \$temp/*/* $fisher_data/$plugin
+                        command rm -rf \$temp
                     else
-                        echo fisher: cannot install \"$plugin\" -- is this a valid plugin\? >&2
+                        echo \"fisher: invalid plugin name or host: \\\"$plugin\\\"\" >&2
                     end
-                end
-                " >/dev/null &
+                end" >/dev/null &
+
                 set -a pid_list $last_pid
             end
+
             wait $pid_list 2>/dev/null
 
             command mkdir -p $fisher_path/{functions,completions,conf.d}
@@ -155,8 +152,7 @@ function fisher -a cmd -d "fish plugin manager"
                 test $total[3] = 0 || echo "$total[3] removed")
             ) "plugin/s" >&2
         case \*
-            echo "fisher: unknown flag or command \"$cmd\" -- see `fisher -h`" >&2
-            return 1
+            echo "fisher: unknown flag or command: \"$cmd\" (see `fisher -h`)" >&2 && return 1
     end
 end
 
