@@ -144,8 +144,6 @@ function fisher -a cmd -d "fish plugin manager"
 
             functions -q fish_prompt || source $__fish_data_dir/functions/fish_prompt.fish
 
-            source $fisher_path/completions/fisher.fish 2>/dev/null
-
             _fisher_list >$fish_plugins
             test -s $fish_plugins || command rm -f $fish_plugins
 
