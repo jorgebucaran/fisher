@@ -1,6 +1,8 @@
 set -g fisher_version 4.1.0
 
 function fisher -a cmd -d "fish plugin manager"
+    set -q XDG_DATA_HOME || set -l XDG_DATA_HOME ~/.local/share
+    test -e $XDG_DATA_HOME/fisher && command rm -rf $XDG_DATA_HOME/fisher
     set -q fisher_path || set -l fisher_path $__fish_config_dir
     set -l fish_plugins $__fish_config_dir/fish_plugins
 
@@ -173,8 +175,6 @@ function fisher -a cmd -d "fish plugin manager"
 end
 
 ## Migrations ##
-set -q XDG_DATA_HOME || set -l XDG_DATA_HOME ~/.local/share
-test -e $XDG_DATA_HOME/fisher && command rm -rf $XDG_DATA_HOME/fisher
 if functions -q _fisher_self_update || test -e $__fish_config_dir/fishfile
     function _fisher_migrate
         function _fisher_complete
