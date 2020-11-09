@@ -2,14 +2,14 @@
 
 > A plugin manager for [fish](https://fishshell.com)—the friendly interactive shell.
 
-Now you can manage functions, completions, bindings, and snippets from the command line. Extend your shell capabilities, change the look of your prompt and create repeatable configurations across different systems effortlessly.
+Manage functions, completions, bindings, and snippets from the command line. Extend your shell capabilities, change the look of your prompt and create repeatable configurations across different systems effortlessly.
 
-- Oh My Fish! plugin support.
+- [Oh My Fish](https://github.com/oh-my-fish/packages-main) plugin support.
 - Blazingly fast concurrent plugin downloads.
 - 100% pure fish—easy to contribute to or modify.
 - Zero configuration out of the box. Need to tweak a thing? [You can do that too](#using-your-fish_plugins-file).
 
-Fishing for plugins? Browse [git.io/awesome.fish](https://git.io/awesome.fish) or [search](https://github.com/topics/fish-plugins) [on](https://github.com/topics/fish-package) [GitHub](https://github.com/topics/fish-plugin).
+Looking for plugins? Browse [git.io/awesome.fish](https://git.io/awesome.fish) or [search](https://github.com/topics/fish-plugins) [on](https://github.com/topics/fish-package) [GitHub](https://github.com/topics/fish-plugin).
 
 ## Installation
 
@@ -82,7 +82,7 @@ Remove installed plugins using the `remove` command.
 fisher remove jorgebucaran/nvm.fish@1.1.0
 ```
 
-Sometimes you may want to remove everything, including Fisher.
+Someday you may want to remove everything, including Fisher.
 
 ```console
 fisher list | fisher remove
@@ -90,12 +90,12 @@ fisher list | fisher remove
 
 ## Using your `fish_plugins` file
 
-Whenever you install or remove a plugin from the command line, Fisher will write down your plugins to `~/.config/fish/fish_plugins`. Adding this file to your dotfiles or version control is the easiest way to share your configuration across different systems.
+Whenever you install or remove a plugin from the command line, Fisher will write down all your installed plugins plugins to `$__fish_config_dir/fish_plugins`. Adding this file to your dotfiles or version control is the easiest way to share your configuration across different systems.
 
-You can also edit this file and run `fisher update` to commit your changes. Here's an example:
+You can also edit this file and run `fisher update` to commit changes. Here's an example:
 
 ```console
-nano ~/.config/fish/fish_plugins
+nano $__fish_config_dir/fish_plugins
 ```
 
 ```diff
@@ -116,7 +116,7 @@ That will install **jethrokuan/z**, remove **jorgebucaran/nvm.fish**, and update
 
 Fisher leverages the fish [event system](https://fishshell.com/docs/current/cmds/emit.html) to notify plugins when they are being installed, updated, or removed.
 
-> `--on-event` functions must be loaded when their event is emitted. So put event handlers in your `conf.d` directory.
+> `--on-event` functions must be already loaded when their event is emitted. So put event handlers in your `conf.d` directory.
 
 ```fish
 # Defined in conf.d/foobar.fish
