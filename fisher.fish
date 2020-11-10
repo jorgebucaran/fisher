@@ -178,9 +178,7 @@ end
 if functions -q _fisher_self_update || test -e $__fish_config_dir/fishfile
     function _fisher_migrate
         function _fisher_complete
-            if not _fisher_list | string match --entire --regex --quiet -- jorgebucaran/fisher
-                fisher install jorgebucaran/fisher 2>/dev/null
-            end
+            fisher install jorgebucaran/fisher 2>/dev/null
             functions --erase _fisher_complete
         end
         set -q XDG_DATA_HOME || set XDG_DATA_HOME ~/.local/share
