@@ -1,8 +1,6 @@
 set -g fisher_version 4.1.0
 
 function fisher -a cmd -d "fish plugin manager"
-    set -q XDG_DATA_HOME || set -l XDG_DATA_HOME ~/.local/share
-    test -e $XDG_DATA_HOME/fisher && command rm -rf $XDG_DATA_HOME/fisher
     set -q fisher_path || set -l fisher_path $__fish_config_dir
     set -l fish_plugins $__fish_config_dir/fish_plugins
 
@@ -175,7 +173,7 @@ function fisher -a cmd -d "fish plugin manager"
 end
 
 ## Migrations ##
-if functions -q _fisher_self_update || test -e $__fish_config_dir/fishfile
+if functions -q _fisher_self_update || test -e $__fish_config_dir/fishfile # 3.x
     function _fisher_migrate
         function _fisher_complete
             fisher install jorgebucaran/fisher 2>/dev/null
@@ -185,18 +183,18 @@ if functions -q _fisher_self_update || test -e $__fish_config_dir/fishfile
         set -q XDG_CACHE_HOME || set XDG_CACHE_HOME ~/.cache
         set -q XDG_CONFIG_HOME || set XDG_CONFIG_HOME ~/.config
         set -q fisher_path || set fisher_path $__fish_config_dir
-
-        if test -e $__fish_config_dir/fishfile
-            command awk '/#|^gitlab|^ *$/ { next } $0' <$__fish_config_dir/fishfile >>$__fish_config_dir/fish_plugins
-        end
-
+        test -e $__fish_config_dir/fishfile && command awk '/#|^gitlab|^ *$/ { next } $0' <$__fish_config_dir/fishfile >>$__fish_config_dir/fish_plugins
         command rm -rf $__fish_config_dir/fishfile $fisher_path/{conf.d,completions}/fisher.fish {$XDG_DATA_HOME,$XDG_CACHE_HOME,$XDG_CONFIG_HOME}/fisher
         functions --erase _fisher_migrate _fisher_copy_user_key_bindings _fisher_ls _fisher_fmt _fisher_self_update _fisher_self_uninstall _fisher_commit _fisher_parse _fisher_fetch _fisher_add _fisher_rm _fisher_jobs _fisher_now _fisher_help
-
         fisher update
     end
-
-    echo "bootstrapping fisher $fisher_version for the first time, learn more at "(set_color --bold --underline)"https://git.io/fisher-4"(set_color normal) >&2
-
+    echo "upgrading to fisher $fisher_version -- learn more at" (set_color --bold --underline)"https://git.io/fisher-4"(set_color normal) >&2
     _fisher_migrate
+else if functions -q _fisher_list # 4.0
+    set -q XDG_DATA_HOME || set -l XDG_DATA_HOME ~/.local/share
+    test -e $XDG_DATA_HOME/fisher && command rm -rf $XDG_DATA_HOME/fisher
+    functions --erase _fisher_list _fisher_plugin_parse
+    echo -n "upgrading to fisher $fisher_version new in-memory state.." >&2
+    fisher update 2>/dev/null
+    echo -ne "done\r\n" >&2
 end
