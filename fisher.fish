@@ -101,7 +101,7 @@ function fisher -a cmd -d "fish plugin manager"
                 test ! -e $source && exit
                 command mv -f (string match --entire --regex -- \.fish\\\$ $source/*) $source/functions 2>/dev/null" &
 
-                set -a pid_list $last_pid
+                set -a pid_list (jobs --last --pid)
             end
 
             wait $pid_list 2>/dev/null
