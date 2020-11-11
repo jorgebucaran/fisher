@@ -117,14 +117,14 @@ function fisher -a cmd -d "fish plugin manager"
             end
 
             for plugin in $update_plugins $remove_plugins
-                if set --erase _fisher_plugins[(contains --index -- $plugin $_fisher_plugins)] 2>/dev/null
+                if set -l index (contains --index -- "$plugin" $_fisher_plugins)
                     set -l plugin_files_var _fisher_(string escape --style=var $plugin)_files
 
-                    if contains -- "$plugin" $remove_plugins
+                    if contains -- "$plugin" $remove_plugins && set --erase _fisher_plugins[$index]
                         for file in (string match --entire --regex -- "conf\.d/" $$plugin_files_var)
                             emit (string replace --all --regex -- '^.*/|\.fish$' "" $file)_uninstall
                         end
-                        echo -s (set_color --bold)"removing $plugin"(set_color normal) \n-$$plugin_files_var >&2
+                        echo -s "removing $plugin" \n" "-$$plugin_files_var >&2
                     end
 
                     command rm -rf $$plugin_files_var
@@ -136,18 +136,18 @@ function fisher -a cmd -d "fish plugin manager"
 
             for plugin in $update_plugins $install_plugins
                 set -l source $source_plugins[(contains --index -- "$plugin" $fetch_plugins)]
+                set -l files $source/{functions,conf.d,completions}/*
+                set -l plugin_files_var _fisher_(string escape --style=var $plugin)_files
+                set -q files[1] && set -U $plugin_files_var (string replace $source $fisher_path $files)
 
                 command cp -Rf $source/{functions,conf.d,completions} $fisher_path
-
-                set -l files (string replace $source $fisher_path $source/{functions,conf.d,completions}/*)
-                set -U _fisher_(string escape --style=var $plugin)_files $files
 
                 contains -- $plugin $_fisher_plugins || set -Ua _fisher_plugins $plugin
                 contains -- $plugin $install_plugins && set -l event "install" || set -l event "update"
 
-                echo -s (set_color --bold)"installing $plugin"(set_color normal) \n+$files >&2
+                echo -s "installing $plugin" \n" "+$$plugin_files_var >&2
 
-                for file in (string match --entire --regex -- "[functions/|conf\.d/].*fish\$" $files)
+                for file in (string match --entire --regex -- "[functions/|conf\.d/].*fish\$" $$plugin_files_var)
                     source $file
                     if string match --quiet --regex -- "conf\.d/" $file
                         emit (string replace --all --regex -- '^.*/|\.fish$' "" $file)_$event
@@ -163,9 +163,9 @@ function fisher -a cmd -d "fish plugin manager"
 
             set -l total (count $install_plugins) (count $update_plugins) (count $remove_plugins)
             test "$total" != "0 0 0" && echo (string join ", " (
-                test $total[1] = 0 || echo "$total[1] installed") (
-                test $total[2] = 0 || echo "$total[2] updated") (
-                test $total[3] = 0 || echo "$total[3] removed")
+                test $total[1] = 0 || echo "installed $total[1]") (
+                test $total[2] = 0 || echo "updated $total[2]") (
+                test $total[3] = 0 || echo "removed $total[3]")
             ) "plugin/s" >&2
         case \*
             echo "fisher: unknown flag or command: \"$cmd\" (see `fisher -h`)" >&2 && return 1
