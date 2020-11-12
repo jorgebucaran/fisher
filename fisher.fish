@@ -72,6 +72,7 @@ function fisher -a cmd -d "fish plugin manager"
             set -l pid_list
             set -l source_plugins
             set -l fetch_plugins $update_plugins $install_plugins
+            echo -e "\x1b[1mfisher $cmd version $fisher_version\x1b[22m"
 
             for plugin in $fetch_plugins
                 set -l source (command mktemp -d)
@@ -88,7 +89,7 @@ function fisher -a cmd -d "fish plugin manager"
                     set url https://codeload.github.com/\$name[1]/tar.gz/\$name[2]
                     set -q fisher_user_api_token && set opts -u $fisher_user_api_token
 
-                    echo fetching \$url >&2
+                    echo -e \"fetching \x1b[4m\$url\x1b[24m\"
                     if command curl $opts -Ss -w \"\" \$url 2>&1 | command tar -xzf- -C \$temp 2>/dev/null
                         command cp -Rf \$temp/*/* $source
                     else
@@ -124,7 +125,7 @@ function fisher -a cmd -d "fish plugin manager"
                         for file in (string match --entire --regex -- "conf\.d/" $$plugin_files_var)
                             emit (string replace --all --regex -- '^.*/|\.fish$' "" $file)_uninstall
                         end
-                        echo -s "removing $plugin" \n" "-$$plugin_files_var >&2
+                        echo -es "removing \x1b[1m$plugin\x1b[22m" \n"         "$$plugin_files_var
                     end
 
                     command rm -rf $$plugin_files_var
@@ -144,8 +145,7 @@ function fisher -a cmd -d "fish plugin manager"
 
                 contains -- $plugin $_fisher_plugins || set -Ua _fisher_plugins $plugin
                 contains -- $plugin $install_plugins && set -l event "install" || set -l event "update"
-
-                echo -s "installing $plugin" \n" "+$$plugin_files_var >&2
+                echo -es "installing \x1b[1m$plugin\x1b[22m" \n"           "$$plugin_files_var
 
                 for file in (string match --entire --regex -- "[functions/|conf\.d/].*fish\$" $$plugin_files_var)
                     source $file
@@ -166,7 +166,7 @@ function fisher -a cmd -d "fish plugin manager"
                 test $total[1] = 0 || echo "installed $total[1]") (
                 test $total[2] = 0 || echo "updated $total[2]") (
                 test $total[3] = 0 || echo "removed $total[3]")
-            ) "plugin/s" >&2
+            ) "plugin/s"
         case \*
             echo "fisher: unknown flag or command: \"$cmd\" (see `fisher -h`)" >&2 && return 1
     end
@@ -176,7 +176,7 @@ end
 if functions -q _fisher_self_update || test -e $__fish_config_dir/fishfile # 3.x
     function _fisher_migrate
         function _fisher_complete
-            fisher install jorgebucaran/fisher 2>/dev/null
+            fisher install jorgebucaran/fisher >/dev/null 2>/dev/null
             functions --erase _fisher_complete
         end
         set -q XDG_DATA_HOME || set XDG_DATA_HOME ~/.local/share
@@ -188,13 +188,13 @@ if functions -q _fisher_self_update || test -e $__fish_config_dir/fishfile # 3.x
         functions --erase _fisher_migrate _fisher_copy_user_key_bindings _fisher_ls _fisher_fmt _fisher_self_update _fisher_self_uninstall _fisher_commit _fisher_parse _fisher_fetch _fisher_add _fisher_rm _fisher_jobs _fisher_now _fisher_help
         fisher update
     end
-    echo "upgrading to fisher $fisher_version -- learn more at" (set_color --bold --underline)"https://git.io/fisher-4"(set_color normal) >&2
-    _fisher_migrate
+    echo "upgrading to fisher $fisher_version -- learn more at" (set_color --bold --underline)"https://git.io/fisher-4"(set_color normal)
+    _fisher_migrate >/dev/null 2>/dev/null
 else if functions -q _fisher_list # 4.0
     set -q XDG_DATA_HOME || set -l XDG_DATA_HOME ~/.local/share
     test -e $XDG_DATA_HOME/fisher && command rm -rf $XDG_DATA_HOME/fisher
     functions --erase _fisher_list _fisher_plugin_parse
-    echo -n "upgrading to fisher $fisher_version new in-memory state.." >&2
-    fisher update 2>/dev/null
-    echo -ne "done\r\n" >&2
+    echo -n "upgrading to fisher $fisher_version new in-memory state.."
+    fisher update >/dev/null 2>/dev/null
+    echo -ne "done\r\n"
 end
