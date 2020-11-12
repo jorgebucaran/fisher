@@ -19,15 +19,15 @@ function fisher -a cmd -d "fish plugin manager"
         case ls list
             string match --entire --regex -- "$argv[2]" $_fisher_plugins
         case install update remove rm
-            isatty || read -laz stdin && set argv $argv[2..-1] $stdin
+            isatty || read -laz stdin && set -a argv $stdin
             set -l install_plugins
             set -l update_plugins
             set -l remove_plugins
-            set -l arg_plugins $argv
+            set -l arg_plugins $argv[2..-1]
             set -l old_plugins $_fisher_plugins
             set -l new_plugins
 
-            if test -z "$argv[1]"
+            if not set -q argv[2]
                 if test "$cmd" != update || test ! -e $fish_plugins
                     echo "fisher: not enough arguments for command: \"$cmd\"" >&2 && return 1
                 end
@@ -39,7 +39,7 @@ function fisher -a cmd -d "fish plugin manager"
                 contains -- "$plugin" $new_plugins || set -a new_plugins $plugin
             end
 
-            if set -q argv[1]
+            if set -q argv[2]
                 for plugin in $new_plugins
                     if contains -- "$plugin" $old_plugins
                         if test "$cmd" = install || test "$cmd" = update
