@@ -18,7 +18,7 @@ function fisher -a cmd -d "fish plugin manager"
             echo "       -h or --help     print this help message"
         case ls list
             string match --entire --regex -- "$argv[2]" $_fisher_plugins
-        case install update remove rm
+        case install update remove
             isatty || read -laz stdin && set -a argv $stdin
             set -l install_plugins
             set -l update_plugins
@@ -42,10 +42,10 @@ function fisher -a cmd -d "fish plugin manager"
             if set -q argv[2]
                 for plugin in $new_plugins
                     if contains -- "$plugin" $old_plugins
-                        if test "$cmd" = install || test "$cmd" = update
-                            set -a update_plugins $plugin
-                        else
+                        if test "$cmd" = remove
                             set -a remove_plugins $plugin
+                        else
+                            set -a update_plugins $plugin
                         end
                     else if test "$cmd" != install
                         echo "fisher: plugin not installed: \"$plugin\"" >&2 && return 1
