@@ -114,10 +114,10 @@ That will install **jethrokuan/z**, remove **jorgebucaran/nvm.fish**, and update
 
 ## Creating a plugin
 
-A plugin consists of one or more files in a `functions`, `conf.d`, and/or `completions` directory. `*.fish` files under `conf.d` are also known as snippets and automatically run on shell startup. These are the files that Fisher looks for when installing a plugin.
+A plugin can be any number of files in a `functions`, `conf.d`, and/or `completions` directory. Most plugins consist of a single function, or [configuration snippet](https://fishshell.com/docs/current/#initialization-files). This is what a typical plugin looks like.
 
 ```
-my-plugin
+foobar
 ├── functions
 │   └── foobar.fish
 ├── completions
@@ -126,26 +126,26 @@ my-plugin
     └── foobar.fish
 ```
 
-While some packages contain every kind of file, some packages contain only functions or configuration snippets. You are not limited to a single file per directory either. There can be as many files as you need or only one as in the next example.
+Non `.fish` files as well as directories inside those locations will be copied to `$fisher_path` under `functions`, `conf.d`, or `completions` respectively.
 
 ### Event system
 
-Fisher leverages [fish events](https://fishshell.com/docs/current/cmds/emit.html) to notify plugins when they are being installed, updated, or removed.
+Plugins are notified as they are being installed, updated, or removed via [fish events](https://fishshell.com/docs/current/cmds/emit.html).
 
-> `--on-event` functions must be already loaded when their event is emitted. So put event handlers in your `conf.d` directory.
+> `--on-event` functions must already be loaded when their event is emitted, So, put your event handlers in the `conf.d` directory.
 
 ```fish
-# Defined in conf.d/foobar.fish
+# Defined in foobar/conf.d/foobar.fish
 
-function foobar_install --on-event foobar_install
-  # Set global variables, create bindings, and other install logic.
+function _foobar_install --on-event foobar_install
+    # Set universal variables, create bindings, and other initialization logic.
 end
 
-function foobar_update --on-event foobar_update
+function _foobar_update --on-event foobar_update
   # Migrate resources, print warnings, and other update logic.
 end
 
-function foobar_uninstall --on-event foobar_uninstall
+function _foobar_uninstall --on-event foobar_uninstall
     # Erase "private" functions, variables, bindings, and other uninstall logic.
 end
 ```
