@@ -1,15 +1,15 @@
 # Fisher
 
-> A plugin manager for [fish](https://fishshell.com)—the friendly interactive shell.
+> A plugin manager for [Fish](https://fishshell.com)—the friendly interactive shell.
 
 Manage functions, completions, bindings, and snippets from the command line. Extend your shell capabilities, change the look of your prompt and create repeatable configurations across different systems effortlessly.
 
-- [Oh My Fish](https://github.com/oh-my-fish/packages-main) plugin support.
+- [Oh My Fish!](https://github.com/oh-my-fish/packages-main) plugin support.
 - Blazingly fast concurrent plugin downloads.
 - 100% pure fish—easy to contribute to or modify.
 - Zero configuration out of the box. Need to tweak a thing? [You can do that too](#using-your-fish_plugins-file).
 
-Looking for plugins? Browse [git.io/awesome.fish](https://git.io/awesome.fish) or [search](https://github.com/topics/fish-plugins) [on](https://github.com/topics/fish-package) [GitHub](https://github.com/topics/fish-plugin).
+Looking for plugins? Browse [git.io/awsm.fish](https://git.io/awesome.fish) or [search](https://github.com/topics/fish-plugins) [on](https://github.com/topics/fish-package) [GitHub](https://github.com/topics/fish-plugin).
 
 ## Installation
 
@@ -55,8 +55,6 @@ jorgebucaran/nvm.fish@1.1.0
 /home/jb/path/to/plugin
 ```
 
-> `jorgebucaran/fisher` is listed because we installed it to start with!
-
 The `list` command also accepts a regular expression to filter the output.
 
 ```console
@@ -72,7 +70,7 @@ The `update` command updates one or more plugins to their latest version.
 fisher update ilancosman/tide
 ```
 
-> `fisher update` by itself will update everything, including Fisher.
+> Use `fisher update` to update everything, including Fisher.
 
 ### Removing plugins
 
@@ -90,7 +88,7 @@ fisher list | fisher remove
 
 ## Using your `fish_plugins` file
 
-Whenever you install or remove a plugin from the command line, Fisher will write down all your installed plugins plugins to `$__fish_config_dir/fish_plugins`. Adding this file to your dotfiles or version control is the easiest way to share your configuration across different systems.
+Whenever you install or remove a plugin from the command line, Fisher will write down all the installed plugins plugins to `$__fish_config_dir/fish_plugins`. Adding this file to your dotfiles or version control is the easiest way to share your configuration across different systems.
 
 You can also edit this file and run `fisher update` to commit changes. Here's an example:
 
@@ -132,7 +130,7 @@ Non `.fish` files as well as directories inside those locations will be copied t
 
 Plugins are notified as they are being installed, updated, or removed via [fish events](https://fishshell.com/docs/current/cmds/emit.html).
 
-> `--on-event` functions must already be loaded when their event is emitted, So, put your event handlers in the `conf.d` directory.
+> `--on-event` functions must already be loaded when their event is emitted. So, put your event handlers in the `conf.d` directory.
 
 ```fish
 # Defined in foobar/conf.d/foobar.fish
