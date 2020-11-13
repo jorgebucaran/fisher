@@ -112,9 +112,25 @@ fisher update
 
 That will install **jethrokuan/z**, remove **jorgebucaran/nvm.fish**, and update everything else.
 
-## Event system
+## Creating a plugin
 
-Fisher leverages the fish [event system](https://fishshell.com/docs/current/cmds/emit.html) to notify plugins when they are being installed, updated, or removed.
+A plugin consists of one or more files in a `functions`, `conf.d`, and/or `completions` directory. `*.fish` files under `conf.d` are also known as snippets and automatically run on shell startup. These are the files that Fisher looks for when installing a plugin.
+
+```
+my-plugin
+├── functions
+│   └── foobar.fish
+├── completions
+│   └── foobar.fish
+└── conf.d
+    └── foobar.fish
+```
+
+While some packages contain every kind of file, some packages contain only functions or configuration snippets. You are not limited to a single file per directory either. There can be as many files as you need or only one as in the next example.
+
+### Event system
+
+Fisher leverages [fish events](https://fishshell.com/docs/current/cmds/emit.html) to notify plugins when they are being installed, updated, or removed.
 
 > `--on-event` functions must be already loaded when their event is emitted. So put event handlers in your `conf.d` directory.
 

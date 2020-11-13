@@ -145,8 +145,8 @@ function fisher -a cmd -d "fish plugin manager"
                 set -l plugin_files_var _fisher_(string escape --style=var $plugin)_files
                 set -q files[1] && set -U $plugin_files_var (string replace $source $fisher_path $files)
 
-                for file in $files
-                    command cp -Rf $file (string replace -- $source $fisher_path $file)
+                for file in (string replace -- $source "" $files)
+                    command cp -Rf $source/$file $fisher_path/$file
                 end
 
                 contains -- $plugin $_fisher_plugins || set -Ua _fisher_plugins $plugin
