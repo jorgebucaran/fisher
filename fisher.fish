@@ -141,7 +141,9 @@ function fisher -a cmd -d "fish plugin manager"
                 set -l plugin_files_var _fisher_(string escape --style=var $plugin)_files
                 set -q files[1] && set -U $plugin_files_var (string replace $source $fisher_path $files)
 
-                command cp -Rf $source/{functions,conf.d,completions} $fisher_path
+                for file in $files
+                    command cp -Rf $file (string replace -- $source $fisher_path $file)
+                end
 
                 contains -- $plugin $_fisher_plugins || set -Ua _fisher_plugins $plugin
                 contains -- $plugin $install_plugins && set -l event "install" || set -l event "update"
