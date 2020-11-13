@@ -135,6 +135,10 @@ function fisher -a cmd -d "fish plugin manager"
                 end
             end
 
+            if set -q update_plugins[1] || set -q install_plugins[1]
+                command mkdir -p $fisher_path/{functions,conf.d,completions}
+            end
+
             for plugin in $update_plugins $install_plugins
                 set -l source $source_plugins[(contains --index -- "$plugin" $fetch_plugins)]
                 set -l files $source/{functions,conf.d,completions}/*
