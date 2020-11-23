@@ -14,7 +14,7 @@ Looking for plugins? Browse [git.io/awsm.fish](https://git.io/awesome.fish) or [
 ## Installation
 
 ```console
-curl -sL git.io/fisher | source && fisher install jorgebucaran/fisher
+curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
 ```
 
 ## Quickstart
