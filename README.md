@@ -19,7 +19,7 @@ curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
 
 ## Quickstart
 
-You can install, update, and remove plugins interactively with Fisher, taking advantage of fish [tab completion](https://fishshell.com/docs/current/index.html#completion) and rich syntax highlighting.
+You can install, update, and remove plugins interactively with Fisher, taking advantage of Fish [tab completion](https://fishshell.com/docs/current/index.html#completion) and rich syntax highlighting.
 
 ### Installing plugins
 
@@ -41,7 +41,7 @@ You can install plugins from a local directory too.
 fisher install ~/path/to/plugin
 ```
 
-> Fisher expands plugins into your fish configuration directory by default, overwriting existing files. If you wish to change this behavior, set `$fisher_path` to your preferred location and put it in your function path.
+> Fisher expands plugins into your Fish configuration directory by default, overwriting existing files. If you wish to change this behavior, set `$fisher_path` to your preferred location and put it in your function path.
 
 ### Listing plugins
 
@@ -128,7 +128,7 @@ Non `.fish` files as well as directories inside those locations will be copied t
 
 ### Event system
 
-Plugins are notified as they are being installed, updated, or removed via [fish events](https://fishshell.com/docs/current/cmds/emit.html).
+Plugins are notified as they are being installed, updated, or removed via [Fish events](https://fishshell.com/docs/current/cmds/emit.html).
 
 > `--on-event` functions must already be loaded when their event is emitted. So, put your event handlers in the `conf.d` directory.
 
