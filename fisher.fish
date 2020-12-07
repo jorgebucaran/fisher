@@ -201,6 +201,6 @@ else if functions --query _fisher_list # 4.0
     test -e $XDG_DATA_HOME/fisher && command rm -rf $XDG_DATA_HOME/fisher
     echo -n "Upgrading to Fisher $fisher_version new in-memory state..."
     fisher update >/dev/null 2>/dev/null
-    functions --erase _fisher_list _fisher_plugin_parse
+    functions --erase _fisher_plugin_parse
     echo -ne "Done!\r\n"
 end
