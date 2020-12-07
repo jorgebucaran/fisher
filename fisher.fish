@@ -198,9 +198,10 @@ if functions --query _fisher_self_update || test -e $__fish_config_dir/fishfile 
     _fisher_migrate >/dev/null 2>/dev/null
 end
 
-if functions --query _fisher_list # 4.0
-    if ! set --query _fisher_4_1_migration_done
-        set --global _fisher_4_1_migration_done
-        fisher update >/dev/null 2>/dev/null
-    end
+if functions --query _fisher_list && ! set --query _fisher_4_1_migration_done
+    set --global _fisher_4_1_migration_done
+    fisher update >/dev/null 2>/dev/null
+    set --query XDG_DATA_HOME || set --local XDG_DATA_HOME ~/.local/share
+    test -e $XDG_DATA_HOME/fisher \
+        && echo (set_color --bold red)"fisher: XDG_DATA_HOME/fisher has been deprecated, please remove it: rm -rf $XDG_DATA_HOME/fisher"(set_color normal)
 end
