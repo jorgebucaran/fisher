@@ -199,8 +199,8 @@ if functions --query _fisher_self_update || test -e $__fish_config_dir/fishfile 
 else if functions --query _fisher_list # 4.0
     set --query XDG_DATA_HOME || set --local XDG_DATA_HOME ~/.local/share
     test -e $XDG_DATA_HOME/fisher && command rm -rf $XDG_DATA_HOME/fisher
-    functions --erase _fisher_list _fisher_plugin_parse
     echo -n "Upgrading to Fisher $fisher_version new in-memory state..."
     fisher update >/dev/null 2>/dev/null
+    functions --erase _fisher_list _fisher_plugin_parse
     echo -ne "Done!\r\n"
 end
