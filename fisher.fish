@@ -196,11 +196,11 @@ if functions --query _fisher_self_update || test -e $__fish_config_dir/fishfile 
     end
     echo "Upgrading to Fisher $fisher_version -- learn more at" (set_color --bold --underline)"https://git.io/fisher-4"(set_color normal)
     _fisher_migrate >/dev/null 2>/dev/null
-else if functions --query _fisher_list # 4.0
-    echo -n "Upgrading to Fisher $fisher_version new in-memory state..."
-    fisher update >/dev/null 2>/dev/null
-    set --query XDG_DATA_HOME || set --local XDG_DATA_HOME ~/.local/share
-    test -e $XDG_DATA_HOME/fisher && command rm -rf $XDG_DATA_HOME/fisher
-    functions --erase _fisher_plugin_parse
-    echo -ne "Done!\r\n"
+end
+
+if functions --query _fisher_list # 4.0
+    if ! set --query _fisher_4_1_migration_done
+        set --global _fisher_4_1_migration_done
+        fisher update >/dev/null 2>/dev/null
+    end
 end
