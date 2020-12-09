@@ -19,7 +19,7 @@ function fisher -a cmd -d "Fish plugin manager"
         case ls list
             string match --entire --regex -- "$argv[2]" $_fisher_plugins
         case install update remove
-            isatty || read -laz stdin && set --append argv $stdin
+            isatty || read --local --null --array stdin && set --append argv $stdin
             set --local install_plugins
             set --local update_plugins
             set --local remove_plugins
@@ -90,7 +90,7 @@ function fisher -a cmd -d "Fish plugin manager"
                     set --query fisher_user_api_token && set opts -u $fisher_user_api_token
 
                     echo -e \"Fetching \x1b[4m\$url\x1b[24m\"
-                    if command curl $opts -Ss -w \"\" \$url 2>&1 | command tar -xzf- -C \$temp 2>/dev/null
+                    if command curl $opts --silent --write-out \"\" \$url | tar --extract --gzip --directory \$temp 2>/dev/null
                         command cp -Rf \$temp/*/* $source
                     else
                         echo fisher: Invalid plugin name or host unavailable: \\\"$plugin\\\" >&2
