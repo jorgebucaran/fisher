@@ -90,7 +90,7 @@ function fisher -a cmd -d "Fish plugin manager"
                     set --query fisher_user_api_token && set opts -u $fisher_user_api_token
 
                     echo -e \"Fetching \x1b[4m\$url\x1b[24m\"
-                    if command curl $opts --silent --write-out \"\" \$url | tar --extract --gzip --directory \$temp 2>/dev/null
+                    if command curl $opts --silent \$url | tar --extract --gzip --directory \$temp --file -
                         command cp -Rf \$temp/*/* $source
                     else
                         echo fisher: Invalid plugin name or host unavailable: \\\"$plugin\\\" >&2
