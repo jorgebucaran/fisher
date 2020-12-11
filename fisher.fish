@@ -31,7 +31,7 @@ function fisher -a cmd -d "Fish plugin manager"
                 if test "$cmd" != update || test ! -e $fish_plugins
                     echo "fisher: Not enough arguments for command: \"$cmd\"" >&2 && return 1
                 end
-                set arg_plugins (string trim <$fish_plugins)
+                set arg_plugins (string match --regex --invert -- "\s*#|^\s*\$" <$fish_plugins)
             end
 
             for plugin in $arg_plugins
@@ -164,8 +164,20 @@ function fisher -a cmd -d "Fish plugin manager"
             command rm -rf $source_plugins
             functions --query fish_prompt || source $__fish_data_dir/functions/fish_prompt.fish
 
-            set --query _fisher_plugins[1] || set --erase _fisher_plugins
-            set --query _fisher_plugins && printf "%s\n" $_fisher_plugins >$fish_plugins || command rm -f $fish_plugins
+            if set --query _fisher_plugins[1]
+                set --local user_plugins (read --null <$fish_plugins)
+
+                for plugin in $user_plugins
+                    contains -- $plugin $_fisher_plugins &&
+                        echo $plugin || string match --regex -- "^\s*#.*" $plugin
+                end >$fish_plugins
+
+                for plugin in $_fisher_plugins
+                    contains -- $plugin $user_plugins || echo $plugin
+                end >>$fish_plugins
+            else
+                set --erase _fisher_plugins
+            end
 
             set --local total (count $install_plugins) (count $update_plugins) (count $remove_plugins)
             test "$total" != "0 0 0" && echo (string join ", " (
