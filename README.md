@@ -5,7 +5,7 @@
 Manage functions, completions, bindings, and snippets from the command line. Extend your shell capabilities, change the look of your prompt and create repeatable configurations across different systems effortlessly.
 
 - Zero configuration out of the box. Need to tweak a thing? [You can do that too](#using-your-fish_plugins-file).
-- 100% pure Fish—easy to contribute to or modify.
+- 100% _pure_-Fish—easy to contribute to or modify.
 - Blazing fast concurrent plugin downloads.
 - Oh My Fish! plugin support.
 
@@ -67,10 +67,10 @@ $ fisher list \^/
 The `update` command updates one or more plugins to their latest version.
 
 ```console
-fisher update ilancosman/tide
+fisher update jorgebucaran/fisher
 ```
 
-> Use `fisher update` to update everything, including Fisher.
+> Use `fisher update` to update everything.
 
 ### Removing plugins
 
@@ -80,7 +80,7 @@ Remove installed plugins using the `remove` command.
 fisher remove jorgebucaran/nvm.fish@1.1.0
 ```
 
-Someday you may want to remove everything, including Fisher.
+You may want to remove everything, including Fisher.
 
 ```console
 fisher list | fisher remove
@@ -99,29 +99,29 @@ nano $__fish_config_dir/fish_plugins
 ```diff
 jorgebucaran/fisher
 ilancosman/tide
-+ jethrokuan/z
-- jorgebucaran/nvm.fish@1.1.0
-/home/jb/path/to/plugin
++ PatrickF1/fzf.fish
+jorgebucaran/nvm.fish@1.1.0
+- /home/jb/path/to/plugin
 ```
 
 ```console
 fisher update
 ```
 
-That will install **jethrokuan/z**, remove **jorgebucaran/nvm.fish**, and update everything else.
+That will install **PatrickF1**/**fzf.fish**, remove /**home**/**jb**/**path**/**to**/**plugin**, and update everything else.
 
 ## Creating a plugin
 
 A plugin can be any number of files in a `functions`, `conf.d`, and/or `completions` directory. Most plugins consist of a single function, or [configuration snippet](https://fishshell.com/docs/current/#initialization-files). This is what a typical plugin looks like.
 
 ```
-foobar
+ponyo
 ├── functions
-│   └── foobar.fish
+│   └── ponyo.fish
 ├── completions
-│   └── foobar.fish
+│   └── ponyo.fish
 └── conf.d
-    └── foobar.fish
+    └── ponyo.fish
 ```
 
 Non `.fish` files as well as directories inside those locations will be copied to `$fisher_path` under `functions`, `conf.d`, or `completions` respectively.
@@ -133,17 +133,17 @@ Plugins are notified as they are being installed, updated, or removed via [Fish 
 > `--on-event` functions must already be loaded when their event is emitted. So, put your event handlers in the `conf.d` directory.
 
 ```fish
-# Defined in foobar/conf.d/foobar.fish
+# Defined in ponyo/conf.d/ponyo.fish
 
-function _foobar_install --on-event foobar_install
+function _ponyo_install --on-event ponyo_install
     # Set universal variables, create bindings, and other initialization logic.
 end
 
-function _foobar_update --on-event foobar_update
+function _ponyo_update --on-event ponyo_update
   # Migrate resources, print warnings, and other update logic.
 end
 
-function _foobar_uninstall --on-event foobar_uninstall
+function _ponyo_uninstall --on-event ponyo_uninstall
     # Erase "private" functions, variables, bindings, and other uninstall logic.
 end
 ```
