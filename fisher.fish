@@ -156,10 +156,10 @@ function fisher -a cmd -d "Fish plugin manager"
                 contains -- $plugin $install_plugins && set --local event install || set --local event update
                 echo -es "Installing \x1b[1m$plugin\x1b[22m" \n"           "$$plugin_files_var
 
-                for file in (string match --entire --regex -- "[functions/|conf\.d/].*fish\$" $$plugin_files_var)
+                for file in (string match --regex --invert -- '.+/completions/.+\.fish$' $$plugin_files_var)
                     source $file
-                    if string match --quiet --regex -- "conf\.d/" $file
-                        emit (string replace --all --regex -- '^.*/|\.fish$' "" $file)_$event
+                    if set --local name (string replace --regex -- '.+conf\.d/(.+)\.fish$' '$1' $file)
+                        emit {$name}_$event
                     end
                 end
             end
