@@ -1,6 +1,6 @@
 function fisher -a cmd -d "Fish plugin manager"
-    set --local fisher_version 4.1.0
     set --query fisher_path || set --local fisher_path $__fish_config_dir
+    set --local fisher_version 4.1.0
     set --local fish_plugins $__fish_config_dir/fish_plugins
 
     switch "$cmd"
@@ -26,7 +26,7 @@ function fisher -a cmd -d "Fish plugin manager"
             set --local old_plugins $_fisher_plugins
             set --local new_plugins
 
-            if not set --query argv[2]
+            if ! set --query argv[2]
                 if test "$cmd" != update || test ! -e $fish_plugins
                     echo "fisher: Not enough arguments for command: \"$cmd\"" >&2 && return 1
                 end
@@ -62,7 +62,7 @@ function fisher -a cmd -d "Fish plugin manager"
                 end
 
                 for plugin in $old_plugins
-                    if not contains -- "$plugin" $new_plugins
+                    if ! contains -- "$plugin" $new_plugins
                         set --append remove_plugins $plugin
                     end
                 end
