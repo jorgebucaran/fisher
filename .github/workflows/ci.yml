@@ -1,7 +1,7 @@
 name: CI
 
 on: push
-       
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -14,7 +14,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y fish
 
-      - name: Install Fisher
-        run: $GITHUB_WORKSPACE/ && source fisher.fish && fisher install .
+      - name: Install Tools
+        run: |
+          $GITHUB_WORKSPACE/ && source fisher.fish && fisher install .
+          fisher --version
+          fisher --help
         shell: fish {0}
-
