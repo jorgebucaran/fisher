@@ -143,14 +143,14 @@ function fisher -a cmd -d "Fish plugin manager"
                 set --local source $source_plugins[(contains --index -- "$plugin" $fetch_plugins)]
                 set --local files $source/{functions,conf.d,completions}/*
                 set --local plugin_files_var _fisher_(string escape --style=var $plugin)_files
-                set --query files[1] && set -U $plugin_files_var (string replace $source $fisher_path $files)
+                set --query files[1] && set --universal $plugin_files_var (string replace $source $fisher_path $files)
 
                 for file in (string replace -- $source "" $files)
                     command cp -Rf $source/$file $fisher_path/$file
                 end
 
-                contains -- $plugin $_fisher_plugins || set -Ua _fisher_plugins $plugin
-                contains -- $plugin $install_plugins && set --local event "install" || set --local event "update"
+                contains -- $plugin $_fisher_plugins || set --universal --append _fisher_plugins $plugin
+                contains -- $plugin $install_plugins && set --local event install || set --local event update
                 echo -es "Installing \x1b[1m$plugin\x1b[22m" \n"           "$$plugin_files_var
 
                 for file in (string match --entire --regex -- "[functions/|conf\.d/].*fish\$" $$plugin_files_var)
@@ -165,14 +165,16 @@ function fisher -a cmd -d "Fish plugin manager"
             functions --query fish_prompt || source $__fish_data_dir/functions/fish_prompt.fish
 
             set --query _fisher_plugins[1] || set --erase _fisher_plugins
-            set --query _fisher_plugins && printf "%s\n" $_fisher_plugins >$fish_plugins || command rm -f $fish_plugins
+            set --query _fisher_plugins &&
+                printf "%s\n" $_fisher_plugins >$fish_plugins ||
+                command rm -f $fish_plugins
 
             set --local total (count $install_plugins) (count $update_plugins) (count $remove_plugins)
             test "$total" != "0 0 0" && echo (string join ", " (
                 test $total[1] = 0 || echo "Installed $total[1]") (
                 test $total[2] = 0 || echo "Updated $total[2]") (
                 test $total[3] = 0 || echo "Removed $total[3]")
-            ) "plugin/s"
+            ) plugin/s
         case \*
             echo "fisher: Unknown flag or command: \"$cmd\" (see `fisher -h`)" >&2 && return 1
     end
