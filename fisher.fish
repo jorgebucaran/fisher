@@ -1,6 +1,5 @@
-set --global fisher_version 4.1.0
-
 function fisher -a cmd -d "Fish plugin manager"
+    set --local fisher_version 4.1.0
     set --query fisher_path || set --local fisher_path $__fish_config_dir
     set --local fish_plugins $__fish_config_dir/fish_plugins
 
@@ -198,7 +197,7 @@ if functions --query _fisher_self_update || test -e $__fish_config_dir/fishfile 
         functions --erase _fisher_migrate _fisher_copy_user_key_bindings _fisher_ls _fisher_fmt _fisher_self_update _fisher_self_uninstall _fisher_commit _fisher_parse _fisher_fetch _fisher_add _fisher_rm _fisher_jobs _fisher_now _fisher_help
         fisher update
     end
-    echo "Upgrading to Fisher $fisher_version -- learn more at" (set_color --bold --underline)"https://git.io/fisher-4"(set_color normal)
+    echo "Upgrading to Fisher 4 -- learn more at" (set_color --bold --underline)"https://git.io/fisher-4"(set_color normal)
     _fisher_migrate >/dev/null 2>/dev/null
 end
 
