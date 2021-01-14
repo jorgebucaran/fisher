@@ -120,18 +120,18 @@ function fisher -a cmd -d "Fish plugin manager"
 
             for plugin in $update_plugins $remove_plugins
                 if set --local index (contains --index -- "$plugin" $_fisher_plugins)
-                    set --local plugin_files_var _fisher_(string escape --style=var $plugin)_files
+                    set --local plugin_files_var _fisher_(string escape --style=var -- $plugin)_files
 
                     if contains -- "$plugin" $remove_plugins && set --erase _fisher_plugins[$index]
-                        for name in (string replace --filter --regex -- ".+/conf\.d/([^.]+)\.fish" '$1' $$plugin_files_var)
+                        for name in (string replace --filter --regex -- '.+/conf\.d/([^/]+)\.fish$' '$1' $$plugin_files_var)
                             emit {$name}_uninstall
                         end
                         echo -es "Removing \x1b[1m$plugin\x1b[22m" \n"         "$$plugin_files_var
                     end
 
                     command rm -rf $$plugin_files_var
-                    functions --erase (string replace --filter --regex -- ".+/functions/([^.]+)\.fish" '$1' $$plugin_files_var)
-                    for name in (string replace --filter --regex -- ".+/completions/([^.]+)\.fish" '$1' $$plugin_files_var)
+                    functions --erase (string replace --filter --regex -- '.+/functions/([^/]+)\.fish$' '$1' $$plugin_files_var)
+                    for name in (string replace --filter --regex -- '.+/completions/([^/]+)\.fish$' '$1' $$plugin_files_var)
                         complete --erase $name
                     end
                     set --erase $plugin_files_var
@@ -145,8 +145,8 @@ function fisher -a cmd -d "Fish plugin manager"
             for plugin in $update_plugins $install_plugins
                 set --local source $source_plugins[(contains --index -- "$plugin" $fetch_plugins)]
                 set --local files $source/{functions,conf.d,completions}/*
-                set --local plugin_files_var _fisher_(string escape --style=var $plugin)_files
-                set --query files[1] && set --universal $plugin_files_var (string replace $source $fisher_path $files)
+                set --local plugin_files_var _fisher_(string escape --style=var -- $plugin)_files
+                set --query files[1] && set --universal $plugin_files_var (string replace -- $source $fisher_path $files)
 
                 for file in (string replace -- $source "" $files)
                     command cp -Rf $source/$file $fisher_path/$file
@@ -156,9 +156,9 @@ function fisher -a cmd -d "Fish plugin manager"
                 contains -- $plugin $install_plugins && set --local event install || set --local event update
                 echo -es "Installing \x1b[1m$plugin\x1b[22m" \n"           "$$plugin_files_var
 
-                for file in (string match --regex --invert -- '.+/completions/.+\.fish$' $$plugin_files_var)
+                for file in (string match --regex -- '.+/(?:functions|conf\.d)/[^/]+\.fish$' $$plugin_files_var)
                     source $file
-                    if set --local name (string replace --regex -- '.+conf\.d/(.+)\.fish$' '$1' $file)
+                    if set --local name (string replace --regex -- '.+conf\.d/([^/]+)\.fish$' '$1' $file)
                         emit {$name}_$event
                     end
                 end
