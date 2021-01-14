@@ -31,7 +31,7 @@ function fisher -a cmd -d "Fish plugin manager"
                 if test "$cmd" != update || test ! -e $fish_plugins
                     echo "fisher: Not enough arguments for command: \"$cmd\"" >&2 && return 1
                 end
-                set arg_plugins (string trim <$fish_plugins)
+                set arg_plugins (string match --regex --invert '^\s*$' -- <$fish_plugins)
             end
 
             for plugin in $arg_plugins
