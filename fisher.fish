@@ -129,8 +129,10 @@ function fisher -a cmd -d "Fish plugin manager"
                     end
 
                     command rm -rf $$plugin_files_var
-                    functions --erase (string match --entire --regex -- "functions/" $$plugin_files_var \
-                        | string replace --all --regex -- '^.*/|\.fish$' "")
+                    functions --erase (
+                        string match --entire --regex -- "functions/" $$plugin_files_var | 
+                        string replace --all --regex -- '^.*/|\.fish$' ""
+                    )
                     set --erase $plugin_files_var
                 end
             end
