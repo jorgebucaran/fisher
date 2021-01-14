@@ -165,7 +165,6 @@ function fisher -a cmd -d "Fish plugin manager"
             end
 
             command rm -rf $source_plugins
-            functions --query fish_prompt || source $__fish_data_dir/functions/fish_prompt.fish
 
             set --query _fisher_plugins[1] || set --erase _fisher_plugins
             set --query _fisher_plugins &&
