@@ -123,17 +123,17 @@ function fisher -a cmd -d "Fish plugin manager"
                     set --local plugin_files_var _fisher_(string escape --style=var $plugin)_files
 
                     if contains -- "$plugin" $remove_plugins && set --erase _fisher_plugins[$index]
-                        for file in (string match --entire --regex -- "conf\.d/" $$plugin_files_var)
-                            emit (string replace --all --regex -- '^.*/|\.fish$' "" $file)_uninstall
+                        for name in (string replace --filter --regex -- ".+/conf\.d/([^.]+)\.fish" '$1' $$plugin_files_var)
+                            emit {$name}_uninstall
                         end
                         echo -es "Removing \x1b[1m$plugin\x1b[22m" \n"         "$$plugin_files_var
                     end
 
                     command rm -rf $$plugin_files_var
-                    functions --erase (
-                        string match --entire --regex -- "functions/" $$plugin_files_var | 
-                        string replace --all --regex -- '^.*/|\.fish$' ""
-                    )
+                    functions --erase (string replace --filter --regex -- ".+/functions/([^.]+)\.fish" '$1' $$plugin_files_var)
+                    for name in (string replace --filter --regex -- ".+/completions/([^.]+)\.fish" '$1' $$plugin_files_var)
+                        complete --erase $name
+                    end
                     set --erase $plugin_files_var
                 end
             end
