@@ -27,8 +27,10 @@ function fisher -a cmd -d "Fish plugin manager"
             set --local new_plugins
 
             if ! set --query argv[2]
-                if test "$cmd" != update || test ! -e $fish_plugins
+                if test "$cmd" != update
                     echo "fisher: Not enough arguments for command: \"$cmd\"" >&2 && return 1
+                else if test ! -e $fish_plugins
+                    echo "fisher: fish_plugins file not found: \"$cmd\"" >&2 && return 1
                 end
                 set arg_plugins (string match --regex --invert '^\s*$' -- <$fish_plugins)
             end
