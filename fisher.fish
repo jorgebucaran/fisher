@@ -178,7 +178,7 @@ function fisher -a cmd -d "Fish plugin manager"
                 test $total[3] = 0 || echo "Removed $total[3]")
             ) plugin/s
         case \*
-            echo "fisher: Unknown flag or command: \"$cmd\" (see `fisher -h`)" >&2 && return 1
+            echo "fisher: Unknown flag or command: \"$cmd\"" >&2 && return 1
     end
 end
 
