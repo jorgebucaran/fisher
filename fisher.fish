@@ -121,7 +121,8 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                         for name in (string replace --filter --regex -- '.+/conf\.d/([^/]+)\.fish$' '$1' $$plugin_files_var)
                             emit {$name}_uninstall
                         end
-                        echo -es "Removing \x1b[1m$plugin\x1b[22m" \n"         "$$plugin_files_var
+                        string unescape "Removing \x1b[1m$plugin\x1b[22m" 
+                        printf "         %s\n" $$plugin_files_var
                     end
 
                     command rm -rf $$plugin_files_var
@@ -164,7 +165,9 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
 
                 contains -- $plugin $_fisher_plugins || set --universal --append _fisher_plugins $plugin
                 contains -- $plugin $install_plugins && set --local event install || set --local event update
-                echo -es "Installing \x1b[1m$plugin\x1b[22m" \n"           "$$plugin_files_var
+
+                string unescape "Installing \x1b[1m$plugin\x1b[22m" 
+                printf "           %s\n" $$plugin_files_var
 
                 for file in (string match --regex -- '.+/(?:functions|conf\.d)/[^/]+\.fish$' $$plugin_files_var)
                     source $file
@@ -188,7 +191,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                 test $total[3] = 0 || echo "Removed $total[3]")
             ) plugin/s
         case \*
-            echo "fisher: Unknown flag or command: \"$cmd\"" >&2 && return 1
+            echo "fisher: Unknown command: \"$cmd\"" >&2 && return 1
     end
 end
 
@@ -216,7 +219,7 @@ function _fisher_fish_postexec --on-event fish_postexec
     if functions --query _fisher_list
         fisher update >/dev/null 2>/dev/null
         set --query XDG_DATA_HOME || set --local XDG_DATA_HOME ~/.local/share
-        test -e $XDG_DATA_HOME/fisher && rm -rf $XDG_DATA_HOME/fisher
+        test -e $XDG_DATA_HOME/fisher && command rm -rf $XDG_DATA_HOME/fisher
         functions --erase _fisher_list _fisher_plugin_parse
         set --erase fisher_data
     end
