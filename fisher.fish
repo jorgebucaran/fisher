@@ -1,6 +1,6 @@
 function fisher --argument-names cmd --description "A plugin manager for Fish"
     set --query fisher_path || set --local fisher_path $__fish_config_dir
-    set --local fisher_version 4.1.0
+    set --local fisher_version 4.2.0-rc-1
     set --local fish_plugins $__fish_config_dir/fish_plugins
 
     switch "$cmd"
@@ -19,7 +19,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             string match --entire --regex -- "$argv[2]" $_fisher_plugins
         case install update remove
             isatty || read --local --null --array stdin && set --append argv $stdin
-            
+
             set --local install_plugins
             set --local update_plugins
             set --local remove_plugins
