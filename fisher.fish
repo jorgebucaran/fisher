@@ -19,6 +19,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             string match --entire --regex -- "$argv[2]" $_fisher_plugins
         case install update remove
             isatty || read --local --null --array stdin && set --append argv $stdin
+            
             set --local install_plugins
             set --local update_plugins
             set --local remove_plugins
