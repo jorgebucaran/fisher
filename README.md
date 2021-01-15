@@ -99,8 +99,8 @@ nano $__fish_config_dir/fish_plugins
 ```diff
 jorgebucaran/fisher
 ilancosman/tide
-+ PatrickF1/fzf.fish
 jorgebucaran/nvm.fish@1.1.0
++ PatrickF1/fzf.fish
 - /home/jb/path/to/plugin
 ```
 
