@@ -145,12 +145,27 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             for plugin in $update_plugins $install_plugins
                 set --local source $source_plugins[(contains --index -- "$plugin" $fetch_plugins)]
                 set --local files $source/{functions,conf.d,completions}/*
-                set --local plugin_files_var _fisher_(string escape --style=var -- $plugin)_files
-                set --query files[1] && set --universal $plugin_files_var (string replace -- $source $fisher_path $files)
 
-                for file in (string replace -- $source "" $files)
+                if set --local index (contains --index -- $plugin $install_plugins)
+                    set --local user_files $fisher_path/{functions,conf.d,completions}/*
+                    set --local conflict_files
+
+                    for file in (string replace -- $source/ $fisher_path/ $files)
+                        contains -- $file $user_files && set --append conflict_files $file
+                    end
+
+                    if set --query conflict_files[1] && set --erase install_plugins[$index]
+                        echo -es "fisher: Cannot install \"$plugin\": please remove or move conflicting files elsewhere:\x1b[22m" \n"        "$conflict_files >&2
+                        continue
+                    end
+                end
+
+                for file in (string replace -- $source/ "" $files)
                     command cp -Rf $source/$file $fisher_path/$file
                 end
+
+                set --local plugin_files_var _fisher_(string escape --style=var -- $plugin)_files
+                set --query files[1] && set --universal $plugin_files_var (string replace -- $source $fisher_path $files)
 
                 contains -- $plugin $_fisher_plugins || set --universal --append _fisher_plugins $plugin
                 contains -- $plugin $install_plugins && set --local event install || set --local event update
