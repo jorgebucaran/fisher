@@ -75,27 +75,28 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
 
                 command mkdir -p $source/{completions,conf.d,functions}
 
-                fish -c "
-                if test -e $plugin
-                    command cp -Rf $plugin/* $source
-                else 
-                    set temp (command mktemp -d)
-                    set name (string split \@ $plugin) || set name[2] HEAD
-                    set url https://codeload.github.com/\$name[1]/tar.gz/\$name[2]
-                    set --query fisher_user_api_token && set opts -u $fisher_user_api_token
-
-                    echo -e \"Fetching \x1b[4m\$url\x1b[24m\"
-                    if curl $opts --silent \$url | tar --extract --gzip --directory \$temp --file -
-                        command cp -Rf \$temp/*/* $source
+                fish --command "
+                    if test -e $plugin
+                        command cp -Rf $plugin/* $source
                     else
-                        echo fisher: Invalid plugin name or host unavailable: \\\"$plugin\\\" >&2
-                        command rm -rf $source
-                    end
-                    command rm -rf \$temp
-                end
+                        set temp (command mktemp -d)
+                        set name (string split \@ $plugin) || set name[2] HEAD
+                        set url https://codeload.github.com/\$name[1]/tar.gz/\$name[2]
 
-                test ! -e $source && exit
-                command mv -f (string match --entire --regex -- \.fish\\\$ $source/*) $source/functions 2>/dev/null" &
+                        string unescape \"Fetching \x1b[4m\$url\x1b[24m\"
+                        if curl --silent \$url | tar --extract --gzip --directory \$temp --file - 2>/dev/null
+                            command cp -Rf \$temp/*/* $source
+                        else
+                            echo fisher: Invalid plugin name or host unavailable: \\\"$plugin\\\" >&2
+                            command rm -rf $source
+                        end
+                        command rm -rf \$temp
+                    end
+
+                    test -e $source && command mv -f (
+                        string match --entire --regex -- \.fish\\\$ $source/*
+                    ) $source/functions 2>/dev/null
+                " &
 
                 set --append pid_list (jobs --last --pid)
             end
