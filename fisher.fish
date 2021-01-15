@@ -30,9 +30,9 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                 if test "$cmd" != update
                     echo "fisher: Not enough arguments for command: \"$cmd\"" >&2 && return 1
                 else if test ! -e $fish_plugins
-                    echo "fisher: fish_plugins file not found: \"$cmd\"" >&2 && return 1
+                    echo "fisher: \"$fish_plugins\" file not found: \"$cmd\"" >&2 && return 1
                 end
-                set arg_plugins (string match --regex --invert '^\s*$' -- <$fish_plugins)
+                set arg_plugins (string match --regex -- '^[^\s]+$' <$fish_plugins)
             end
 
             for plugin in $arg_plugins
