@@ -43,30 +43,24 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             if set --query argv[2]
                 for plugin in $new_plugins
                     if contains -- "$plugin" $old_plugins
-                        if test "$cmd" = remove
-                            set --append remove_plugins $plugin
-                        else
+                        test "$cmd" = remove &&
+                            set --append remove_plugins $plugin ||
                             set --append update_plugins $plugin
-                        end
-                    else if test "$cmd" != install
-                        echo "fisher: Plugin not installed: \"$plugin\"" >&2 && return 1
-                    else
+                    else if test "$cmd" = install
                         set --append install_plugins $plugin
+                    else
+                        echo "fisher: Plugin not installed: \"$plugin\"" >&2 && return 1
                     end
                 end
             else
                 for plugin in $new_plugins
-                    if contains -- "$plugin" $old_plugins
-                        set --append update_plugins $plugin
-                    else
+                    contains -- "$plugin" $old_plugins &&
+                        set --append update_plugins $plugin ||
                         set --append install_plugins $plugin
-                    end
                 end
 
                 for plugin in $old_plugins
-                    if ! contains -- "$plugin" $new_plugins
-                        set --append remove_plugins $plugin
-                    end
+                    contains -- "$plugin" $new_plugins || set --append remove_plugins $plugin
                 end
             end
 
