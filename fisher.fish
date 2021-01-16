@@ -129,7 +129,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                     command rm -rf $$plugin_files_var
                     functions --erase (string replace --filter --regex -- '.+/functions/([^/]+)\.fish$' '$1' $$plugin_files_var)
                     for name in (string replace --filter --regex -- '.+/completions/([^/]+)\.fish$' '$1' $$plugin_files_var)
-                        complete --erase $name
+                        complete --erase --command $name
                     end
                     set --erase $plugin_files_var
                 end
