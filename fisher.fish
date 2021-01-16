@@ -1,6 +1,6 @@
 function fisher --argument-names cmd --description "A plugin manager for Fish"
     set --query fisher_path || set --local fisher_path $__fish_config_dir
-    set --local fisher_version 4.2.0-rc-1
+    set --local fisher_version 4.2.0-rc-2
     set --local fish_plugins $__fish_config_dir/fish_plugins
 
     switch "$cmd"
@@ -94,9 +94,8 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                         command rm -rf \$temp
                     end
 
-                    test -e $source && command mv -f (
-                        string match --entire --regex -- \.fish\\\$ $source/*
-                    ) $source/functions 2>/dev/null
+                    set files $source/* && set files (string match --regex -- .+\.fish\\\$ \$files) || exit
+                    command mv -f \$files $source/functions 2>/dev/null
                 " &
 
                 set --append pid_list (jobs --last --pid)
