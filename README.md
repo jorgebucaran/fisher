@@ -32,7 +32,7 @@ fisher install ilancosman/tide
 To get a specific version of a plugin add an `@` symbol after the plugin name followed by a tag, branch, or [commit](https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-aiddefcommit-ishacommit-ishalsocommittish).
 
 ```console
-fisher install jorgebucaran/nvm.fish@1.1.0
+fisher install jorgebucaran/nvm.fish@2.1.0
 ```
 
 You can install plugins from a local directory too.
@@ -41,7 +41,7 @@ You can install plugins from a local directory too.
 fisher install ~/path/to/plugin
 ```
 
-> Fisher expands plugins into your Fish configuration directory by default, overwriting existing files. If you wish to change this behavior, set `$fisher_path` to your preferred location and put it in your function path.
+> Fisher expands plugins into your Fish configuration directory by default, overwriting existing files. If you wish to change this behavior, set `$fisher_path` to your preferred location and put it in your function path (#640).
 
 ### Listing plugins
 
@@ -51,7 +51,7 @@ List all the plugins that are currently installed using the `list` command.
 $ fisher list
 jorgebucaran/fisher
 ilancosman/tide
-jorgebucaran/nvm.fish@1.1.0
+jorgebucaran/nvm.fish@2.1.0
 /home/jb/path/to/plugin
 ```
 
@@ -70,14 +70,14 @@ The `update` command updates one or more plugins to their latest version.
 fisher update jorgebucaran/fisher
 ```
 
-> Use `fisher update` to update everything.
+> Use just `fisher update` to update everything.
 
 ### Removing plugins
 
 Remove installed plugins using the `remove` command.
 
 ```console
-fisher remove jorgebucaran/nvm.fish@1.1.0
+fisher remove jorgebucaran/nvm.fish@2.1.0
 ```
 
 You may want to remove everything, including Fisher.
@@ -99,7 +99,7 @@ nano $__fish_config_dir/fish_plugins
 ```diff
 jorgebucaran/fisher
 ilancosman/tide
-jorgebucaran/nvm.fish@1.1.0
+jorgebucaran/nvm.fish@2.1.0
 + PatrickF1/fzf.fish
 - /home/jb/path/to/plugin
 ```
@@ -112,25 +112,25 @@ That will install **PatrickF1**/**fzf.fish**, remove /**home**/**jb**/**path**/*
 
 ## Creating a plugin
 
-A plugin can be any number of files in a `functions`, `conf.d`, and/or `completions` directory. Most plugins consist of a single function, or [configuration snippet](https://fishshell.com/docs/current/#initialization-files). This is what a typical plugin looks like.
+A plugin can be any number of files in a `functions`, `conf.d`, and `completions` directory. Most plugins consist of a single function, or [configuration snippet](https://fishshell.com/docs/current/#initialization-files). This is what a typical plugin looks like.
 
-```
-ponyo
-├── functions
+<pre>
+<b>ponyo</b>
+├── <b>completions</b>
 │   └── ponyo.fish
-├── completions
+├── <b>conf.d</b>
 │   └── ponyo.fish
-└── conf.d
+└── <b>functions</b>
     └── ponyo.fish
-```
+</pre>
 
 Non `.fish` files as well as directories inside those locations will be copied to `$fisher_path` under `functions`, `conf.d`, or `completions` respectively.
 
 ### Event system
 
-Plugins are notified as they are being installed, updated, or removed via [Fish events](https://fishshell.com/docs/current/cmds/emit.html).
+Plugins are notified as they are being installed, updated, or removed via Fish [events](https://fishshell.com/docs/current/cmds/emit.html).
 
-> `--on-event` functions must already be loaded when their event is emitted. So, put your event handlers in the `conf.d` directory.
+> `--on-event` functions must already be loaded when their event is emitted. Thus, you should put your event handlers in the `conf.d` directory.
 
 ```fish
 # Defined in ponyo/conf.d/ponyo.fish
@@ -140,7 +140,7 @@ function _ponyo_install --on-event ponyo_install
 end
 
 function _ponyo_update --on-event ponyo_update
-  # Migrate resources, print warnings, and other update logic.
+    # Migrate resources, print warnings, and other update logic.
 end
 
 function _ponyo_uninstall --on-event ponyo_uninstall
