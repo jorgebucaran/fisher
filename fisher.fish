@@ -170,7 +170,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                 string unescape "Installing \x1b[1m$plugin\x1b[22m" 
                 printf "           %s\n" $$plugin_files_var
 
-                for file in (string match --regex -- '.+/(?:functions|conf\.d)/[^/]+\.fish$' $$plugin_files_var)
+                for file in (string match --regex -- '.+/[^/]+\.fish$' $$plugin_files_var)
                     source $file
                     if set --local name (string replace --regex -- '.+conf\.d/([^/]+)\.fish$' '$1' $file)
                         emit {$name}_$event
