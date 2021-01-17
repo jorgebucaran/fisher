@@ -68,7 +68,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             set --local pid_list
             set --local source_plugins
             set --local fetch_plugins $update_plugins $install_plugins
-            string unescape "\x1b[1mfisher $cmd version $fisher_version\x1b[22m"
+            echo (set_color --bold)fisher $cmd version $fisher_version(set_color normal)
 
             for plugin in $fetch_plugins
                 set --local source (command mktemp -d)
@@ -84,7 +84,8 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                         set name (string split \@ $plugin) || set name[2] HEAD
                         set url https://codeload.github.com/\$name[1]/tar.gz/\$name[2]
 
-                        string unescape \"Fetching \x1b[4m\$url\x1b[24m\"
+                        echo Fetching (set_color --underline)\$url(set_color normal)
+
                         if curl --silent \$url | tar --extract --gzip --directory \$temp --file - 2>/dev/null
                             command cp -Rf \$temp/*/* $source
                         else
