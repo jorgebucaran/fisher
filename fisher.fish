@@ -68,7 +68,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             set --local pid_list
             set --local source_plugins
             set --local fetch_plugins $update_plugins $install_plugins
-            echo -e "\x1b[1mfisher $cmd version $fisher_version\x1b[22m"
+            string unescape "\x1b[1mfisher $cmd version $fisher_version\x1b[22m"
 
             for plugin in $fetch_plugins
                 set --local source (command mktemp -d)
@@ -121,8 +121,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                         for name in (string replace --filter --regex -- '.+/conf\.d/([^/]+)\.fish$' '$1' $$plugin_files_var)
                             emit {$name}_uninstall
                         end
-                        string unescape "Removing \x1b[1m$plugin\x1b[22m" 
-                        printf "         %s\n" $$plugin_files_var
+                        printf "%s\n" Removing\ (set_color red --bold)$plugin(set_color normal) "         "$$plugin_files_var
                     end
 
                     command rm -rf $$plugin_files_var
@@ -154,7 +153,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                     end
 
                     if set --query conflict_files[1] && set --erase install_plugins[$index]
-                        echo -es "fisher: Cannot install \"$plugin\": please remove or move conflicting files first:\x1b[22m" \n"        "$conflict_files >&2
+                        echo -s "fisher: Cannot install \"$plugin\": please remove or move conflicting files first:" \n"        "$conflict_files >&2
                         continue
                     end
                 end
@@ -169,8 +168,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                 contains -- $plugin $_fisher_plugins || set --universal --append _fisher_plugins $plugin
                 contains -- $plugin $install_plugins && set --local event install || set --local event update
 
-                string unescape "Installing \x1b[1m$plugin\x1b[22m" 
-                printf "           %s\n" $$plugin_files_var
+                printf "%s\n" Installing\ (set_color --bold)$plugin(set_color normal) "           "$$plugin_files_var
 
                 for file in (string match --regex -- '.+/[^/]+\.fish$' $$plugin_files_var)
                     source $file
