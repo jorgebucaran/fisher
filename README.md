@@ -9,7 +9,7 @@ Manage functions, completions, bindings, and snippets from the command line. Ext
 - Blazing fast concurrent plugin downloads.
 - Oh My Fish! plugin support.
 
-Looking for plugins? Browse [git.io/awsm.fish](https://git.io/awesome.fish) or [search](https://github.com/topics/fish-plugins) [on](https://github.com/topics/fish-package) [GitHub](https://github.com/topics/fish-plugin).
+Looking for plugins? Browse [git.io/awsm.fish](https://git.io/awesome.fish) or search on GitHub: [#fish-plugins](https://github.com/topics/fish-plugins) [#fish-plugin](https://github.com/topics/fish-plugin) [#fish-package](https://github.com/topics/fish-package).
 
 ## Installation
 
