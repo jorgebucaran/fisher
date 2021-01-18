@@ -1,4 +1,4 @@
-complete --command fisher --exclusive --long help --description "Print usage help"
+complete --command fisher --exclusive --long help --description "Print help"
 complete --command fisher --exclusive --long version --description "Print version"
 complete --command fisher --exclusive --condition __fish_use_subcommand --arguments install --description "Install plugins"
 complete --command fisher --exclusive --condition __fish_use_subcommand --arguments update --description "Update installed plugins"
