@@ -16,7 +16,7 @@ jobs:
 
       - name: Install Tools
         run: |
-          source $GITHUB_WORKSPACE/fisher.fish
+          source $GITHUB_WORKSPACE/functions/fisher.fish
           fisher install $GITHUB_WORKSPACE jorgebucaran/fishtape
           fishtape tests/*.fish
         shell: fish {0}

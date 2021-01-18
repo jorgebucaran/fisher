@@ -95,8 +95,10 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                         command rm -rf \$temp
                     end
 
-                    set files $source/* && set files (string match --regex -- .+\.fish\\\$ \$files) || exit
-                    command mv -f \$files $source/functions 2>/dev/null
+                    set files $source/* && string match --quiet --regex -- .+\.fish\\\$ \$files || exit
+
+                    echo \"fisher: Plugin not supported: \\\"$plugin\\\"\" >&2
+                    echo (set_color --bold red)\"Support for .fish files outside a functions directory is deprecated\" (set_color --underline)https://github.com/jorgebucaran/fisher/issues/651(set_color normal) >&2
                 " &
 
                 set --append pid_list (jobs --last --pid)
@@ -198,25 +200,6 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
 end
 
 ## Migrations ##
-if functions --query _fisher_self_update || test -e $__fish_config_dir/fishfile # 3.x
-    function _fisher_migrate
-        function _fisher_complete
-            fisher install jorgebucaran/fisher >/dev/null 2>/dev/null
-            functions --erase _fisher_complete
-        end
-        set --query XDG_DATA_HOME || set XDG_DATA_HOME ~/.local/share
-        set --query XDG_CACHE_HOME || set XDG_CACHE_HOME ~/.cache
-        set --query XDG_CONFIG_HOME || set XDG_CONFIG_HOME ~/.config
-        set --query fisher_path || set fisher_path $__fish_config_dir
-        test -e $__fish_config_dir/fishfile && command awk '/#|^gitlab|^ *$/ { next } $0' <$__fish_config_dir/fishfile >>$__fish_config_dir/fish_plugins
-        command rm -rf $__fish_config_dir/fishfile $fisher_path/{conf.d,completions}/fisher.fish {$XDG_DATA_HOME,$XDG_CACHE_HOME,$XDG_CONFIG_HOME}/fisher
-        functions --erase _fisher_migrate _fisher_copy_user_key_bindings _fisher_ls _fisher_fmt _fisher_self_update _fisher_self_uninstall _fisher_commit _fisher_parse _fisher_fetch _fisher_add _fisher_rm _fisher_jobs _fisher_now _fisher_help
-        fisher update
-    end
-    echo "Upgrading to Fisher 4 -- learn more at" (set_color --bold --underline)"https://git.io/fisher-4"(set_color normal)
-    _fisher_migrate >/dev/null 2>/dev/null
-end
-
 function _fisher_fish_postexec --on-event fish_postexec
     if functions --query _fisher_list
         fisher update >/dev/null 2>/dev/null
