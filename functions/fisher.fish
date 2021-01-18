@@ -33,7 +33,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                 else if test ! -e $fish_plugins
                     echo "fisher: \"$fish_plugins\" file not found: \"$cmd\"" >&2 && return 1
                 end
-                set arg_plugins (string match --regex -- '^[^\s]+$' <$fish_plugins)
+                set arg_plugins (string match --regex -- '^[^#\s]+' <$fish_plugins)
             end
 
             for plugin in $arg_plugins
@@ -183,10 +183,19 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
 
             command rm -rf $source_plugins
 
-            set --query _fisher_plugins[1] || set --erase _fisher_plugins
-            set --query _fisher_plugins &&
-                printf "%s\n" $_fisher_plugins >$fish_plugins ||
+            if set --query _fisher_plugins[1]
+                # match line comments, active plugins (+ optional inline comments) in fish_plugins
+                set --local -- new_content (string match --regex -- '^\s*#.*$|^(?:'(
+                    string join -- '|' $_fisher_plugins)')(?:\s+#.*)?$' <$fish_plugins)
+                # inverse match active plugins against the (comment stripped) $new_content
+                set --append -- new_content (string match --regex --invert -- '^(?:'(
+                    string join -- '|' (string match --regex -- '^[^#\s]+' $new_content))')$' $_fisher_plugins)
+                
+                printf '%s\n' $new_content >$fish_plugins
+            else
+                set --erase _fisher_plugins
                 command rm -f $fish_plugins
+            end
 
             set --local total (count $install_plugins) (count $update_plugins) (count $remove_plugins)
             test "$total" != "0 0 0" && echo (string join ", " (
