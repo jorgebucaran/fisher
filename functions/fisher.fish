@@ -97,7 +97,8 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
 
                     set files $source/* && string match --quiet --regex -- .+\.fish\\\$ \$files || exit
 
-                    echo \"fisher: Plugin not supported: \\\"$plugin\\\"\" >&2
+                    cp -f (string match --regex -- .+\.fish\\\$ \$files) $source/functions/
+                    echo \"fisher: Plugin depricated (but still works): \\\"$plugin\\\"\" >&2
                     echo (set_color --bold red)\"Support for .fish files outside a functions directory is deprecated\" (set_color --underline)https://github.com/jorgebucaran/fisher/issues/651(set_color normal) >&2
                 " &
 
