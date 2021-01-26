@@ -17,6 +17,8 @@ Looking for plugins? Browse [git.io/awsm.fish](https://git.io/awesome.fish) or [
 curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
 ```
 
+> #### 👋 [Upgrading from Fisher 3.x or 2.x?](https://github.com/jorgebucaran/fisher/issues/652)
+
 ## Quickstart
 
 You can install, update, and remove plugins interactively with Fisher, taking advantage of Fish [tab completion](https://fishshell.com/docs/current/index.html#completion) and rich syntax highlighting.
