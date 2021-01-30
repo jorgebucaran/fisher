@@ -87,7 +87,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                         if string match -q 'gitlab.com/*' \$name[1]
                             set bare (string replace 'gitlab.com/' '' \$name[1])
                             set repo (string split '/' \$bare)
-                            set url https://gitlab.com/{\$bare}/-/archive/{\$name[2]}/{\$repo[1]}-{\$name[2]}.tar.gz
+                            set url https://gitlab.com/{\$bare}/-/archive/{\$name[2]}/{\$repo[2]}-{\$name[2]}.tar.gz
                         end
 
                         echo Fetching (set_color --underline)\$url(set_color normal)
