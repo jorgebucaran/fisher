@@ -84,6 +84,12 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                         set name (string split \@ $plugin) || set name[2] HEAD
                         set url https://codeload.github.com/\$name[1]/tar.gz/\$name[2]
 
+                        if string match -q 'gitlab.com/*' \$name[1]
+                            set bare (string replace 'gitlab.com/' '' \$name[1])
+                            set repo (string split '/' \$bare)
+                            set url https://gitlab.com/{\$bare}/-/archive/{\$name[2]}/{\$repo[1]}-{\$name[2]}.tar.gz
+                        end
+
                         echo Fetching (set_color --underline)\$url(set_color normal)
 
                         if curl --silent \$url | tar --extract --gzip --directory \$temp --file - 2>/dev/null
