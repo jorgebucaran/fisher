@@ -130,6 +130,10 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                     command rm -rf $$plugin_files_var
                     functions --erase (string replace --filter --regex -- '.+/functions/([^/]+)\.fish$' '$1' $$plugin_files_var)
 
+                    for manpage in (string replace --filter --regex -- '.+/manpages/([^/]+)\.(\d)$' '/usr/share/man/man$2/$1.$2' $$plugin_files_var)
+                        rm $manpage
+                    end
+
                     for name in (string replace --filter --regex -- '.+/completions/([^/]+)\.fish$' '$1' $$plugin_files_var)
                         complete --erase --command $name
                     end
@@ -140,15 +144,16 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             end
 
             if set --query update_plugins[1] || set --query install_plugins[1]
-                command mkdir -p $fisher_path/{functions,conf.d,completions}
+                command mkdir -p $fisher_path/{functions,conf.d,completions,manpages}
             end
 
             for plugin in $update_plugins $install_plugins
                 set --local source $source_plugins[(contains --index -- "$plugin" $fetch_plugins)]
                 set --local files $source/{functions,conf.d,completions}/*
+                set --append files $source/manpages/*.(seq 9)
 
                 if set --local index (contains --index -- $plugin $install_plugins)
-                    set --local user_files $fisher_path/{functions,conf.d,completions}/*
+                    set --local user_files $fisher_path/{functions,conf.d,completions,manpages}/*
                     set --local conflict_files
 
                     for file in (string replace -- $source/ $fisher_path/ $files)
@@ -178,6 +183,14 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                     if set --local name (string replace --regex -- '.+conf\.d/([^/]+)\.fish$' '$1' $file)
                         emit {$name}_$event
                     end
+                end
+
+                for man in (string match --regex -- '.+/manpages/([^/]+)\.(\d)$' $$plugin_files_var)
+		            if set --local name (string match --regex -- '.+/([^/]+)\.(\d)' $man)
+                        if test (ln -s $fisher_path/manpages/$name[2].$name[3] /usr/share/man/man$name[3]/$name[2].$name[3]) $status -ne 0
+                            echo "fisher: Cannot symlink manual page $fisher_path/manpages/$name[2].$name[3] at /usr/share/man/man$name[3]/$name[2].$name[3]" >&2
+                        end
+		            end
                 end
             end
 
