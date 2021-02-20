@@ -186,11 +186,11 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                 end
 
                 for man in (string match --regex -- '.+/manpages/([^/]+)\.(\d)$' $$plugin_files_var)
-		            if set --local name (string match --regex -- '.+/([^/]+)\.(\d)' $man)
+                    if set --local name (string match --regex -- '.+/([^/]+)\.(\d)' $man)
                         if test (ln -s $fisher_path/manpages/$name[2].$name[3] /usr/share/man/man$name[3]/$name[2].$name[3]) $status -ne 0
                             echo "fisher: Cannot symlink manual page $fisher_path/manpages/$name[2].$name[3] at /usr/share/man/man$name[3]/$name[2].$name[3]" >&2
                         end
-		            end
+                    end
                 end
             end
 
