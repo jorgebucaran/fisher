@@ -95,10 +95,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                         command rm -rf \$temp
                     end
 
-                    set files $source/* && string match --quiet --regex -- .+\.fish\\\$ \$files || exit
-
-                    echo \"fisher: Plugin not supported: \\\"$plugin\\\"\" >&2
-                    echo (set_color --bold red)\"Support for .fish files outside a functions directory is deprecated\" (set_color --underline)https://github.com/jorgebucaran/fisher/issues/651(set_color normal) >&2
+                    set files $source/* && string match --quiet --regex -- .+\.fish\\\$ \$files
                 " &
 
                 set --append pid_list (jobs --last --pid)
