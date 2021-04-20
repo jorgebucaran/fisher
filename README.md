@@ -94,7 +94,7 @@ fisher list | fisher remove
 
 Whenever you install or remove a plugin from the command line, Fisher will write down all the installed plugins plugins to `$__fish_config_dir/fish_plugins`. Adding this file to your dotfiles or version control is the easiest way to share your configuration across different systems.
 
-You can also edit this file and run `fisher update` to commit changes. Here's an example:
+You can also edit this file and run `fisher update` to commit changes. Here's an example diff that represents such an edit:
 
 ```console
 nano $__fish_config_dir/fish_plugins
