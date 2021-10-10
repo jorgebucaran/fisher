@@ -1,6 +1,6 @@
 # Fisher
 
-> A plugin manager for [Fish](https://fishshell.com)—the friendly interactive shell.
+> A plugin manager for [Fish](https://fishshell.com)—the friendly interactive shell. [Looking for plugins?](https://git.io/awesome.fish)
 
 Manage functions, completions, bindings, and snippets from the command line. Extend your shell capabilities, change the look of your prompt and create repeatable configurations across different systems effortlessly.
 
@@ -9,15 +9,13 @@ Manage functions, completions, bindings, and snippets from the command line. Ext
 - Zero configuration out of the box.
 - Oh My Fish! plugin support.
 
-> #### 💁 [Looking for plugins?](https://git.io/awesome.fish)
+> #### 👋 [Upgrading from Fisher 3.x or 2.x?](https://github.com/jorgebucaran/fisher/issues/652)
 
 ## Installation
 
 ```console
 curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
 ```
-
-> #### 👋 [Upgrading from Fisher 3.x or 2.x?](https://github.com/jorgebucaran/fisher/issues/652)
 
 ## Quickstart
 
