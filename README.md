@@ -9,7 +9,7 @@ Manage functions, completions, bindings, and snippets from the command line. Ext
 - Zero configuration out of the box.
 - Oh My Fish! plugin support.
 
-> #### 👋 [Upgrading from Fisher 3.x or 2.x?](https://github.com/jorgebucaran/fisher/issues/652)
+> #### 👋 [Upgrading from Fisher `3.x` or older?](https://github.com/jorgebucaran/fisher/issues/652)
 
 ## Installation
 
@@ -150,7 +150,7 @@ end
 
 ## Acknowledgments
 
-Fisher started out in early 2016 by [@jorgebucaran](https://github.com/jorgebucaran) and was introduced originally as [Fisherman](https://github.com/jorgebucaran/fisher/tree/e4b455d4c32c78a0bca657ab19aaedac6d537792). We've had tons of help along the way. [Oh My Fish](https://github.com/oh-my-fish/oh-my-fish) set the stage as the first popular Fish plugin framework. [@jethrokuan](https://github.com/jethrokuan) helped to test the first version. [@PatrickF1](https://github.com/PatrickF1)'s candid feedback has been invaluable time and again. Bootstrapping Fisher as a plugin was all [@IlanCosman](https://github.com/IlanCosman)'s idea. Thank you to all our contributors! <3
+Fisher started out in 2016 by [@jorgebucaran](https://github.com/jorgebucaran) as a shell configuration manager for Fish. We had a lot of help along the way. [Oh My Fish](https://github.com/oh-my-fish/oh-my-fish) laid the groundwork as the first popular Fish framework. [@jethrokuan](https://github.com/jethrokuan) was particularly helpful during the first years. [@PatrickF1](https://github.com/PatrickF1)'s candid feedback has been invaluable time and again. Bootstrapping Fisher was originally [@IlanCosman](https://github.com/IlanCosman)'s idea. Thank you to all our contributors! <3
 
 ## License
 
