@@ -152,6 +152,10 @@ function _ponyo_uninstall --on-event ponyo_uninstall
 end
 ```
 
+## Acknowledgments
+
+Fisher started out in early 2016 by [@jorgebucaran](https://github.com/jorgebucaran) and was introduced originally as [Fisherman](https://github.com/jorgebucaran/fisher/tree/e4b455d4c32c78a0bca657ab19aaedac6d537792). We've had tons of help along the way. [Oh My Fish](https://github.com/oh-my-fish/oh-my-fish) set the stage as the first popular Fish plugin framework. [@jethrokuan](https://github.com/jethrokuan) helped to test the first version. [@PatrickF1](https://github.com/PatrickF1)'s candid feedback has been invaluable time and again. Bootstrapping Fisher as a plugin was all [@IlanCosman](https://github.com/IlanCosman)'s idea. Thank you to all our contributors! <3
+
 ## License
 
 [MIT](LICENSE.md)
