@@ -17,8 +17,6 @@ Manage functions, completions, bindings, and snippets from the command line. Ext
 curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
 ```
 
-> #### ⚠️ [Fish ≥ 3.0 required](https://fishshell.com/docs/current/relnotes.html#fish-3-0-0-released-december-28-2018)
-
 > #### 👋 [Upgrading from Fisher 3.x or 2.x?](https://github.com/jorgebucaran/fisher/issues/652)
 
 ## Quickstart
