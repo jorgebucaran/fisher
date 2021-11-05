@@ -81,18 +81,20 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                         command cp -Rf $plugin/* $source
                     else
                         set temp (command mktemp -d)
+                        set dlpath (command mktemp)
                         set name (string split \@ $plugin) || set name[2] HEAD
                         set url https://codeload.github.com/\$name[1]/tar.gz/\$name[2]
 
                         echo Fetching (set_color --underline)\$url(set_color normal)
 
-                        if curl --silent \$url | tar -xzC \$temp -f - 2>/dev/null
+                        if curl --silent \$url -o \$dlpath 2>/dev/null && tar -xzC \$temp -f \$dlpath 2>/dev/null
                             command cp -Rf \$temp/*/* $source
                         else
                             echo fisher: Invalid plugin name or host unavailable: \\\"$plugin\\\" >&2
                             command rm -rf $source
                         end
                         command rm -rf \$temp
+                        command rm \$dlpath
                     end
 
                     set files $source/* && string match --quiet --regex -- .+\.fish\\\$ \$files
