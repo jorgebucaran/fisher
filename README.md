@@ -23,7 +23,7 @@ If you want to automate installing fisher in a new system when it isn't already 
 
 This will install fisher and download all the plugins listed in your *fish_plugins* file.
 
-```fish
+```console
 if status is-interactive && ! functions --query fisher
     curl -sL https://git.io/fisher | source && fisher update
 end 
