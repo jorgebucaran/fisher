@@ -17,6 +17,12 @@ Manage functions, completions, bindings, and snippets from the command line. Ext
 curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
 ```
 
+or
+
+```console
+brew install fisher
+```
+
 ## Quickstart
 
 You can install, update, and remove plugins interactively with Fisher, taking advantage of Fish [tab completion](https://fishshell.com/docs/current/index.html#completion) and rich syntax highlighting.
