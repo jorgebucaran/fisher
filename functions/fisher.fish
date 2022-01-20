@@ -84,11 +84,12 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                     else
                         set temp (command mktemp -d)
                         set name (string split \@ $plugin) || set name[2] HEAD
-                        set url https://codeload.github.com/\$name[1]/tar.gz/\$name[2]
+                        set url https://api.github.com/repos/\$name[1]/tarball/\$name[2]
+                        set header 'Accept: application/vnd.github.v3+json'
 
                         echo Fetching (set_color --underline)\$url(set_color normal)
 
-                        if curl --silent \$url | tar -xzC \$temp -f - 2>/dev/null
+                        if curl --silent -L -H \$header \$url | tar -xzC \$temp -f - 2>/dev/null
                             command cp -Rf \$temp/*/* $source
                         else
                             echo fisher: Invalid plugin name or host unavailable: \\\"$plugin\\\" >&2
