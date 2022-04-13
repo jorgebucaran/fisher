@@ -26,7 +26,7 @@ You can install, update, and remove plugins interactively with Fisher, taking ad
 Install plugins using the `install` command followed by the path to the repository on GitHub.
 
 ```console
-fisher install ilancosman/tide
+fisher install IlanCosman/tide@v5
 ```
 
 To get a specific version of a plugin add an `@` symbol after the plugin name followed by a tag, branch, or [commit](https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-aiddefcommit-ishacommit-ishalsocommittish).
