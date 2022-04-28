@@ -14,7 +14,7 @@ Manage functions, completions, bindings, and snippets from the command line. Ext
 ## Installation
 
 ```console
-curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
+curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
 ```
 
 ## Quickstart
