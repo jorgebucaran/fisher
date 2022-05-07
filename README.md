@@ -50,8 +50,8 @@ List all the plugins that are currently installed using the `list` command.
 ```console
 $ fisher list
 jorgebucaran/fisher
-ilancosman/tide
-jorgebucaran/nvm.fish@2.1.0
+ilancosman/tide@v5
+jorgebucaran/nvm.fish
 /home/jb/path/to/plugin
 ```
 
@@ -77,7 +77,7 @@ fisher update jorgebucaran/fisher
 Remove installed plugins using the `remove` command.
 
 ```console
-fisher remove jorgebucaran/nvm.fish@2.1.0
+fisher remove jorgebucaran/nvm.fish
 ```
 
 You may want to remove everything, including Fisher.
@@ -98,8 +98,8 @@ nano $__fish_config_dir/fish_plugins
 
 ```diff
 jorgebucaran/fisher
-ilancosman/tide
-jorgebucaran/nvm.fish@2.1.0
+ilancosman/tide@v5
+jorgebucaran/nvm.fish
 + PatrickF1/fzf.fish
 - /home/jb/path/to/plugin
 ```
