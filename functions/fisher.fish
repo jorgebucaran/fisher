@@ -72,13 +72,13 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             set --local fetch_plugins $update_plugins $install_plugins
             echo (set_color --bold)fisher $cmd version $fisher_version(set_color normal)
 
-            for plugin in $fetch_plugins
+            fish_path=(status fish-path) for plugin in $fetch_plugins
                 set --local source (command mktemp -d)
                 set --append source_plugins $source
 
                 command mkdir -p $source/{completions,conf.d,functions}
 
-                fish --command "
+                $fish_path --command "
                     if test -e $plugin
                         command cp -Rf $plugin/* $source
                     else
