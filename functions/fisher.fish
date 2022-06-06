@@ -76,7 +76,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                 set --local source (command mktemp -d)
                 set --append source_plugins $source
 
-                command mkdir -p $source/{completions,conf.d,functions}
+                command mkdir -p $source/{completions,conf.d,themes,functions}
 
                 $fish_path --command "
                     if test -e $plugin
@@ -140,15 +140,15 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             end
 
             if set --query update_plugins[1] || set --query install_plugins[1]
-                command mkdir -p $fisher_path/{functions,conf.d,completions}
+                command mkdir -p $fisher_path/{functions,themes,conf.d,completions}
             end
 
             for plugin in $update_plugins $install_plugins
                 set --local source $source_plugins[(contains --index -- "$plugin" $fetch_plugins)]
-                set --local files $source/{functions,conf.d,completions}/*
+                set --local files $source/{functions,themes,conf.d,completions}/*
 
                 if set --local index (contains --index -- $plugin $install_plugins)
-                    set --local user_files $fisher_path/{functions,conf.d,completions}/*
+                    set --local user_files $fisher_path/{functions,themes,conf.d,completions}/*
                     set --local conflict_files
 
                     for file in (string replace -- $source/ $fisher_path/ $files)
