@@ -28,7 +28,6 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             set --local arg_plugins $argv[2..-1]
             set --local old_plugins $_fisher_plugins
             set --local new_plugins
-            set --local fish_path (status fish-path)
 
             test -e $fish_plugins && set --local file_plugins (string match --regex -- '^[^\s]+$' <$fish_plugins)
 
@@ -73,6 +72,8 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             set --local pid_list
             set --local source_plugins
             set --local fetch_plugins $update_plugins $install_plugins
+            set --local fish_path (status fish-path)
+
             echo (set_color --bold)fisher $cmd version $fisher_version(set_color normal)
 
             for plugin in $fetch_plugins
