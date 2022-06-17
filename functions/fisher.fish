@@ -183,10 +183,12 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
 
             command rm -rf $source_plugins
 
-            set --query _fisher_plugins[1] || set --erase _fisher_plugins
-            set --query _fisher_plugins &&
-                printf "%s\n" $_fisher_plugins >$fish_plugins ||
+            if set --query _fisher_plugins[1]
+                printf "%s\n" $_fisher_plugins >$fish_plugins
+            else
+                set --erase _fisher_plugins
                 command rm -f $fish_plugins
+            end
 
             set --local total (count $install_plugins) (count $update_plugins) (count $remove_plugins)
             test "$total" != "0 0 0" && echo (string join ", " (
