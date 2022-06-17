@@ -29,13 +29,15 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             set --local old_plugins $_fisher_plugins
             set --local new_plugins
 
+            test -e $fish_plugins && set --local file_plugins (string match --regex -- '^[^\s]+$' <$fish_plugins)
+
             if ! set --query argv[2]
                 if test "$cmd" != update
                     echo "fisher: Not enough arguments for command: \"$cmd\"" >&2 && return 1
-                else if test ! -e $fish_plugins
+                else if ! set --query file_plugins
                     echo "fisher: \"$fish_plugins\" file not found: \"$cmd\"" >&2 && return 1
                 end
-                set arg_plugins (string match --regex -- '^[^\s]+$' <$fish_plugins)
+                set arg_plugins $file_plugins
             end
 
             for plugin in $arg_plugins
@@ -125,6 +127,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                             emit {$name}_uninstall
                         end
                         printf "%s\n" Removing\ (set_color red --bold)$plugin(set_color normal) "         "$$plugin_files_var
+                        set --erase _fisher_plugins[$index]
                     end
 
                     command rm -rf $$plugin_files_var
@@ -134,7 +137,6 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                         complete --erase --command $name
                     end
 
-                    set --erase _fisher_plugins[$index]
                     set --erase $plugin_files_var
                 end
             end
@@ -184,7 +186,17 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             command rm -rf $source_plugins
 
             if set --query _fisher_plugins[1]
-                printf "%s\n" $_fisher_plugins >$fish_plugins
+                set --local commit_plugins
+
+                for plugin in $file_plugins
+                    contains -- $plugin $_fisher_plugins && set --append commit_plugins $plugin
+                end
+
+                for plugin in $_fisher_plugins
+                    contains -- $plugin $commit_plugins || set --append commit_plugins $plugin
+                end
+
+                printf "%s\n" $commit_plugins >$fish_plugins
             else
                 set --erase _fisher_plugins
                 command rm -f $fish_plugins
