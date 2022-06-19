@@ -91,6 +91,12 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                         set url https://api.github.com/repos/\$name[1]/tarball/\$name[2]
                         set header 'Accept: application/vnd.github.v3+json'
 
+                        if string match -q 'gitlab.com/*' \$name[1]
+                            set bare (string replace 'gitlab.com/' '' \$name[1])
+                            set repo (string split '/' \$bare)
+                            set url https://gitlab.com/{\$bare}/-/archive/{\$name[2]}/{\$repo[2]}-{\$name[2]}.tar.gz
+                        end
+
                         echo Fetching (set_color --underline)\$url(set_color normal)
 
                         if curl --silent -L -H \$header \$url | tar -xzC \$temp -f - 2>/dev/null
