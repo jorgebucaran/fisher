@@ -69,6 +69,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                 end
             end
 
+
             set --local pid_list
             set --local source_plugins
             set --local fetch_plugins $update_plugins $install_plugins
@@ -87,24 +88,24 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                         command cp -Rf $plugin/* $source
                     else
                         set temp (command mktemp -d)
-                        set name (string split \@ $plugin) || set name[2] HEAD
-                        set url https://api.github.com/repos/\$name[1]/tarball/\$name[2]
-                        set header 'Accept: application/vnd.github.v3+json'
+                        set repo (string split -- \@ $plugin) || set repo[2] HEAD
 
-                        if string match -q 'gitlab.com/*' \$name[1]
-                            set bare (string replace 'gitlab.com/' '' \$name[1])
-                            set repo (string split '/' \$bare)
-                            set url https://gitlab.com/{\$bare}/-/archive/{\$name[2]}/{\$repo[2]}-{\$name[2]}.tar.gz
+                        if set path (string replace --regex -- '^(https://)?gitlab.com/' '' \$repo[1])
+                            set name (string split -- / \$path)[-1]
+                            set url https://gitlab.com/\$path/-/archive/\$repo[2]/\$name-\$repo[2].tar.gz
+                        else
+                            set url https://api.github.com/repos/\$repo[1]/tarball/\$repo[2]
                         end
 
                         echo Fetching (set_color --underline)\$url(set_color normal)
 
-                        if curl --silent -L -H \$header \$url | tar -xzC \$temp -f - 2>/dev/null
+                        if curl --silent -L \$url | tar -xzC \$temp -f - 2>/dev/null
                             command cp -Rf \$temp/*/* $source
                         else
                             echo fisher: Invalid plugin name or host unavailable: \\\"$plugin\\\" >&2
                             command rm -rf $source
                         end
+
                         command rm -rf \$temp
                     end
 
