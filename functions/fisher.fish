@@ -1,6 +1,6 @@
 function fisher --argument-names cmd --description "A plugin manager for Fish"
     set --query fisher_path || set --local fisher_path $__fish_config_dir
-    set --local fisher_version 4.3.4
+    set --local fisher_version 4.3.5
     set --local fish_plugins $__fish_config_dir/fish_plugins
 
     switch "$cmd"
@@ -68,7 +68,6 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                     contains -- "$plugin" $new_plugins || set --append remove_plugins $plugin
                 end
             end
-
 
             set --local pid_list
             set --local source_plugins
