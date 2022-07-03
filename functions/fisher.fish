@@ -40,7 +40,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                 set arg_plugins $file_plugins
             end
 
-            for plugin in $arg_plugins
+            for plugin in (string lower -- $arg_plugins)
                 test -e "$plugin" && set plugin (realpath $plugin)
                 contains -- "$plugin" $new_plugins || set --append new_plugins $plugin
             end
@@ -199,11 +199,11 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                 set --local commit_plugins
 
                 for plugin in $file_plugins
-                    contains -- $plugin $_fisher_plugins && set --append commit_plugins $plugin
+                    contains -- (string lower -- $plugin) (string lower -- $_fisher_plugins) && set --append commit_plugins $plugin
                 end
 
                 for plugin in $_fisher_plugins
-                    contains -- $plugin $commit_plugins || set --append commit_plugins $plugin
+                    contains -- (string lower -- $plugin) (string lower -- $commit_plugins) || set --append commit_plugins $plugin
                 end
 
                 printf "%s\n" $commit_plugins >$fish_plugins
@@ -213,6 +213,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             end
 
             set --local total (count $install_plugins) (count $update_plugins) (count $remove_plugins)
+
             test "$total" != "0 0 0" && echo (string join ", " (
                 test $total[1] = 0 || echo "Installed $total[1]") (
                 test $total[2] = 0 || echo "Updated $total[2]") (
