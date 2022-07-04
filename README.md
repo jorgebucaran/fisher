@@ -9,7 +9,7 @@ Manage functions, completions, bindings, and snippets from the command line. Ext
 - Zero configuration out of the box.
 - Oh My Fish! plugin support.
 
-> #### 👋 [Upgrading from Fisher `3.x` or older?](https://github.com/jorgebucaran/fisher/issues/652)
+> #### ☝️ [Upgrading from Fisher `3.x` or older?](https://github.com/jorgebucaran/fisher/issues/652)
 
 ## Installation
 
