@@ -150,6 +150,10 @@ function _ponyo_uninstall --on-event ponyo_uninstall
 end
 ```
 
+### Discoverability
+
+Fisher doesn't support a central repository of plugins for flexibility and simplicity. However, that doesn't mean making plugins discoverable should be hard. One convention most popular Fisher plugins follow is tagging the repository with `fish-plugin`.
+
 ## Acknowledgments
 
 Fisher started out in 2016 by [@jorgebucaran](https://github.com/jorgebucaran) as a shell configuration manager for Fish. We had a lot of help along the way. [Oh My Fish](https://github.com/oh-my-fish/oh-my-fish) laid the groundwork as the first popular Fish framework. [@jethrokuan](https://github.com/jethrokuan) was particularly helpful during the first years. [@PatrickF1](https://github.com/PatrickF1)'s candid feedback has been invaluable time and again. Bootstrapping Fisher was originally [@IlanCosman](https://github.com/IlanCosman)'s idea. Thank you to all our contributors! <3
