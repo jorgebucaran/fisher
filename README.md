@@ -152,7 +152,7 @@ end
 
 ### Discoverability
 
-For simplicity and flexibility, Fisher doesn't make use of a central repository of plugins. However, that doesn't mean discovering new plugins should be hard. One convention most popular Fisher plugins follow is tagging the GitHub repository with the topic [fish-plugin](https://github.com/topics/fish-plugin), which puts it on a sortable page containing other Fisher plugins.
+For simplicity and flexibility, Fisher doesn't make use of a central repository of plugins. However, that doesn't mean discovering new plugins should be hard. One convention most popular Fisher plugins follow is [classifying](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics) the GitHub repository with the topic [fish-plugin](https://github.com/topics/fish-plugin), which puts it on a sortable page containing other Fisher plugins.
 
 ## Acknowledgments
 
