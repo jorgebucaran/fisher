@@ -152,7 +152,7 @@ end
 
 ### Discoverability
 
-Fisher doesn't support a central repository of plugins for flexibility and simplicity. However, that doesn't mean making plugins discoverable should be hard. One convention most popular Fisher plugins follow is tagging the repository with `fish-plugin`.
+Fisher doesn't support a central repository of plugins for flexibility and simplicity. However, that doesn't mean making plugins discoverable should be hard. One convention most popular Fisher plugins follow is tagging the repository with [fish-plugin](https://github.com/topics/fish-plugin).
 
 ## Acknowledgments
 
