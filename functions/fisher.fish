@@ -40,8 +40,8 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                 set arg_plugins $file_plugins
             end
 
-            for plugin in (string lower -- $arg_plugins)
-                test -e "$plugin" && set plugin (realpath $plugin)
+            for plugin in $arg_plugins
+                set plugin (test -e "$plugin" && realpath $plugin || string lower -- $plugin)
                 contains -- "$plugin" $new_plugins || set --append new_plugins $plugin
             end
 
