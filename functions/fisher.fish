@@ -92,6 +92,9 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                         if set path (string replace --regex -- '^(https://)?gitlab.com/' '' \$repo[1])
                             set name (string split -- / \$path)[-1]
                             set url https://gitlab.com/\$path/-/archive/\$repo[2]/\$name-\$repo[2].tar.gz
+                        else if set path (string replace --regex -- '^(https://)?codeberg.org/' '' \$repo[1])
+                            set repo (string split -- \@ $plugin) || set repo[2] main
+                            set url https://codeberg.org/\$path/archive/\$repo[2].tar.gz
                         else
                             set url https://api.github.com/repos/\$repo[1]/tarball/\$repo[2]
                         end
