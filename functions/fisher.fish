@@ -173,7 +173,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                 end
 
                 for file in (string replace -- $source/ "" $files)
-                    command cp -Rf $source/$file $fisher_path/$file
+                    command cp -RLf $source/$file $fisher_path/$file
                 end
 
                 set --local plugin_files_var _fisher_(string escape --style=var -- $plugin)_files
