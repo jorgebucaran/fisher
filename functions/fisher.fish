@@ -82,7 +82,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
 
                 command mkdir -p $source/{completions,conf.d,themes,functions}
 
-                $fish_path --command "
+                $fish_path --no-config --command "
                     if test -e $plugin
                         command cp -Rf $plugin/* $source
                     else
