@@ -17,6 +17,16 @@ Manage functions, completions, bindings, and snippets from the command line. Ext
 curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
 ```
 
+### Automatic install
+
+If you want to automatically install fisher when it is not present, you can add
+the following at the top of your `~/.config/fish/config.fish`.
+If `fish_plugins` is present is readed first.
+
+```fish
+if not functions -q fisher; curl -sL https://git.io/fisher | source && fisher update || fisher install jorgebucaran/fisher; end
+```
+
 ## Quickstart
 
 You can install, update, and remove plugins interactively with Fisher, taking advantage of Fish [tab completion](https://fishshell.com/docs/current/index.html#completion) and rich syntax highlighting.
