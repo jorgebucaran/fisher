@@ -128,6 +128,36 @@ A plugin can be any number of files in a `functions`, `conf.d`, and `completions
 
 Non `.fish` files as well as directories inside those locations will be copied to `$fisher_path` under `functions`, `conf.d`, or `completions` respectively.
 
+## Creating a theme
+
+A theme is just like a regular Fish plugin, except it has a `.theme` file in the `themes` directory. Themes were introduced in [Fish 3.4](https://github.com/fish-shell/fish-shell/releases/tag/3.4.0) and work with the `fish_config` builtin. A theme can also have files in `functions`, `conf.d`, or `completions` if necessary. This is what a typical theme plugin might look like.
+
+<pre>
+<b>sosuke</b>
+├── <b>conf.d</b>
+│   └── sosuke.fish
+└── <b>themes</b>
+    └── sosuke.theme
+</pre>
+
+## Using `$fisher_path` with themes
+
+If you customize `$fisher_path` to use a directory other than `$__fish_config_dir`, your themes won't be available via `fish_config`. That's because Fish expects your themes to be in `$__fish_config_dir/themes`, not `$fisher_path/themes`. This is not yet configurable in Fish, but there is [a request to add that feature](https://github.com/fish-shell/fish-shell/issues/9456).
+
+This problem can easily be solved by symlinking Fisher's `themes` directory into your Fish config. First, backup any existing themes directory.
+
+```console
+mv $__fish_config_dir/themes $__fish_config_dir/themes.bak
+```
+
+Then, symlink Fisher's themes directory.
+
+```console
+ln -s $fisher_path/themes $__fish_config_dir/themes
+```
+
+If you want to use theme plugins and also maintain your own local themes, you can read more about how to do that here: [#708](https://github.com/jorgebucaran/fisher/issues/708).
+
 ### Event system
 
 Plugins are notified as they are being installed, updated, or removed via Fish [events](https://fishshell.com/docs/current/cmds/emit.html).
