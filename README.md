@@ -24,7 +24,9 @@ the following at the top of your `~/.config/fish/config.fish`.
 If `fish_plugins` is present is readed first.
 
 ```fish
-if not functions -q fisher; curl -sL https://git.io/fisher | source && fisher update || fisher install jorgebucaran/fisher; end
+if not functions -q fisher && status is-interactive
+    curl -sL https://git.io/fisher | source && fisher update || fisher install jorgebucaran/fisher
+end
 ```
 
 ## Quickstart
