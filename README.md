@@ -114,7 +114,7 @@ That will install **PatrickF1**/**fzf.fish**, remove /**home**/**jb**/**path**/*
 
 ## Creating a plugin
 
-A plugin can be any number of files in a `functions`, `conf.d`, and `completions` directory. Most plugins consist of a single function, or [configuration snippet](https://fishshell.com/docs/current/index.html#configuration-files). This is what a typical plugin looks like.
+A plugin can be any number of files in a `functions`, `conf.d`, and `completions` directory. Most plugins consist of a single function, or [configuration snippet](https://fishshell.com/docs/current/index.html#configuration). This is what a typical plugin looks like.
 
 <pre>
 <b>ponyo</b>
