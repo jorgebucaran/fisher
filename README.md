@@ -21,7 +21,7 @@ curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
 
 If you want to automatically install fisher when it is not present, you can add
 the following at the top of your `~/.config/fish/config.fish`.
-If `fish_plugins` is present is readed first.
+If `fish_plugins` is present, it is read first.
 
 ```fish
 if not functions -q fisher && status is-interactive
