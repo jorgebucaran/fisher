@@ -2,7 +2,7 @@
 
 > A plugin manager for [Fish](https://fishshell.com)—your friendly interactive shell. [Snag fresh plugins!](https://git.io/awesome.fish)
 
-Take control of functions, completions, bindings, and snippets from the command line. Unleash your shell's true potential, perfect your prompt, and craft repeatable configurations across different systems without breaking a sweat. Fisher's zero impact on shell startup keeps your shell zippy and responsive. No gimmicks, just smooth sailing!
+Take control of functions, completions, bindings, and snippets from the command line. Unleash your shell's true potential, perfect your prompt, and craft repeatable configurations across different systems effortlessly. Fisher's zero impact on shell startup keeps your shell zippy and responsive. No gimmicks, just smooth sailing!
 
 - Fisher is 100% pure-Fish, making it easy to contribute or modify
 - Scorching fast concurrent plugin downloads that'll make you question reality
