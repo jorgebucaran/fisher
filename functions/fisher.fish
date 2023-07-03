@@ -2,6 +2,8 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
     set --query fisher_path || set --local fisher_path $__fish_config_dir
     set --local fisher_version 4.4.3
     set --local fish_plugins $__fish_config_dir/fish_plugins
+    test -e $fish_plugins && set --local file_plugins (string match --regex -- '^[^\s]+$' <$fish_plugins)
+    set --query _fisher_plugins || set --universal _fisher_plugins $file_plugins
 
     switch "$cmd"
         case -v --version
@@ -28,8 +30,6 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             set --local arg_plugins $argv[2..-1]
             set --local old_plugins $_fisher_plugins
             set --local new_plugins
-
-            test -e $fish_plugins && set --local file_plugins (string match --regex -- '^[^\s]+$' <$fish_plugins)
 
             if ! set --query argv[2]
                 if test "$cmd" != update
