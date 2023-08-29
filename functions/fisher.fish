@@ -167,8 +167,8 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                     end
 
                     if set --query conflict_files[1] && set --erase install_plugins[$index]
-                        echo -s "fisher: Cannot install \"$plugin\": please remove or move conflicting files first:" \n"        "$conflict_files >&2
-                        continue
+                        echo -s "fisher: Conflicting plugin: \"$plugin\": Removing conflicting files:" \n"        "$conflict_files >&2
+                        rm $conflict_file
                     end
                 end
 
