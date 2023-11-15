@@ -29,7 +29,7 @@ To install plugins, use the `install` command and point it to the GitHub reposit
 fisher install jorgebucaran/nvm.fish
 ```
 
-> Wanna install from GitLab? No problemo—just prepend `gitlab.com/` to the plugin path.
+> Wanna install from GitLab or Codeberg? No problemo—just prepend `gitlab.com/` respective `codeberg.org/` to the plugin path.
 
 You can also snag a specific version of a plugin by adding an `@` symbol after the plugin name, followed by a tag, branch, or [commit](https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-aiddefcommit-ishacommit-ishalsocommittish).
 
