@@ -1,6 +1,6 @@
 # Fisher
 
-> A plugin manager for [Fish](https://fishshell.com)—your friendly interactive shell. [Snag fresh plugins!](https://github.com/jorgebucaran/awsm.fish#readme)
+> A plugin manager for [Fish](https://fishshell.com)—your friendly interactive shell. [Snag fresh plugins!](https://github.com/joxji/awsm.fish#readme)
 
 Take control of functions, completions, bindings, and snippets from the command line. Unleash your shell's true potential, perfect your prompt, and craft repeatable configurations across different systems effortlessly. Fisher's zero impact on shell startup keeps your shell zippy and responsive. No gimmicks, just smooth sailing!
 
@@ -9,12 +9,12 @@ Take control of functions, completions, bindings, and snippets from the command 
 - Zero configuration needed—we're not kidding!
 - Oh My Fish! plugins supported too
 
-> #### ☝️ [Upgrading from Fisher `3.x` or older? Strap in and read this!](https://github.com/jorgebucaran/fisher/issues/652)
+> #### ☝️ [Upgrading from Fisher `3.x` or older? Strap in and read this!](https://github.com/joxji/fisher/issues/652)
 
 ## Installation
 
 ```console
-curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
+curl -sL https://raw.githubusercontent.com/joxji/fisher/main/functions/fisher.fish | source && fisher install joxji/fisher
 ```
 
 ## Quickstart
@@ -26,7 +26,7 @@ Fisher lets you install, update, and remove plugins like a boss. Revel in Fish's
 To install plugins, use the `install` command and point it to the GitHub repository.
 
 ```console
-fisher install jorgebucaran/nvm.fish
+fisher install joxji/nvm.fish
 ```
 
 > Wanna install from GitLab? No problemo—just prepend `gitlab.com/` to the plugin path.
@@ -43,7 +43,7 @@ And hey, you can install plugins from a local directory too!
 fisher install ~/path/to/plugin
 ```
 
-> Heads up! Fisher expands plugins into your Fish configuration directory by default, overwriting existing files. If that's not your jam, set `$fisher_path` to your preferred location and put it in your function path ([#640](https://github.com/jorgebucaran/fisher/issues/640)).
+> Heads up! Fisher expands plugins into your Fish configuration directory by default, overwriting existing files. If that's not your jam, set `$fisher_path` to your preferred location and put it in your function path ([#640](https://github.com/joxji/fisher/issues/640)).
 
 ### Listing plugins
 
@@ -51,9 +51,9 @@ Use the `list` command to see all your shiny installed plugins.
 
 ```console
 $ fisher list
-jorgebucaran/fisher
+joxji/fisher
 ilancosman/tide@v5
-jorgebucaran/nvm.fish
+joxji/nvm.fish
 /home/jb/path/to/plugin
 ```
 
@@ -69,7 +69,7 @@ $ fisher list \^/
 `update` command to the rescue! It updates one or more plugins to their latest and greatest version.
 
 ```console
-fisher update jorgebucaran/fisher
+fisher update joxji/fisher
 ```
 
 > Just type `fisher update` to update everything in one fell swoop.
@@ -79,7 +79,7 @@ fisher update jorgebucaran/fisher
 Say goodbye to installed plugins with the `remove` command.
 
 ```console
-fisher remove jorgebucaran/nvm.fish
+fisher remove joxji/nvm.fish
 ```
 
 Feeling destructive? Wipe out everything, including Fisher itself.
@@ -99,9 +99,9 @@ $EDITOR $__fish_config_dir/fish_plugins
 ```
 
 ```diff
-jorgebucaran/fisher
+joxji/fisher
 ilancosman/tide@v5
-jorgebucaran/nvm.fish
+joxji/nvm.fish
 + PatrickF1/fzf.fish
 - /home/jb/path/to/plugin
 ```
@@ -178,7 +178,7 @@ Next, create a symlink for Fisher's themes directory.
 ln -s $fisher_path/themes $__fish_config_dir/themes
 ```
 
-Want to use theme plugins and maintain your own local themes? You can do that too ([#708](https://github.com/jorgebucaran/fisher/issues/708)).
+Want to use theme plugins and maintain your own local themes? You can do that too ([#708](https://github.com/joxji/fisher/issues/708)).
 
 ## Discoverability
 
@@ -186,7 +186,7 @@ While Fisher doesn't rely on a central plugin repository, discovering new plugin
 
 ## Acknowledgments
 
-Fisher started its journey in 2016 by [@jorgebucaran](https://github.com/jorgebucaran) as a shell configuration manager for Fish. Along the way, many helped shape it into what it is today. [Oh My Fish](https://github.com/oh-my-fish/oh-my-fish) paved the way as the first popular Fish framework. [@jethrokuan](https://github.com/jethrokuan) provided crucial support during the early years. [@PatrickF1](https://github.com/PatrickF1)'s candid feedback proved invaluable time and again. Bootstrapping Fisher was originally [@IlanCosman](https://github.com/IlanCosman)'s brilliant idea. Thank you to all our contributors! <3
+Fisher started its journey in 2016 by [@joxji](https://github.com/joxji) as a shell configuration manager for Fish. Along the way, many helped shape it into what it is today. [Oh My Fish](https://github.com/oh-my-fish/oh-my-fish) paved the way as the first popular Fish framework. [@jethrokuan](https://github.com/jethrokuan) provided crucial support during the early years. [@PatrickF1](https://github.com/PatrickF1)'s candid feedback proved invaluable time and again. Bootstrapping Fisher was originally [@IlanCosman](https://github.com/IlanCosman)'s brilliant idea. Thank you to all our contributors! <3
 
 ## License
 
