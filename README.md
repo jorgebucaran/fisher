@@ -130,22 +130,22 @@ Non `.fish` files and directories inside these locations will be copied to `$fis
 
 ### Event system
 
-Fish [events](https://fishshell.com/docs/current/cmds/emit.html) notify plugins when they're being installed, updated, or removed.
+Fisher notifies plugins when they're being installed, updated, or removed via [events](https://fishshell.com/docs/current/cmds/emit.html). Each relevant event handler is invoked with the plugin's name supplied as the first argument.
 
-> Keep in mind, `--on-event` functions must be loaded when their event is emitted. So, place your event handlers in the `conf.d` directory.
+> Place your event handler functions in the `conf.d` directory to ensure they're loaded and ready when needed.
 
 ```fish
 # Defined in flipper/conf.d/flipper.fish
 
-function _flipper_install --on-event flipper_install
+function _flipper_install --on-event flipper_install --argument-names plugin
     # Set universal variables, create bindings, and other initialization logic.
 end
 
-function _flipper_update --on-event flipper_update
+function _flipper_update --on-event flipper_update --argument-names plugin
     # Migrate resources, print warnings, and other update logic.
 end
 
-function _flipper_uninstall --on-event flipper_uninstall
+function _flipper_uninstall --on-event flipper_uninstall --argument-names plugin
     # Erase "private" functions, variables, bindings, and other uninstall logic.
 end
 ```

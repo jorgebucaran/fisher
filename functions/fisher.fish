@@ -132,7 +132,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
 
                     if contains -- "$plugin" $remove_plugins
                         for name in (string replace --filter --regex -- '.+/conf\.d/([^/]+)\.fish$' '$1' $$plugin_files_var)
-                            emit {$name}_uninstall
+                            emit {$name}_uninstall $plugin
                         end
                         printf "%s\n" Removing\ (set_color red --bold)$plugin(set_color normal) "         "$$plugin_files_var | string replace -- \~ ~
                         set --erase _fisher_plugins[$index]
@@ -188,7 +188,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                 for file in (string match --regex -- '.+/[^/]+\.fish$' $$plugin_files_var | string replace -- \~ ~)
                     source $file
                     if set --local name (string replace --regex -- '.+conf\.d/([^/]+)\.fish$' '$1' $file)
-                        emit {$name}_$event
+                        emit {$name}_$event $plugin
                     end
                 end
             end
