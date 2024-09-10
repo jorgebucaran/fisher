@@ -20,6 +20,10 @@ set --local BASENAME --regex -- '[^/]+$'
     fisher update tests/ponyo >/dev/null
 ) "$ponyo" = "pyon pyon pyon"
 
+@test fish_plugins (
+    string match --regex -- "[^/]+\$" <$__fish_config_dir/fish_plugins | string join " "
+) = "fisher fishtape ponyo"
+
 @test "fisher remove" (
     fisher remove tests/ponyo >/dev/null
 ) "$ponyo" = ""
@@ -27,7 +31,3 @@ set --local BASENAME --regex -- '[^/]+$'
 @test "has state" -n (
     set --names | string match \*fisher\* | string collect
 )
-
-@test fish_plugins (
-    fisher list | string collect
-) = (read --null <$__fish_config_dir/fish_plugins | string collect)
