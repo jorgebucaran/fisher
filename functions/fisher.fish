@@ -29,7 +29,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             set --local old_plugins $_fisher_plugins
             set --local new_plugins
 
-            test -e $fish_plugins && set --local file_plugins (string match --regex -- '^[^\s]+$' <$fish_plugins)
+            test -e $fish_plugins && set --local file_plugins (string match --regex -- '^[^\s]+$' <$fish_plugins | string replace -- \~ ~)
 
             if ! set --query argv[2]
                 if test "$cmd" != update
@@ -206,7 +206,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                     contains -- (string lower -- $plugin) (string lower -- $commit_plugins) || set --append commit_plugins $plugin
                 end
 
-                printf "%s\n" $commit_plugins >$fish_plugins
+                string replace --regex -- $HOME \~ $commit_plugins >$fish_plugins
             else
                 set --erase _fisher_plugins
                 command rm -f $fish_plugins
