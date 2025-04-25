@@ -22,6 +22,45 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
         case install update remove
             isatty || read --local --null --array stdin && set --append argv $stdin
 
+            function _expand_home
+                # helper function to safely expand ~ into $HOME, and vice versa.
+                # needed because plugin URLs containing literal ~ are mangled otherwise.
+                # it is a drop-in for both:
+                # echo $path | string replace -- \~ ~
+                # string replace -- \~ ~ $path
+                # The difference: will _only_ expand ~ into $HOME if:
+                # it's at the start of the line, and followed by either EOL or /
+                # the -r/--reverse flag reverses the logic, and turns the absolute
+                # home path (expansion of ~) into a literal \~
+                argparse r/reverse -- $argv
+                set --local input
+                # read stdin if no args
+                if test (count $argv) -eq 0
+                    while read --line line
+                        set --append input $line
+                    end
+                else
+                    set input $argv
+                end
+
+                for path in $input
+                    # get the current absolute home path
+                    set -l home ~
+                    # check for the reverse flag
+                    # only expand if $home is at start of line, followed by / or EOL
+                    if set -ql _flag_reverse && string match -rq "^$home"'($|/)'
+                        string replace -- ~ \~ path
+                    else if string match -rq '^~($|/)' -- $path
+                        # only expand if ~ at start of line
+                        # and followed by / or EOL
+                        string replace -- \~ ~ path
+                    else
+                        # don't modify string if doesn't pass checks
+                        echo $path
+                    end
+                end
+            end
+
             set --local install_plugins
             set --local update_plugins
             set --local remove_plugins
@@ -29,7 +68,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             set --local old_plugins $_fisher_plugins
             set --local new_plugins
 
-            test -e $fish_plugins && set --local file_plugins (string match --regex -- '^[^\s]+$' <$fish_plugins | string replace -- \~ ~)
+            test -e $fish_plugins && set --local file_plugins (string match --regex -- '^[^\s]+$' <$fish_plugins | _expand_home)
 
             if ! set --query argv[2]
                 if test "$cmd" != update
@@ -92,6 +131,9 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                         if set path (string replace --regex -- '^(https://)?gitlab.com/' '' \$repo[1])
                             set name (string split -- / \$path)[-1]
                             set url https://gitlab.com/\$path/-/archive/\$repo[2]/\$name-\$repo[2].tar.gz
+                        else if set path (string replace --regex -- '^(https://git\.sr\.ht/|(git\.)?sr\.ht/)' '' \$repo[1] || string match -q '~*' \$repo[1])
+                            set name (string split -- / \$path)[-1]
+                            set url https://git.sr.ht/\$path/archive/\$repo[2].tar.gz
                         else
                             set url https://api.github.com/repos/\$repo[1]/tarball/\$repo[2]
                         end
@@ -134,11 +176,11 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                         for name in (string replace --filter --regex -- '.+/conf\.d/([^/]+)\.fish$' '$1' $$plugin_files_var)
                             emit {$name}_uninstall
                         end
-                        printf "%s\n" Removing\ (set_color red --bold)$plugin(set_color normal) "         "$$plugin_files_var | string replace -- \~ ~
+                        printf "%s\n" Removing\ (set_color red --bold)$plugin(set_color normal) "         "$$plugin_files_var | _expand_home
                         set --erase _fisher_plugins[$index]
                     end
 
-                    command rm -rf (string replace -- \~ ~ $$plugin_files_var)
+                    command rm -rf (_expand_home $$plugin_files_var)
 
                     functions --erase (string replace --filter --regex -- '.+/functions/([^/]+)\.fish$' '$1' $$plugin_files_var)
 
@@ -178,14 +220,14 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
 
                 set --local plugin_files_var _fisher_(string escape --style=var -- $plugin)_files
 
-                set --query files[1] && set --universal $plugin_files_var (string replace -- $source $fisher_path $files | string replace -- ~ \~)
+                set --query files[1] && set --universal $plugin_files_var (string replace -- $source $fisher_path $files | _expand_home --reverse)
 
                 contains -- $plugin $_fisher_plugins || set --universal --append _fisher_plugins $plugin
                 contains -- $plugin $install_plugins && set --local event install || set --local event update
 
-                printf "%s\n" Installing\ (set_color --bold)$plugin(set_color normal) "           "$$plugin_files_var | string replace -- \~ ~
+                printf "%s\n" Installing\ (set_color --bold)$plugin(set_color normal) "           "$$plugin_files_var | _expand_home
 
-                for file in (string match --regex -- '.+/[^/]+\.fish$' $$plugin_files_var | string replace -- \~ ~)
+                for file in (string match --regex -- '.+/[^/]+\.fish$' $$plugin_files_var | _expand_home)
                     source $file
                     if set --local name (string replace --regex -- '.+conf\.d/([^/]+)\.fish$' '$1' $file)
                         emit {$name}_$event
@@ -233,7 +275,7 @@ if ! set --query _fisher_upgraded_to_4_4
         fisher update >/dev/null 2>/dev/null
     else
         for var in (set --names | string match --entire --regex '^_fisher_.+_files$')
-            set $var (string replace -- ~ \~ $$var)
+            set $var (_expand_home --reverse $$var)
         end
         functions --erase _fisher_fish_postexec
     end
