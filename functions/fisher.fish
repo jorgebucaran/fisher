@@ -18,7 +18,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             echo "Variables:"
             echo "       \$fisher_path  Plugin installation path. Default: $__fish_config_dir" | string replace --regex -- $HOME \~
         case ls list
-            string match --entire --regex -- "$argv[2]" $_fisher_plugins
+            string match --entire --regex -- "$argv[2]" (__fisher_installed_plugins)
         case install update remove
             isatty || read --local --null --array stdin && set --append argv $stdin
 
@@ -29,7 +29,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             set --local old_plugins $_fisher_plugins
             set --local new_plugins
 
-            test -e $fish_plugins && set --local file_plugins (string match --regex -- '^[^\s]+$' <$fish_plugins | string replace -- \~ ~)
+            set --local file_plugins (__fisher_installed_plugins)
 
             if ! set --query argv[2]
                 if test "$cmd" != update
@@ -236,5 +236,12 @@ if ! set --query _fisher_upgraded_to_4_4
             set $var (string replace -- ~ \~ $$var)
         end
         functions --erase _fisher_fish_postexec
+    end
+end
+
+# Helper function for completion
+function __fisher_installed_plugins --description "Get list of installed plugins for completion"
+    if test -e $__fish_config_dir/fish_plugins
+        string match --regex -- '^[^\s]+$' <$__fish_config_dir/fish_plugins | string replace -- \~ ~
     end
 end
