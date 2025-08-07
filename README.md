@@ -34,7 +34,7 @@ fisher install jorgebucaran/nvm.fish
 You can also snag a specific version of a plugin by adding an `@` symbol after the plugin name, followed by a tag, branch, or [commit](https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-aiddefcommit-ishacommit-ishalsocommittish).
 
 ```console
-fisher install IlanCosman/tide@v5
+fisher install IlanCosman/tide@v6
 ```
 
 And hey, you can install plugins from a local directory too!
