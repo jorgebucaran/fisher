@@ -7,11 +7,12 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
         case -v --version
             echo "fisher, version $fisher_version"
         case "" -h --help
-            echo "Usage: fisher install <plugins...>  Install plugins"
-            echo "       fisher remove  <plugins...>  Remove installed plugins"
-            echo "       fisher update  <plugins...>  Update installed plugins"
+            echo "Usage: fisher install   <plugins...>  Install plugins"
+            echo "       fisher remove    <plugins...>  Remove installed plugins"
+            echo "       fisher uninstall <plugins...>  Remove installed plugins (alias)"
+            echo "       fisher update    <plugins...>  Update installed plugins"
             echo "       fisher update                Update all installed plugins"
-            echo "       fisher list    [<regex>]     List installed plugins matching regex"
+            echo "       fisher list      [<regex>]     List installed plugins matching regex"
             echo "Options:"
             echo "       -v, --version  Print version"
             echo "       -h, --help     Print this help message"
@@ -19,8 +20,11 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             echo "       \$fisher_path  Plugin installation path. Default: $__fish_config_dir" | string replace --regex -- $HOME \~
         case ls list
             string match --entire --regex -- "$argv[2]" $_fisher_plugins
-        case install update remove
+        case install update remove uninstall
             isatty || read --local --null --array stdin && set --append argv $stdin
+
+            # Handle uninstall as an alias for remove
+            test "$cmd" = uninstall && set cmd remove
 
             set --local install_plugins
             set --local update_plugins
