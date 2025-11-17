@@ -89,11 +89,28 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                         set temp (command mktemp -d)
                         set repo (string split -- \@ $plugin) || set repo[2] HEAD
 
+                        # Detect Git hosting platform and construct appropriate tarball URL
                         if set path (string replace --regex -- '^(https://)?gitlab.com/' '' \$repo[1])
+                            # GitLab: https://gitlab.com/user/repo/-/archive/ref/repo-ref.tar.gz
                             set name (string split -- / \$path)[-1]
                             set url https://gitlab.com/\$path/-/archive/\$repo[2]/\$name-\$repo[2].tar.gz
+                        else if set path (string replace --regex -- '^(https://)?codeberg.org/' '' \$repo[1])
+                            # Codeberg/Gitea: https://codeberg.org/user/repo/archive/ref.tar.gz
+                            set url https://codeberg.org/\$path/archive/\$repo[2].tar.gz
+                        else if set path (string replace --regex -- '^(https://)?git.sr.ht/' '' \$repo[1])
+                            # SourceHut: https://git.sr.ht/~user/repo/archive/ref.tar.gz
+                            set url https://git.sr.ht/\$path/archive/\$repo[2].tar.gz
+                        else if set path (string replace --regex -- '^(https://)?bitbucket.org/' '' \$repo[1])
+                            # Bitbucket: https://bitbucket.org/user/repo/get/ref.tar.gz
+                            set url https://bitbucket.org/\$path/get/\$repo[2].tar.gz
+                        else if string match --regex -- '^https?://.+/.+' \$repo[1]
+                            # Generic Git forge with full URL: try common Gitea/Forgejo pattern
+                            # Pattern: https://host.com/user/repo/archive/ref.tar.gz
+                            set url \$repo[1]/archive/\$repo[2].tar.gz
                         else
-                            set url https://api.github.com/repos/\$repo[1]/tarball/\$repo[2]
+                            # GitHub (default): user/repo shorthand or github.com/user/repo
+                            set path (string replace --regex -- '^(https://)?github.com/' '' \$repo[1])
+                            set url https://api.github.com/repos/\$path/tarball/\$repo[2]
                         end
 
                         echo Fetching (set_color --underline)\$url(set_color normal)

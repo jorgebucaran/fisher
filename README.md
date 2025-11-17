@@ -29,7 +29,13 @@ To install plugins, use the `install` command and point it to the GitHub reposit
 fisher install jorgebucaran/nvm.fish
 ```
 
-> Wanna install from GitLab? No problemo—just prepend `gitlab.com/` to the plugin path.
+> Wanna install from other Git platforms? We've got you covered!
+>
+> - **GitLab**: prepend `gitlab.com/` → `fisher install gitlab.com/user/plugin`
+> - **Codeberg**: prepend `codeberg.org/` → `fisher install codeberg.org/user/plugin`
+> - **SourceHut**: prepend `git.sr.ht/` → `fisher install git.sr.ht/~user/plugin`
+> - **Bitbucket**: prepend `bitbucket.org/` → `fisher install bitbucket.org/user/plugin`
+> - **Self-hosted Gitea/Forgejo**: use full URL → `fisher install https://git.example.com/user/plugin`
 
 You can also snag a specific version of a plugin by adding an `@` symbol after the plugin name, followed by a tag, branch, or [commit](https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-aiddefcommit-ishacommit-ishalsocommittish).
 
