@@ -38,6 +38,8 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                     echo "fisher: \"$fish_plugins\" file not found: \"$cmd\"" >&2 && return 1
                 end
                 set arg_plugins $file_plugins
+            else if test "$cmd" = install && ! set --query old_plugins[1] 
+                set --append arg_plugins $file_plugins
             end
 
             for plugin in $arg_plugins
