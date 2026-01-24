@@ -168,6 +168,8 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                 command mkdir -p $fisher_path/{functions,themes,conf.d,completions}
             end
 
+            set --local commit_plugins
+
             for plugin in $update_plugins $install_plugins
                 set --local source $source_plugins[(contains --index -- "$plugin" $fetch_plugins)]
                 set --local files $source/{functions,themes,conf.d,completions}/*
@@ -189,6 +191,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                             end
                         else
                             echo -s "fisher: Cannot install \"$plugin\": please remove or move conflicting files first:" \n"        "$conflict_files >&2
+                            set --append need_reinstall_plugins $plugin
                             continue
                         end
                     end
@@ -218,10 +221,14 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             command rm -rf $source_plugins
 
             if set --query _fisher_plugins[1]
-                set --local commit_plugins
+                set --local need_reinstall_plugins
 
                 for plugin in $file_plugins
-                    contains -- (string lower -- $plugin) (string lower -- $_fisher_plugins) && set --append commit_plugins $plugin
+                    if contains -- (string lower -- $plugin) (string lower -- $_fisher_plugins) 
+                        set --append commit_plugins $plugin
+                    else
+                        set --append need_reinstall_plugins $plugin
+                    end
                 end
 
                 for plugin in $_fisher_plugins
@@ -232,6 +239,12 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             else
                 set --erase _fisher_plugins
                 command rm -f $fish_plugins
+            end
+
+            if set --query need_reinstall_plugins[1]
+                echo "Some plugins are removed"
+                echo "You can reinstall by"
+                echo "`fisher install --force $need_reinstall_plugins`"
             end
 
             set --local total (count $install_plugins) (count $update_plugins) (count $remove_plugins)
