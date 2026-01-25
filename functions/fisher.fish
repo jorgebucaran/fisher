@@ -30,7 +30,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             set --local remove_plugins
             set --local arg_plugins $argv[2..-1]
             set --local old_plugins $_fisher_plugins
-            set --local new_plugins
+            set --local arg_plugin_set
 
             test -e $fish_plugins && set --local file_plugins (string match --regex -- '^[^\s]+$' <$fish_plugins | string replace -- \~ ~)
 
@@ -47,11 +47,11 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
 
             for plugin in $arg_plugins
                 set plugin (test -e "$plugin" && realpath $plugin || string lower -- $plugin)
-                contains -- "$plugin" $new_plugins || set --append new_plugins $plugin
+                contains -- "$plugin" $arg_plugin_set || set --append arg_plugin_set $plugin
             end
 
             if set --query argv[2]
-                for plugin in $new_plugins
+                for plugin in $arg_plugin_set
                     if contains -- "$plugin" $old_plugins
                         test "$cmd" = remove &&
                             set --append remove_plugins $plugin ||
@@ -63,14 +63,14 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                     end
                 end
             else
-                for plugin in $new_plugins
+                for plugin in $arg_plugin_set
                     contains -- "$plugin" $old_plugins &&
                         set --append update_plugins $plugin ||
                         set --append install_plugins $plugin
                 end
 
                 for plugin in $old_plugins
-                    contains -- "$plugin" $new_plugins || set --append remove_plugins $plugin
+                    contains -- "$plugin" $arg_plugin_set || set --append remove_plugins $plugin
                 end
             end
 
