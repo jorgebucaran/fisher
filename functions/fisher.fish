@@ -23,7 +23,6 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
         case install update remove uninstall
             isatty || read --local --null --array stdin && set --append argv $stdin
 
-            # Handle uninstall as an alias for remove
             test "$cmd" = uninstall && set cmd remove
 
             set --local install_plugins
