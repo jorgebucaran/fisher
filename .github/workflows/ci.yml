@@ -20,3 +20,24 @@ jobs:
           fisher install $GITHUB_WORKSPACE jorgebucaran/fishtape
           fishtape tests/*.fish
         shell: fish {0}
+
+  # https://github.com/jorgebucaran/fisher/pull/824
+  fix-issue-824:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Fish
+        run: |
+          sudo apt-add-repository -yn ppa:fish-shell/release-3
+          sudo apt-get update
+          sudo apt-get install -y fish
+
+      - name: Preserve fish_plugins on bootstrap
+        run: |
+          mkdir -p $HOME/.config/fish
+          echo "paldepind/projectdo" >> $HOME/.config/fish/fish_plugins
+          source $GITHUB_WORKSPACE/functions/fisher.fish
+          fisher update
+          grep -q "paldepind/projectdo" $HOME/.config/fish/fish_plugins
+        shell: fish {0}
