@@ -137,6 +137,28 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                 end
             end
 
+            for plugin in $update_plugins
+                set --local source $source_plugins[(contains --index -- "$plugin" $fetch_plugins)]
+                set --local plugin_files_var _fisher_(string escape --style=var -- $plugin)_files
+                set --local installed_files (string replace -- \~ ~ $$plugin_files_var)
+                set --local source_files $source/{functions,themes,conf.d,completions}/*
+                set --local changed
+
+                for relative_path in (
+                    printf "%s\n" \
+                        (string replace -- "$fisher_path/" "" $installed_files) \
+                        (string replace -- "$source/" "" $source_files) |
+                    sort --unique
+                )
+                    if not command diff -qrN $source/$relative_path $fisher_path/$relative_path &>/dev/null
+                        set changed 1
+                        break
+                    end
+                end
+
+                set --query changed[1] || set --erase update_plugins[(contains --index -- "$plugin" $update_plugins)]
+            end
+
             for plugin in $update_plugins $remove_plugins
                 if set --local index (contains --index -- "$plugin" $_fisher_plugins)
                     set --local plugin_files_var _fisher_(string escape --style=var -- $plugin)_files
