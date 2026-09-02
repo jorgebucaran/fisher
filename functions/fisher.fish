@@ -8,8 +8,8 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             echo "fisher, version $fisher_version"
         case "" -h --help
             echo "Usage: fisher install   <plugins...>  Install plugins"
-            echo "       fisher remove    <plugins...>  Remove installed plugins" 
-            echo "       fisher uninstall <plugins...>  Remove installed plugins (alias)" 
+            echo "       fisher remove    <plugins...>  Remove installed plugins"
+            echo "       fisher uninstall <plugins...>  Remove installed plugins (alias)"
             echo "       fisher update    <plugins...>  Update installed plugins"
             echo "       fisher update                  Update all installed plugins"
             echo "       fisher list    [<regex>]       List installed plugins matching regex"
@@ -41,7 +41,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                     echo "fisher: \"$fish_plugins\" file not found: \"$cmd\"" >&2 && return 1
                 end
                 set arg_plugins $file_plugins
-            else if test "$cmd" = install && ! set --query old_plugins[1] 
+            else if test "$cmd" = install && ! set --query old_plugins[1]
                 set --append arg_plugins $file_plugins
             end
 
@@ -95,6 +95,13 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                         set temp (command mktemp -d)
                         set repo (string split -- \@ $plugin) || set repo[2] HEAD
 
+                        if command -v gh >/dev/null 2>&1
+                            set token (command gh auth token 2>/dev/null) || set token \$GITHUB_TOKEN
+                        else
+                            set token \$GITHUB_TOKEN
+                        end
+                        set auth && test -n \"\$token\" && set auth --header \"Authorization: Bearer \$token\"
+
                         if set path (string replace --regex -- '^(https://)?gitlab.com/' '' \$repo[1])
                             set name (string split -- / \$path)[-1]
                             set url https://gitlab.com/\$path/-/archive/\$repo[2]/\$name-\$repo[2].tar.gz
@@ -104,7 +111,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
 
                         echo Fetching (set_color --underline)\$url(set_color normal)
 
-                        set http (command curl -q --silent -L -o \$resp -w %{http_code} \$url)
+                        set http (command curl -q --silent -L \$auth -o \$resp -w %{http_code} \$url)
 
                         if test \"\$http\" = 200 && command tar -xzC \$temp -f \$resp 2>/dev/null
                             command cp -Rf \$temp/*/* $source
