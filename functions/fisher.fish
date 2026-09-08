@@ -100,7 +100,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                             set url https://gitlab.com/\$path/-/archive/\$repo[2]/\$name-\$repo[2].tar.gz
                         else if set path (string replace --regex -- '^(https://)?git.sr.ht/' '' \$repo[1])
                             set name (string split -- / \$path)[-1]
-                            set url https://git.sr.ht/\$path/archive/main.tar.gz
+                            set url https://git.sr.ht/\$path/archive/HEAD.tar.gz
                         else
                             set url https://api.github.com/repos/\$repo[1]/tarball/\$repo[2]
                         end
