@@ -8,8 +8,8 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             echo "fisher, version $fisher_version"
         case "" -h --help
             echo "Usage: fisher install   <plugins...>  Install plugins"
-            echo "       fisher remove    <plugins...>  Remove installed plugins" 
-            echo "       fisher uninstall <plugins...>  Remove installed plugins (alias)" 
+            echo "       fisher remove    <plugins...>  Remove installed plugins"
+            echo "       fisher uninstall <plugins...>  Remove installed plugins (alias)"
             echo "       fisher update    <plugins...>  Update installed plugins"
             echo "       fisher update                  Update all installed plugins"
             echo "       fisher list    [<regex>]       List installed plugins matching regex"
@@ -41,7 +41,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                     echo "fisher: \"$fish_plugins\" file not found: \"$cmd\"" >&2 && return 1
                 end
                 set arg_plugins $file_plugins
-            else if test "$cmd" = install && ! set --query old_plugins[1] 
+            else if test "$cmd" = install && ! set --query old_plugins[1]
                 set --append arg_plugins $file_plugins
             end
 
@@ -98,6 +98,9 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                         if set path (string replace --regex -- '^(https://)?gitlab.com/' '' \$repo[1])
                             set name (string split -- / \$path)[-1]
                             set url https://gitlab.com/\$path/-/archive/\$repo[2]/\$name-\$repo[2].tar.gz
+                        else if set path (string replace --regex -- '^(https://)?git.sr.ht/' '' \$repo[1])
+                            set name (string split -- / \$path)[-1]
+                            set url https://git.sr.ht/\$path/archive/HEAD.tar.gz
                         else
                             set url https://api.github.com/repos/\$repo[1]/tarball/\$repo[2]
                         end
