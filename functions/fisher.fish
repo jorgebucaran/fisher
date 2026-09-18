@@ -137,17 +137,15 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                 end
             end
 
-            for plugin in $update_plugins $remove_plugins
+            for plugin in $remove_plugins
                 if set --local index (contains --index -- "$plugin" $_fisher_plugins)
                     set --local plugin_files_var _fisher_(string escape --style=var -- $plugin)_files
 
-                    if contains -- "$plugin" $remove_plugins
-                        for name in (string replace --filter --regex -- '.+/conf\.d/([^/]+)\.fish$' '$1' $$plugin_files_var)
-                            emit {$name}_uninstall
-                        end
-                        printf "%s\n" Removing\ (set_color red --bold)$plugin(set_color normal) "         "$$plugin_files_var | string replace -- \~ ~
-                        set --erase _fisher_plugins[$index]
+                    for name in (string replace --filter --regex -- '.+/conf\.d/([^/]+)\.fish$' '$1' $$plugin_files_var)
+                        emit {$name}_uninstall
                     end
+                    printf "%s\n" Removing\ (set_color red --bold)$plugin(set_color normal) "         "$$plugin_files_var | string replace -- \~ ~
+                    set --erase _fisher_plugins[$index]
 
                     command rm -rf (string replace -- \~ ~ $$plugin_files_var)
 
@@ -181,6 +179,18 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                         echo -s "fisher: Cannot install \"$plugin\": please remove or move conflicting files first:" \n"        "$conflict_files >&2
                         continue
                     end
+                else
+                    set --local plugin_files_var _fisher_(string escape --style=var -- $plugin)_files
+
+                    command rm -rf (string replace -- \~ ~ $$plugin_files_var)
+
+                    functions --erase (string replace --filter --regex -- '.+/functions/([^/]+)\.fish$' '$1' $$plugin_files_var)
+
+                    for name in (string replace --filter --regex -- '.+/completions/([^/]+)\.fish$' '$1' $$plugin_files_var)
+                        complete --erase --command $name
+                    end
+
+                    set --erase $plugin_files_var
                 end
 
                 for file in (string replace -- $source/ "" $files)
