@@ -20,6 +20,10 @@ set --local BASENAME --regex -- '[^/]+$'
     fisher update tests/ponyo >/dev/null
 ) "$ponyo" = "pyon pyon pyon"
 
+@test "fisher install failure" (
+    fisher install tests/ponyo jorgebucaran/nonexistent >/dev/null 2>&1
+) $status -eq 1
+
 @test fish_plugins (
     string match --regex -- "[^/]+\$" <$__fish_config_dir/fish_plugins | string join " "
 ) = "fisher fishtape ponyo"

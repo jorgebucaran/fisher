@@ -31,6 +31,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
             set --local arg_plugins $argv[2..-1]
             set --local old_plugins $_fisher_plugins
             set --local new_plugins
+            set --local failed_plugins
 
             test -e $fish_plugins && set --local file_plugins (string match --regex -- '^[^\s]+$' <$fish_plugins | string replace -- \~ ~)
 
@@ -129,6 +130,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
 
             for plugin in $fetch_plugins
                 if set --local source $source_plugins[(contains --index -- "$plugin" $fetch_plugins)] && test ! -e $source
+                    set --append failed_plugins $plugin
                     if set --local index (contains --index -- "$plugin" $install_plugins)
                         set --erase install_plugins[$index]
                     else
@@ -178,6 +180,7 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                     end
 
                     if set --query conflict_files[1] && set --erase install_plugins[$index]
+                        set --append failed_plugins $plugin
                         echo -s "fisher: Cannot install \"$plugin\": please remove or move conflicting files first:" \n"        "$conflict_files >&2
                         continue
                     end
@@ -230,6 +233,8 @@ function fisher --argument-names cmd --description "A plugin manager for Fish"
                 test $total[2] = 0 || echo "Updated $total[2]") (
                 test $total[3] = 0 || echo "Removed $total[3]")
             ) plugin/s
+
+            ! set --query failed_plugins[1]
         case \*
             echo "fisher: Unknown command: \"$cmd\"" >&2 && return 1
     end
